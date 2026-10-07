@@ -1,0 +1,24 @@
+# Core
+fastapi>=0.110
+uvicorn>=0.29
+python-multipart>=0.0.9
+langgraph>=1.0
+langchain>=1.0
+langchain-core>=1.0
+pandas>=2.2
+openpyxl>=3.1
+pyyaml>=6.0
+pydantic>=2.6
+rapidfuzz>=3.6
+simpleeval>=1.0
+python-dotenv>=1.0
+
+# LLM provider (OpenAI by default). For another provider install ONE of:
+#   pip install langchain-google-genai   # LLM_PROVIDER=google_genai (Gemini)
+#   pip install langchain-groq           # LLM_PROVIDER=groq
+#   pip install langchain-anthropic      # LLM_PROVIDER=anthropic
+langchain-openai>=0.3
+
+# Tests
+pytest>=8.0
+httpx>=0.27
