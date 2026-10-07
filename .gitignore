@@ -17,3 +17,5 @@ backend/workflows/*.bak
 # OS / editor
 .DS_Store
 Thumbs.db
+
+.vscode/
