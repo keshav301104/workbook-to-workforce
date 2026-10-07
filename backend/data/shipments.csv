@@ -1,0 +1,5 @@
+order_id,carrier,tracking_number,shipment_status,last_location,estimated_delivery,last_update
+ORD-1001,UPS,1Z999AA10123456784,In transit,"Jacksonville, FL",2026-10-09,2026-10-07 08:42
+ORD-1002,FedEx,784512369874,Delivered,"Orlando, FL",2026-09-27,2026-09-27 14:10
+ORD-1005,USPS,,Label created,"Miami, FL",2026-10-10,2026-10-06 17:05
+ORD-1006,UPS,1Z999AA10198765432,Out for delivery,"Tampa, FL",2026-10-07,2026-10-07 07:15

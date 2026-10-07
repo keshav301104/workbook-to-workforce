@@ -1,0 +1,22 @@
+sku,product_name,brand,category,color,size,price,source
+TS-1001,Classic Linen Shirt,Halden,Shirts,White,M,59.0,Main store
+ts-1001 ,Classic Linen Shirt - White,Halden,Shirts,White,M,59.0,Marketplace import
+TS-1002,Oxford Button-Down Shirt,Halden,Shirts,Light Blue,L,64.0,Main store
+MK-88213,Oxford Button Down Shirt Light Blue,Halden,Shirts,Light Blue,L,64.0,Marketplace import
+TS-1003,Linen Overshirt,Halden,Shirts,Sage Green,M,89.0,Main store
+KN-2001,Merino Crew Sweater,Halden,Knitwear,Charcoal,M,119.0,Main store
+KN-2001-L,Merino Crew Sweater,Halden,Knitwear,Charcoal,L,119.0,Main store
+KN-2001,Merino Crewneck Sweater Charcoal,Halden,Knitwear,Charcoal,M,115.0,Wholesale feed
+KN-2002,Cable Knit Cardigan,Halden,Knitwear,Oat,S,139.0,Main store
+OW-3001,Waxed Field Jacket,Halden,Outerwear,Olive,L,249.0,Main store
+WH-55120,"Field Jacket, Waxed - Olive",Halden,Outerwear,Olive,L,239.0,Wholesale feed
+OW-3002,Quilted Liner Vest,Halden,Outerwear,Black,M,129.0,Main store
+TR-4001,Relaxed Chino Trousers,Halden,Trousers,Stone,32,79.0,Main store
+TR-4001B,Relaxed Chino Trousers,Halden,Trousers,Navy,32,79.0,Main store
+AC-5001,Leather Belt,Halden,Accessories,Brown,90,49.0,Main store
+AC-5002,Wool Beanie,Halden,Accessories,Rust,One Size,35.0,Main store
+MK-90021,Lambswool Beanie Rust,Halden,Accessories,Rust,One Size,35.0,Marketplace import
+HM-6001,Linen Duvet Cover,Halden Home,Home,Clay,Queen,189.0,Main store
+HM-6002,Stoneware Mug Set,Halden Home,Home,Speckled White,Set of 4,45.0,Main store
+HM-6003,Wool Throw Blanket,Halden Home,Home,Forest,130x180,129.0,Main store
+AC-5003,Canvas Tote Bag,Halden,Accessories,Natural,One Size,39.0,Main store

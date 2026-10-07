@@ -1,0 +1,1525 @@
+run_id,timestamp,workflow_id,workflow_name,run_status,run_duration_ms,step_id,step_name,step_status,step_duration_ms,error_message,source
+seed-wf004-027,2026-09-06 23:00:00,WF004,Product Description Generator,success,5133,s1,Validate required attributes,ok,638,,seed
+seed-wf004-027,2026-09-06 23:00:00,WF004,Product Description Generator,success,5133,s2,Create product description,ok,1829,,seed
+seed-wf004-027,2026-09-06 23:00:00,WF004,Product Description Generator,success,5133,s3,Generate short description,ok,991,,seed
+seed-wf004-027,2026-09-06 23:00:00,WF004,Product Description Generator,success,5133,s4,Generate SEO title,ok,568,,seed
+seed-wf004-027,2026-09-06 23:00:00,WF004,Product Description Generator,success,5133,s5,Generate meta description,ok,1107,,seed
+seed-wf005-020,2026-09-07 01:01:00,WF005,Customer Order Status,success,1788,s1,Validate identifier,ok,128,,seed
+seed-wf005-020,2026-09-07 01:01:00,WF005,Customer Order Status,success,1788,s2,Search order data,ok,1195,,seed
+seed-wf005-020,2026-09-07 01:01:00,WF005,Customer Order Status,success,1788,s3,Retrieve order status,ok,112,,seed
+seed-wf005-020,2026-09-07 01:01:00,WF005,Customer Order Status,success,1788,s4,Retrieve shipment information,ok,215,,seed
+seed-wf005-020,2026-09-07 01:01:00,WF005,Customer Order Status,success,1788,s5,Summarize current status,ok,138,,seed
+seed-wf002-016,2026-09-07 02:25:00,WF002,Product Price Validation,success,1005,s1,Load product prices,ok,183,,seed
+seed-wf002-016,2026-09-07 02:25:00,WF002,Product Price Validation,success,1005,s2,Match products by SKU,ok,360,,seed
+seed-wf002-016,2026-09-07 02:25:00,WF002,Product Price Validation,success,1005,s3,Compare internal and vendor prices,ok,183,,seed
+seed-wf002-016,2026-09-07 02:25:00,WF002,Product Price Validation,success,1005,s4,Calculate percentage difference,ok,171,,seed
+seed-wf002-016,2026-09-07 02:25:00,WF002,Product Price Validation,success,1005,s5,Flag exceptions,ok,108,,seed
+seed-wf008-002,2026-09-07 04:23:00,WF008,SEO Keyword Classification,success,4851,s1,Read keywords,ok,580,,seed
+seed-wf008-002,2026-09-07 04:23:00,WF008,SEO Keyword Classification,success,4851,s2,Remove duplicates,ok,424,,seed
+seed-wf008-002,2026-09-07 04:23:00,WF008,SEO Keyword Classification,success,4851,s3,Classify search intent,ok,2160,,seed
+seed-wf008-002,2026-09-07 04:23:00,WF008,SEO Keyword Classification,success,4851,s4,Map keywords to categories,ok,495,,seed
+seed-wf008-002,2026-09-07 04:23:00,WF008,SEO Keyword Classification,success,4851,s5,Identify high-priority keywords,ok,568,,seed
+seed-wf008-002,2026-09-07 04:23:00,WF008,SEO Keyword Classification,success,4851,s6,Export results,ok,624,,seed
+seed-wf001-039,2026-09-07 04:42:00,WF001,Inventory Restock Check,success,721,s1,Load inventory,ok,136,,seed
+seed-wf001-039,2026-09-07 04:42:00,WF001,Inventory Restock Check,success,721,s2,Compare current stock with minimum threshold,ok,187,,seed
+seed-wf001-039,2026-09-07 04:42:00,WF001,Inventory Restock Check,success,721,s3,Identify low-stock products,ok,161,,seed
+seed-wf001-039,2026-09-07 04:42:00,WF001,Inventory Restock Check,success,721,s4,Calculate reorder quantity,ok,81,,seed
+seed-wf001-039,2026-09-07 04:42:00,WF001,Inventory Restock Check,success,721,s5,Generate restock list,ok,156,,seed
+seed-wf007-017,2026-09-07 07:48:00,WF007,Marketing Campaign Brief,success,16400,s1,Validate inputs,ok,2221,,seed
+seed-wf007-017,2026-09-07 07:48:00,WF007,Marketing Campaign Brief,success,16400,s2,Identify campaign objective,ok,2298,,seed
+seed-wf007-017,2026-09-07 07:48:00,WF007,Marketing Campaign Brief,success,16400,s3,Summarize products,ok,1310,,seed
+seed-wf007-017,2026-09-07 07:48:00,WF007,Marketing Campaign Brief,success,16400,s4,Create messaging,ok,6057,,seed
+seed-wf007-017,2026-09-07 07:48:00,WF007,Marketing Campaign Brief,success,16400,s5,Create channel recommendations,ok,2176,,seed
+seed-wf007-017,2026-09-07 07:48:00,WF007,Marketing Campaign Brief,success,16400,s6,Create campaign checklist,ok,2338,,seed
+seed-wf005-011,2026-09-07 08:02:00,WF005,Customer Order Status,success,2153,s1,Validate identifier,ok,187,,seed
+seed-wf005-011,2026-09-07 08:02:00,WF005,Customer Order Status,success,2153,s2,Search order data,ok,1395,,seed
+seed-wf005-011,2026-09-07 08:02:00,WF005,Customer Order Status,success,2153,s3,Retrieve order status,ok,169,,seed
+seed-wf005-011,2026-09-07 08:02:00,WF005,Customer Order Status,success,2153,s4,Retrieve shipment information,ok,235,,seed
+seed-wf005-011,2026-09-07 08:02:00,WF005,Customer Order Status,success,2153,s5,Summarize current status,ok,167,,seed
+seed-wf003-006,2026-09-07 08:32:00,WF003,Vendor File Processing,success,4204,s1,Read file,ok,2916,,seed
+seed-wf003-006,2026-09-07 08:32:00,WF003,Vendor File Processing,success,4204,s2,Detect columns,ok,267,,seed
+seed-wf003-006,2026-09-07 08:32:00,WF003,Vendor File Processing,success,4204,s3,Normalize column names,ok,256,,seed
+seed-wf003-006,2026-09-07 08:32:00,WF003,Vendor File Processing,success,4204,s4,Validate required fields,ok,246,,seed
+seed-wf003-006,2026-09-07 08:32:00,WF003,Vendor File Processing,success,4204,s5,Identify invalid rows,ok,308,,seed
+seed-wf003-006,2026-09-07 08:32:00,WF003,Vendor File Processing,success,4204,s6,Produce cleaned dataset,ok,211,,seed
+seed-wf006-005,2026-09-07 09:05:00,WF006,Duplicate Product Detection,success,2976,s1,Load products,ok,215,,seed
+seed-wf006-005,2026-09-07 09:05:00,WF006,Duplicate Product Detection,success,2976,s2,Normalize names/SKUs,ok,189,,seed
+seed-wf006-005,2026-09-07 09:05:00,WF006,Duplicate Product Detection,success,2976,s3,Compare identifiers,ok,400,,seed
+seed-wf006-005,2026-09-07 09:05:00,WF006,Duplicate Product Detection,success,2976,s4,Compare product attributes,ok,293,,seed
+seed-wf006-005,2026-09-07 09:05:00,WF006,Duplicate Product Detection,success,2976,s5,Group likely duplicates,ok,1517,,seed
+seed-wf006-005,2026-09-07 09:05:00,WF006,Duplicate Product Detection,success,2976,s6,Assign confidence,ok,362,,seed
+seed-wf001-022,2026-09-07 09:10:00,WF001,Inventory Restock Check,success,578,s1,Load inventory,ok,158,,seed
+seed-wf001-022,2026-09-07 09:10:00,WF001,Inventory Restock Check,success,578,s2,Compare current stock with minimum threshold,ok,173,,seed
+seed-wf001-022,2026-09-07 09:10:00,WF001,Inventory Restock Check,success,578,s3,Identify low-stock products,ok,95,,seed
+seed-wf001-022,2026-09-07 09:10:00,WF001,Inventory Restock Check,success,578,s4,Calculate reorder quantity,ok,78,,seed
+seed-wf001-022,2026-09-07 09:10:00,WF001,Inventory Restock Check,success,578,s5,Generate restock list,ok,74,,seed
+seed-wf010-010,2026-09-07 10:26:00,WF010,Workflow Performance Report,success,659,s1,Load execution logs,ok,106,,seed
+seed-wf010-010,2026-09-07 10:26:00,WF010,Workflow Performance Report,success,659,s2,Calculate success/failure rate,ok,111,,seed
+seed-wf010-010,2026-09-07 10:26:00,WF010,Workflow Performance Report,success,659,s3,Calculate average execution time,ok,109,,seed
+seed-wf010-010,2026-09-07 10:26:00,WF010,Workflow Performance Report,success,659,s4,Identify frequent errors,ok,74,,seed
+seed-wf010-010,2026-09-07 10:26:00,WF010,Workflow Performance Report,success,659,s5,Identify slow steps,ok,152,,seed
+seed-wf010-010,2026-09-07 10:26:00,WF010,Workflow Performance Report,success,659,s6,Generate recommendations,ok,107,,seed
+seed-wf001-008,2026-09-07 11:11:00,WF001,Inventory Restock Check,success,624,s1,Load inventory,ok,132,,seed
+seed-wf001-008,2026-09-07 11:11:00,WF001,Inventory Restock Check,success,624,s2,Compare current stock with minimum threshold,ok,184,,seed
+seed-wf001-008,2026-09-07 11:11:00,WF001,Inventory Restock Check,success,624,s3,Identify low-stock products,ok,95,,seed
+seed-wf001-008,2026-09-07 11:11:00,WF001,Inventory Restock Check,success,624,s4,Calculate reorder quantity,ok,116,,seed
+seed-wf001-008,2026-09-07 11:11:00,WF001,Inventory Restock Check,success,624,s5,Generate restock list,ok,97,,seed
+seed-wf004-034,2026-09-07 11:36:00,WF004,Product Description Generator,success,6947,s1,Validate required attributes,ok,1133,,seed
+seed-wf004-034,2026-09-07 11:36:00,WF004,Product Description Generator,success,6947,s2,Create product description,ok,3584,,seed
+seed-wf004-034,2026-09-07 11:36:00,WF004,Product Description Generator,success,6947,s3,Generate short description,ok,757,,seed
+seed-wf004-034,2026-09-07 11:36:00,WF004,Product Description Generator,success,6947,s4,Generate SEO title,ok,833,,seed
+seed-wf004-034,2026-09-07 11:36:00,WF004,Product Description Generator,success,6947,s5,Generate meta description,ok,640,,seed
+seed-wf006-015,2026-09-07 12:25:00,WF006,Duplicate Product Detection,success,2385,s1,Load products,ok,265,,seed
+seed-wf006-015,2026-09-07 12:25:00,WF006,Duplicate Product Detection,success,2385,s2,Normalize names/SKUs,ok,367,,seed
+seed-wf006-015,2026-09-07 12:25:00,WF006,Duplicate Product Detection,success,2385,s3,Compare identifiers,ok,387,,seed
+seed-wf006-015,2026-09-07 12:25:00,WF006,Duplicate Product Detection,success,2385,s4,Compare product attributes,ok,259,,seed
+seed-wf006-015,2026-09-07 12:25:00,WF006,Duplicate Product Detection,success,2385,s5,Group likely duplicates,ok,839,,seed
+seed-wf006-015,2026-09-07 12:25:00,WF006,Duplicate Product Detection,success,2385,s6,Assign confidence,ok,268,,seed
+seed-wf010-006,2026-09-07 12:38:00,WF010,Workflow Performance Report,success,644,s1,Load execution logs,ok,126,,seed
+seed-wf010-006,2026-09-07 12:38:00,WF010,Workflow Performance Report,success,644,s2,Calculate success/failure rate,ok,98,,seed
+seed-wf010-006,2026-09-07 12:38:00,WF010,Workflow Performance Report,success,644,s3,Calculate average execution time,ok,113,,seed
+seed-wf010-006,2026-09-07 12:38:00,WF010,Workflow Performance Report,success,644,s4,Identify frequent errors,ok,138,,seed
+seed-wf010-006,2026-09-07 12:38:00,WF010,Workflow Performance Report,success,644,s5,Identify slow steps,ok,70,,seed
+seed-wf010-006,2026-09-07 12:38:00,WF010,Workflow Performance Report,success,644,s6,Generate recommendations,ok,99,,seed
+seed-wf008-014,2026-09-07 16:21:00,WF008,SEO Keyword Classification,success,7671,s1,Read keywords,ok,568,,seed
+seed-wf008-014,2026-09-07 16:21:00,WF008,SEO Keyword Classification,success,7671,s2,Remove duplicates,ok,691,,seed
+seed-wf008-014,2026-09-07 16:21:00,WF008,SEO Keyword Classification,success,7671,s3,Classify search intent,ok,4302,,seed
+seed-wf008-014,2026-09-07 16:21:00,WF008,SEO Keyword Classification,success,7671,s4,Map keywords to categories,ok,576,,seed
+seed-wf008-014,2026-09-07 16:21:00,WF008,SEO Keyword Classification,success,7671,s5,Identify high-priority keywords,ok,587,,seed
+seed-wf008-014,2026-09-07 16:21:00,WF008,SEO Keyword Classification,success,7671,s6,Export results,ok,947,,seed
+seed-wf001-009,2026-09-07 19:57:00,WF001,Inventory Restock Check,success,619,s1,Load inventory,ok,93,,seed
+seed-wf001-009,2026-09-07 19:57:00,WF001,Inventory Restock Check,success,619,s2,Compare current stock with minimum threshold,ok,154,,seed
+seed-wf001-009,2026-09-07 19:57:00,WF001,Inventory Restock Check,success,619,s3,Identify low-stock products,ok,145,,seed
+seed-wf001-009,2026-09-07 19:57:00,WF001,Inventory Restock Check,success,619,s4,Calculate reorder quantity,ok,77,,seed
+seed-wf001-009,2026-09-07 19:57:00,WF001,Inventory Restock Check,success,619,s5,Generate restock list,ok,150,,seed
+seed-wf001-000,2026-09-07 20:35:00,WF001,Inventory Restock Check,success,595,s1,Load inventory,ok,143,,seed
+seed-wf001-000,2026-09-07 20:35:00,WF001,Inventory Restock Check,success,595,s2,Compare current stock with minimum threshold,ok,143,,seed
+seed-wf001-000,2026-09-07 20:35:00,WF001,Inventory Restock Check,success,595,s3,Identify low-stock products,ok,85,,seed
+seed-wf001-000,2026-09-07 20:35:00,WF001,Inventory Restock Check,success,595,s4,Calculate reorder quantity,ok,81,,seed
+seed-wf001-000,2026-09-07 20:35:00,WF001,Inventory Restock Check,success,595,s5,Generate restock list,ok,143,,seed
+seed-wf007-009,2026-09-07 22:28:00,WF007,Marketing Campaign Brief,success,15863,s1,Validate inputs,ok,1867,,seed
+seed-wf007-009,2026-09-07 22:28:00,WF007,Marketing Campaign Brief,success,15863,s2,Identify campaign objective,ok,1636,,seed
+seed-wf007-009,2026-09-07 22:28:00,WF007,Marketing Campaign Brief,success,15863,s3,Summarize products,ok,2915,,seed
+seed-wf007-009,2026-09-07 22:28:00,WF007,Marketing Campaign Brief,success,15863,s4,Create messaging,ok,5699,,seed
+seed-wf007-009,2026-09-07 22:28:00,WF007,Marketing Campaign Brief,success,15863,s5,Create channel recommendations,ok,1657,,seed
+seed-wf007-009,2026-09-07 22:28:00,WF007,Marketing Campaign Brief,success,15863,s6,Create campaign checklist,ok,2089,,seed
+seed-wf001-042,2026-09-08 02:12:00,WF001,Inventory Restock Check,success,582,s1,Load inventory,ok,98,,seed
+seed-wf001-042,2026-09-08 02:12:00,WF001,Inventory Restock Check,success,582,s2,Compare current stock with minimum threshold,ok,108,,seed
+seed-wf001-042,2026-09-08 02:12:00,WF001,Inventory Restock Check,success,582,s3,Identify low-stock products,ok,146,,seed
+seed-wf001-042,2026-09-08 02:12:00,WF001,Inventory Restock Check,success,582,s4,Calculate reorder quantity,ok,133,,seed
+seed-wf001-042,2026-09-08 02:12:00,WF001,Inventory Restock Check,success,582,s5,Generate restock list,ok,97,,seed
+seed-wf004-018,2026-09-08 02:47:00,WF004,Product Description Generator,success,4679,s1,Validate required attributes,ok,612,,seed
+seed-wf004-018,2026-09-08 02:47:00,WF004,Product Description Generator,success,4679,s2,Create product description,ok,1979,,seed
+seed-wf004-018,2026-09-08 02:47:00,WF004,Product Description Generator,success,4679,s3,Generate short description,ok,755,,seed
+seed-wf004-018,2026-09-08 02:47:00,WF004,Product Description Generator,success,4679,s4,Generate SEO title,ok,560,,seed
+seed-wf004-018,2026-09-08 02:47:00,WF004,Product Description Generator,success,4679,s5,Generate meta description,ok,773,,seed
+seed-wf002-013,2026-09-08 03:40:00,WF002,Product Price Validation,success,877,s1,Load product prices,ok,94,,seed
+seed-wf002-013,2026-09-08 03:40:00,WF002,Product Price Validation,success,877,s2,Match products by SKU,ok,381,,seed
+seed-wf002-013,2026-09-08 03:40:00,WF002,Product Price Validation,success,877,s3,Compare internal and vendor prices,ok,110,,seed
+seed-wf002-013,2026-09-08 03:40:00,WF002,Product Price Validation,success,877,s4,Calculate percentage difference,ok,118,,seed
+seed-wf002-013,2026-09-08 03:40:00,WF002,Product Price Validation,success,877,s5,Flag exceptions,ok,174,,seed
+seed-wf008-009,2026-09-08 07:41:00,WF008,SEO Keyword Classification,failed,6437,s1,Read keywords,ok,568,,seed
+seed-wf008-009,2026-09-08 07:41:00,WF008,SEO Keyword Classification,failed,6437,s2,Remove duplicates,ok,787,,seed
+seed-wf008-009,2026-09-08 07:41:00,WF008,SEO Keyword Classification,failed,6437,s3,Classify search intent,ok,4339,,seed
+seed-wf008-009,2026-09-08 07:41:00,WF008,SEO Keyword Classification,failed,6437,s4,Map keywords to categories,failed,743,LLM returned an unknown intent label,seed
+seed-wf003-003,2026-09-08 09:54:00,WF003,Vendor File Processing,success,4142,s1,Read file,ok,2709,,seed
+seed-wf003-003,2026-09-08 09:54:00,WF003,Vendor File Processing,success,4142,s2,Detect columns,ok,218,,seed
+seed-wf003-003,2026-09-08 09:54:00,WF003,Vendor File Processing,success,4142,s3,Normalize column names,ok,298,,seed
+seed-wf003-003,2026-09-08 09:54:00,WF003,Vendor File Processing,success,4142,s4,Validate required fields,ok,323,,seed
+seed-wf003-003,2026-09-08 09:54:00,WF003,Vendor File Processing,success,4142,s5,Identify invalid rows,ok,321,,seed
+seed-wf003-003,2026-09-08 09:54:00,WF003,Vendor File Processing,success,4142,s6,Produce cleaned dataset,ok,273,,seed
+seed-wf003-020,2026-09-08 11:47:00,WF003,Vendor File Processing,success,3596,s1,Read file,ok,2640,,seed
+seed-wf003-020,2026-09-08 11:47:00,WF003,Vendor File Processing,success,3596,s2,Detect columns,ok,188,,seed
+seed-wf003-020,2026-09-08 11:47:00,WF003,Vendor File Processing,success,3596,s3,Normalize column names,ok,192,,seed
+seed-wf003-020,2026-09-08 11:47:00,WF003,Vendor File Processing,success,3596,s4,Validate required fields,ok,171,,seed
+seed-wf003-020,2026-09-08 11:47:00,WF003,Vendor File Processing,success,3596,s5,Identify invalid rows,ok,156,,seed
+seed-wf003-020,2026-09-08 11:47:00,WF003,Vendor File Processing,success,3596,s6,Produce cleaned dataset,ok,249,,seed
+seed-wf001-017,2026-09-08 12:01:00,WF001,Inventory Restock Check,success,682,s1,Load inventory,ok,133,,seed
+seed-wf001-017,2026-09-08 12:01:00,WF001,Inventory Restock Check,success,682,s2,Compare current stock with minimum threshold,ok,195,,seed
+seed-wf001-017,2026-09-08 12:01:00,WF001,Inventory Restock Check,success,682,s3,Identify low-stock products,ok,86,,seed
+seed-wf001-017,2026-09-08 12:01:00,WF001,Inventory Restock Check,success,682,s4,Calculate reorder quantity,ok,145,,seed
+seed-wf001-017,2026-09-08 12:01:00,WF001,Inventory Restock Check,success,682,s5,Generate restock list,ok,123,,seed
+seed-wf005-050,2026-09-08 12:38:00,WF005,Customer Order Status,success,1671,s1,Validate identifier,ok,131,,seed
+seed-wf005-050,2026-09-08 12:38:00,WF005,Customer Order Status,success,1671,s2,Search order data,ok,1026,,seed
+seed-wf005-050,2026-09-08 12:38:00,WF005,Customer Order Status,success,1671,s3,Retrieve order status,ok,167,,seed
+seed-wf005-050,2026-09-08 12:38:00,WF005,Customer Order Status,success,1671,s4,Retrieve shipment information,ok,205,,seed
+seed-wf005-050,2026-09-08 12:38:00,WF005,Customer Order Status,success,1671,s5,Summarize current status,ok,142,,seed
+seed-wf002-027,2026-09-08 15:20:00,WF002,Product Price Validation,success,868,s1,Load product prices,ok,185,,seed
+seed-wf002-027,2026-09-08 15:20:00,WF002,Product Price Validation,success,868,s2,Match products by SKU,ok,300,,seed
+seed-wf002-027,2026-09-08 15:20:00,WF002,Product Price Validation,success,868,s3,Compare internal and vendor prices,ok,158,,seed
+seed-wf002-027,2026-09-08 15:20:00,WF002,Product Price Validation,success,868,s4,Calculate percentage difference,ok,93,,seed
+seed-wf002-027,2026-09-08 15:20:00,WF002,Product Price Validation,success,868,s5,Flag exceptions,ok,132,,seed
+seed-wf005-018,2026-09-08 15:55:00,WF005,Customer Order Status,success,1484,s1,Validate identifier,ok,200,,seed
+seed-wf005-018,2026-09-08 15:55:00,WF005,Customer Order Status,success,1484,s2,Search order data,ok,670,,seed
+seed-wf005-018,2026-09-08 15:55:00,WF005,Customer Order Status,success,1484,s3,Retrieve order status,ok,241,,seed
+seed-wf005-018,2026-09-08 15:55:00,WF005,Customer Order Status,success,1484,s4,Retrieve shipment information,ok,227,,seed
+seed-wf005-018,2026-09-08 15:55:00,WF005,Customer Order Status,success,1484,s5,Summarize current status,ok,146,,seed
+seed-wf003-019,2026-09-08 16:41:00,WF003,Vendor File Processing,failed,1589,s1,Read file,failed,1589,Unsupported file encoding,seed
+seed-wf003-018,2026-09-08 19:32:00,WF003,Vendor File Processing,success,3793,s1,Read file,ok,2382,,seed
+seed-wf003-018,2026-09-08 19:32:00,WF003,Vendor File Processing,success,3793,s2,Detect columns,ok,249,,seed
+seed-wf003-018,2026-09-08 19:32:00,WF003,Vendor File Processing,success,3793,s3,Normalize column names,ok,248,,seed
+seed-wf003-018,2026-09-08 19:32:00,WF003,Vendor File Processing,success,3793,s4,Validate required fields,ok,334,,seed
+seed-wf003-018,2026-09-08 19:32:00,WF003,Vendor File Processing,success,3793,s5,Identify invalid rows,ok,361,,seed
+seed-wf003-018,2026-09-08 19:32:00,WF003,Vendor File Processing,success,3793,s6,Produce cleaned dataset,ok,219,,seed
+seed-wf005-038,2026-09-08 23:15:00,WF005,Customer Order Status,success,1884,s1,Validate identifier,ok,163,,seed
+seed-wf005-038,2026-09-08 23:15:00,WF005,Customer Order Status,success,1884,s2,Search order data,ok,1149,,seed
+seed-wf005-038,2026-09-08 23:15:00,WF005,Customer Order Status,success,1884,s3,Retrieve order status,ok,245,,seed
+seed-wf005-038,2026-09-08 23:15:00,WF005,Customer Order Status,success,1884,s4,Retrieve shipment information,ok,214,,seed
+seed-wf005-038,2026-09-08 23:15:00,WF005,Customer Order Status,success,1884,s5,Summarize current status,ok,113,,seed
+seed-wf007-002,2026-09-08 23:26:00,WF007,Marketing Campaign Brief,success,14729,s1,Validate inputs,ok,1721,,seed
+seed-wf007-002,2026-09-08 23:26:00,WF007,Marketing Campaign Brief,success,14729,s2,Identify campaign objective,ok,2906,,seed
+seed-wf007-002,2026-09-08 23:26:00,WF007,Marketing Campaign Brief,success,14729,s3,Summarize products,ok,2852,,seed
+seed-wf007-002,2026-09-08 23:26:00,WF007,Marketing Campaign Brief,success,14729,s4,Create messaging,ok,3049,,seed
+seed-wf007-002,2026-09-08 23:26:00,WF007,Marketing Campaign Brief,success,14729,s5,Create channel recommendations,ok,2331,,seed
+seed-wf007-002,2026-09-08 23:26:00,WF007,Marketing Campaign Brief,success,14729,s6,Create campaign checklist,ok,1870,,seed
+seed-wf004-005,2026-09-09 05:57:00,WF004,Product Description Generator,success,5425,s1,Validate required attributes,ok,1051,,seed
+seed-wf004-005,2026-09-09 05:57:00,WF004,Product Description Generator,success,5425,s2,Create product description,ok,2291,,seed
+seed-wf004-005,2026-09-09 05:57:00,WF004,Product Description Generator,success,5425,s3,Generate short description,ok,549,,seed
+seed-wf004-005,2026-09-09 05:57:00,WF004,Product Description Generator,success,5425,s4,Generate SEO title,ok,833,,seed
+seed-wf004-005,2026-09-09 05:57:00,WF004,Product Description Generator,success,5425,s5,Generate meta description,ok,701,,seed
+seed-wf009-012,2026-09-09 09:23:00,WF009,Employee Task Assignment,success,1183,s1,Understand task requirements,ok,174,,seed
+seed-wf009-012,2026-09-09 09:23:00,WF009,Employee Task Assignment,success,1183,s2,Compare employee skills,ok,199,,seed
+seed-wf009-012,2026-09-09 09:23:00,WF009,Employee Task Assignment,success,1183,s3,Check current workload,ok,180,,seed
+seed-wf009-012,2026-09-09 09:23:00,WF009,Employee Task Assignment,success,1183,s4,Rank candidates,ok,260,,seed
+seed-wf009-012,2026-09-09 09:23:00,WF009,Employee Task Assignment,success,1183,s5,Select employee,ok,189,,seed
+seed-wf009-012,2026-09-09 09:23:00,WF009,Employee Task Assignment,success,1183,s6,Generate assignment summary,ok,181,,seed
+seed-wf010-007,2026-09-09 10:13:00,WF010,Workflow Performance Report,success,738,s1,Load execution logs,ok,171,,seed
+seed-wf010-007,2026-09-09 10:13:00,WF010,Workflow Performance Report,success,738,s2,Calculate success/failure rate,ok,82,,seed
+seed-wf010-007,2026-09-09 10:13:00,WF010,Workflow Performance Report,success,738,s3,Calculate average execution time,ok,133,,seed
+seed-wf010-007,2026-09-09 10:13:00,WF010,Workflow Performance Report,success,738,s4,Identify frequent errors,ok,129,,seed
+seed-wf010-007,2026-09-09 10:13:00,WF010,Workflow Performance Report,success,738,s5,Identify slow steps,ok,115,,seed
+seed-wf010-007,2026-09-09 10:13:00,WF010,Workflow Performance Report,success,738,s6,Generate recommendations,ok,108,,seed
+seed-wf004-008,2026-09-09 16:20:00,WF004,Product Description Generator,success,7343,s1,Validate required attributes,ok,1173,,seed
+seed-wf004-008,2026-09-09 16:20:00,WF004,Product Description Generator,success,7343,s2,Create product description,ok,3486,,seed
+seed-wf004-008,2026-09-09 16:20:00,WF004,Product Description Generator,success,7343,s3,Generate short description,ok,738,,seed
+seed-wf004-008,2026-09-09 16:20:00,WF004,Product Description Generator,success,7343,s4,Generate SEO title,ok,1108,,seed
+seed-wf004-008,2026-09-09 16:20:00,WF004,Product Description Generator,success,7343,s5,Generate meta description,ok,838,,seed
+seed-wf005-042,2026-09-09 17:57:00,WF005,Customer Order Status,failed,846,s1,Validate identifier,ok,117,,seed
+seed-wf005-042,2026-09-09 17:57:00,WF005,Customer Order Status,failed,846,s2,Search order data,failed,729,Shipment API rate limited (429),seed
+seed-wf005-010,2026-09-09 18:30:00,WF005,Customer Order Status,success,1905,s1,Validate identifier,ok,173,,seed
+seed-wf005-010,2026-09-09 18:30:00,WF005,Customer Order Status,success,1905,s2,Search order data,ok,1171,,seed
+seed-wf005-010,2026-09-09 18:30:00,WF005,Customer Order Status,success,1905,s3,Retrieve order status,ok,122,,seed
+seed-wf005-010,2026-09-09 18:30:00,WF005,Customer Order Status,success,1905,s4,Retrieve shipment information,ok,209,,seed
+seed-wf005-010,2026-09-09 18:30:00,WF005,Customer Order Status,success,1905,s5,Summarize current status,ok,230,,seed
+seed-wf009-013,2026-09-09 20:13:00,WF009,Employee Task Assignment,success,809,s1,Understand task requirements,ok,99,,seed
+seed-wf009-013,2026-09-09 20:13:00,WF009,Employee Task Assignment,success,809,s2,Compare employee skills,ok,143,,seed
+seed-wf009-013,2026-09-09 20:13:00,WF009,Employee Task Assignment,success,809,s3,Check current workload,ok,174,,seed
+seed-wf009-013,2026-09-09 20:13:00,WF009,Employee Task Assignment,success,809,s4,Rank candidates,ok,139,,seed
+seed-wf009-013,2026-09-09 20:13:00,WF009,Employee Task Assignment,success,809,s5,Select employee,ok,157,,seed
+seed-wf009-013,2026-09-09 20:13:00,WF009,Employee Task Assignment,success,809,s6,Generate assignment summary,ok,97,,seed
+seed-wf003-021,2026-09-09 22:24:00,WF003,Vendor File Processing,success,2602,s1,Read file,ok,1465,,seed
+seed-wf003-021,2026-09-09 22:24:00,WF003,Vendor File Processing,success,2602,s2,Detect columns,ok,215,,seed
+seed-wf003-021,2026-09-09 22:24:00,WF003,Vendor File Processing,success,2602,s3,Normalize column names,ok,214,,seed
+seed-wf003-021,2026-09-09 22:24:00,WF003,Vendor File Processing,success,2602,s4,Validate required fields,ok,334,,seed
+seed-wf003-021,2026-09-09 22:24:00,WF003,Vendor File Processing,success,2602,s5,Identify invalid rows,ok,170,,seed
+seed-wf003-021,2026-09-09 22:24:00,WF003,Vendor File Processing,success,2602,s6,Produce cleaned dataset,ok,204,,seed
+seed-wf009-015,2026-09-10 10:03:00,WF009,Employee Task Assignment,success,880,s1,Understand task requirements,ok,197,,seed
+seed-wf009-015,2026-09-10 10:03:00,WF009,Employee Task Assignment,success,880,s2,Compare employee skills,ok,143,,seed
+seed-wf009-015,2026-09-10 10:03:00,WF009,Employee Task Assignment,success,880,s3,Check current workload,ok,96,,seed
+seed-wf009-015,2026-09-10 10:03:00,WF009,Employee Task Assignment,success,880,s4,Rank candidates,ok,148,,seed
+seed-wf009-015,2026-09-10 10:03:00,WF009,Employee Task Assignment,success,880,s5,Select employee,ok,139,,seed
+seed-wf009-015,2026-09-10 10:03:00,WF009,Employee Task Assignment,success,880,s6,Generate assignment summary,ok,157,,seed
+seed-wf005-044,2026-09-10 10:30:00,WF005,Customer Order Status,success,1687,s1,Validate identifier,ok,240,,seed
+seed-wf005-044,2026-09-10 10:30:00,WF005,Customer Order Status,success,1687,s2,Search order data,ok,916,,seed
+seed-wf005-044,2026-09-10 10:30:00,WF005,Customer Order Status,success,1687,s3,Retrieve order status,ok,202,,seed
+seed-wf005-044,2026-09-10 10:30:00,WF005,Customer Order Status,success,1687,s4,Retrieve shipment information,ok,203,,seed
+seed-wf005-044,2026-09-10 10:30:00,WF005,Customer Order Status,success,1687,s5,Summarize current status,ok,126,,seed
+seed-wf003-011,2026-09-10 11:48:00,WF003,Vendor File Processing,success,3779,s1,Read file,ok,2440,,seed
+seed-wf003-011,2026-09-10 11:48:00,WF003,Vendor File Processing,success,3779,s2,Detect columns,ok,227,,seed
+seed-wf003-011,2026-09-10 11:48:00,WF003,Vendor File Processing,success,3779,s3,Normalize column names,ok,363,,seed
+seed-wf003-011,2026-09-10 11:48:00,WF003,Vendor File Processing,success,3779,s4,Validate required fields,ok,270,,seed
+seed-wf003-011,2026-09-10 11:48:00,WF003,Vendor File Processing,success,3779,s5,Identify invalid rows,ok,229,,seed
+seed-wf003-011,2026-09-10 11:48:00,WF003,Vendor File Processing,success,3779,s6,Produce cleaned dataset,ok,250,,seed
+seed-wf001-035,2026-09-10 14:40:00,WF001,Inventory Restock Check,success,710,s1,Load inventory,ok,131,,seed
+seed-wf001-035,2026-09-10 14:40:00,WF001,Inventory Restock Check,success,710,s2,Compare current stock with minimum threshold,ok,168,,seed
+seed-wf001-035,2026-09-10 14:40:00,WF001,Inventory Restock Check,success,710,s3,Identify low-stock products,ok,128,,seed
+seed-wf001-035,2026-09-10 14:40:00,WF001,Inventory Restock Check,success,710,s4,Calculate reorder quantity,ok,122,,seed
+seed-wf001-035,2026-09-10 14:40:00,WF001,Inventory Restock Check,success,710,s5,Generate restock list,ok,161,,seed
+seed-wf008-000,2026-09-10 16:01:00,WF008,SEO Keyword Classification,success,7725,s1,Read keywords,ok,526,,seed
+seed-wf008-000,2026-09-10 16:01:00,WF008,SEO Keyword Classification,success,7725,s2,Remove duplicates,ok,509,,seed
+seed-wf008-000,2026-09-10 16:01:00,WF008,SEO Keyword Classification,success,7725,s3,Classify search intent,ok,4399,,seed
+seed-wf008-000,2026-09-10 16:01:00,WF008,SEO Keyword Classification,success,7725,s4,Map keywords to categories,ok,681,,seed
+seed-wf008-000,2026-09-10 16:01:00,WF008,SEO Keyword Classification,success,7725,s5,Identify high-priority keywords,ok,912,,seed
+seed-wf008-000,2026-09-10 16:01:00,WF008,SEO Keyword Classification,success,7725,s6,Export results,ok,698,,seed
+seed-wf010-001,2026-09-10 17:45:00,WF010,Workflow Performance Report,success,655,s1,Load execution logs,ok,142,,seed
+seed-wf010-001,2026-09-10 17:45:00,WF010,Workflow Performance Report,success,655,s2,Calculate success/failure rate,ok,125,,seed
+seed-wf010-001,2026-09-10 17:45:00,WF010,Workflow Performance Report,success,655,s3,Calculate average execution time,ok,94,,seed
+seed-wf010-001,2026-09-10 17:45:00,WF010,Workflow Performance Report,success,655,s4,Identify frequent errors,ok,92,,seed
+seed-wf010-001,2026-09-10 17:45:00,WF010,Workflow Performance Report,success,655,s5,Identify slow steps,ok,78,,seed
+seed-wf010-001,2026-09-10 17:45:00,WF010,Workflow Performance Report,success,655,s6,Generate recommendations,ok,124,,seed
+seed-wf005-039,2026-09-10 22:36:00,WF005,Customer Order Status,success,1579,s1,Validate identifier,ok,154,,seed
+seed-wf005-039,2026-09-10 22:36:00,WF005,Customer Order Status,success,1579,s2,Search order data,ok,1058,,seed
+seed-wf005-039,2026-09-10 22:36:00,WF005,Customer Order Status,success,1579,s3,Retrieve order status,ok,129,,seed
+seed-wf005-039,2026-09-10 22:36:00,WF005,Customer Order Status,success,1579,s4,Retrieve shipment information,ok,116,,seed
+seed-wf005-039,2026-09-10 22:36:00,WF005,Customer Order Status,success,1579,s5,Summarize current status,ok,122,,seed
+seed-wf001-025,2026-09-10 23:17:00,WF001,Inventory Restock Check,success,598,s1,Load inventory,ok,95,,seed
+seed-wf001-025,2026-09-10 23:17:00,WF001,Inventory Restock Check,success,598,s2,Compare current stock with minimum threshold,ok,176,,seed
+seed-wf001-025,2026-09-10 23:17:00,WF001,Inventory Restock Check,success,598,s3,Identify low-stock products,ok,111,,seed
+seed-wf001-025,2026-09-10 23:17:00,WF001,Inventory Restock Check,success,598,s4,Calculate reorder quantity,ok,81,,seed
+seed-wf001-025,2026-09-10 23:17:00,WF001,Inventory Restock Check,success,598,s5,Generate restock list,ok,135,,seed
+seed-wf004-025,2026-09-11 04:52:00,WF004,Product Description Generator,success,8232,s1,Validate required attributes,ok,1100,,seed
+seed-wf004-025,2026-09-11 04:52:00,WF004,Product Description Generator,success,8232,s2,Create product description,ok,3722,,seed
+seed-wf004-025,2026-09-11 04:52:00,WF004,Product Description Generator,success,8232,s3,Generate short description,ok,1195,,seed
+seed-wf004-025,2026-09-11 04:52:00,WF004,Product Description Generator,success,8232,s4,Generate SEO title,ok,1076,,seed
+seed-wf004-025,2026-09-11 04:52:00,WF004,Product Description Generator,success,8232,s5,Generate meta description,ok,1139,,seed
+seed-wf005-035,2026-09-11 06:26:00,WF005,Customer Order Status,success,1748,s1,Validate identifier,ok,250,,seed
+seed-wf005-035,2026-09-11 06:26:00,WF005,Customer Order Status,success,1748,s2,Search order data,ok,927,,seed
+seed-wf005-035,2026-09-11 06:26:00,WF005,Customer Order Status,success,1748,s3,Retrieve order status,ok,247,,seed
+seed-wf005-035,2026-09-11 06:26:00,WF005,Customer Order Status,success,1748,s4,Retrieve shipment information,ok,153,,seed
+seed-wf005-035,2026-09-11 06:26:00,WF005,Customer Order Status,success,1748,s5,Summarize current status,ok,171,,seed
+seed-wf009-016,2026-09-11 12:39:00,WF009,Employee Task Assignment,success,1100,s1,Understand task requirements,ok,186,,seed
+seed-wf009-016,2026-09-11 12:39:00,WF009,Employee Task Assignment,success,1100,s2,Compare employee skills,ok,176,,seed
+seed-wf009-016,2026-09-11 12:39:00,WF009,Employee Task Assignment,success,1100,s3,Check current workload,ok,137,,seed
+seed-wf009-016,2026-09-11 12:39:00,WF009,Employee Task Assignment,success,1100,s4,Rank candidates,ok,263,,seed
+seed-wf009-016,2026-09-11 12:39:00,WF009,Employee Task Assignment,success,1100,s5,Select employee,ok,179,,seed
+seed-wf009-016,2026-09-11 12:39:00,WF009,Employee Task Assignment,success,1100,s6,Generate assignment summary,ok,159,,seed
+seed-wf005-017,2026-09-11 15:25:00,WF005,Customer Order Status,success,2062,s1,Validate identifier,ok,217,,seed
+seed-wf005-017,2026-09-11 15:25:00,WF005,Customer Order Status,success,2062,s2,Search order data,ok,1144,,seed
+seed-wf005-017,2026-09-11 15:25:00,WF005,Customer Order Status,success,2062,s3,Retrieve order status,ok,224,,seed
+seed-wf005-017,2026-09-11 15:25:00,WF005,Customer Order Status,success,2062,s4,Retrieve shipment information,ok,229,,seed
+seed-wf005-017,2026-09-11 15:25:00,WF005,Customer Order Status,success,2062,s5,Summarize current status,ok,248,,seed
+seed-wf010-003,2026-09-11 15:52:00,WF010,Workflow Performance Report,success,785,s1,Load execution logs,ok,181,,seed
+seed-wf010-003,2026-09-11 15:52:00,WF010,Workflow Performance Report,success,785,s2,Calculate success/failure rate,ok,148,,seed
+seed-wf010-003,2026-09-11 15:52:00,WF010,Workflow Performance Report,success,785,s3,Calculate average execution time,ok,125,,seed
+seed-wf010-003,2026-09-11 15:52:00,WF010,Workflow Performance Report,success,785,s4,Identify frequent errors,ok,135,,seed
+seed-wf010-003,2026-09-11 15:52:00,WF010,Workflow Performance Report,success,785,s5,Identify slow steps,ok,94,,seed
+seed-wf010-003,2026-09-11 15:52:00,WF010,Workflow Performance Report,success,785,s6,Generate recommendations,ok,102,,seed
+seed-wf001-023,2026-09-11 17:59:00,WF001,Inventory Restock Check,success,594,s1,Load inventory,ok,93,,seed
+seed-wf001-023,2026-09-11 17:59:00,WF001,Inventory Restock Check,success,594,s2,Compare current stock with minimum threshold,ok,118,,seed
+seed-wf001-023,2026-09-11 17:59:00,WF001,Inventory Restock Check,success,594,s3,Identify low-stock products,ok,132,,seed
+seed-wf001-023,2026-09-11 17:59:00,WF001,Inventory Restock Check,success,594,s4,Calculate reorder quantity,ok,93,,seed
+seed-wf001-023,2026-09-11 17:59:00,WF001,Inventory Restock Check,success,594,s5,Generate restock list,ok,158,,seed
+seed-wf004-001,2026-09-11 22:09:00,WF004,Product Description Generator,failed,766,s1,Validate required attributes,failed,766,LLM timeout after 30s,seed
+seed-wf008-004,2026-09-11 22:25:00,WF008,SEO Keyword Classification,success,6434,s1,Read keywords,ok,973,,seed
+seed-wf008-004,2026-09-11 22:25:00,WF008,SEO Keyword Classification,success,6434,s2,Remove duplicates,ok,801,,seed
+seed-wf008-004,2026-09-11 22:25:00,WF008,SEO Keyword Classification,success,6434,s3,Classify search intent,ok,2189,,seed
+seed-wf008-004,2026-09-11 22:25:00,WF008,SEO Keyword Classification,success,6434,s4,Map keywords to categories,ok,966,,seed
+seed-wf008-004,2026-09-11 22:25:00,WF008,SEO Keyword Classification,success,6434,s5,Identify high-priority keywords,ok,640,,seed
+seed-wf008-004,2026-09-11 22:25:00,WF008,SEO Keyword Classification,success,6434,s6,Export results,ok,865,,seed
+seed-wf009-014,2026-09-12 00:50:00,WF009,Employee Task Assignment,success,960,s1,Understand task requirements,ok,114,,seed
+seed-wf009-014,2026-09-12 00:50:00,WF009,Employee Task Assignment,success,960,s2,Compare employee skills,ok,154,,seed
+seed-wf009-014,2026-09-12 00:50:00,WF009,Employee Task Assignment,success,960,s3,Check current workload,ok,109,,seed
+seed-wf009-014,2026-09-12 00:50:00,WF009,Employee Task Assignment,success,960,s4,Rank candidates,ok,269,,seed
+seed-wf009-014,2026-09-12 00:50:00,WF009,Employee Task Assignment,success,960,s5,Select employee,ok,143,,seed
+seed-wf009-014,2026-09-12 00:50:00,WF009,Employee Task Assignment,success,960,s6,Generate assignment summary,ok,171,,seed
+seed-wf004-022,2026-09-12 01:59:00,WF004,Product Description Generator,success,6032,s1,Validate required attributes,ok,858,,seed
+seed-wf004-022,2026-09-12 01:59:00,WF004,Product Description Generator,success,6032,s2,Create product description,ok,2366,,seed
+seed-wf004-022,2026-09-12 01:59:00,WF004,Product Description Generator,success,6032,s3,Generate short description,ok,963,,seed
+seed-wf004-022,2026-09-12 01:59:00,WF004,Product Description Generator,success,6032,s4,Generate SEO title,ok,1000,,seed
+seed-wf004-022,2026-09-12 01:59:00,WF004,Product Description Generator,success,6032,s5,Generate meta description,ok,845,,seed
+seed-wf001-044,2026-09-12 03:05:00,WF001,Inventory Restock Check,success,590,s1,Load inventory,ok,107,,seed
+seed-wf001-044,2026-09-12 03:05:00,WF001,Inventory Restock Check,success,590,s2,Compare current stock with minimum threshold,ok,187,,seed
+seed-wf001-044,2026-09-12 03:05:00,WF001,Inventory Restock Check,success,590,s3,Identify low-stock products,ok,113,,seed
+seed-wf001-044,2026-09-12 03:05:00,WF001,Inventory Restock Check,success,590,s4,Calculate reorder quantity,ok,76,,seed
+seed-wf001-044,2026-09-12 03:05:00,WF001,Inventory Restock Check,success,590,s5,Generate restock list,ok,107,,seed
+seed-wf001-001,2026-09-12 03:19:00,WF001,Inventory Restock Check,success,510,s1,Load inventory,ok,112,,seed
+seed-wf001-001,2026-09-12 03:19:00,WF001,Inventory Restock Check,success,510,s2,Compare current stock with minimum threshold,ok,112,,seed
+seed-wf001-001,2026-09-12 03:19:00,WF001,Inventory Restock Check,success,510,s3,Identify low-stock products,ok,92,,seed
+seed-wf001-001,2026-09-12 03:19:00,WF001,Inventory Restock Check,success,510,s4,Calculate reorder quantity,ok,120,,seed
+seed-wf001-001,2026-09-12 03:19:00,WF001,Inventory Restock Check,success,510,s5,Generate restock list,ok,74,,seed
+seed-wf005-004,2026-09-12 08:57:00,WF005,Customer Order Status,success,1794,s1,Validate identifier,ok,133,,seed
+seed-wf005-004,2026-09-12 08:57:00,WF005,Customer Order Status,success,1794,s2,Search order data,ok,1219,,seed
+seed-wf005-004,2026-09-12 08:57:00,WF005,Customer Order Status,success,1794,s3,Retrieve order status,ok,111,,seed
+seed-wf005-004,2026-09-12 08:57:00,WF005,Customer Order Status,success,1794,s4,Retrieve shipment information,ok,110,,seed
+seed-wf005-004,2026-09-12 08:57:00,WF005,Customer Order Status,success,1794,s5,Summarize current status,ok,221,,seed
+seed-wf004-036,2026-09-12 08:58:00,WF004,Product Description Generator,success,5368,s1,Validate required attributes,ok,1074,,seed
+seed-wf004-036,2026-09-12 08:58:00,WF004,Product Description Generator,success,5368,s2,Create product description,ok,1953,,seed
+seed-wf004-036,2026-09-12 08:58:00,WF004,Product Description Generator,success,5368,s3,Generate short description,ok,838,,seed
+seed-wf004-036,2026-09-12 08:58:00,WF004,Product Description Generator,success,5368,s4,Generate SEO title,ok,611,,seed
+seed-wf004-036,2026-09-12 08:58:00,WF004,Product Description Generator,success,5368,s5,Generate meta description,ok,892,,seed
+seed-wf002-025,2026-09-12 11:08:00,WF002,Product Price Validation,success,796,s1,Load product prices,ok,145,,seed
+seed-wf002-025,2026-09-12 11:08:00,WF002,Product Price Validation,success,796,s2,Match products by SKU,ok,303,,seed
+seed-wf002-025,2026-09-12 11:08:00,WF002,Product Price Validation,success,796,s3,Compare internal and vendor prices,ok,108,,seed
+seed-wf002-025,2026-09-12 11:08:00,WF002,Product Price Validation,success,796,s4,Calculate percentage difference,ok,108,,seed
+seed-wf002-025,2026-09-12 11:08:00,WF002,Product Price Validation,success,796,s5,Flag exceptions,ok,132,,seed
+seed-wf002-005,2026-09-12 13:19:00,WF002,Product Price Validation,success,907,s1,Load product prices,ok,87,,seed
+seed-wf002-005,2026-09-12 13:19:00,WF002,Product Price Validation,success,907,s2,Match products by SKU,ok,364,,seed
+seed-wf002-005,2026-09-12 13:19:00,WF002,Product Price Validation,success,907,s3,Compare internal and vendor prices,ok,113,,seed
+seed-wf002-005,2026-09-12 13:19:00,WF002,Product Price Validation,success,907,s4,Calculate percentage difference,ok,149,,seed
+seed-wf002-005,2026-09-12 13:19:00,WF002,Product Price Validation,success,907,s5,Flag exceptions,ok,194,,seed
+seed-wf004-016,2026-09-12 16:09:00,WF004,Product Description Generator,success,6758,s1,Validate required attributes,ok,767,,seed
+seed-wf004-016,2026-09-12 16:09:00,WF004,Product Description Generator,success,6758,s2,Create product description,ok,3172,,seed
+seed-wf004-016,2026-09-12 16:09:00,WF004,Product Description Generator,success,6758,s3,Generate short description,ok,1086,,seed
+seed-wf004-016,2026-09-12 16:09:00,WF004,Product Description Generator,success,6758,s4,Generate SEO title,ok,1168,,seed
+seed-wf004-016,2026-09-12 16:09:00,WF004,Product Description Generator,success,6758,s5,Generate meta description,ok,565,,seed
+seed-wf007-015,2026-09-12 16:18:00,WF007,Marketing Campaign Brief,success,15313,s1,Validate inputs,ok,2336,,seed
+seed-wf007-015,2026-09-12 16:18:00,WF007,Marketing Campaign Brief,success,15313,s2,Identify campaign objective,ok,2254,,seed
+seed-wf007-015,2026-09-12 16:18:00,WF007,Marketing Campaign Brief,success,15313,s3,Summarize products,ok,2235,,seed
+seed-wf007-015,2026-09-12 16:18:00,WF007,Marketing Campaign Brief,success,15313,s4,Create messaging,ok,3404,,seed
+seed-wf007-015,2026-09-12 16:18:00,WF007,Marketing Campaign Brief,success,15313,s5,Create channel recommendations,ok,2309,,seed
+seed-wf007-015,2026-09-12 16:18:00,WF007,Marketing Campaign Brief,success,15313,s6,Create campaign checklist,ok,2775,,seed
+seed-wf001-020,2026-09-12 17:09:00,WF001,Inventory Restock Check,success,636,s1,Load inventory,ok,84,,seed
+seed-wf001-020,2026-09-12 17:09:00,WF001,Inventory Restock Check,success,636,s2,Compare current stock with minimum threshold,ok,176,,seed
+seed-wf001-020,2026-09-12 17:09:00,WF001,Inventory Restock Check,success,636,s3,Identify low-stock products,ok,124,,seed
+seed-wf001-020,2026-09-12 17:09:00,WF001,Inventory Restock Check,success,636,s4,Calculate reorder quantity,ok,97,,seed
+seed-wf001-020,2026-09-12 17:09:00,WF001,Inventory Restock Check,success,636,s5,Generate restock list,ok,155,,seed
+seed-wf002-018,2026-09-12 18:52:00,WF002,Product Price Validation,success,1029,s1,Load product prices,ok,150,,seed
+seed-wf002-018,2026-09-12 18:52:00,WF002,Product Price Validation,success,1029,s2,Match products by SKU,ok,380,,seed
+seed-wf002-018,2026-09-12 18:52:00,WF002,Product Price Validation,success,1029,s3,Compare internal and vendor prices,ok,183,,seed
+seed-wf002-018,2026-09-12 18:52:00,WF002,Product Price Validation,success,1029,s4,Calculate percentage difference,ok,152,,seed
+seed-wf002-018,2026-09-12 18:52:00,WF002,Product Price Validation,success,1029,s5,Flag exceptions,ok,164,,seed
+seed-wf001-018,2026-09-12 19:43:00,WF001,Inventory Restock Check,success,661,s1,Load inventory,ok,129,,seed
+seed-wf001-018,2026-09-12 19:43:00,WF001,Inventory Restock Check,success,661,s2,Compare current stock with minimum threshold,ok,178,,seed
+seed-wf001-018,2026-09-12 19:43:00,WF001,Inventory Restock Check,success,661,s3,Identify low-stock products,ok,82,,seed
+seed-wf001-018,2026-09-12 19:43:00,WF001,Inventory Restock Check,success,661,s4,Calculate reorder quantity,ok,106,,seed
+seed-wf001-018,2026-09-12 19:43:00,WF001,Inventory Restock Check,success,661,s5,Generate restock list,ok,166,,seed
+seed-wf006-007,2026-09-12 22:32:00,WF006,Duplicate Product Detection,success,2711,s1,Load products,ok,366,,seed
+seed-wf006-007,2026-09-12 22:32:00,WF006,Duplicate Product Detection,success,2711,s2,Normalize names/SKUs,ok,237,,seed
+seed-wf006-007,2026-09-12 22:32:00,WF006,Duplicate Product Detection,success,2711,s3,Compare identifiers,ok,209,,seed
+seed-wf006-007,2026-09-12 22:32:00,WF006,Duplicate Product Detection,success,2711,s4,Compare product attributes,ok,237,,seed
+seed-wf006-007,2026-09-12 22:32:00,WF006,Duplicate Product Detection,success,2711,s5,Group likely duplicates,ok,1333,,seed
+seed-wf006-007,2026-09-12 22:32:00,WF006,Duplicate Product Detection,success,2711,s6,Assign confidence,ok,329,,seed
+seed-wf005-046,2026-09-13 00:03:00,WF005,Customer Order Status,failed,844,s1,Validate identifier,ok,181,,seed
+seed-wf005-046,2026-09-13 00:03:00,WF005,Customer Order Status,failed,844,s2,Search order data,failed,663,Order API timeout (504),seed
+seed-wf006-010,2026-09-13 00:25:00,WF006,Duplicate Product Detection,success,2275,s1,Load products,ok,368,,seed
+seed-wf006-010,2026-09-13 00:25:00,WF006,Duplicate Product Detection,success,2275,s2,Normalize names/SKUs,ok,301,,seed
+seed-wf006-010,2026-09-13 00:25:00,WF006,Duplicate Product Detection,success,2275,s3,Compare identifiers,ok,184,,seed
+seed-wf006-010,2026-09-13 00:25:00,WF006,Duplicate Product Detection,success,2275,s4,Compare product attributes,ok,389,,seed
+seed-wf006-010,2026-09-13 00:25:00,WF006,Duplicate Product Detection,success,2275,s5,Group likely duplicates,ok,761,,seed
+seed-wf006-010,2026-09-13 00:25:00,WF006,Duplicate Product Detection,success,2275,s6,Assign confidence,ok,272,,seed
+seed-wf005-041,2026-09-13 02:35:00,WF005,Customer Order Status,success,1570,s1,Validate identifier,ok,130,,seed
+seed-wf005-041,2026-09-13 02:35:00,WF005,Customer Order Status,success,1570,s2,Search order data,ok,970,,seed
+seed-wf005-041,2026-09-13 02:35:00,WF005,Customer Order Status,success,1570,s3,Retrieve order status,ok,148,,seed
+seed-wf005-041,2026-09-13 02:35:00,WF005,Customer Order Status,success,1570,s4,Retrieve shipment information,ok,166,,seed
+seed-wf005-041,2026-09-13 02:35:00,WF005,Customer Order Status,success,1570,s5,Summarize current status,ok,156,,seed
+seed-wf007-000,2026-09-13 07:49:00,WF007,Marketing Campaign Brief,success,15119,s1,Validate inputs,ok,1398,,seed
+seed-wf007-000,2026-09-13 07:49:00,WF007,Marketing Campaign Brief,success,15119,s2,Identify campaign objective,ok,1973,,seed
+seed-wf007-000,2026-09-13 07:49:00,WF007,Marketing Campaign Brief,success,15119,s3,Summarize products,ok,1983,,seed
+seed-wf007-000,2026-09-13 07:49:00,WF007,Marketing Campaign Brief,success,15119,s4,Create messaging,ok,6449,,seed
+seed-wf007-000,2026-09-13 07:49:00,WF007,Marketing Campaign Brief,success,15119,s5,Create channel recommendations,ok,1563,,seed
+seed-wf007-000,2026-09-13 07:49:00,WF007,Marketing Campaign Brief,success,15119,s6,Create campaign checklist,ok,1753,,seed
+seed-wf007-014,2026-09-13 08:14:00,WF007,Marketing Campaign Brief,success,14733,s1,Validate inputs,ok,2681,,seed
+seed-wf007-014,2026-09-13 08:14:00,WF007,Marketing Campaign Brief,success,14733,s2,Identify campaign objective,ok,1681,,seed
+seed-wf007-014,2026-09-13 08:14:00,WF007,Marketing Campaign Brief,success,14733,s3,Summarize products,ok,2326,,seed
+seed-wf007-014,2026-09-13 08:14:00,WF007,Marketing Campaign Brief,success,14733,s4,Create messaging,ok,4807,,seed
+seed-wf007-014,2026-09-13 08:14:00,WF007,Marketing Campaign Brief,success,14733,s5,Create channel recommendations,ok,1470,,seed
+seed-wf007-014,2026-09-13 08:14:00,WF007,Marketing Campaign Brief,success,14733,s6,Create campaign checklist,ok,1768,,seed
+seed-wf002-017,2026-09-13 09:16:00,WF002,Product Price Validation,success,850,s1,Load product prices,ok,146,,seed
+seed-wf002-017,2026-09-13 09:16:00,WF002,Product Price Validation,success,850,s2,Match products by SKU,ok,373,,seed
+seed-wf002-017,2026-09-13 09:16:00,WF002,Product Price Validation,success,850,s3,Compare internal and vendor prices,ok,97,,seed
+seed-wf002-017,2026-09-13 09:16:00,WF002,Product Price Validation,success,850,s4,Calculate percentage difference,ok,98,,seed
+seed-wf002-017,2026-09-13 09:16:00,WF002,Product Price Validation,success,850,s5,Flag exceptions,ok,136,,seed
+seed-wf007-012,2026-09-13 09:55:00,WF007,Marketing Campaign Brief,success,15951,s1,Validate inputs,ok,2734,,seed
+seed-wf007-012,2026-09-13 09:55:00,WF007,Marketing Campaign Brief,success,15951,s2,Identify campaign objective,ok,2570,,seed
+seed-wf007-012,2026-09-13 09:55:00,WF007,Marketing Campaign Brief,success,15951,s3,Summarize products,ok,2334,,seed
+seed-wf007-012,2026-09-13 09:55:00,WF007,Marketing Campaign Brief,success,15951,s4,Create messaging,ok,3444,,seed
+seed-wf007-012,2026-09-13 09:55:00,WF007,Marketing Campaign Brief,success,15951,s5,Create channel recommendations,ok,2883,,seed
+seed-wf007-012,2026-09-13 09:55:00,WF007,Marketing Campaign Brief,success,15951,s6,Create campaign checklist,ok,1986,,seed
+seed-wf006-003,2026-09-13 14:17:00,WF006,Duplicate Product Detection,success,2453,s1,Load products,ok,284,,seed
+seed-wf006-003,2026-09-13 14:17:00,WF006,Duplicate Product Detection,success,2453,s2,Normalize names/SKUs,ok,407,,seed
+seed-wf006-003,2026-09-13 14:17:00,WF006,Duplicate Product Detection,success,2453,s3,Compare identifiers,ok,233,,seed
+seed-wf006-003,2026-09-13 14:17:00,WF006,Duplicate Product Detection,success,2453,s4,Compare product attributes,ok,288,,seed
+seed-wf006-003,2026-09-13 14:17:00,WF006,Duplicate Product Detection,success,2453,s5,Group likely duplicates,ok,1055,,seed
+seed-wf006-003,2026-09-13 14:17:00,WF006,Duplicate Product Detection,success,2453,s6,Assign confidence,ok,186,,seed
+seed-wf002-012,2026-09-13 16:40:00,WF002,Product Price Validation,success,867,s1,Load product prices,ok,184,,seed
+seed-wf002-012,2026-09-13 16:40:00,WF002,Product Price Validation,success,867,s2,Match products by SKU,ok,346,,seed
+seed-wf002-012,2026-09-13 16:40:00,WF002,Product Price Validation,success,867,s3,Compare internal and vendor prices,ok,103,,seed
+seed-wf002-012,2026-09-13 16:40:00,WF002,Product Price Validation,success,867,s4,Calculate percentage difference,ok,93,,seed
+seed-wf002-012,2026-09-13 16:40:00,WF002,Product Price Validation,success,867,s5,Flag exceptions,ok,141,,seed
+seed-wf004-009,2026-09-13 20:25:00,WF004,Product Description Generator,success,6843,s1,Validate required attributes,ok,541,,seed
+seed-wf004-009,2026-09-13 20:25:00,WF004,Product Description Generator,success,6843,s2,Create product description,ok,3188,,seed
+seed-wf004-009,2026-09-13 20:25:00,WF004,Product Description Generator,success,6843,s3,Generate short description,ok,1142,,seed
+seed-wf004-009,2026-09-13 20:25:00,WF004,Product Description Generator,success,6843,s4,Generate SEO title,ok,957,,seed
+seed-wf004-009,2026-09-13 20:25:00,WF004,Product Description Generator,success,6843,s5,Generate meta description,ok,1015,,seed
+seed-wf002-019,2026-09-13 23:39:00,WF002,Product Price Validation,success,867,s1,Load product prices,ok,185,,seed
+seed-wf002-019,2026-09-13 23:39:00,WF002,Product Price Validation,success,867,s2,Match products by SKU,ok,267,,seed
+seed-wf002-019,2026-09-13 23:39:00,WF002,Product Price Validation,success,867,s3,Compare internal and vendor prices,ok,101,,seed
+seed-wf002-019,2026-09-13 23:39:00,WF002,Product Price Validation,success,867,s4,Calculate percentage difference,ok,180,,seed
+seed-wf002-019,2026-09-13 23:39:00,WF002,Product Price Validation,success,867,s5,Flag exceptions,ok,134,,seed
+seed-wf006-001,2026-09-14 01:42:00,WF006,Duplicate Product Detection,success,2665,s1,Load products,ok,411,,seed
+seed-wf006-001,2026-09-14 01:42:00,WF006,Duplicate Product Detection,success,2665,s2,Normalize names/SKUs,ok,376,,seed
+seed-wf006-001,2026-09-14 01:42:00,WF006,Duplicate Product Detection,success,2665,s3,Compare identifiers,ok,372,,seed
+seed-wf006-001,2026-09-14 01:42:00,WF006,Duplicate Product Detection,success,2665,s4,Compare product attributes,ok,213,,seed
+seed-wf006-001,2026-09-14 01:42:00,WF006,Duplicate Product Detection,success,2665,s5,Group likely duplicates,ok,960,,seed
+seed-wf006-001,2026-09-14 01:42:00,WF006,Duplicate Product Detection,success,2665,s6,Assign confidence,ok,333,,seed
+seed-wf008-012,2026-09-14 02:53:00,WF008,SEO Keyword Classification,success,7074,s1,Read keywords,ok,935,,seed
+seed-wf008-012,2026-09-14 02:53:00,WF008,SEO Keyword Classification,success,7074,s2,Remove duplicates,ok,908,,seed
+seed-wf008-012,2026-09-14 02:53:00,WF008,SEO Keyword Classification,success,7074,s3,Classify search intent,ok,3744,,seed
+seed-wf008-012,2026-09-14 02:53:00,WF008,SEO Keyword Classification,success,7074,s4,Map keywords to categories,ok,454,,seed
+seed-wf008-012,2026-09-14 02:53:00,WF008,SEO Keyword Classification,success,7074,s5,Identify high-priority keywords,ok,497,,seed
+seed-wf008-012,2026-09-14 02:53:00,WF008,SEO Keyword Classification,success,7074,s6,Export results,ok,536,,seed
+seed-wf005-027,2026-09-14 04:35:00,WF005,Customer Order Status,success,1707,s1,Validate identifier,ok,204,,seed
+seed-wf005-027,2026-09-14 04:35:00,WF005,Customer Order Status,success,1707,s2,Search order data,ok,954,,seed
+seed-wf005-027,2026-09-14 04:35:00,WF005,Customer Order Status,success,1707,s3,Retrieve order status,ok,165,,seed
+seed-wf005-027,2026-09-14 04:35:00,WF005,Customer Order Status,success,1707,s4,Retrieve shipment information,ok,214,,seed
+seed-wf005-027,2026-09-14 04:35:00,WF005,Customer Order Status,success,1707,s5,Summarize current status,ok,170,,seed
+seed-wf001-011,2026-09-14 05:43:00,WF001,Inventory Restock Check,success,650,s1,Load inventory,ok,159,,seed
+seed-wf001-011,2026-09-14 05:43:00,WF001,Inventory Restock Check,success,650,s2,Compare current stock with minimum threshold,ok,174,,seed
+seed-wf001-011,2026-09-14 05:43:00,WF001,Inventory Restock Check,success,650,s3,Identify low-stock products,ok,97,,seed
+seed-wf001-011,2026-09-14 05:43:00,WF001,Inventory Restock Check,success,650,s4,Calculate reorder quantity,ok,95,,seed
+seed-wf001-011,2026-09-14 05:43:00,WF001,Inventory Restock Check,success,650,s5,Generate restock list,ok,125,,seed
+seed-wf007-006,2026-09-14 05:55:00,WF007,Marketing Campaign Brief,success,16093,s1,Validate inputs,ok,2794,,seed
+seed-wf007-006,2026-09-14 05:55:00,WF007,Marketing Campaign Brief,success,16093,s2,Identify campaign objective,ok,1457,,seed
+seed-wf007-006,2026-09-14 05:55:00,WF007,Marketing Campaign Brief,success,16093,s3,Summarize products,ok,2561,,seed
+seed-wf007-006,2026-09-14 05:55:00,WF007,Marketing Campaign Brief,success,16093,s4,Create messaging,ok,5374,,seed
+seed-wf007-006,2026-09-14 05:55:00,WF007,Marketing Campaign Brief,success,16093,s5,Create channel recommendations,ok,1620,,seed
+seed-wf007-006,2026-09-14 05:55:00,WF007,Marketing Campaign Brief,success,16093,s6,Create campaign checklist,ok,2287,,seed
+seed-wf009-004,2026-09-14 09:55:00,WF009,Employee Task Assignment,success,916,s1,Understand task requirements,ok,179,,seed
+seed-wf009-004,2026-09-14 09:55:00,WF009,Employee Task Assignment,success,916,s2,Compare employee skills,ok,194,,seed
+seed-wf009-004,2026-09-14 09:55:00,WF009,Employee Task Assignment,success,916,s3,Check current workload,ok,124,,seed
+seed-wf009-004,2026-09-14 09:55:00,WF009,Employee Task Assignment,success,916,s4,Rank candidates,ok,132,,seed
+seed-wf009-004,2026-09-14 09:55:00,WF009,Employee Task Assignment,success,916,s5,Select employee,ok,125,,seed
+seed-wf009-004,2026-09-14 09:55:00,WF009,Employee Task Assignment,success,916,s6,Generate assignment summary,ok,162,,seed
+seed-wf004-013,2026-09-14 09:59:00,WF004,Product Description Generator,success,6874,s1,Validate required attributes,ok,630,,seed
+seed-wf004-013,2026-09-14 09:59:00,WF004,Product Description Generator,success,6874,s2,Create product description,ok,3705,,seed
+seed-wf004-013,2026-09-14 09:59:00,WF004,Product Description Generator,success,6874,s3,Generate short description,ok,779,,seed
+seed-wf004-013,2026-09-14 09:59:00,WF004,Product Description Generator,success,6874,s4,Generate SEO title,ok,612,,seed
+seed-wf004-013,2026-09-14 09:59:00,WF004,Product Description Generator,success,6874,s5,Generate meta description,ok,1148,,seed
+seed-wf001-013,2026-09-14 11:57:00,WF001,Inventory Restock Check,success,591,s1,Load inventory,ok,76,,seed
+seed-wf001-013,2026-09-14 11:57:00,WF001,Inventory Restock Check,success,591,s2,Compare current stock with minimum threshold,ok,123,,seed
+seed-wf001-013,2026-09-14 11:57:00,WF001,Inventory Restock Check,success,591,s3,Identify low-stock products,ok,132,,seed
+seed-wf001-013,2026-09-14 11:57:00,WF001,Inventory Restock Check,success,591,s4,Calculate reorder quantity,ok,148,,seed
+seed-wf001-013,2026-09-14 11:57:00,WF001,Inventory Restock Check,success,591,s5,Generate restock list,ok,112,,seed
+seed-wf007-007,2026-09-14 14:29:00,WF007,Marketing Campaign Brief,success,15386,s1,Validate inputs,ok,1488,,seed
+seed-wf007-007,2026-09-14 14:29:00,WF007,Marketing Campaign Brief,success,15386,s2,Identify campaign objective,ok,1384,,seed
+seed-wf007-007,2026-09-14 14:29:00,WF007,Marketing Campaign Brief,success,15386,s3,Summarize products,ok,1550,,seed
+seed-wf007-007,2026-09-14 14:29:00,WF007,Marketing Campaign Brief,success,15386,s4,Create messaging,ok,5408,,seed
+seed-wf007-007,2026-09-14 14:29:00,WF007,Marketing Campaign Brief,success,15386,s5,Create channel recommendations,ok,2935,,seed
+seed-wf007-007,2026-09-14 14:29:00,WF007,Marketing Campaign Brief,success,15386,s6,Create campaign checklist,ok,2621,,seed
+seed-wf001-032,2026-09-14 19:26:00,WF001,Inventory Restock Check,success,741,s1,Load inventory,ok,100,,seed
+seed-wf001-032,2026-09-14 19:26:00,WF001,Inventory Restock Check,success,741,s2,Compare current stock with minimum threshold,ok,247,,seed
+seed-wf001-032,2026-09-14 19:26:00,WF001,Inventory Restock Check,success,741,s3,Identify low-stock products,ok,127,,seed
+seed-wf001-032,2026-09-14 19:26:00,WF001,Inventory Restock Check,success,741,s4,Calculate reorder quantity,ok,124,,seed
+seed-wf001-032,2026-09-14 19:26:00,WF001,Inventory Restock Check,success,741,s5,Generate restock list,ok,143,,seed
+seed-wf007-019,2026-09-14 22:05:00,WF007,Marketing Campaign Brief,success,14750,s1,Validate inputs,ok,1831,,seed
+seed-wf007-019,2026-09-14 22:05:00,WF007,Marketing Campaign Brief,success,14750,s2,Identify campaign objective,ok,1501,,seed
+seed-wf007-019,2026-09-14 22:05:00,WF007,Marketing Campaign Brief,success,14750,s3,Summarize products,ok,2707,,seed
+seed-wf007-019,2026-09-14 22:05:00,WF007,Marketing Campaign Brief,success,14750,s4,Create messaging,ok,3952,,seed
+seed-wf007-019,2026-09-14 22:05:00,WF007,Marketing Campaign Brief,success,14750,s5,Create channel recommendations,ok,2919,,seed
+seed-wf007-019,2026-09-14 22:05:00,WF007,Marketing Campaign Brief,success,14750,s6,Create campaign checklist,ok,1840,,seed
+seed-wf004-030,2026-09-15 00:42:00,WF004,Product Description Generator,success,6842,s1,Validate required attributes,ok,752,,seed
+seed-wf004-030,2026-09-15 00:42:00,WF004,Product Description Generator,success,6842,s2,Create product description,ok,3500,,seed
+seed-wf004-030,2026-09-15 00:42:00,WF004,Product Description Generator,success,6842,s3,Generate short description,ok,1119,,seed
+seed-wf004-030,2026-09-15 00:42:00,WF004,Product Description Generator,success,6842,s4,Generate SEO title,ok,877,,seed
+seed-wf004-030,2026-09-15 00:42:00,WF004,Product Description Generator,success,6842,s5,Generate meta description,ok,594,,seed
+seed-wf005-008,2026-09-15 03:50:00,WF005,Customer Order Status,success,1528,s1,Validate identifier,ok,169,,seed
+seed-wf005-008,2026-09-15 03:50:00,WF005,Customer Order Status,success,1528,s2,Search order data,ok,741,,seed
+seed-wf005-008,2026-09-15 03:50:00,WF005,Customer Order Status,success,1528,s3,Retrieve order status,ok,210,,seed
+seed-wf005-008,2026-09-15 03:50:00,WF005,Customer Order Status,success,1528,s4,Retrieve shipment information,ok,171,,seed
+seed-wf005-008,2026-09-15 03:50:00,WF005,Customer Order Status,success,1528,s5,Summarize current status,ok,237,,seed
+seed-wf007-011,2026-09-15 04:11:00,WF007,Marketing Campaign Brief,success,17297,s1,Validate inputs,ok,2552,,seed
+seed-wf007-011,2026-09-15 04:11:00,WF007,Marketing Campaign Brief,success,17297,s2,Identify campaign objective,ok,2643,,seed
+seed-wf007-011,2026-09-15 04:11:00,WF007,Marketing Campaign Brief,success,17297,s3,Summarize products,ok,1383,,seed
+seed-wf007-011,2026-09-15 04:11:00,WF007,Marketing Campaign Brief,success,17297,s4,Create messaging,ok,6365,,seed
+seed-wf007-011,2026-09-15 04:11:00,WF007,Marketing Campaign Brief,success,17297,s5,Create channel recommendations,ok,2339,,seed
+seed-wf007-011,2026-09-15 04:11:00,WF007,Marketing Campaign Brief,success,17297,s6,Create campaign checklist,ok,2015,,seed
+seed-wf006-013,2026-09-15 04:19:00,WF006,Duplicate Product Detection,success,2415,s1,Load products,ok,374,,seed
+seed-wf006-013,2026-09-15 04:19:00,WF006,Duplicate Product Detection,success,2415,s2,Normalize names/SKUs,ok,195,,seed
+seed-wf006-013,2026-09-15 04:19:00,WF006,Duplicate Product Detection,success,2415,s3,Compare identifiers,ok,366,,seed
+seed-wf006-013,2026-09-15 04:19:00,WF006,Duplicate Product Detection,success,2415,s4,Compare product attributes,ok,289,,seed
+seed-wf006-013,2026-09-15 04:19:00,WF006,Duplicate Product Detection,success,2415,s5,Group likely duplicates,ok,1001,,seed
+seed-wf006-013,2026-09-15 04:19:00,WF006,Duplicate Product Detection,success,2415,s6,Assign confidence,ok,190,,seed
+seed-wf002-024,2026-09-15 06:01:00,WF002,Product Price Validation,failed,555,s1,Load product prices,ok,117,,seed
+seed-wf002-024,2026-09-15 06:01:00,WF002,Product Price Validation,failed,555,s2,Match products by SKU,ok,255,,seed
+seed-wf002-024,2026-09-15 06:01:00,WF002,Product Price Validation,failed,555,s3,Compare internal and vendor prices,failed,183,SKU column missing in vendor price list,seed
+seed-wf003-010,2026-09-15 06:59:00,WF003,Vendor File Processing,success,3537,s1,Read file,ok,2322,,seed
+seed-wf003-010,2026-09-15 06:59:00,WF003,Vendor File Processing,success,3537,s2,Detect columns,ok,320,,seed
+seed-wf003-010,2026-09-15 06:59:00,WF003,Vendor File Processing,success,3537,s3,Normalize column names,ok,175,,seed
+seed-wf003-010,2026-09-15 06:59:00,WF003,Vendor File Processing,success,3537,s4,Validate required fields,ok,202,,seed
+seed-wf003-010,2026-09-15 06:59:00,WF003,Vendor File Processing,success,3537,s5,Identify invalid rows,ok,299,,seed
+seed-wf003-010,2026-09-15 06:59:00,WF003,Vendor File Processing,success,3537,s6,Produce cleaned dataset,ok,219,,seed
+seed-wf005-013,2026-09-15 08:59:00,WF005,Customer Order Status,failed,852,s1,Validate identifier,ok,121,,seed
+seed-wf005-013,2026-09-15 08:59:00,WF005,Customer Order Status,failed,852,s2,Search order data,failed,731,Shipment API rate limited (429),seed
+seed-wf004-012,2026-09-15 10:24:00,WF004,Product Description Generator,success,6970,s1,Validate required attributes,ok,1124,,seed
+seed-wf004-012,2026-09-15 10:24:00,WF004,Product Description Generator,success,6970,s2,Create product description,ok,2453,,seed
+seed-wf004-012,2026-09-15 10:24:00,WF004,Product Description Generator,success,6970,s3,Generate short description,ok,1017,,seed
+seed-wf004-012,2026-09-15 10:24:00,WF004,Product Description Generator,success,6970,s4,Generate SEO title,ok,1130,,seed
+seed-wf004-012,2026-09-15 10:24:00,WF004,Product Description Generator,success,6970,s5,Generate meta description,ok,1246,,seed
+seed-wf004-015,2026-09-15 14:12:00,WF004,Product Description Generator,success,5895,s1,Validate required attributes,ok,730,,seed
+seed-wf004-015,2026-09-15 14:12:00,WF004,Product Description Generator,success,5895,s2,Create product description,ok,2966,,seed
+seed-wf004-015,2026-09-15 14:12:00,WF004,Product Description Generator,success,5895,s3,Generate short description,ok,826,,seed
+seed-wf004-015,2026-09-15 14:12:00,WF004,Product Description Generator,success,5895,s4,Generate SEO title,ok,597,,seed
+seed-wf004-015,2026-09-15 14:12:00,WF004,Product Description Generator,success,5895,s5,Generate meta description,ok,776,,seed
+seed-wf006-006,2026-09-15 14:37:00,WF006,Duplicate Product Detection,success,2601,s1,Load products,ok,181,,seed
+seed-wf006-006,2026-09-15 14:37:00,WF006,Duplicate Product Detection,success,2601,s2,Normalize names/SKUs,ok,199,,seed
+seed-wf006-006,2026-09-15 14:37:00,WF006,Duplicate Product Detection,success,2601,s3,Compare identifiers,ok,241,,seed
+seed-wf006-006,2026-09-15 14:37:00,WF006,Duplicate Product Detection,success,2601,s4,Compare product attributes,ok,380,,seed
+seed-wf006-006,2026-09-15 14:37:00,WF006,Duplicate Product Detection,success,2601,s5,Group likely duplicates,ok,1246,,seed
+seed-wf006-006,2026-09-15 14:37:00,WF006,Duplicate Product Detection,success,2601,s6,Assign confidence,ok,354,,seed
+seed-wf006-000,2026-09-15 14:43:00,WF006,Duplicate Product Detection,success,2993,s1,Load products,ok,226,,seed
+seed-wf006-000,2026-09-15 14:43:00,WF006,Duplicate Product Detection,success,2993,s2,Normalize names/SKUs,ok,342,,seed
+seed-wf006-000,2026-09-15 14:43:00,WF006,Duplicate Product Detection,success,2993,s3,Compare identifiers,ok,316,,seed
+seed-wf006-000,2026-09-15 14:43:00,WF006,Duplicate Product Detection,success,2993,s4,Compare product attributes,ok,285,,seed
+seed-wf006-000,2026-09-15 14:43:00,WF006,Duplicate Product Detection,success,2993,s5,Group likely duplicates,ok,1458,,seed
+seed-wf006-000,2026-09-15 14:43:00,WF006,Duplicate Product Detection,success,2993,s6,Assign confidence,ok,366,,seed
+seed-wf005-036,2026-09-15 14:49:00,WF005,Customer Order Status,success,1485,s1,Validate identifier,ok,151,,seed
+seed-wf005-036,2026-09-15 14:49:00,WF005,Customer Order Status,success,1485,s2,Search order data,ok,885,,seed
+seed-wf005-036,2026-09-15 14:49:00,WF005,Customer Order Status,success,1485,s3,Retrieve order status,ok,116,,seed
+seed-wf005-036,2026-09-15 14:49:00,WF005,Customer Order Status,success,1485,s4,Retrieve shipment information,ok,181,,seed
+seed-wf005-036,2026-09-15 14:49:00,WF005,Customer Order Status,success,1485,s5,Summarize current status,ok,152,,seed
+seed-wf010-005,2026-09-15 21:16:00,WF010,Workflow Performance Report,success,651,s1,Load execution logs,ok,138,,seed
+seed-wf010-005,2026-09-15 21:16:00,WF010,Workflow Performance Report,success,651,s2,Calculate success/failure rate,ok,151,,seed
+seed-wf010-005,2026-09-15 21:16:00,WF010,Workflow Performance Report,success,651,s3,Calculate average execution time,ok,115,,seed
+seed-wf010-005,2026-09-15 21:16:00,WF010,Workflow Performance Report,success,651,s4,Identify frequent errors,ok,77,,seed
+seed-wf010-005,2026-09-15 21:16:00,WF010,Workflow Performance Report,success,651,s5,Identify slow steps,ok,87,,seed
+seed-wf010-005,2026-09-15 21:16:00,WF010,Workflow Performance Report,success,651,s6,Generate recommendations,ok,83,,seed
+seed-wf002-028,2026-09-15 22:43:00,WF002,Product Price Validation,success,791,s1,Load product prices,ok,113,,seed
+seed-wf002-028,2026-09-15 22:43:00,WF002,Product Price Validation,success,791,s2,Match products by SKU,ok,241,,seed
+seed-wf002-028,2026-09-15 22:43:00,WF002,Product Price Validation,success,791,s3,Compare internal and vendor prices,ok,134,,seed
+seed-wf002-028,2026-09-15 22:43:00,WF002,Product Price Validation,success,791,s4,Calculate percentage difference,ok,121,,seed
+seed-wf002-028,2026-09-15 22:43:00,WF002,Product Price Validation,success,791,s5,Flag exceptions,ok,182,,seed
+seed-wf002-003,2026-09-16 00:14:00,WF002,Product Price Validation,success,931,s1,Load product prices,ok,175,,seed
+seed-wf002-003,2026-09-16 00:14:00,WF002,Product Price Validation,success,931,s2,Match products by SKU,ok,363,,seed
+seed-wf002-003,2026-09-16 00:14:00,WF002,Product Price Validation,success,931,s3,Compare internal and vendor prices,ok,108,,seed
+seed-wf002-003,2026-09-16 00:14:00,WF002,Product Price Validation,success,931,s4,Calculate percentage difference,ok,157,,seed
+seed-wf002-003,2026-09-16 00:14:00,WF002,Product Price Validation,success,931,s5,Flag exceptions,ok,128,,seed
+seed-wf005-028,2026-09-16 00:50:00,WF005,Customer Order Status,success,1945,s1,Validate identifier,ok,232,,seed
+seed-wf005-028,2026-09-16 00:50:00,WF005,Customer Order Status,success,1945,s2,Search order data,ok,1145,,seed
+seed-wf005-028,2026-09-16 00:50:00,WF005,Customer Order Status,success,1945,s3,Retrieve order status,ok,190,,seed
+seed-wf005-028,2026-09-16 00:50:00,WF005,Customer Order Status,success,1945,s4,Retrieve shipment information,ok,210,,seed
+seed-wf005-028,2026-09-16 00:50:00,WF005,Customer Order Status,success,1945,s5,Summarize current status,ok,168,,seed
+seed-wf002-015,2026-09-16 05:34:00,WF002,Product Price Validation,success,776,s1,Load product prices,ok,154,,seed
+seed-wf002-015,2026-09-16 05:34:00,WF002,Product Price Validation,success,776,s2,Match products by SKU,ok,211,,seed
+seed-wf002-015,2026-09-16 05:34:00,WF002,Product Price Validation,success,776,s3,Compare internal and vendor prices,ok,161,,seed
+seed-wf002-015,2026-09-16 05:34:00,WF002,Product Price Validation,success,776,s4,Calculate percentage difference,ok,139,,seed
+seed-wf002-015,2026-09-16 05:34:00,WF002,Product Price Validation,success,776,s5,Flag exceptions,ok,111,,seed
+seed-wf001-016,2026-09-16 07:25:00,WF001,Inventory Restock Check,failed,502,s1,Load inventory,ok,165,,seed
+seed-wf001-016,2026-09-16 07:25:00,WF001,Inventory Restock Check,failed,502,s2,Compare current stock with minimum threshold,ok,217,,seed
+seed-wf001-016,2026-09-16 07:25:00,WF001,Inventory Restock Check,failed,502,s3,Identify low-stock products,failed,120,Inventory file not found,seed
+seed-wf005-012,2026-09-16 07:40:00,WF005,Customer Order Status,success,1673,s1,Validate identifier,ok,213,,seed
+seed-wf005-012,2026-09-16 07:40:00,WF005,Customer Order Status,success,1673,s2,Search order data,ok,918,,seed
+seed-wf005-012,2026-09-16 07:40:00,WF005,Customer Order Status,success,1673,s3,Retrieve order status,ok,153,,seed
+seed-wf005-012,2026-09-16 07:40:00,WF005,Customer Order Status,success,1673,s4,Retrieve shipment information,ok,144,,seed
+seed-wf005-012,2026-09-16 07:40:00,WF005,Customer Order Status,success,1673,s5,Summarize current status,ok,245,,seed
+seed-wf005-037,2026-09-16 09:24:00,WF005,Customer Order Status,failed,941,s1,Validate identifier,ok,227,,seed
+seed-wf005-037,2026-09-16 09:24:00,WF005,Customer Order Status,failed,941,s2,Search order data,failed,714,Order API timeout (504),seed
+seed-wf009-009,2026-09-16 15:03:00,WF009,Employee Task Assignment,success,974,s1,Understand task requirements,ok,204,,seed
+seed-wf009-009,2026-09-16 15:03:00,WF009,Employee Task Assignment,success,974,s2,Compare employee skills,ok,126,,seed
+seed-wf009-009,2026-09-16 15:03:00,WF009,Employee Task Assignment,success,974,s3,Check current workload,ok,176,,seed
+seed-wf009-009,2026-09-16 15:03:00,WF009,Employee Task Assignment,success,974,s4,Rank candidates,ok,127,,seed
+seed-wf009-009,2026-09-16 15:03:00,WF009,Employee Task Assignment,success,974,s5,Select employee,ok,168,,seed
+seed-wf009-009,2026-09-16 15:03:00,WF009,Employee Task Assignment,success,974,s6,Generate assignment summary,ok,173,,seed
+seed-wf005-051,2026-09-16 17:49:00,WF005,Customer Order Status,success,2071,s1,Validate identifier,ok,216,,seed
+seed-wf005-051,2026-09-16 17:49:00,WF005,Customer Order Status,success,2071,s2,Search order data,ok,1325,,seed
+seed-wf005-051,2026-09-16 17:49:00,WF005,Customer Order Status,success,2071,s3,Retrieve order status,ok,141,,seed
+seed-wf005-051,2026-09-16 17:49:00,WF005,Customer Order Status,success,2071,s4,Retrieve shipment information,ok,142,,seed
+seed-wf005-051,2026-09-16 17:49:00,WF005,Customer Order Status,success,2071,s5,Summarize current status,ok,247,,seed
+seed-wf001-043,2026-09-16 20:24:00,WF001,Inventory Restock Check,success,615,s1,Load inventory,ok,113,,seed
+seed-wf001-043,2026-09-16 20:24:00,WF001,Inventory Restock Check,success,615,s2,Compare current stock with minimum threshold,ok,109,,seed
+seed-wf001-043,2026-09-16 20:24:00,WF001,Inventory Restock Check,success,615,s3,Identify low-stock products,ok,79,,seed
+seed-wf001-043,2026-09-16 20:24:00,WF001,Inventory Restock Check,success,615,s4,Calculate reorder quantity,ok,156,,seed
+seed-wf001-043,2026-09-16 20:24:00,WF001,Inventory Restock Check,success,615,s5,Generate restock list,ok,158,,seed
+seed-wf003-025,2026-09-17 07:07:00,WF003,Vendor File Processing,success,3806,s1,Read file,ok,2534,,seed
+seed-wf003-025,2026-09-17 07:07:00,WF003,Vendor File Processing,success,3806,s2,Detect columns,ok,161,,seed
+seed-wf003-025,2026-09-17 07:07:00,WF003,Vendor File Processing,success,3806,s3,Normalize column names,ok,203,,seed
+seed-wf003-025,2026-09-17 07:07:00,WF003,Vendor File Processing,success,3806,s4,Validate required fields,ok,296,,seed
+seed-wf003-025,2026-09-17 07:07:00,WF003,Vendor File Processing,success,3806,s5,Identify invalid rows,ok,334,,seed
+seed-wf003-025,2026-09-17 07:07:00,WF003,Vendor File Processing,success,3806,s6,Produce cleaned dataset,ok,278,,seed
+seed-wf006-009,2026-09-17 10:10:00,WF006,Duplicate Product Detection,success,2632,s1,Load products,ok,264,,seed
+seed-wf006-009,2026-09-17 10:10:00,WF006,Duplicate Product Detection,success,2632,s2,Normalize names/SKUs,ok,316,,seed
+seed-wf006-009,2026-09-17 10:10:00,WF006,Duplicate Product Detection,success,2632,s3,Compare identifiers,ok,224,,seed
+seed-wf006-009,2026-09-17 10:10:00,WF006,Duplicate Product Detection,success,2632,s4,Compare product attributes,ok,340,,seed
+seed-wf006-009,2026-09-17 10:10:00,WF006,Duplicate Product Detection,success,2632,s5,Group likely duplicates,ok,1222,,seed
+seed-wf006-009,2026-09-17 10:10:00,WF006,Duplicate Product Detection,success,2632,s6,Assign confidence,ok,266,,seed
+seed-wf005-023,2026-09-17 15:52:00,WF005,Customer Order Status,success,1564,s1,Validate identifier,ok,171,,seed
+seed-wf005-023,2026-09-17 15:52:00,WF005,Customer Order Status,success,1564,s2,Search order data,ok,884,,seed
+seed-wf005-023,2026-09-17 15:52:00,WF005,Customer Order Status,success,1564,s3,Retrieve order status,ok,216,,seed
+seed-wf005-023,2026-09-17 15:52:00,WF005,Customer Order Status,success,1564,s4,Retrieve shipment information,ok,124,,seed
+seed-wf005-023,2026-09-17 15:52:00,WF005,Customer Order Status,success,1564,s5,Summarize current status,ok,169,,seed
+seed-wf001-021,2026-09-17 16:50:00,WF001,Inventory Restock Check,success,765,s1,Load inventory,ok,161,,seed
+seed-wf001-021,2026-09-17 16:50:00,WF001,Inventory Restock Check,success,765,s2,Compare current stock with minimum threshold,ok,216,,seed
+seed-wf001-021,2026-09-17 16:50:00,WF001,Inventory Restock Check,success,765,s3,Identify low-stock products,ok,138,,seed
+seed-wf001-021,2026-09-17 16:50:00,WF001,Inventory Restock Check,success,765,s4,Calculate reorder quantity,ok,140,,seed
+seed-wf001-021,2026-09-17 16:50:00,WF001,Inventory Restock Check,success,765,s5,Generate restock list,ok,110,,seed
+seed-wf002-023,2026-09-17 20:06:00,WF002,Product Price Validation,success,965,s1,Load product prices,ok,170,,seed
+seed-wf002-023,2026-09-17 20:06:00,WF002,Product Price Validation,success,965,s2,Match products by SKU,ok,379,,seed
+seed-wf002-023,2026-09-17 20:06:00,WF002,Product Price Validation,success,965,s3,Compare internal and vendor prices,ok,86,,seed
+seed-wf002-023,2026-09-17 20:06:00,WF002,Product Price Validation,success,965,s4,Calculate percentage difference,ok,182,,seed
+seed-wf002-023,2026-09-17 20:06:00,WF002,Product Price Validation,success,965,s5,Flag exceptions,ok,148,,seed
+seed-wf005-021,2026-09-17 20:26:00,WF005,Customer Order Status,success,1637,s1,Validate identifier,ok,130,,seed
+seed-wf005-021,2026-09-17 20:26:00,WF005,Customer Order Status,success,1637,s2,Search order data,ok,917,,seed
+seed-wf005-021,2026-09-17 20:26:00,WF005,Customer Order Status,success,1637,s3,Retrieve order status,ok,154,,seed
+seed-wf005-021,2026-09-17 20:26:00,WF005,Customer Order Status,success,1637,s4,Retrieve shipment information,ok,243,,seed
+seed-wf005-021,2026-09-17 20:26:00,WF005,Customer Order Status,success,1637,s5,Summarize current status,ok,193,,seed
+seed-wf004-003,2026-09-18 03:38:00,WF004,Product Description Generator,success,6210,s1,Validate required attributes,ok,913,,seed
+seed-wf004-003,2026-09-18 03:38:00,WF004,Product Description Generator,success,6210,s2,Create product description,ok,2964,,seed
+seed-wf004-003,2026-09-18 03:38:00,WF004,Product Description Generator,success,6210,s3,Generate short description,ok,898,,seed
+seed-wf004-003,2026-09-18 03:38:00,WF004,Product Description Generator,success,6210,s4,Generate SEO title,ok,858,,seed
+seed-wf004-003,2026-09-18 03:38:00,WF004,Product Description Generator,success,6210,s5,Generate meta description,ok,577,,seed
+seed-wf004-037,2026-09-18 09:14:00,WF004,Product Description Generator,success,6118,s1,Validate required attributes,ok,741,,seed
+seed-wf004-037,2026-09-18 09:14:00,WF004,Product Description Generator,success,6118,s2,Create product description,ok,3111,,seed
+seed-wf004-037,2026-09-18 09:14:00,WF004,Product Description Generator,success,6118,s3,Generate short description,ok,696,,seed
+seed-wf004-037,2026-09-18 09:14:00,WF004,Product Description Generator,success,6118,s4,Generate SEO title,ok,860,,seed
+seed-wf004-037,2026-09-18 09:14:00,WF004,Product Description Generator,success,6118,s5,Generate meta description,ok,710,,seed
+seed-wf001-030,2026-09-18 11:06:00,WF001,Inventory Restock Check,success,608,s1,Load inventory,ok,92,,seed
+seed-wf001-030,2026-09-18 11:06:00,WF001,Inventory Restock Check,success,608,s2,Compare current stock with minimum threshold,ok,165,,seed
+seed-wf001-030,2026-09-18 11:06:00,WF001,Inventory Restock Check,success,608,s3,Identify low-stock products,ok,77,,seed
+seed-wf001-030,2026-09-18 11:06:00,WF001,Inventory Restock Check,success,608,s4,Calculate reorder quantity,ok,108,,seed
+seed-wf001-030,2026-09-18 11:06:00,WF001,Inventory Restock Check,success,608,s5,Generate restock list,ok,166,,seed
+seed-wf002-000,2026-09-18 11:08:00,WF002,Product Price Validation,success,927,s1,Load product prices,ok,167,,seed
+seed-wf002-000,2026-09-18 11:08:00,WF002,Product Price Validation,success,927,s2,Match products by SKU,ok,375,,seed
+seed-wf002-000,2026-09-18 11:08:00,WF002,Product Price Validation,success,927,s3,Compare internal and vendor prices,ok,110,,seed
+seed-wf002-000,2026-09-18 11:08:00,WF002,Product Price Validation,success,927,s4,Calculate percentage difference,ok,102,,seed
+seed-wf002-000,2026-09-18 11:08:00,WF002,Product Price Validation,success,927,s5,Flag exceptions,ok,173,,seed
+seed-wf008-003,2026-09-18 14:33:00,WF008,SEO Keyword Classification,success,5655,s1,Read keywords,ok,644,,seed
+seed-wf008-003,2026-09-18 14:33:00,WF008,SEO Keyword Classification,success,5655,s2,Remove duplicates,ok,739,,seed
+seed-wf008-003,2026-09-18 14:33:00,WF008,SEO Keyword Classification,success,5655,s3,Classify search intent,ok,2380,,seed
+seed-wf008-003,2026-09-18 14:33:00,WF008,SEO Keyword Classification,success,5655,s4,Map keywords to categories,ok,729,,seed
+seed-wf008-003,2026-09-18 14:33:00,WF008,SEO Keyword Classification,success,5655,s5,Identify high-priority keywords,ok,461,,seed
+seed-wf008-003,2026-09-18 14:33:00,WF008,SEO Keyword Classification,success,5655,s6,Export results,ok,702,,seed
+seed-wf001-027,2026-09-18 15:14:00,WF001,Inventory Restock Check,success,569,s1,Load inventory,ok,148,,seed
+seed-wf001-027,2026-09-18 15:14:00,WF001,Inventory Restock Check,success,569,s2,Compare current stock with minimum threshold,ok,123,,seed
+seed-wf001-027,2026-09-18 15:14:00,WF001,Inventory Restock Check,success,569,s3,Identify low-stock products,ok,90,,seed
+seed-wf001-027,2026-09-18 15:14:00,WF001,Inventory Restock Check,success,569,s4,Calculate reorder quantity,ok,123,,seed
+seed-wf001-027,2026-09-18 15:14:00,WF001,Inventory Restock Check,success,569,s5,Generate restock list,ok,85,,seed
+seed-wf006-016,2026-09-18 18:05:00,WF006,Duplicate Product Detection,success,2976,s1,Load products,ok,394,,seed
+seed-wf006-016,2026-09-18 18:05:00,WF006,Duplicate Product Detection,success,2976,s2,Normalize names/SKUs,ok,272,,seed
+seed-wf006-016,2026-09-18 18:05:00,WF006,Duplicate Product Detection,success,2976,s3,Compare identifiers,ok,413,,seed
+seed-wf006-016,2026-09-18 18:05:00,WF006,Duplicate Product Detection,success,2976,s4,Compare product attributes,ok,299,,seed
+seed-wf006-016,2026-09-18 18:05:00,WF006,Duplicate Product Detection,success,2976,s5,Group likely duplicates,ok,1197,,seed
+seed-wf006-016,2026-09-18 18:05:00,WF006,Duplicate Product Detection,success,2976,s6,Assign confidence,ok,401,,seed
+seed-wf007-020,2026-09-18 19:30:00,WF007,Marketing Campaign Brief,success,13762,s1,Validate inputs,ok,1882,,seed
+seed-wf007-020,2026-09-18 19:30:00,WF007,Marketing Campaign Brief,success,13762,s2,Identify campaign objective,ok,2203,,seed
+seed-wf007-020,2026-09-18 19:30:00,WF007,Marketing Campaign Brief,success,13762,s3,Summarize products,ok,1796,,seed
+seed-wf007-020,2026-09-18 19:30:00,WF007,Marketing Campaign Brief,success,13762,s4,Create messaging,ok,4496,,seed
+seed-wf007-020,2026-09-18 19:30:00,WF007,Marketing Campaign Brief,success,13762,s5,Create channel recommendations,ok,1709,,seed
+seed-wf007-020,2026-09-18 19:30:00,WF007,Marketing Campaign Brief,success,13762,s6,Create campaign checklist,ok,1676,,seed
+seed-wf004-032,2026-09-19 00:02:00,WF004,Product Description Generator,failed,5665,s1,Validate required attributes,ok,628,,seed
+seed-wf004-032,2026-09-19 00:02:00,WF004,Product Description Generator,failed,5665,s2,Create product description,ok,2416,,seed
+seed-wf004-032,2026-09-19 00:02:00,WF004,Product Description Generator,failed,5665,s3,Generate short description,ok,1079,,seed
+seed-wf004-032,2026-09-19 00:02:00,WF004,Product Description Generator,failed,5665,s4,Generate SEO title,ok,728,,seed
+seed-wf004-032,2026-09-19 00:02:00,WF004,Product Description Generator,failed,5665,s5,Generate meta description,failed,814,LLM timeout after 30s,seed
+seed-wf008-007,2026-09-19 01:48:00,WF008,SEO Keyword Classification,success,6575,s1,Read keywords,ok,834,,seed
+seed-wf008-007,2026-09-19 01:48:00,WF008,SEO Keyword Classification,success,6575,s2,Remove duplicates,ok,587,,seed
+seed-wf008-007,2026-09-19 01:48:00,WF008,SEO Keyword Classification,success,6575,s3,Classify search intent,ok,2737,,seed
+seed-wf008-007,2026-09-19 01:48:00,WF008,SEO Keyword Classification,success,6575,s4,Map keywords to categories,ok,883,,seed
+seed-wf008-007,2026-09-19 01:48:00,WF008,SEO Keyword Classification,success,6575,s5,Identify high-priority keywords,ok,718,,seed
+seed-wf008-007,2026-09-19 01:48:00,WF008,SEO Keyword Classification,success,6575,s6,Export results,ok,816,,seed
+seed-wf005-043,2026-09-19 08:47:00,WF005,Customer Order Status,success,2054,s1,Validate identifier,ok,212,,seed
+seed-wf005-043,2026-09-19 08:47:00,WF005,Customer Order Status,success,2054,s2,Search order data,ok,1215,,seed
+seed-wf005-043,2026-09-19 08:47:00,WF005,Customer Order Status,success,2054,s3,Retrieve order status,ok,238,,seed
+seed-wf005-043,2026-09-19 08:47:00,WF005,Customer Order Status,success,2054,s4,Retrieve shipment information,ok,233,,seed
+seed-wf005-043,2026-09-19 08:47:00,WF005,Customer Order Status,success,2054,s5,Summarize current status,ok,156,,seed
+seed-wf002-007,2026-09-19 10:16:00,WF002,Product Price Validation,success,730,s1,Load product prices,ok,105,,seed
+seed-wf002-007,2026-09-19 10:16:00,WF002,Product Price Validation,success,730,s2,Match products by SKU,ok,177,,seed
+seed-wf002-007,2026-09-19 10:16:00,WF002,Product Price Validation,success,730,s3,Compare internal and vendor prices,ok,132,,seed
+seed-wf002-007,2026-09-19 10:16:00,WF002,Product Price Validation,success,730,s4,Calculate percentage difference,ok,142,,seed
+seed-wf002-007,2026-09-19 10:16:00,WF002,Product Price Validation,success,730,s5,Flag exceptions,ok,174,,seed
+seed-wf009-019,2026-09-19 13:14:00,WF009,Employee Task Assignment,success,1020,s1,Understand task requirements,ok,200,,seed
+seed-wf009-019,2026-09-19 13:14:00,WF009,Employee Task Assignment,success,1020,s2,Compare employee skills,ok,135,,seed
+seed-wf009-019,2026-09-19 13:14:00,WF009,Employee Task Assignment,success,1020,s3,Check current workload,ok,99,,seed
+seed-wf009-019,2026-09-19 13:14:00,WF009,Employee Task Assignment,success,1020,s4,Rank candidates,ok,287,,seed
+seed-wf009-019,2026-09-19 13:14:00,WF009,Employee Task Assignment,success,1020,s5,Select employee,ok,194,,seed
+seed-wf009-019,2026-09-19 13:14:00,WF009,Employee Task Assignment,success,1020,s6,Generate assignment summary,ok,105,,seed
+seed-wf002-010,2026-09-19 16:53:00,WF002,Product Price Validation,success,836,s1,Load product prices,ok,185,,seed
+seed-wf002-010,2026-09-19 16:53:00,WF002,Product Price Validation,success,836,s2,Match products by SKU,ok,305,,seed
+seed-wf002-010,2026-09-19 16:53:00,WF002,Product Price Validation,success,836,s3,Compare internal and vendor prices,ok,117,,seed
+seed-wf002-010,2026-09-19 16:53:00,WF002,Product Price Validation,success,836,s4,Calculate percentage difference,ok,145,,seed
+seed-wf002-010,2026-09-19 16:53:00,WF002,Product Price Validation,success,836,s5,Flag exceptions,ok,84,,seed
+seed-wf001-005,2026-09-19 17:33:00,WF001,Inventory Restock Check,success,651,s1,Load inventory,ok,100,,seed
+seed-wf001-005,2026-09-19 17:33:00,WF001,Inventory Restock Check,success,651,s2,Compare current stock with minimum threshold,ok,198,,seed
+seed-wf001-005,2026-09-19 17:33:00,WF001,Inventory Restock Check,success,651,s3,Identify low-stock products,ok,157,,seed
+seed-wf001-005,2026-09-19 17:33:00,WF001,Inventory Restock Check,success,651,s4,Calculate reorder quantity,ok,106,,seed
+seed-wf001-005,2026-09-19 17:33:00,WF001,Inventory Restock Check,success,651,s5,Generate restock list,ok,90,,seed
+seed-wf006-011,2026-09-19 23:16:00,WF006,Duplicate Product Detection,success,2857,s1,Load products,ok,183,,seed
+seed-wf006-011,2026-09-19 23:16:00,WF006,Duplicate Product Detection,success,2857,s2,Normalize names/SKUs,ok,369,,seed
+seed-wf006-011,2026-09-19 23:16:00,WF006,Duplicate Product Detection,success,2857,s3,Compare identifiers,ok,262,,seed
+seed-wf006-011,2026-09-19 23:16:00,WF006,Duplicate Product Detection,success,2857,s4,Compare product attributes,ok,355,,seed
+seed-wf006-011,2026-09-19 23:16:00,WF006,Duplicate Product Detection,success,2857,s5,Group likely duplicates,ok,1323,,seed
+seed-wf006-011,2026-09-19 23:16:00,WF006,Duplicate Product Detection,success,2857,s6,Assign confidence,ok,365,,seed
+seed-wf005-014,2026-09-19 23:59:00,WF005,Customer Order Status,success,1810,s1,Validate identifier,ok,188,,seed
+seed-wf005-014,2026-09-19 23:59:00,WF005,Customer Order Status,success,1810,s2,Search order data,ok,1154,,seed
+seed-wf005-014,2026-09-19 23:59:00,WF005,Customer Order Status,success,1810,s3,Retrieve order status,ok,188,,seed
+seed-wf005-014,2026-09-19 23:59:00,WF005,Customer Order Status,success,1810,s4,Retrieve shipment information,ok,155,,seed
+seed-wf005-014,2026-09-19 23:59:00,WF005,Customer Order Status,success,1810,s5,Summarize current status,ok,125,,seed
+seed-wf006-002,2026-09-20 01:33:00,WF006,Duplicate Product Detection,success,2916,s1,Load products,ok,204,,seed
+seed-wf006-002,2026-09-20 01:33:00,WF006,Duplicate Product Detection,success,2916,s2,Normalize names/SKUs,ok,383,,seed
+seed-wf006-002,2026-09-20 01:33:00,WF006,Duplicate Product Detection,success,2916,s3,Compare identifiers,ok,384,,seed
+seed-wf006-002,2026-09-20 01:33:00,WF006,Duplicate Product Detection,success,2916,s4,Compare product attributes,ok,248,,seed
+seed-wf006-002,2026-09-20 01:33:00,WF006,Duplicate Product Detection,success,2916,s5,Group likely duplicates,ok,1452,,seed
+seed-wf006-002,2026-09-20 01:33:00,WF006,Duplicate Product Detection,success,2916,s6,Assign confidence,ok,245,,seed
+seed-wf003-001,2026-09-20 04:05:00,WF003,Vendor File Processing,success,3890,s1,Read file,ok,2540,,seed
+seed-wf003-001,2026-09-20 04:05:00,WF003,Vendor File Processing,success,3890,s2,Detect columns,ok,311,,seed
+seed-wf003-001,2026-09-20 04:05:00,WF003,Vendor File Processing,success,3890,s3,Normalize column names,ok,179,,seed
+seed-wf003-001,2026-09-20 04:05:00,WF003,Vendor File Processing,success,3890,s4,Validate required fields,ok,326,,seed
+seed-wf003-001,2026-09-20 04:05:00,WF003,Vendor File Processing,success,3890,s5,Identify invalid rows,ok,356,,seed
+seed-wf003-001,2026-09-20 04:05:00,WF003,Vendor File Processing,success,3890,s6,Produce cleaned dataset,ok,178,,seed
+seed-wf007-004,2026-09-20 06:53:00,WF007,Marketing Campaign Brief,success,14008,s1,Validate inputs,ok,2855,,seed
+seed-wf007-004,2026-09-20 06:53:00,WF007,Marketing Campaign Brief,success,14008,s2,Identify campaign objective,ok,1314,,seed
+seed-wf007-004,2026-09-20 06:53:00,WF007,Marketing Campaign Brief,success,14008,s3,Summarize products,ok,1517,,seed
+seed-wf007-004,2026-09-20 06:53:00,WF007,Marketing Campaign Brief,success,14008,s4,Create messaging,ok,4434,,seed
+seed-wf007-004,2026-09-20 06:53:00,WF007,Marketing Campaign Brief,success,14008,s5,Create channel recommendations,ok,1883,,seed
+seed-wf007-004,2026-09-20 06:53:00,WF007,Marketing Campaign Brief,success,14008,s6,Create campaign checklist,ok,2005,,seed
+seed-wf004-038,2026-09-20 10:52:00,WF004,Product Description Generator,success,6697,s1,Validate required attributes,ok,1033,,seed
+seed-wf004-038,2026-09-20 10:52:00,WF004,Product Description Generator,success,6697,s2,Create product description,ok,2796,,seed
+seed-wf004-038,2026-09-20 10:52:00,WF004,Product Description Generator,success,6697,s3,Generate short description,ok,1244,,seed
+seed-wf004-038,2026-09-20 10:52:00,WF004,Product Description Generator,success,6697,s4,Generate SEO title,ok,798,,seed
+seed-wf004-038,2026-09-20 10:52:00,WF004,Product Description Generator,success,6697,s5,Generate meta description,ok,826,,seed
+seed-wf005-030,2026-09-20 11:46:00,WF005,Customer Order Status,failed,1299,s1,Validate identifier,ok,143,,seed
+seed-wf005-030,2026-09-20 11:46:00,WF005,Customer Order Status,failed,1299,s2,Search order data,failed,1156,Shipment API rate limited (429),seed
+seed-wf007-010,2026-09-20 12:49:00,WF007,Marketing Campaign Brief,success,14891,s1,Validate inputs,ok,1879,,seed
+seed-wf007-010,2026-09-20 12:49:00,WF007,Marketing Campaign Brief,success,14891,s2,Identify campaign objective,ok,2610,,seed
+seed-wf007-010,2026-09-20 12:49:00,WF007,Marketing Campaign Brief,success,14891,s3,Summarize products,ok,2186,,seed
+seed-wf007-010,2026-09-20 12:49:00,WF007,Marketing Campaign Brief,success,14891,s4,Create messaging,ok,5033,,seed
+seed-wf007-010,2026-09-20 12:49:00,WF007,Marketing Campaign Brief,success,14891,s5,Create channel recommendations,ok,1404,,seed
+seed-wf007-010,2026-09-20 12:49:00,WF007,Marketing Campaign Brief,success,14891,s6,Create campaign checklist,ok,1779,,seed
+seed-wf004-024,2026-09-20 14:56:00,WF004,Product Description Generator,success,6505,s1,Validate required attributes,ok,1254,,seed
+seed-wf004-024,2026-09-20 14:56:00,WF004,Product Description Generator,success,6505,s2,Create product description,ok,2257,,seed
+seed-wf004-024,2026-09-20 14:56:00,WF004,Product Description Generator,success,6505,s3,Generate short description,ok,1244,,seed
+seed-wf004-024,2026-09-20 14:56:00,WF004,Product Description Generator,success,6505,s4,Generate SEO title,ok,1013,,seed
+seed-wf004-024,2026-09-20 14:56:00,WF004,Product Description Generator,success,6505,s5,Generate meta description,ok,737,,seed
+seed-wf001-026,2026-09-20 20:01:00,WF001,Inventory Restock Check,success,711,s1,Load inventory,ok,116,,seed
+seed-wf001-026,2026-09-20 20:01:00,WF001,Inventory Restock Check,success,711,s2,Compare current stock with minimum threshold,ok,212,,seed
+seed-wf001-026,2026-09-20 20:01:00,WF001,Inventory Restock Check,success,711,s3,Identify low-stock products,ok,136,,seed
+seed-wf001-026,2026-09-20 20:01:00,WF001,Inventory Restock Check,success,711,s4,Calculate reorder quantity,ok,166,,seed
+seed-wf001-026,2026-09-20 20:01:00,WF001,Inventory Restock Check,success,711,s5,Generate restock list,ok,81,,seed
+seed-wf005-015,2026-09-20 20:47:00,WF005,Customer Order Status,success,1759,s1,Validate identifier,ok,243,,seed
+seed-wf005-015,2026-09-20 20:47:00,WF005,Customer Order Status,success,1759,s2,Search order data,ok,1013,,seed
+seed-wf005-015,2026-09-20 20:47:00,WF005,Customer Order Status,success,1759,s3,Retrieve order status,ok,239,,seed
+seed-wf005-015,2026-09-20 20:47:00,WF005,Customer Order Status,success,1759,s4,Retrieve shipment information,ok,115,,seed
+seed-wf005-015,2026-09-20 20:47:00,WF005,Customer Order Status,success,1759,s5,Summarize current status,ok,149,,seed
+seed-wf002-030,2026-09-21 00:45:00,WF002,Product Price Validation,success,759,s1,Load product prices,ok,91,,seed
+seed-wf002-030,2026-09-21 00:45:00,WF002,Product Price Validation,success,759,s2,Match products by SKU,ok,382,,seed
+seed-wf002-030,2026-09-21 00:45:00,WF002,Product Price Validation,success,759,s3,Compare internal and vendor prices,ok,88,,seed
+seed-wf002-030,2026-09-21 00:45:00,WF002,Product Price Validation,success,759,s4,Calculate percentage difference,ok,87,,seed
+seed-wf002-030,2026-09-21 00:45:00,WF002,Product Price Validation,success,759,s5,Flag exceptions,ok,111,,seed
+seed-wf009-020,2026-09-21 03:09:00,WF009,Employee Task Assignment,success,1111,s1,Understand task requirements,ok,209,,seed
+seed-wf009-020,2026-09-21 03:09:00,WF009,Employee Task Assignment,success,1111,s2,Compare employee skills,ok,137,,seed
+seed-wf009-020,2026-09-21 03:09:00,WF009,Employee Task Assignment,success,1111,s3,Check current workload,ok,105,,seed
+seed-wf009-020,2026-09-21 03:09:00,WF009,Employee Task Assignment,success,1111,s4,Rank candidates,ok,290,,seed
+seed-wf009-020,2026-09-21 03:09:00,WF009,Employee Task Assignment,success,1111,s5,Select employee,ok,190,,seed
+seed-wf009-020,2026-09-21 03:09:00,WF009,Employee Task Assignment,success,1111,s6,Generate assignment summary,ok,180,,seed
+seed-wf005-040,2026-09-21 07:53:00,WF005,Customer Order Status,success,1898,s1,Validate identifier,ok,120,,seed
+seed-wf005-040,2026-09-21 07:53:00,WF005,Customer Order Status,success,1898,s2,Search order data,ok,1206,,seed
+seed-wf005-040,2026-09-21 07:53:00,WF005,Customer Order Status,success,1898,s3,Retrieve order status,ok,113,,seed
+seed-wf005-040,2026-09-21 07:53:00,WF005,Customer Order Status,success,1898,s4,Retrieve shipment information,ok,209,,seed
+seed-wf005-040,2026-09-21 07:53:00,WF005,Customer Order Status,success,1898,s5,Summarize current status,ok,250,,seed
+seed-wf008-005,2026-09-21 12:38:00,WF008,SEO Keyword Classification,success,6059,s1,Read keywords,ok,624,,seed
+seed-wf008-005,2026-09-21 12:38:00,WF008,SEO Keyword Classification,success,6059,s2,Remove duplicates,ok,500,,seed
+seed-wf008-005,2026-09-21 12:38:00,WF008,SEO Keyword Classification,success,6059,s3,Classify search intent,ok,3408,,seed
+seed-wf008-005,2026-09-21 12:38:00,WF008,SEO Keyword Classification,success,6059,s4,Map keywords to categories,ok,644,,seed
+seed-wf008-005,2026-09-21 12:38:00,WF008,SEO Keyword Classification,success,6059,s5,Identify high-priority keywords,ok,442,,seed
+seed-wf008-005,2026-09-21 12:38:00,WF008,SEO Keyword Classification,success,6059,s6,Export results,ok,441,,seed
+seed-wf007-016,2026-09-21 14:14:00,WF007,Marketing Campaign Brief,success,13664,s1,Validate inputs,ok,2206,,seed
+seed-wf007-016,2026-09-21 14:14:00,WF007,Marketing Campaign Brief,success,13664,s2,Identify campaign objective,ok,2646,,seed
+seed-wf007-016,2026-09-21 14:14:00,WF007,Marketing Campaign Brief,success,13664,s3,Summarize products,ok,1307,,seed
+seed-wf007-016,2026-09-21 14:14:00,WF007,Marketing Campaign Brief,success,13664,s4,Create messaging,ok,2940,,seed
+seed-wf007-016,2026-09-21 14:14:00,WF007,Marketing Campaign Brief,success,13664,s5,Create channel recommendations,ok,2337,,seed
+seed-wf007-016,2026-09-21 14:14:00,WF007,Marketing Campaign Brief,success,13664,s6,Create campaign checklist,ok,2228,,seed
+seed-wf005-049,2026-09-21 15:10:00,WF005,Customer Order Status,success,1831,s1,Validate identifier,ok,196,,seed
+seed-wf005-049,2026-09-21 15:10:00,WF005,Customer Order Status,success,1831,s2,Search order data,ok,1164,,seed
+seed-wf005-049,2026-09-21 15:10:00,WF005,Customer Order Status,success,1831,s3,Retrieve order status,ok,130,,seed
+seed-wf005-049,2026-09-21 15:10:00,WF005,Customer Order Status,success,1831,s4,Retrieve shipment information,ok,134,,seed
+seed-wf005-049,2026-09-21 15:10:00,WF005,Customer Order Status,success,1831,s5,Summarize current status,ok,207,,seed
+seed-wf009-005,2026-09-21 17:03:00,WF009,Employee Task Assignment,success,1133,s1,Understand task requirements,ok,208,,seed
+seed-wf009-005,2026-09-21 17:03:00,WF009,Employee Task Assignment,success,1133,s2,Compare employee skills,ok,155,,seed
+seed-wf009-005,2026-09-21 17:03:00,WF009,Employee Task Assignment,success,1133,s3,Check current workload,ok,149,,seed
+seed-wf009-005,2026-09-21 17:03:00,WF009,Employee Task Assignment,success,1133,s4,Rank candidates,ok,283,,seed
+seed-wf009-005,2026-09-21 17:03:00,WF009,Employee Task Assignment,success,1133,s5,Select employee,ok,192,,seed
+seed-wf009-005,2026-09-21 17:03:00,WF009,Employee Task Assignment,success,1133,s6,Generate assignment summary,ok,146,,seed
+seed-wf008-006,2026-09-21 19:14:00,WF008,SEO Keyword Classification,success,7390,s1,Read keywords,ok,710,,seed
+seed-wf008-006,2026-09-21 19:14:00,WF008,SEO Keyword Classification,success,7390,s2,Remove duplicates,ok,503,,seed
+seed-wf008-006,2026-09-21 19:14:00,WF008,SEO Keyword Classification,success,7390,s3,Classify search intent,ok,4140,,seed
+seed-wf008-006,2026-09-21 19:14:00,WF008,SEO Keyword Classification,success,7390,s4,Map keywords to categories,ok,498,,seed
+seed-wf008-006,2026-09-21 19:14:00,WF008,SEO Keyword Classification,success,7390,s5,Identify high-priority keywords,ok,941,,seed
+seed-wf008-006,2026-09-21 19:14:00,WF008,SEO Keyword Classification,success,7390,s6,Export results,ok,598,,seed
+seed-wf010-008,2026-09-21 19:19:00,WF010,Workflow Performance Report,success,735,s1,Load execution logs,ok,175,,seed
+seed-wf010-008,2026-09-21 19:19:00,WF010,Workflow Performance Report,success,735,s2,Calculate success/failure rate,ok,84,,seed
+seed-wf010-008,2026-09-21 19:19:00,WF010,Workflow Performance Report,success,735,s3,Calculate average execution time,ok,82,,seed
+seed-wf010-008,2026-09-21 19:19:00,WF010,Workflow Performance Report,success,735,s4,Identify frequent errors,ok,131,,seed
+seed-wf010-008,2026-09-21 19:19:00,WF010,Workflow Performance Report,success,735,s5,Identify slow steps,ok,131,,seed
+seed-wf010-008,2026-09-21 19:19:00,WF010,Workflow Performance Report,success,735,s6,Generate recommendations,ok,132,,seed
+seed-wf006-012,2026-09-21 19:49:00,WF006,Duplicate Product Detection,success,3030,s1,Load products,ok,264,,seed
+seed-wf006-012,2026-09-21 19:49:00,WF006,Duplicate Product Detection,success,3030,s2,Normalize names/SKUs,ok,261,,seed
+seed-wf006-012,2026-09-21 19:49:00,WF006,Duplicate Product Detection,success,3030,s3,Compare identifiers,ok,334,,seed
+seed-wf006-012,2026-09-21 19:49:00,WF006,Duplicate Product Detection,success,3030,s4,Compare product attributes,ok,379,,seed
+seed-wf006-012,2026-09-21 19:49:00,WF006,Duplicate Product Detection,success,3030,s5,Group likely duplicates,ok,1377,,seed
+seed-wf006-012,2026-09-21 19:49:00,WF006,Duplicate Product Detection,success,3030,s6,Assign confidence,ok,415,,seed
+seed-wf001-024,2026-09-21 22:06:00,WF001,Inventory Restock Check,success,635,s1,Load inventory,ok,94,,seed
+seed-wf001-024,2026-09-21 22:06:00,WF001,Inventory Restock Check,success,635,s2,Compare current stock with minimum threshold,ok,204,,seed
+seed-wf001-024,2026-09-21 22:06:00,WF001,Inventory Restock Check,success,635,s3,Identify low-stock products,ok,92,,seed
+seed-wf001-024,2026-09-21 22:06:00,WF001,Inventory Restock Check,success,635,s4,Calculate reorder quantity,ok,84,,seed
+seed-wf001-024,2026-09-21 22:06:00,WF001,Inventory Restock Check,success,635,s5,Generate restock list,ok,161,,seed
+seed-wf005-003,2026-09-22 00:08:00,WF005,Customer Order Status,success,2029,s1,Validate identifier,ok,221,,seed
+seed-wf005-003,2026-09-22 00:08:00,WF005,Customer Order Status,success,2029,s2,Search order data,ok,1162,,seed
+seed-wf005-003,2026-09-22 00:08:00,WF005,Customer Order Status,success,2029,s3,Retrieve order status,ok,147,,seed
+seed-wf005-003,2026-09-22 00:08:00,WF005,Customer Order Status,success,2029,s4,Retrieve shipment information,ok,249,,seed
+seed-wf005-003,2026-09-22 00:08:00,WF005,Customer Order Status,success,2029,s5,Summarize current status,ok,250,,seed
+seed-wf008-013,2026-09-22 03:58:00,WF008,SEO Keyword Classification,success,7738,s1,Read keywords,ok,687,,seed
+seed-wf008-013,2026-09-22 03:58:00,WF008,SEO Keyword Classification,success,7738,s2,Remove duplicates,ok,631,,seed
+seed-wf008-013,2026-09-22 03:58:00,WF008,SEO Keyword Classification,success,7738,s3,Classify search intent,ok,4300,,seed
+seed-wf008-013,2026-09-22 03:58:00,WF008,SEO Keyword Classification,success,7738,s4,Map keywords to categories,ok,677,,seed
+seed-wf008-013,2026-09-22 03:58:00,WF008,SEO Keyword Classification,success,7738,s5,Identify high-priority keywords,ok,718,,seed
+seed-wf008-013,2026-09-22 03:58:00,WF008,SEO Keyword Classification,success,7738,s6,Export results,ok,725,,seed
+seed-wf005-009,2026-09-22 07:11:00,WF005,Customer Order Status,success,1541,s1,Validate identifier,ok,117,,seed
+seed-wf005-009,2026-09-22 07:11:00,WF005,Customer Order Status,success,1541,s2,Search order data,ok,885,,seed
+seed-wf005-009,2026-09-22 07:11:00,WF005,Customer Order Status,success,1541,s3,Retrieve order status,ok,199,,seed
+seed-wf005-009,2026-09-22 07:11:00,WF005,Customer Order Status,success,1541,s4,Retrieve shipment information,ok,186,,seed
+seed-wf005-009,2026-09-22 07:11:00,WF005,Customer Order Status,success,1541,s5,Summarize current status,ok,154,,seed
+seed-wf010-011,2026-09-22 09:14:00,WF010,Workflow Performance Report,success,586,s1,Load execution logs,ok,118,,seed
+seed-wf010-011,2026-09-22 09:14:00,WF010,Workflow Performance Report,success,586,s2,Calculate success/failure rate,ok,102,,seed
+seed-wf010-011,2026-09-22 09:14:00,WF010,Workflow Performance Report,success,586,s3,Calculate average execution time,ok,115,,seed
+seed-wf010-011,2026-09-22 09:14:00,WF010,Workflow Performance Report,success,586,s4,Identify frequent errors,ok,85,,seed
+seed-wf010-011,2026-09-22 09:14:00,WF010,Workflow Performance Report,success,586,s5,Identify slow steps,ok,78,,seed
+seed-wf010-011,2026-09-22 09:14:00,WF010,Workflow Performance Report,success,586,s6,Generate recommendations,ok,88,,seed
+seed-wf007-008,2026-09-22 09:56:00,WF007,Marketing Campaign Brief,success,14238,s1,Validate inputs,ok,2452,,seed
+seed-wf007-008,2026-09-22 09:56:00,WF007,Marketing Campaign Brief,success,14238,s2,Identify campaign objective,ok,2183,,seed
+seed-wf007-008,2026-09-22 09:56:00,WF007,Marketing Campaign Brief,success,14238,s3,Summarize products,ok,1747,,seed
+seed-wf007-008,2026-09-22 09:56:00,WF007,Marketing Campaign Brief,success,14238,s4,Create messaging,ok,3880,,seed
+seed-wf007-008,2026-09-22 09:56:00,WF007,Marketing Campaign Brief,success,14238,s5,Create channel recommendations,ok,1524,,seed
+seed-wf007-008,2026-09-22 09:56:00,WF007,Marketing Campaign Brief,success,14238,s6,Create campaign checklist,ok,2452,,seed
+seed-wf001-010,2026-09-22 14:27:00,WF001,Inventory Restock Check,success,675,s1,Load inventory,ok,78,,seed
+seed-wf001-010,2026-09-22 14:27:00,WF001,Inventory Restock Check,success,675,s2,Compare current stock with minimum threshold,ok,239,,seed
+seed-wf001-010,2026-09-22 14:27:00,WF001,Inventory Restock Check,success,675,s3,Identify low-stock products,ok,126,,seed
+seed-wf001-010,2026-09-22 14:27:00,WF001,Inventory Restock Check,success,675,s4,Calculate reorder quantity,ok,140,,seed
+seed-wf001-010,2026-09-22 14:27:00,WF001,Inventory Restock Check,success,675,s5,Generate restock list,ok,92,,seed
+seed-wf005-016,2026-09-22 17:44:00,WF005,Customer Order Status,success,1487,s1,Validate identifier,ok,191,,seed
+seed-wf005-016,2026-09-22 17:44:00,WF005,Customer Order Status,success,1487,s2,Search order data,ok,831,,seed
+seed-wf005-016,2026-09-22 17:44:00,WF005,Customer Order Status,success,1487,s3,Retrieve order status,ok,202,,seed
+seed-wf005-016,2026-09-22 17:44:00,WF005,Customer Order Status,success,1487,s4,Retrieve shipment information,ok,140,,seed
+seed-wf005-016,2026-09-22 17:44:00,WF005,Customer Order Status,success,1487,s5,Summarize current status,ok,123,,seed
+seed-wf001-019,2026-09-22 23:07:00,WF001,Inventory Restock Check,success,655,s1,Load inventory,ok,95,,seed
+seed-wf001-019,2026-09-22 23:07:00,WF001,Inventory Restock Check,success,655,s2,Compare current stock with minimum threshold,ok,189,,seed
+seed-wf001-019,2026-09-22 23:07:00,WF001,Inventory Restock Check,success,655,s3,Identify low-stock products,ok,79,,seed
+seed-wf001-019,2026-09-22 23:07:00,WF001,Inventory Restock Check,success,655,s4,Calculate reorder quantity,ok,142,,seed
+seed-wf001-019,2026-09-22 23:07:00,WF001,Inventory Restock Check,success,655,s5,Generate restock list,ok,150,,seed
+seed-wf003-012,2026-09-23 00:06:00,WF003,Vendor File Processing,success,2780,s1,Read file,ok,1629,,seed
+seed-wf003-012,2026-09-23 00:06:00,WF003,Vendor File Processing,success,2780,s2,Detect columns,ok,196,,seed
+seed-wf003-012,2026-09-23 00:06:00,WF003,Vendor File Processing,success,2780,s3,Normalize column names,ok,180,,seed
+seed-wf003-012,2026-09-23 00:06:00,WF003,Vendor File Processing,success,2780,s4,Validate required fields,ok,267,,seed
+seed-wf003-012,2026-09-23 00:06:00,WF003,Vendor File Processing,success,2780,s5,Identify invalid rows,ok,314,,seed
+seed-wf003-012,2026-09-23 00:06:00,WF003,Vendor File Processing,success,2780,s6,Produce cleaned dataset,ok,194,,seed
+seed-wf007-018,2026-09-23 05:02:00,WF007,Marketing Campaign Brief,success,13179,s1,Validate inputs,ok,2611,,seed
+seed-wf007-018,2026-09-23 05:02:00,WF007,Marketing Campaign Brief,success,13179,s2,Identify campaign objective,ok,2410,,seed
+seed-wf007-018,2026-09-23 05:02:00,WF007,Marketing Campaign Brief,success,13179,s3,Summarize products,ok,1759,,seed
+seed-wf007-018,2026-09-23 05:02:00,WF007,Marketing Campaign Brief,success,13179,s4,Create messaging,ok,3041,,seed
+seed-wf007-018,2026-09-23 05:02:00,WF007,Marketing Campaign Brief,success,13179,s5,Create channel recommendations,ok,1360,,seed
+seed-wf007-018,2026-09-23 05:02:00,WF007,Marketing Campaign Brief,success,13179,s6,Create campaign checklist,ok,1998,,seed
+seed-wf002-009,2026-09-23 06:59:00,WF002,Product Price Validation,success,812,s1,Load product prices,ok,158,,seed
+seed-wf002-009,2026-09-23 06:59:00,WF002,Product Price Validation,success,812,s2,Match products by SKU,ok,241,,seed
+seed-wf002-009,2026-09-23 06:59:00,WF002,Product Price Validation,success,812,s3,Compare internal and vendor prices,ok,162,,seed
+seed-wf002-009,2026-09-23 06:59:00,WF002,Product Price Validation,success,812,s4,Calculate percentage difference,ok,146,,seed
+seed-wf002-009,2026-09-23 06:59:00,WF002,Product Price Validation,success,812,s5,Flag exceptions,ok,105,,seed
+seed-wf008-008,2026-09-23 07:33:00,WF008,SEO Keyword Classification,success,5368,s1,Read keywords,ok,429,,seed
+seed-wf008-008,2026-09-23 07:33:00,WF008,SEO Keyword Classification,success,5368,s2,Remove duplicates,ok,605,,seed
+seed-wf008-008,2026-09-23 07:33:00,WF008,SEO Keyword Classification,success,5368,s3,Classify search intent,ok,2166,,seed
+seed-wf008-008,2026-09-23 07:33:00,WF008,SEO Keyword Classification,success,5368,s4,Map keywords to categories,ok,653,,seed
+seed-wf008-008,2026-09-23 07:33:00,WF008,SEO Keyword Classification,success,5368,s5,Identify high-priority keywords,ok,592,,seed
+seed-wf008-008,2026-09-23 07:33:00,WF008,SEO Keyword Classification,success,5368,s6,Export results,ok,923,,seed
+seed-wf009-021,2026-09-23 09:07:00,WF009,Employee Task Assignment,success,868,s1,Understand task requirements,ok,176,,seed
+seed-wf009-021,2026-09-23 09:07:00,WF009,Employee Task Assignment,success,868,s2,Compare employee skills,ok,140,,seed
+seed-wf009-021,2026-09-23 09:07:00,WF009,Employee Task Assignment,success,868,s3,Check current workload,ok,135,,seed
+seed-wf009-021,2026-09-23 09:07:00,WF009,Employee Task Assignment,success,868,s4,Rank candidates,ok,164,,seed
+seed-wf009-021,2026-09-23 09:07:00,WF009,Employee Task Assignment,success,868,s5,Select employee,ok,145,,seed
+seed-wf009-021,2026-09-23 09:07:00,WF009,Employee Task Assignment,success,868,s6,Generate assignment summary,ok,108,,seed
+seed-wf008-015,2026-09-23 09:56:00,WF008,SEO Keyword Classification,success,7106,s1,Read keywords,ok,814,,seed
+seed-wf008-015,2026-09-23 09:56:00,WF008,SEO Keyword Classification,success,7106,s2,Remove duplicates,ok,806,,seed
+seed-wf008-015,2026-09-23 09:56:00,WF008,SEO Keyword Classification,success,7106,s3,Classify search intent,ok,3122,,seed
+seed-wf008-015,2026-09-23 09:56:00,WF008,SEO Keyword Classification,success,7106,s4,Map keywords to categories,ok,688,,seed
+seed-wf008-015,2026-09-23 09:56:00,WF008,SEO Keyword Classification,success,7106,s5,Identify high-priority keywords,ok,733,,seed
+seed-wf008-015,2026-09-23 09:56:00,WF008,SEO Keyword Classification,success,7106,s6,Export results,ok,943,,seed
+seed-wf003-014,2026-09-23 11:26:00,WF003,Vendor File Processing,success,3006,s1,Read file,ok,1739,,seed
+seed-wf003-014,2026-09-23 11:26:00,WF003,Vendor File Processing,success,3006,s2,Detect columns,ok,158,,seed
+seed-wf003-014,2026-09-23 11:26:00,WF003,Vendor File Processing,success,3006,s3,Normalize column names,ok,267,,seed
+seed-wf003-014,2026-09-23 11:26:00,WF003,Vendor File Processing,success,3006,s4,Validate required fields,ok,213,,seed
+seed-wf003-014,2026-09-23 11:26:00,WF003,Vendor File Processing,success,3006,s5,Identify invalid rows,ok,358,,seed
+seed-wf003-014,2026-09-23 11:26:00,WF003,Vendor File Processing,success,3006,s6,Produce cleaned dataset,ok,271,,seed
+seed-wf005-048,2026-09-23 11:55:00,WF005,Customer Order Status,success,2012,s1,Validate identifier,ok,122,,seed
+seed-wf005-048,2026-09-23 11:55:00,WF005,Customer Order Status,success,2012,s2,Search order data,ok,1314,,seed
+seed-wf005-048,2026-09-23 11:55:00,WF005,Customer Order Status,success,2012,s3,Retrieve order status,ok,228,,seed
+seed-wf005-048,2026-09-23 11:55:00,WF005,Customer Order Status,success,2012,s4,Retrieve shipment information,ok,235,,seed
+seed-wf005-048,2026-09-23 11:55:00,WF005,Customer Order Status,success,2012,s5,Summarize current status,ok,113,,seed
+seed-wf009-007,2026-09-23 12:46:00,WF009,Employee Task Assignment,success,1099,s1,Understand task requirements,ok,180,,seed
+seed-wf009-007,2026-09-23 12:46:00,WF009,Employee Task Assignment,success,1099,s2,Compare employee skills,ok,111,,seed
+seed-wf009-007,2026-09-23 12:46:00,WF009,Employee Task Assignment,success,1099,s3,Check current workload,ok,192,,seed
+seed-wf009-007,2026-09-23 12:46:00,WF009,Employee Task Assignment,success,1099,s4,Rank candidates,ok,276,,seed
+seed-wf009-007,2026-09-23 12:46:00,WF009,Employee Task Assignment,success,1099,s5,Select employee,ok,189,,seed
+seed-wf009-007,2026-09-23 12:46:00,WF009,Employee Task Assignment,success,1099,s6,Generate assignment summary,ok,151,,seed
+seed-wf005-026,2026-09-23 18:51:00,WF005,Customer Order Status,success,1906,s1,Validate identifier,ok,109,,seed
+seed-wf005-026,2026-09-23 18:51:00,WF005,Customer Order Status,success,1906,s2,Search order data,ok,1293,,seed
+seed-wf005-026,2026-09-23 18:51:00,WF005,Customer Order Status,success,1906,s3,Retrieve order status,ok,133,,seed
+seed-wf005-026,2026-09-23 18:51:00,WF005,Customer Order Status,success,1906,s4,Retrieve shipment information,ok,162,,seed
+seed-wf005-026,2026-09-23 18:51:00,WF005,Customer Order Status,success,1906,s5,Summarize current status,ok,209,,seed
+seed-wf009-002,2026-09-23 21:16:00,WF009,Employee Task Assignment,success,1017,s1,Understand task requirements,ok,167,,seed
+seed-wf009-002,2026-09-23 21:16:00,WF009,Employee Task Assignment,success,1017,s2,Compare employee skills,ok,198,,seed
+seed-wf009-002,2026-09-23 21:16:00,WF009,Employee Task Assignment,success,1017,s3,Check current workload,ok,100,,seed
+seed-wf009-002,2026-09-23 21:16:00,WF009,Employee Task Assignment,success,1017,s4,Rank candidates,ok,222,,seed
+seed-wf009-002,2026-09-23 21:16:00,WF009,Employee Task Assignment,success,1017,s5,Select employee,ok,154,,seed
+seed-wf009-002,2026-09-23 21:16:00,WF009,Employee Task Assignment,success,1017,s6,Generate assignment summary,ok,176,,seed
+seed-wf009-018,2026-09-23 21:26:00,WF009,Employee Task Assignment,success,1153,s1,Understand task requirements,ok,182,,seed
+seed-wf009-018,2026-09-23 21:26:00,WF009,Employee Task Assignment,success,1153,s2,Compare employee skills,ok,181,,seed
+seed-wf009-018,2026-09-23 21:26:00,WF009,Employee Task Assignment,success,1153,s3,Check current workload,ok,207,,seed
+seed-wf009-018,2026-09-23 21:26:00,WF009,Employee Task Assignment,success,1153,s4,Rank candidates,ok,234,,seed
+seed-wf009-018,2026-09-23 21:26:00,WF009,Employee Task Assignment,success,1153,s5,Select employee,ok,140,,seed
+seed-wf009-018,2026-09-23 21:26:00,WF009,Employee Task Assignment,success,1153,s6,Generate assignment summary,ok,209,,seed
+seed-wf002-011,2026-09-23 21:37:00,WF002,Product Price Validation,success,887,s1,Load product prices,ok,172,,seed
+seed-wf002-011,2026-09-23 21:37:00,WF002,Product Price Validation,success,887,s2,Match products by SKU,ok,303,,seed
+seed-wf002-011,2026-09-23 21:37:00,WF002,Product Price Validation,success,887,s3,Compare internal and vendor prices,ok,120,,seed
+seed-wf002-011,2026-09-23 21:37:00,WF002,Product Price Validation,success,887,s4,Calculate percentage difference,ok,133,,seed
+seed-wf002-011,2026-09-23 21:37:00,WF002,Product Price Validation,success,887,s5,Flag exceptions,ok,159,,seed
+seed-wf004-026,2026-09-23 22:24:00,WF004,Product Description Generator,success,6150,s1,Validate required attributes,ok,705,,seed
+seed-wf004-026,2026-09-23 22:24:00,WF004,Product Description Generator,success,6150,s2,Create product description,ok,3352,,seed
+seed-wf004-026,2026-09-23 22:24:00,WF004,Product Description Generator,success,6150,s3,Generate short description,ok,697,,seed
+seed-wf004-026,2026-09-23 22:24:00,WF004,Product Description Generator,success,6150,s4,Generate SEO title,ok,676,,seed
+seed-wf004-026,2026-09-23 22:24:00,WF004,Product Description Generator,success,6150,s5,Generate meta description,ok,720,,seed
+seed-wf002-021,2026-09-23 22:55:00,WF002,Product Price Validation,success,808,s1,Load product prices,ok,121,,seed
+seed-wf002-021,2026-09-23 22:55:00,WF002,Product Price Validation,success,808,s2,Match products by SKU,ok,368,,seed
+seed-wf002-021,2026-09-23 22:55:00,WF002,Product Price Validation,success,808,s3,Compare internal and vendor prices,ok,93,,seed
+seed-wf002-021,2026-09-23 22:55:00,WF002,Product Price Validation,success,808,s4,Calculate percentage difference,ok,100,,seed
+seed-wf002-021,2026-09-23 22:55:00,WF002,Product Price Validation,success,808,s5,Flag exceptions,ok,126,,seed
+seed-wf005-024,2026-09-24 01:38:00,WF005,Customer Order Status,success,1836,s1,Validate identifier,ok,193,,seed
+seed-wf005-024,2026-09-24 01:38:00,WF005,Customer Order Status,success,1836,s2,Search order data,ok,1103,,seed
+seed-wf005-024,2026-09-24 01:38:00,WF005,Customer Order Status,success,1836,s3,Retrieve order status,ok,152,,seed
+seed-wf005-024,2026-09-24 01:38:00,WF005,Customer Order Status,success,1836,s4,Retrieve shipment information,ok,139,,seed
+seed-wf005-024,2026-09-24 01:38:00,WF005,Customer Order Status,success,1836,s5,Summarize current status,ok,249,,seed
+seed-wf002-004,2026-09-24 06:42:00,WF002,Product Price Validation,success,898,s1,Load product prices,ok,192,,seed
+seed-wf002-004,2026-09-24 06:42:00,WF002,Product Price Validation,success,898,s2,Match products by SKU,ok,230,,seed
+seed-wf002-004,2026-09-24 06:42:00,WF002,Product Price Validation,success,898,s3,Compare internal and vendor prices,ok,155,,seed
+seed-wf002-004,2026-09-24 06:42:00,WF002,Product Price Validation,success,898,s4,Calculate percentage difference,ok,128,,seed
+seed-wf002-004,2026-09-24 06:42:00,WF002,Product Price Validation,success,898,s5,Flag exceptions,ok,193,,seed
+seed-wf002-029,2026-09-24 07:05:00,WF002,Product Price Validation,success,724,s1,Load product prices,ok,177,,seed
+seed-wf002-029,2026-09-24 07:05:00,WF002,Product Price Validation,success,724,s2,Match products by SKU,ok,224,,seed
+seed-wf002-029,2026-09-24 07:05:00,WF002,Product Price Validation,success,724,s3,Compare internal and vendor prices,ok,93,,seed
+seed-wf002-029,2026-09-24 07:05:00,WF002,Product Price Validation,success,724,s4,Calculate percentage difference,ok,86,,seed
+seed-wf002-029,2026-09-24 07:05:00,WF002,Product Price Validation,success,724,s5,Flag exceptions,ok,144,,seed
+seed-wf003-027,2026-09-24 07:11:00,WF003,Vendor File Processing,success,3672,s1,Read file,ok,2499,,seed
+seed-wf003-027,2026-09-24 07:11:00,WF003,Vendor File Processing,success,3672,s2,Detect columns,ok,288,,seed
+seed-wf003-027,2026-09-24 07:11:00,WF003,Vendor File Processing,success,3672,s3,Normalize column names,ok,258,,seed
+seed-wf003-027,2026-09-24 07:11:00,WF003,Vendor File Processing,success,3672,s4,Validate required fields,ok,174,,seed
+seed-wf003-027,2026-09-24 07:11:00,WF003,Vendor File Processing,success,3672,s5,Identify invalid rows,ok,228,,seed
+seed-wf003-027,2026-09-24 07:11:00,WF003,Vendor File Processing,success,3672,s6,Produce cleaned dataset,ok,225,,seed
+seed-wf001-007,2026-09-24 07:23:00,WF001,Inventory Restock Check,success,664,s1,Load inventory,ok,152,,seed
+seed-wf001-007,2026-09-24 07:23:00,WF001,Inventory Restock Check,success,664,s2,Compare current stock with minimum threshold,ok,131,,seed
+seed-wf001-007,2026-09-24 07:23:00,WF001,Inventory Restock Check,success,664,s3,Identify low-stock products,ok,106,,seed
+seed-wf001-007,2026-09-24 07:23:00,WF001,Inventory Restock Check,success,664,s4,Calculate reorder quantity,ok,136,,seed
+seed-wf001-007,2026-09-24 07:23:00,WF001,Inventory Restock Check,success,664,s5,Generate restock list,ok,139,,seed
+seed-wf003-009,2026-09-24 09:15:00,WF003,Vendor File Processing,success,3488,s1,Read file,ok,2371,,seed
+seed-wf003-009,2026-09-24 09:15:00,WF003,Vendor File Processing,success,3488,s2,Detect columns,ok,195,,seed
+seed-wf003-009,2026-09-24 09:15:00,WF003,Vendor File Processing,success,3488,s3,Normalize column names,ok,206,,seed
+seed-wf003-009,2026-09-24 09:15:00,WF003,Vendor File Processing,success,3488,s4,Validate required fields,ok,240,,seed
+seed-wf003-009,2026-09-24 09:15:00,WF003,Vendor File Processing,success,3488,s5,Identify invalid rows,ok,271,,seed
+seed-wf003-009,2026-09-24 09:15:00,WF003,Vendor File Processing,success,3488,s6,Produce cleaned dataset,ok,205,,seed
+seed-wf008-016,2026-09-24 12:19:00,WF008,SEO Keyword Classification,success,7717,s1,Read keywords,ok,741,,seed
+seed-wf008-016,2026-09-24 12:19:00,WF008,SEO Keyword Classification,success,7717,s2,Remove duplicates,ok,724,,seed
+seed-wf008-016,2026-09-24 12:19:00,WF008,SEO Keyword Classification,success,7717,s3,Classify search intent,ok,4147,,seed
+seed-wf008-016,2026-09-24 12:19:00,WF008,SEO Keyword Classification,success,7717,s4,Map keywords to categories,ok,640,,seed
+seed-wf008-016,2026-09-24 12:19:00,WF008,SEO Keyword Classification,success,7717,s5,Identify high-priority keywords,ok,613,,seed
+seed-wf008-016,2026-09-24 12:19:00,WF008,SEO Keyword Classification,success,7717,s6,Export results,ok,852,,seed
+seed-wf004-007,2026-09-24 12:21:00,WF004,Product Description Generator,success,5715,s1,Validate required attributes,ok,887,,seed
+seed-wf004-007,2026-09-24 12:21:00,WF004,Product Description Generator,success,5715,s2,Create product description,ok,2639,,seed
+seed-wf004-007,2026-09-24 12:21:00,WF004,Product Description Generator,success,5715,s3,Generate short description,ok,868,,seed
+seed-wf004-007,2026-09-24 12:21:00,WF004,Product Description Generator,success,5715,s4,Generate SEO title,ok,644,,seed
+seed-wf004-007,2026-09-24 12:21:00,WF004,Product Description Generator,success,5715,s5,Generate meta description,ok,677,,seed
+seed-wf004-004,2026-09-24 19:19:00,WF004,Product Description Generator,success,6682,s1,Validate required attributes,ok,1207,,seed
+seed-wf004-004,2026-09-24 19:19:00,WF004,Product Description Generator,success,6682,s2,Create product description,ok,2566,,seed
+seed-wf004-004,2026-09-24 19:19:00,WF004,Product Description Generator,success,6682,s3,Generate short description,ok,1042,,seed
+seed-wf004-004,2026-09-24 19:19:00,WF004,Product Description Generator,success,6682,s4,Generate SEO title,ok,627,,seed
+seed-wf004-004,2026-09-24 19:19:00,WF004,Product Description Generator,success,6682,s5,Generate meta description,ok,1240,,seed
+seed-wf003-023,2026-09-24 20:52:00,WF003,Vendor File Processing,success,2747,s1,Read file,ok,1537,,seed
+seed-wf003-023,2026-09-24 20:52:00,WF003,Vendor File Processing,success,2747,s2,Detect columns,ok,190,,seed
+seed-wf003-023,2026-09-24 20:52:00,WF003,Vendor File Processing,success,2747,s3,Normalize column names,ok,219,,seed
+seed-wf003-023,2026-09-24 20:52:00,WF003,Vendor File Processing,success,2747,s4,Validate required fields,ok,311,,seed
+seed-wf003-023,2026-09-24 20:52:00,WF003,Vendor File Processing,success,2747,s5,Identify invalid rows,ok,274,,seed
+seed-wf003-023,2026-09-24 20:52:00,WF003,Vendor File Processing,success,2747,s6,Produce cleaned dataset,ok,216,,seed
+seed-wf001-031,2026-09-24 21:20:00,WF001,Inventory Restock Check,success,723,s1,Load inventory,ok,147,,seed
+seed-wf001-031,2026-09-24 21:20:00,WF001,Inventory Restock Check,success,723,s2,Compare current stock with minimum threshold,ok,149,,seed
+seed-wf001-031,2026-09-24 21:20:00,WF001,Inventory Restock Check,success,723,s3,Identify low-stock products,ok,138,,seed
+seed-wf001-031,2026-09-24 21:20:00,WF001,Inventory Restock Check,success,723,s4,Calculate reorder quantity,ok,142,,seed
+seed-wf001-031,2026-09-24 21:20:00,WF001,Inventory Restock Check,success,723,s5,Generate restock list,ok,147,,seed
+seed-wf003-022,2026-09-24 22:03:00,WF003,Vendor File Processing,success,4020,s1,Read file,ok,2574,,seed
+seed-wf003-022,2026-09-24 22:03:00,WF003,Vendor File Processing,success,4020,s2,Detect columns,ok,293,,seed
+seed-wf003-022,2026-09-24 22:03:00,WF003,Vendor File Processing,success,4020,s3,Normalize column names,ok,350,,seed
+seed-wf003-022,2026-09-24 22:03:00,WF003,Vendor File Processing,success,4020,s4,Validate required fields,ok,244,,seed
+seed-wf003-022,2026-09-24 22:03:00,WF003,Vendor File Processing,success,4020,s5,Identify invalid rows,ok,269,,seed
+seed-wf003-022,2026-09-24 22:03:00,WF003,Vendor File Processing,success,4020,s6,Produce cleaned dataset,ok,290,,seed
+seed-wf001-040,2026-09-24 22:08:00,WF001,Inventory Restock Check,success,637,s1,Load inventory,ok,82,,seed
+seed-wf001-040,2026-09-24 22:08:00,WF001,Inventory Restock Check,success,637,s2,Compare current stock with minimum threshold,ok,187,,seed
+seed-wf001-040,2026-09-24 22:08:00,WF001,Inventory Restock Check,success,637,s3,Identify low-stock products,ok,98,,seed
+seed-wf001-040,2026-09-24 22:08:00,WF001,Inventory Restock Check,success,637,s4,Calculate reorder quantity,ok,130,,seed
+seed-wf001-040,2026-09-24 22:08:00,WF001,Inventory Restock Check,success,637,s5,Generate restock list,ok,140,,seed
+seed-wf001-012,2026-09-25 00:01:00,WF001,Inventory Restock Check,success,663,s1,Load inventory,ok,113,,seed
+seed-wf001-012,2026-09-25 00:01:00,WF001,Inventory Restock Check,success,663,s2,Compare current stock with minimum threshold,ok,192,,seed
+seed-wf001-012,2026-09-25 00:01:00,WF001,Inventory Restock Check,success,663,s3,Identify low-stock products,ok,106,,seed
+seed-wf001-012,2026-09-25 00:01:00,WF001,Inventory Restock Check,success,663,s4,Calculate reorder quantity,ok,167,,seed
+seed-wf001-012,2026-09-25 00:01:00,WF001,Inventory Restock Check,success,663,s5,Generate restock list,ok,85,,seed
+seed-wf004-023,2026-09-25 13:50:00,WF004,Product Description Generator,success,7119,s1,Validate required attributes,ok,757,,seed
+seed-wf004-023,2026-09-25 13:50:00,WF004,Product Description Generator,success,7119,s2,Create product description,ok,3778,,seed
+seed-wf004-023,2026-09-25 13:50:00,WF004,Product Description Generator,success,7119,s3,Generate short description,ok,1154,,seed
+seed-wf004-023,2026-09-25 13:50:00,WF004,Product Description Generator,success,7119,s4,Generate SEO title,ok,616,,seed
+seed-wf004-023,2026-09-25 13:50:00,WF004,Product Description Generator,success,7119,s5,Generate meta description,ok,814,,seed
+seed-wf002-002,2026-09-25 15:57:00,WF002,Product Price Validation,success,833,s1,Load product prices,ok,172,,seed
+seed-wf002-002,2026-09-25 15:57:00,WF002,Product Price Validation,success,833,s2,Match products by SKU,ok,192,,seed
+seed-wf002-002,2026-09-25 15:57:00,WF002,Product Price Validation,success,833,s3,Compare internal and vendor prices,ok,181,,seed
+seed-wf002-002,2026-09-25 15:57:00,WF002,Product Price Validation,success,833,s4,Calculate percentage difference,ok,180,,seed
+seed-wf002-002,2026-09-25 15:57:00,WF002,Product Price Validation,success,833,s5,Flag exceptions,ok,108,,seed
+seed-wf002-020,2026-09-25 16:57:00,WF002,Product Price Validation,success,838,s1,Load product prices,ok,115,,seed
+seed-wf002-020,2026-09-25 16:57:00,WF002,Product Price Validation,success,838,s2,Match products by SKU,ok,342,,seed
+seed-wf002-020,2026-09-25 16:57:00,WF002,Product Price Validation,success,838,s3,Compare internal and vendor prices,ok,138,,seed
+seed-wf002-020,2026-09-25 16:57:00,WF002,Product Price Validation,success,838,s4,Calculate percentage difference,ok,110,,seed
+seed-wf002-020,2026-09-25 16:57:00,WF002,Product Price Validation,success,838,s5,Flag exceptions,ok,133,,seed
+seed-wf003-007,2026-09-25 18:52:00,WF003,Vendor File Processing,success,2879,s1,Read file,ok,1566,,seed
+seed-wf003-007,2026-09-25 18:52:00,WF003,Vendor File Processing,success,2879,s2,Detect columns,ok,339,,seed
+seed-wf003-007,2026-09-25 18:52:00,WF003,Vendor File Processing,success,2879,s3,Normalize column names,ok,206,,seed
+seed-wf003-007,2026-09-25 18:52:00,WF003,Vendor File Processing,success,2879,s4,Validate required fields,ok,252,,seed
+seed-wf003-007,2026-09-25 18:52:00,WF003,Vendor File Processing,success,2879,s5,Identify invalid rows,ok,282,,seed
+seed-wf003-007,2026-09-25 18:52:00,WF003,Vendor File Processing,success,2879,s6,Produce cleaned dataset,ok,234,,seed
+seed-wf010-009,2026-09-25 22:02:00,WF010,Workflow Performance Report,success,631,s1,Load execution logs,ok,153,,seed
+seed-wf010-009,2026-09-25 22:02:00,WF010,Workflow Performance Report,success,631,s2,Calculate success/failure rate,ok,100,,seed
+seed-wf010-009,2026-09-25 22:02:00,WF010,Workflow Performance Report,success,631,s3,Calculate average execution time,ok,87,,seed
+seed-wf010-009,2026-09-25 22:02:00,WF010,Workflow Performance Report,success,631,s4,Identify frequent errors,ok,94,,seed
+seed-wf010-009,2026-09-25 22:02:00,WF010,Workflow Performance Report,success,631,s5,Identify slow steps,ok,90,,seed
+seed-wf010-009,2026-09-25 22:02:00,WF010,Workflow Performance Report,success,631,s6,Generate recommendations,ok,107,,seed
+seed-wf005-005,2026-09-26 03:07:00,WF005,Customer Order Status,success,1405,s1,Validate identifier,ok,110,,seed
+seed-wf005-005,2026-09-26 03:07:00,WF005,Customer Order Status,success,1405,s2,Search order data,ok,877,,seed
+seed-wf005-005,2026-09-26 03:07:00,WF005,Customer Order Status,success,1405,s3,Retrieve order status,ok,126,,seed
+seed-wf005-005,2026-09-26 03:07:00,WF005,Customer Order Status,success,1405,s4,Retrieve shipment information,ok,168,,seed
+seed-wf005-005,2026-09-26 03:07:00,WF005,Customer Order Status,success,1405,s5,Summarize current status,ok,124,,seed
+seed-wf004-021,2026-09-26 09:24:00,WF004,Product Description Generator,success,5746,s1,Validate required attributes,ok,722,,seed
+seed-wf004-021,2026-09-26 09:24:00,WF004,Product Description Generator,success,5746,s2,Create product description,ok,2171,,seed
+seed-wf004-021,2026-09-26 09:24:00,WF004,Product Description Generator,success,5746,s3,Generate short description,ok,546,,seed
+seed-wf004-021,2026-09-26 09:24:00,WF004,Product Description Generator,success,5746,s4,Generate SEO title,ok,1119,,seed
+seed-wf004-021,2026-09-26 09:24:00,WF004,Product Description Generator,success,5746,s5,Generate meta description,ok,1188,,seed
+seed-wf004-031,2026-09-26 16:35:00,WF004,Product Description Generator,success,7955,s1,Validate required attributes,ok,1061,,seed
+seed-wf004-031,2026-09-26 16:35:00,WF004,Product Description Generator,success,7955,s2,Create product description,ok,3736,,seed
+seed-wf004-031,2026-09-26 16:35:00,WF004,Product Description Generator,success,7955,s3,Generate short description,ok,1236,,seed
+seed-wf004-031,2026-09-26 16:35:00,WF004,Product Description Generator,success,7955,s4,Generate SEO title,ok,1119,,seed
+seed-wf004-031,2026-09-26 16:35:00,WF004,Product Description Generator,success,7955,s5,Generate meta description,ok,803,,seed
+seed-wf010-002,2026-09-26 21:34:00,WF010,Workflow Performance Report,success,676,s1,Load execution logs,ok,108,,seed
+seed-wf010-002,2026-09-26 21:34:00,WF010,Workflow Performance Report,success,676,s2,Calculate success/failure rate,ok,114,,seed
+seed-wf010-002,2026-09-26 21:34:00,WF010,Workflow Performance Report,success,676,s3,Calculate average execution time,ok,118,,seed
+seed-wf010-002,2026-09-26 21:34:00,WF010,Workflow Performance Report,success,676,s4,Identify frequent errors,ok,130,,seed
+seed-wf010-002,2026-09-26 21:34:00,WF010,Workflow Performance Report,success,676,s5,Identify slow steps,ok,81,,seed
+seed-wf010-002,2026-09-26 21:34:00,WF010,Workflow Performance Report,success,676,s6,Generate recommendations,ok,125,,seed
+seed-wf003-013,2026-09-27 02:40:00,WF003,Vendor File Processing,success,3481,s1,Read file,ok,1921,,seed
+seed-wf003-013,2026-09-27 02:40:00,WF003,Vendor File Processing,success,3481,s2,Detect columns,ok,278,,seed
+seed-wf003-013,2026-09-27 02:40:00,WF003,Vendor File Processing,success,3481,s3,Normalize column names,ok,314,,seed
+seed-wf003-013,2026-09-27 02:40:00,WF003,Vendor File Processing,success,3481,s4,Validate required fields,ok,280,,seed
+seed-wf003-013,2026-09-27 02:40:00,WF003,Vendor File Processing,success,3481,s5,Identify invalid rows,ok,359,,seed
+seed-wf003-013,2026-09-27 02:40:00,WF003,Vendor File Processing,success,3481,s6,Produce cleaned dataset,ok,329,,seed
+seed-wf005-002,2026-09-27 14:52:00,WF005,Customer Order Status,failed,971,s1,Validate identifier,ok,137,,seed
+seed-wf005-002,2026-09-27 14:52:00,WF005,Customer Order Status,failed,971,s2,Search order data,failed,834,Order API timeout (504),seed
+seed-wf001-036,2026-09-27 15:54:00,WF001,Inventory Restock Check,success,580,s1,Load inventory,ok,102,,seed
+seed-wf001-036,2026-09-27 15:54:00,WF001,Inventory Restock Check,success,580,s2,Compare current stock with minimum threshold,ok,146,,seed
+seed-wf001-036,2026-09-27 15:54:00,WF001,Inventory Restock Check,success,580,s3,Identify low-stock products,ok,84,,seed
+seed-wf001-036,2026-09-27 15:54:00,WF001,Inventory Restock Check,success,580,s4,Calculate reorder quantity,ok,133,,seed
+seed-wf001-036,2026-09-27 15:54:00,WF001,Inventory Restock Check,success,580,s5,Generate restock list,ok,115,,seed
+seed-wf001-041,2026-09-27 16:38:00,WF001,Inventory Restock Check,success,664,s1,Load inventory,ok,153,,seed
+seed-wf001-041,2026-09-27 16:38:00,WF001,Inventory Restock Check,success,664,s2,Compare current stock with minimum threshold,ok,180,,seed
+seed-wf001-041,2026-09-27 16:38:00,WF001,Inventory Restock Check,success,664,s3,Identify low-stock products,ok,96,,seed
+seed-wf001-041,2026-09-27 16:38:00,WF001,Inventory Restock Check,success,664,s4,Calculate reorder quantity,ok,159,,seed
+seed-wf001-041,2026-09-27 16:38:00,WF001,Inventory Restock Check,success,664,s5,Generate restock list,ok,76,,seed
+seed-wf008-018,2026-09-27 18:18:00,WF008,SEO Keyword Classification,success,5747,s1,Read keywords,ok,571,,seed
+seed-wf008-018,2026-09-27 18:18:00,WF008,SEO Keyword Classification,success,5747,s2,Remove duplicates,ok,734,,seed
+seed-wf008-018,2026-09-27 18:18:00,WF008,SEO Keyword Classification,success,5747,s3,Classify search intent,ok,2574,,seed
+seed-wf008-018,2026-09-27 18:18:00,WF008,SEO Keyword Classification,success,5747,s4,Map keywords to categories,ok,481,,seed
+seed-wf008-018,2026-09-27 18:18:00,WF008,SEO Keyword Classification,success,5747,s5,Identify high-priority keywords,ok,834,,seed
+seed-wf008-018,2026-09-27 18:18:00,WF008,SEO Keyword Classification,success,5747,s6,Export results,ok,553,,seed
+seed-wf006-014,2026-09-27 21:08:00,WF006,Duplicate Product Detection,success,2521,s1,Load products,ok,255,,seed
+seed-wf006-014,2026-09-27 21:08:00,WF006,Duplicate Product Detection,success,2521,s2,Normalize names/SKUs,ok,254,,seed
+seed-wf006-014,2026-09-27 21:08:00,WF006,Duplicate Product Detection,success,2521,s3,Compare identifiers,ok,275,,seed
+seed-wf006-014,2026-09-27 21:08:00,WF006,Duplicate Product Detection,success,2521,s4,Compare product attributes,ok,375,,seed
+seed-wf006-014,2026-09-27 21:08:00,WF006,Duplicate Product Detection,success,2521,s5,Group likely duplicates,ok,1174,,seed
+seed-wf006-014,2026-09-27 21:08:00,WF006,Duplicate Product Detection,success,2521,s6,Assign confidence,ok,188,,seed
+seed-wf001-002,2026-09-27 21:49:00,WF001,Inventory Restock Check,success,675,s1,Load inventory,ok,139,,seed
+seed-wf001-002,2026-09-27 21:49:00,WF001,Inventory Restock Check,success,675,s2,Compare current stock with minimum threshold,ok,168,,seed
+seed-wf001-002,2026-09-27 21:49:00,WF001,Inventory Restock Check,success,675,s3,Identify low-stock products,ok,115,,seed
+seed-wf001-002,2026-09-27 21:49:00,WF001,Inventory Restock Check,success,675,s4,Calculate reorder quantity,ok,98,,seed
+seed-wf001-002,2026-09-27 21:49:00,WF001,Inventory Restock Check,success,675,s5,Generate restock list,ok,155,,seed
+seed-wf002-008,2026-09-27 23:48:00,WF002,Product Price Validation,success,824,s1,Load product prices,ok,91,,seed
+seed-wf002-008,2026-09-27 23:48:00,WF002,Product Price Validation,success,824,s2,Match products by SKU,ok,316,,seed
+seed-wf002-008,2026-09-27 23:48:00,WF002,Product Price Validation,success,824,s3,Compare internal and vendor prices,ok,120,,seed
+seed-wf002-008,2026-09-27 23:48:00,WF002,Product Price Validation,success,824,s4,Calculate percentage difference,ok,119,,seed
+seed-wf002-008,2026-09-27 23:48:00,WF002,Product Price Validation,success,824,s5,Flag exceptions,ok,178,,seed
+seed-wf009-006,2026-09-28 04:24:00,WF009,Employee Task Assignment,success,940,s1,Understand task requirements,ok,129,,seed
+seed-wf009-006,2026-09-28 04:24:00,WF009,Employee Task Assignment,success,940,s2,Compare employee skills,ok,177,,seed
+seed-wf009-006,2026-09-28 04:24:00,WF009,Employee Task Assignment,success,940,s3,Check current workload,ok,167,,seed
+seed-wf009-006,2026-09-28 04:24:00,WF009,Employee Task Assignment,success,940,s4,Rank candidates,ok,246,,seed
+seed-wf009-006,2026-09-28 04:24:00,WF009,Employee Task Assignment,success,940,s5,Select employee,ok,91,,seed
+seed-wf009-006,2026-09-28 04:24:00,WF009,Employee Task Assignment,success,940,s6,Generate assignment summary,ok,130,,seed
+seed-wf005-000,2026-09-28 07:41:00,WF005,Customer Order Status,success,2063,s1,Validate identifier,ok,244,,seed
+seed-wf005-000,2026-09-28 07:41:00,WF005,Customer Order Status,success,2063,s2,Search order data,ok,1360,,seed
+seed-wf005-000,2026-09-28 07:41:00,WF005,Customer Order Status,success,2063,s3,Retrieve order status,ok,121,,seed
+seed-wf005-000,2026-09-28 07:41:00,WF005,Customer Order Status,success,2063,s4,Retrieve shipment information,ok,138,,seed
+seed-wf005-000,2026-09-28 07:41:00,WF005,Customer Order Status,success,2063,s5,Summarize current status,ok,200,,seed
+seed-wf004-011,2026-09-28 08:57:00,WF004,Product Description Generator,success,5918,s1,Validate required attributes,ok,711,,seed
+seed-wf004-011,2026-09-28 08:57:00,WF004,Product Description Generator,success,5918,s2,Create product description,ok,2447,,seed
+seed-wf004-011,2026-09-28 08:57:00,WF004,Product Description Generator,success,5918,s3,Generate short description,ok,1156,,seed
+seed-wf004-011,2026-09-28 08:57:00,WF004,Product Description Generator,success,5918,s4,Generate SEO title,ok,835,,seed
+seed-wf004-011,2026-09-28 08:57:00,WF004,Product Description Generator,success,5918,s5,Generate meta description,ok,769,,seed
+seed-wf009-022,2026-09-28 09:08:00,WF009,Employee Task Assignment,success,1040,s1,Understand task requirements,ok,177,,seed
+seed-wf009-022,2026-09-28 09:08:00,WF009,Employee Task Assignment,success,1040,s2,Compare employee skills,ok,103,,seed
+seed-wf009-022,2026-09-28 09:08:00,WF009,Employee Task Assignment,success,1040,s3,Check current workload,ok,187,,seed
+seed-wf009-022,2026-09-28 09:08:00,WF009,Employee Task Assignment,success,1040,s4,Rank candidates,ok,196,,seed
+seed-wf009-022,2026-09-28 09:08:00,WF009,Employee Task Assignment,success,1040,s5,Select employee,ok,181,,seed
+seed-wf009-022,2026-09-28 09:08:00,WF009,Employee Task Assignment,success,1040,s6,Generate assignment summary,ok,196,,seed
+seed-wf001-034,2026-09-28 12:02:00,WF001,Inventory Restock Check,success,708,s1,Load inventory,ok,78,,seed
+seed-wf001-034,2026-09-28 12:02:00,WF001,Inventory Restock Check,success,708,s2,Compare current stock with minimum threshold,ok,232,,seed
+seed-wf001-034,2026-09-28 12:02:00,WF001,Inventory Restock Check,success,708,s3,Identify low-stock products,ok,110,,seed
+seed-wf001-034,2026-09-28 12:02:00,WF001,Inventory Restock Check,success,708,s4,Calculate reorder quantity,ok,162,,seed
+seed-wf001-034,2026-09-28 12:02:00,WF001,Inventory Restock Check,success,708,s5,Generate restock list,ok,126,,seed
+seed-wf001-028,2026-09-28 14:35:00,WF001,Inventory Restock Check,success,727,s1,Load inventory,ok,95,,seed
+seed-wf001-028,2026-09-28 14:35:00,WF001,Inventory Restock Check,success,727,s2,Compare current stock with minimum threshold,ok,240,,seed
+seed-wf001-028,2026-09-28 14:35:00,WF001,Inventory Restock Check,success,727,s3,Identify low-stock products,ok,114,,seed
+seed-wf001-028,2026-09-28 14:35:00,WF001,Inventory Restock Check,success,727,s4,Calculate reorder quantity,ok,154,,seed
+seed-wf001-028,2026-09-28 14:35:00,WF001,Inventory Restock Check,success,727,s5,Generate restock list,ok,124,,seed
+seed-wf005-019,2026-09-28 17:57:00,WF005,Customer Order Status,success,2081,s1,Validate identifier,ok,217,,seed
+seed-wf005-019,2026-09-28 17:57:00,WF005,Customer Order Status,success,2081,s2,Search order data,ok,1444,,seed
+seed-wf005-019,2026-09-28 17:57:00,WF005,Customer Order Status,success,2081,s3,Retrieve order status,ok,158,,seed
+seed-wf005-019,2026-09-28 17:57:00,WF005,Customer Order Status,success,2081,s4,Retrieve shipment information,ok,134,,seed
+seed-wf005-019,2026-09-28 17:57:00,WF005,Customer Order Status,success,2081,s5,Summarize current status,ok,128,,seed
+seed-wf005-047,2026-09-28 18:07:00,WF005,Customer Order Status,success,1982,s1,Validate identifier,ok,157,,seed
+seed-wf005-047,2026-09-28 18:07:00,WF005,Customer Order Status,success,1982,s2,Search order data,ok,1309,,seed
+seed-wf005-047,2026-09-28 18:07:00,WF005,Customer Order Status,success,1982,s3,Retrieve order status,ok,135,,seed
+seed-wf005-047,2026-09-28 18:07:00,WF005,Customer Order Status,success,1982,s4,Retrieve shipment information,ok,251,,seed
+seed-wf005-047,2026-09-28 18:07:00,WF005,Customer Order Status,success,1982,s5,Summarize current status,ok,130,,seed
+seed-wf005-034,2026-09-28 21:31:00,WF005,Customer Order Status,success,1832,s1,Validate identifier,ok,198,,seed
+seed-wf005-034,2026-09-28 21:31:00,WF005,Customer Order Status,success,1832,s2,Search order data,ok,1048,,seed
+seed-wf005-034,2026-09-28 21:31:00,WF005,Customer Order Status,success,1832,s3,Retrieve order status,ok,189,,seed
+seed-wf005-034,2026-09-28 21:31:00,WF005,Customer Order Status,success,1832,s4,Retrieve shipment information,ok,191,,seed
+seed-wf005-034,2026-09-28 21:31:00,WF005,Customer Order Status,success,1832,s5,Summarize current status,ok,206,,seed
+seed-wf002-001,2026-09-28 21:37:00,WF002,Product Price Validation,success,900,s1,Load product prices,ok,86,,seed
+seed-wf002-001,2026-09-28 21:37:00,WF002,Product Price Validation,success,900,s2,Match products by SKU,ok,332,,seed
+seed-wf002-001,2026-09-28 21:37:00,WF002,Product Price Validation,success,900,s3,Compare internal and vendor prices,ok,121,,seed
+seed-wf002-001,2026-09-28 21:37:00,WF002,Product Price Validation,success,900,s4,Calculate percentage difference,ok,188,,seed
+seed-wf002-001,2026-09-28 21:37:00,WF002,Product Price Validation,success,900,s5,Flag exceptions,ok,173,,seed
+seed-wf004-020,2026-09-29 05:20:00,WF004,Product Description Generator,success,6312,s1,Validate required attributes,ok,978,,seed
+seed-wf004-020,2026-09-29 05:20:00,WF004,Product Description Generator,success,6312,s2,Create product description,ok,2446,,seed
+seed-wf004-020,2026-09-29 05:20:00,WF004,Product Description Generator,success,6312,s3,Generate short description,ok,1031,,seed
+seed-wf004-020,2026-09-29 05:20:00,WF004,Product Description Generator,success,6312,s4,Generate SEO title,ok,898,,seed
+seed-wf004-020,2026-09-29 05:20:00,WF004,Product Description Generator,success,6312,s5,Generate meta description,ok,959,,seed
+seed-wf007-003,2026-09-29 16:16:00,WF007,Marketing Campaign Brief,success,13190,s1,Validate inputs,ok,1499,,seed
+seed-wf007-003,2026-09-29 16:16:00,WF007,Marketing Campaign Brief,success,13190,s2,Identify campaign objective,ok,2280,,seed
+seed-wf007-003,2026-09-29 16:16:00,WF007,Marketing Campaign Brief,success,13190,s3,Summarize products,ok,2572,,seed
+seed-wf007-003,2026-09-29 16:16:00,WF007,Marketing Campaign Brief,success,13190,s4,Create messaging,ok,2900,,seed
+seed-wf007-003,2026-09-29 16:16:00,WF007,Marketing Campaign Brief,success,13190,s5,Create channel recommendations,ok,1372,,seed
+seed-wf007-003,2026-09-29 16:16:00,WF007,Marketing Campaign Brief,success,13190,s6,Create campaign checklist,ok,2567,,seed
+seed-wf001-003,2026-09-29 16:37:00,WF001,Inventory Restock Check,success,581,s1,Load inventory,ok,104,,seed
+seed-wf001-003,2026-09-29 16:37:00,WF001,Inventory Restock Check,success,581,s2,Compare current stock with minimum threshold,ok,130,,seed
+seed-wf001-003,2026-09-29 16:37:00,WF001,Inventory Restock Check,success,581,s3,Identify low-stock products,ok,163,,seed
+seed-wf001-003,2026-09-29 16:37:00,WF001,Inventory Restock Check,success,581,s4,Calculate reorder quantity,ok,104,,seed
+seed-wf001-003,2026-09-29 16:37:00,WF001,Inventory Restock Check,success,581,s5,Generate restock list,ok,80,,seed
+seed-wf002-022,2026-09-30 00:06:00,WF002,Product Price Validation,success,731,s1,Load product prices,ok,91,,seed
+seed-wf002-022,2026-09-30 00:06:00,WF002,Product Price Validation,success,731,s2,Match products by SKU,ok,259,,seed
+seed-wf002-022,2026-09-30 00:06:00,WF002,Product Price Validation,success,731,s3,Compare internal and vendor prices,ok,144,,seed
+seed-wf002-022,2026-09-30 00:06:00,WF002,Product Price Validation,success,731,s4,Calculate percentage difference,ok,130,,seed
+seed-wf002-022,2026-09-30 00:06:00,WF002,Product Price Validation,success,731,s5,Flag exceptions,ok,107,,seed
+seed-wf003-017,2026-09-30 01:17:00,WF003,Vendor File Processing,success,3815,s1,Read file,ok,2457,,seed
+seed-wf003-017,2026-09-30 01:17:00,WF003,Vendor File Processing,success,3815,s2,Detect columns,ok,219,,seed
+seed-wf003-017,2026-09-30 01:17:00,WF003,Vendor File Processing,success,3815,s3,Normalize column names,ok,362,,seed
+seed-wf003-017,2026-09-30 01:17:00,WF003,Vendor File Processing,success,3815,s4,Validate required fields,ok,180,,seed
+seed-wf003-017,2026-09-30 01:17:00,WF003,Vendor File Processing,success,3815,s5,Identify invalid rows,ok,315,,seed
+seed-wf003-017,2026-09-30 01:17:00,WF003,Vendor File Processing,success,3815,s6,Produce cleaned dataset,ok,282,,seed
+seed-wf010-004,2026-09-30 04:01:00,WF010,Workflow Performance Report,success,602,s1,Load execution logs,ok,98,,seed
+seed-wf010-004,2026-09-30 04:01:00,WF010,Workflow Performance Report,success,602,s2,Calculate success/failure rate,ok,113,,seed
+seed-wf010-004,2026-09-30 04:01:00,WF010,Workflow Performance Report,success,602,s3,Calculate average execution time,ok,87,,seed
+seed-wf010-004,2026-09-30 04:01:00,WF010,Workflow Performance Report,success,602,s4,Identify frequent errors,ok,85,,seed
+seed-wf010-004,2026-09-30 04:01:00,WF010,Workflow Performance Report,success,602,s5,Identify slow steps,ok,141,,seed
+seed-wf010-004,2026-09-30 04:01:00,WF010,Workflow Performance Report,success,602,s6,Generate recommendations,ok,78,,seed
+seed-wf004-010,2026-09-30 04:42:00,WF004,Product Description Generator,success,6337,s1,Validate required attributes,ok,888,,seed
+seed-wf004-010,2026-09-30 04:42:00,WF004,Product Description Generator,success,6337,s2,Create product description,ok,2338,,seed
+seed-wf004-010,2026-09-30 04:42:00,WF004,Product Description Generator,success,6337,s3,Generate short description,ok,1089,,seed
+seed-wf004-010,2026-09-30 04:42:00,WF004,Product Description Generator,success,6337,s4,Generate SEO title,ok,811,,seed
+seed-wf004-010,2026-09-30 04:42:00,WF004,Product Description Generator,success,6337,s5,Generate meta description,ok,1211,,seed
+seed-wf005-033,2026-09-30 05:41:00,WF005,Customer Order Status,success,1560,s1,Validate identifier,ok,129,,seed
+seed-wf005-033,2026-09-30 05:41:00,WF005,Customer Order Status,success,1560,s2,Search order data,ok,818,,seed
+seed-wf005-033,2026-09-30 05:41:00,WF005,Customer Order Status,success,1560,s3,Retrieve order status,ok,194,,seed
+seed-wf005-033,2026-09-30 05:41:00,WF005,Customer Order Status,success,1560,s4,Retrieve shipment information,ok,217,,seed
+seed-wf005-033,2026-09-30 05:41:00,WF005,Customer Order Status,success,1560,s5,Summarize current status,ok,202,,seed
+seed-wf002-014,2026-09-30 06:04:00,WF002,Product Price Validation,failed,498,s1,Load product prices,ok,194,,seed
+seed-wf002-014,2026-09-30 06:04:00,WF002,Product Price Validation,failed,498,s2,Match products by SKU,failed,304,SKU column missing in vendor price list,seed
+seed-wf008-017,2026-09-30 07:01:00,WF008,SEO Keyword Classification,success,6080,s1,Read keywords,ok,581,,seed
+seed-wf008-017,2026-09-30 07:01:00,WF008,SEO Keyword Classification,success,6080,s2,Remove duplicates,ok,819,,seed
+seed-wf008-017,2026-09-30 07:01:00,WF008,SEO Keyword Classification,success,6080,s3,Classify search intent,ok,2762,,seed
+seed-wf008-017,2026-09-30 07:01:00,WF008,SEO Keyword Classification,success,6080,s4,Map keywords to categories,ok,667,,seed
+seed-wf008-017,2026-09-30 07:01:00,WF008,SEO Keyword Classification,success,6080,s5,Identify high-priority keywords,ok,563,,seed
+seed-wf008-017,2026-09-30 07:01:00,WF008,SEO Keyword Classification,success,6080,s6,Export results,ok,688,,seed
+seed-wf009-001,2026-09-30 16:51:00,WF009,Employee Task Assignment,failed,903,s1,Understand task requirements,ok,207,,seed
+seed-wf009-001,2026-09-30 16:51:00,WF009,Employee Task Assignment,failed,903,s2,Compare employee skills,ok,108,,seed
+seed-wf009-001,2026-09-30 16:51:00,WF009,Employee Task Assignment,failed,903,s3,Check current workload,ok,168,,seed
+seed-wf009-001,2026-09-30 16:51:00,WF009,Employee Task Assignment,failed,903,s4,Rank candidates,ok,273,,seed
+seed-wf009-001,2026-09-30 16:51:00,WF009,Employee Task Assignment,failed,903,s5,Select employee,failed,147,Employee directory unavailable,seed
+seed-wf004-029,2026-09-30 22:39:00,WF004,Product Description Generator,success,5876,s1,Validate required attributes,ok,1171,,seed
+seed-wf004-029,2026-09-30 22:39:00,WF004,Product Description Generator,success,5876,s2,Create product description,ok,2410,,seed
+seed-wf004-029,2026-09-30 22:39:00,WF004,Product Description Generator,success,5876,s3,Generate short description,ok,901,,seed
+seed-wf004-029,2026-09-30 22:39:00,WF004,Product Description Generator,success,5876,s4,Generate SEO title,ok,736,,seed
+seed-wf004-029,2026-09-30 22:39:00,WF004,Product Description Generator,success,5876,s5,Generate meta description,ok,658,,seed
+seed-wf003-015,2026-10-01 05:05:00,WF003,Vendor File Processing,success,3844,s1,Read file,ok,2813,,seed
+seed-wf003-015,2026-10-01 05:05:00,WF003,Vendor File Processing,success,3844,s2,Detect columns,ok,177,,seed
+seed-wf003-015,2026-10-01 05:05:00,WF003,Vendor File Processing,success,3844,s3,Normalize column names,ok,158,,seed
+seed-wf003-015,2026-10-01 05:05:00,WF003,Vendor File Processing,success,3844,s4,Validate required fields,ok,215,,seed
+seed-wf003-015,2026-10-01 05:05:00,WF003,Vendor File Processing,success,3844,s5,Identify invalid rows,ok,255,,seed
+seed-wf003-015,2026-10-01 05:05:00,WF003,Vendor File Processing,success,3844,s6,Produce cleaned dataset,ok,226,,seed
+seed-wf003-024,2026-10-01 07:11:00,WF003,Vendor File Processing,success,3219,s1,Read file,ok,1973,,seed
+seed-wf003-024,2026-10-01 07:11:00,WF003,Vendor File Processing,success,3219,s2,Detect columns,ok,239,,seed
+seed-wf003-024,2026-10-01 07:11:00,WF003,Vendor File Processing,success,3219,s3,Normalize column names,ok,212,,seed
+seed-wf003-024,2026-10-01 07:11:00,WF003,Vendor File Processing,success,3219,s4,Validate required fields,ok,268,,seed
+seed-wf003-024,2026-10-01 07:11:00,WF003,Vendor File Processing,success,3219,s5,Identify invalid rows,ok,247,,seed
+seed-wf003-024,2026-10-01 07:11:00,WF003,Vendor File Processing,success,3219,s6,Produce cleaned dataset,ok,280,,seed
+seed-wf009-011,2026-10-01 14:46:00,WF009,Employee Task Assignment,success,1029,s1,Understand task requirements,ok,202,,seed
+seed-wf009-011,2026-10-01 14:46:00,WF009,Employee Task Assignment,success,1029,s2,Compare employee skills,ok,134,,seed
+seed-wf009-011,2026-10-01 14:46:00,WF009,Employee Task Assignment,success,1029,s3,Check current workload,ok,116,,seed
+seed-wf009-011,2026-10-01 14:46:00,WF009,Employee Task Assignment,success,1029,s4,Rank candidates,ok,286,,seed
+seed-wf009-011,2026-10-01 14:46:00,WF009,Employee Task Assignment,success,1029,s5,Select employee,ok,147,,seed
+seed-wf009-011,2026-10-01 14:46:00,WF009,Employee Task Assignment,success,1029,s6,Generate assignment summary,ok,144,,seed
+seed-wf004-002,2026-10-01 16:23:00,WF004,Product Description Generator,success,6756,s1,Validate required attributes,ok,831,,seed
+seed-wf004-002,2026-10-01 16:23:00,WF004,Product Description Generator,success,6756,s2,Create product description,ok,2731,,seed
+seed-wf004-002,2026-10-01 16:23:00,WF004,Product Description Generator,success,6756,s3,Generate short description,ok,1251,,seed
+seed-wf004-002,2026-10-01 16:23:00,WF004,Product Description Generator,success,6756,s4,Generate SEO title,ok,1013,,seed
+seed-wf004-002,2026-10-01 16:23:00,WF004,Product Description Generator,success,6756,s5,Generate meta description,ok,930,,seed
+seed-wf005-029,2026-10-01 17:12:00,WF005,Customer Order Status,success,1668,s1,Validate identifier,ok,247,,seed
+seed-wf005-029,2026-10-01 17:12:00,WF005,Customer Order Status,success,1668,s2,Search order data,ok,796,,seed
+seed-wf005-029,2026-10-01 17:12:00,WF005,Customer Order Status,success,1668,s3,Retrieve order status,ok,244,,seed
+seed-wf005-029,2026-10-01 17:12:00,WF005,Customer Order Status,success,1668,s4,Retrieve shipment information,ok,174,,seed
+seed-wf005-029,2026-10-01 17:12:00,WF005,Customer Order Status,success,1668,s5,Summarize current status,ok,207,,seed
+seed-wf001-015,2026-10-01 17:53:00,WF001,Inventory Restock Check,success,597,s1,Load inventory,ok,123,,seed
+seed-wf001-015,2026-10-01 17:53:00,WF001,Inventory Restock Check,success,597,s2,Compare current stock with minimum threshold,ok,146,,seed
+seed-wf001-015,2026-10-01 17:53:00,WF001,Inventory Restock Check,success,597,s3,Identify low-stock products,ok,133,,seed
+seed-wf001-015,2026-10-01 17:53:00,WF001,Inventory Restock Check,success,597,s4,Calculate reorder quantity,ok,82,,seed
+seed-wf001-015,2026-10-01 17:53:00,WF001,Inventory Restock Check,success,597,s5,Generate restock list,ok,113,,seed
+seed-wf005-032,2026-10-01 18:28:00,WF005,Customer Order Status,success,2056,s1,Validate identifier,ok,135,,seed
+seed-wf005-032,2026-10-01 18:28:00,WF005,Customer Order Status,success,2056,s2,Search order data,ok,1318,,seed
+seed-wf005-032,2026-10-01 18:28:00,WF005,Customer Order Status,success,2056,s3,Retrieve order status,ok,158,,seed
+seed-wf005-032,2026-10-01 18:28:00,WF005,Customer Order Status,success,2056,s4,Retrieve shipment information,ok,245,,seed
+seed-wf005-032,2026-10-01 18:28:00,WF005,Customer Order Status,success,2056,s5,Summarize current status,ok,200,,seed
+seed-wf004-006,2026-10-01 19:05:00,WF004,Product Description Generator,success,6900,s1,Validate required attributes,ok,624,,seed
+seed-wf004-006,2026-10-01 19:05:00,WF004,Product Description Generator,success,6900,s2,Create product description,ok,3417,,seed
+seed-wf004-006,2026-10-01 19:05:00,WF004,Product Description Generator,success,6900,s3,Generate short description,ok,898,,seed
+seed-wf004-006,2026-10-01 19:05:00,WF004,Product Description Generator,success,6900,s4,Generate SEO title,ok,1055,,seed
+seed-wf004-006,2026-10-01 19:05:00,WF004,Product Description Generator,success,6900,s5,Generate meta description,ok,906,,seed
+seed-wf004-033,2026-10-02 00:40:00,WF004,Product Description Generator,success,6811,s1,Validate required attributes,ok,879,,seed
+seed-wf004-033,2026-10-02 00:40:00,WF004,Product Description Generator,success,6811,s2,Create product description,ok,2958,,seed
+seed-wf004-033,2026-10-02 00:40:00,WF004,Product Description Generator,success,6811,s3,Generate short description,ok,1219,,seed
+seed-wf004-033,2026-10-02 00:40:00,WF004,Product Description Generator,success,6811,s4,Generate SEO title,ok,776,,seed
+seed-wf004-033,2026-10-02 00:40:00,WF004,Product Description Generator,success,6811,s5,Generate meta description,ok,979,,seed
+seed-wf003-005,2026-10-02 03:44:00,WF003,Vendor File Processing,success,3317,s1,Read file,ok,2082,,seed
+seed-wf003-005,2026-10-02 03:44:00,WF003,Vendor File Processing,success,3317,s2,Detect columns,ok,341,,seed
+seed-wf003-005,2026-10-02 03:44:00,WF003,Vendor File Processing,success,3317,s3,Normalize column names,ok,251,,seed
+seed-wf003-005,2026-10-02 03:44:00,WF003,Vendor File Processing,success,3317,s4,Validate required fields,ok,187,,seed
+seed-wf003-005,2026-10-02 03:44:00,WF003,Vendor File Processing,success,3317,s5,Identify invalid rows,ok,192,,seed
+seed-wf003-005,2026-10-02 03:44:00,WF003,Vendor File Processing,success,3317,s6,Produce cleaned dataset,ok,264,,seed
+seed-wf004-000,2026-10-02 04:45:00,WF004,Product Description Generator,success,6987,s1,Validate required attributes,ok,777,,seed
+seed-wf004-000,2026-10-02 04:45:00,WF004,Product Description Generator,success,6987,s2,Create product description,ok,3118,,seed
+seed-wf004-000,2026-10-02 04:45:00,WF004,Product Description Generator,success,6987,s3,Generate short description,ok,747,,seed
+seed-wf004-000,2026-10-02 04:45:00,WF004,Product Description Generator,success,6987,s4,Generate SEO title,ok,1220,,seed
+seed-wf004-000,2026-10-02 04:45:00,WF004,Product Description Generator,success,6987,s5,Generate meta description,ok,1125,,seed
+seed-wf007-001,2026-10-02 06:57:00,WF007,Marketing Campaign Brief,failed,13633,s1,Validate inputs,ok,1756,,seed
+seed-wf007-001,2026-10-02 06:57:00,WF007,Marketing Campaign Brief,failed,13633,s2,Identify campaign objective,ok,2009,,seed
+seed-wf007-001,2026-10-02 06:57:00,WF007,Marketing Campaign Brief,failed,13633,s3,Summarize products,ok,2465,,seed
+seed-wf007-001,2026-10-02 06:57:00,WF007,Marketing Campaign Brief,failed,13633,s4,Create messaging,ok,3387,,seed
+seed-wf007-001,2026-10-02 06:57:00,WF007,Marketing Campaign Brief,failed,13633,s5,Create channel recommendations,ok,2005,,seed
+seed-wf007-001,2026-10-02 06:57:00,WF007,Marketing Campaign Brief,failed,13633,s6,Create campaign checklist,failed,2011,LLM returned invalid JSON,seed
+seed-wf004-014,2026-10-02 10:06:00,WF004,Product Description Generator,success,6545,s1,Validate required attributes,ok,868,,seed
+seed-wf004-014,2026-10-02 10:06:00,WF004,Product Description Generator,success,6545,s2,Create product description,ok,3180,,seed
+seed-wf004-014,2026-10-02 10:06:00,WF004,Product Description Generator,success,6545,s3,Generate short description,ok,835,,seed
+seed-wf004-014,2026-10-02 10:06:00,WF004,Product Description Generator,success,6545,s4,Generate SEO title,ok,1011,,seed
+seed-wf004-014,2026-10-02 10:06:00,WF004,Product Description Generator,success,6545,s5,Generate meta description,ok,651,,seed
+seed-wf007-021,2026-10-02 13:16:00,WF007,Marketing Campaign Brief,failed,13656,s1,Validate inputs,ok,2711,,seed
+seed-wf007-021,2026-10-02 13:16:00,WF007,Marketing Campaign Brief,failed,13656,s2,Identify campaign objective,ok,1962,,seed
+seed-wf007-021,2026-10-02 13:16:00,WF007,Marketing Campaign Brief,failed,13656,s3,Summarize products,ok,2877,,seed
+seed-wf007-021,2026-10-02 13:16:00,WF007,Marketing Campaign Brief,failed,13656,s4,Create messaging,failed,6106,LLM returned invalid JSON,seed
+seed-wf001-004,2026-10-02 13:22:00,WF001,Inventory Restock Check,success,526,s1,Load inventory,ok,105,,seed
+seed-wf001-004,2026-10-02 13:22:00,WF001,Inventory Restock Check,success,526,s2,Compare current stock with minimum threshold,ok,146,,seed
+seed-wf001-004,2026-10-02 13:22:00,WF001,Inventory Restock Check,success,526,s3,Identify low-stock products,ok,76,,seed
+seed-wf001-004,2026-10-02 13:22:00,WF001,Inventory Restock Check,success,526,s4,Calculate reorder quantity,ok,116,,seed
+seed-wf001-004,2026-10-02 13:22:00,WF001,Inventory Restock Check,success,526,s5,Generate restock list,ok,83,,seed
+seed-wf008-001,2026-10-02 20:39:00,WF008,SEO Keyword Classification,success,5858,s1,Read keywords,ok,703,,seed
+seed-wf008-001,2026-10-02 20:39:00,WF008,SEO Keyword Classification,success,5858,s2,Remove duplicates,ok,961,,seed
+seed-wf008-001,2026-10-02 20:39:00,WF008,SEO Keyword Classification,success,5858,s3,Classify search intent,ok,2432,,seed
+seed-wf008-001,2026-10-02 20:39:00,WF008,SEO Keyword Classification,success,5858,s4,Map keywords to categories,ok,617,,seed
+seed-wf008-001,2026-10-02 20:39:00,WF008,SEO Keyword Classification,success,5858,s5,Identify high-priority keywords,ok,448,,seed
+seed-wf008-001,2026-10-02 20:39:00,WF008,SEO Keyword Classification,success,5858,s6,Export results,ok,697,,seed
+seed-wf009-008,2026-10-03 00:16:00,WF009,Employee Task Assignment,success,964,s1,Understand task requirements,ok,101,,seed
+seed-wf009-008,2026-10-03 00:16:00,WF009,Employee Task Assignment,success,964,s2,Compare employee skills,ok,207,,seed
+seed-wf009-008,2026-10-03 00:16:00,WF009,Employee Task Assignment,success,964,s3,Check current workload,ok,147,,seed
+seed-wf009-008,2026-10-03 00:16:00,WF009,Employee Task Assignment,success,964,s4,Rank candidates,ok,283,,seed
+seed-wf009-008,2026-10-03 00:16:00,WF009,Employee Task Assignment,success,964,s5,Select employee,ok,90,,seed
+seed-wf009-008,2026-10-03 00:16:00,WF009,Employee Task Assignment,success,964,s6,Generate assignment summary,ok,136,,seed
+seed-wf005-045,2026-10-03 02:28:00,WF005,Customer Order Status,success,2149,s1,Validate identifier,ok,162,,seed
+seed-wf005-045,2026-10-03 02:28:00,WF005,Customer Order Status,success,2149,s2,Search order data,ok,1331,,seed
+seed-wf005-045,2026-10-03 02:28:00,WF005,Customer Order Status,success,2149,s3,Retrieve order status,ok,225,,seed
+seed-wf005-045,2026-10-03 02:28:00,WF005,Customer Order Status,success,2149,s4,Retrieve shipment information,ok,204,,seed
+seed-wf005-045,2026-10-03 02:28:00,WF005,Customer Order Status,success,2149,s5,Summarize current status,ok,227,,seed
+seed-wf005-031,2026-10-03 09:06:00,WF005,Customer Order Status,success,1561,s1,Validate identifier,ok,152,,seed
+seed-wf005-031,2026-10-03 09:06:00,WF005,Customer Order Status,success,1561,s2,Search order data,ok,941,,seed
+seed-wf005-031,2026-10-03 09:06:00,WF005,Customer Order Status,success,1561,s3,Retrieve order status,ok,155,,seed
+seed-wf005-031,2026-10-03 09:06:00,WF005,Customer Order Status,success,1561,s4,Retrieve shipment information,ok,132,,seed
+seed-wf005-031,2026-10-03 09:06:00,WF005,Customer Order Status,success,1561,s5,Summarize current status,ok,181,,seed
+seed-wf007-005,2026-10-03 11:02:00,WF007,Marketing Campaign Brief,success,14067,s1,Validate inputs,ok,2149,,seed
+seed-wf007-005,2026-10-03 11:02:00,WF007,Marketing Campaign Brief,success,14067,s2,Identify campaign objective,ok,1928,,seed
+seed-wf007-005,2026-10-03 11:02:00,WF007,Marketing Campaign Brief,success,14067,s3,Summarize products,ok,2351,,seed
+seed-wf007-005,2026-10-03 11:02:00,WF007,Marketing Campaign Brief,success,14067,s4,Create messaging,ok,3694,,seed
+seed-wf007-005,2026-10-03 11:02:00,WF007,Marketing Campaign Brief,success,14067,s5,Create channel recommendations,ok,1450,,seed
+seed-wf007-005,2026-10-03 11:02:00,WF007,Marketing Campaign Brief,success,14067,s6,Create campaign checklist,ok,2495,,seed
+seed-wf001-037,2026-10-03 15:46:00,WF001,Inventory Restock Check,failed,686,s1,Load inventory,ok,167,,seed
+seed-wf001-037,2026-10-03 15:46:00,WF001,Inventory Restock Check,failed,686,s2,Compare current stock with minimum threshold,ok,251,,seed
+seed-wf001-037,2026-10-03 15:46:00,WF001,Inventory Restock Check,failed,686,s3,Identify low-stock products,ok,79,,seed
+seed-wf001-037,2026-10-03 15:46:00,WF001,Inventory Restock Check,failed,686,s4,Calculate reorder quantity,ok,92,,seed
+seed-wf001-037,2026-10-03 15:46:00,WF001,Inventory Restock Check,failed,686,s5,Generate restock list,failed,97,Inventory file not found,seed
+seed-wf001-006,2026-10-03 19:02:00,WF001,Inventory Restock Check,success,496,s1,Load inventory,ok,93,,seed
+seed-wf001-006,2026-10-03 19:02:00,WF001,Inventory Restock Check,success,496,s2,Compare current stock with minimum threshold,ok,149,,seed
+seed-wf001-006,2026-10-03 19:02:00,WF001,Inventory Restock Check,success,496,s3,Identify low-stock products,ok,79,,seed
+seed-wf001-006,2026-10-03 19:02:00,WF001,Inventory Restock Check,success,496,s4,Calculate reorder quantity,ok,94,,seed
+seed-wf001-006,2026-10-03 19:02:00,WF001,Inventory Restock Check,success,496,s5,Generate restock list,ok,81,,seed
+seed-wf001-038,2026-10-03 19:52:00,WF001,Inventory Restock Check,success,658,s1,Load inventory,ok,107,,seed
+seed-wf001-038,2026-10-03 19:52:00,WF001,Inventory Restock Check,success,658,s2,Compare current stock with minimum threshold,ok,130,,seed
+seed-wf001-038,2026-10-03 19:52:00,WF001,Inventory Restock Check,success,658,s3,Identify low-stock products,ok,152,,seed
+seed-wf001-038,2026-10-03 19:52:00,WF001,Inventory Restock Check,success,658,s4,Calculate reorder quantity,ok,139,,seed
+seed-wf001-038,2026-10-03 19:52:00,WF001,Inventory Restock Check,success,658,s5,Generate restock list,ok,130,,seed
+seed-wf004-017,2026-10-03 20:16:00,WF004,Product Description Generator,success,5824,s1,Validate required attributes,ok,1032,,seed
+seed-wf004-017,2026-10-03 20:16:00,WF004,Product Description Generator,success,5824,s2,Create product description,ok,2240,,seed
+seed-wf004-017,2026-10-03 20:16:00,WF004,Product Description Generator,success,5824,s3,Generate short description,ok,703,,seed
+seed-wf004-017,2026-10-03 20:16:00,WF004,Product Description Generator,success,5824,s4,Generate SEO title,ok,605,,seed
+seed-wf004-017,2026-10-03 20:16:00,WF004,Product Description Generator,success,5824,s5,Generate meta description,ok,1244,,seed
+seed-wf005-006,2026-10-04 01:35:00,WF005,Customer Order Status,success,1858,s1,Validate identifier,ok,220,,seed
+seed-wf005-006,2026-10-04 01:35:00,WF005,Customer Order Status,success,1858,s2,Search order data,ok,1091,,seed
+seed-wf005-006,2026-10-04 01:35:00,WF005,Customer Order Status,success,1858,s3,Retrieve order status,ok,123,,seed
+seed-wf005-006,2026-10-04 01:35:00,WF005,Customer Order Status,success,1858,s4,Retrieve shipment information,ok,180,,seed
+seed-wf005-006,2026-10-04 01:35:00,WF005,Customer Order Status,success,1858,s5,Summarize current status,ok,244,,seed
+seed-wf001-014,2026-10-04 01:37:00,WF001,Inventory Restock Check,success,687,s1,Load inventory,ok,129,,seed
+seed-wf001-014,2026-10-04 01:37:00,WF001,Inventory Restock Check,success,687,s2,Compare current stock with minimum threshold,ok,175,,seed
+seed-wf001-014,2026-10-04 01:37:00,WF001,Inventory Restock Check,success,687,s3,Identify low-stock products,ok,96,,seed
+seed-wf001-014,2026-10-04 01:37:00,WF001,Inventory Restock Check,success,687,s4,Calculate reorder quantity,ok,125,,seed
+seed-wf001-014,2026-10-04 01:37:00,WF001,Inventory Restock Check,success,687,s5,Generate restock list,ok,162,,seed
+seed-wf006-008,2026-10-04 02:24:00,WF006,Duplicate Product Detection,success,2372,s1,Load products,ok,397,,seed
+seed-wf006-008,2026-10-04 02:24:00,WF006,Duplicate Product Detection,success,2372,s2,Normalize names/SKUs,ok,323,,seed
+seed-wf006-008,2026-10-04 02:24:00,WF006,Duplicate Product Detection,success,2372,s3,Compare identifiers,ok,183,,seed
+seed-wf006-008,2026-10-04 02:24:00,WF006,Duplicate Product Detection,success,2372,s4,Compare product attributes,ok,303,,seed
+seed-wf006-008,2026-10-04 02:24:00,WF006,Duplicate Product Detection,success,2372,s5,Group likely duplicates,ok,952,,seed
+seed-wf006-008,2026-10-04 02:24:00,WF006,Duplicate Product Detection,success,2372,s6,Assign confidence,ok,214,,seed
+seed-wf009-010,2026-10-04 03:09:00,WF009,Employee Task Assignment,success,1085,s1,Understand task requirements,ok,145,,seed
+seed-wf009-010,2026-10-04 03:09:00,WF009,Employee Task Assignment,success,1085,s2,Compare employee skills,ok,109,,seed
+seed-wf009-010,2026-10-04 03:09:00,WF009,Employee Task Assignment,success,1085,s3,Check current workload,ok,172,,seed
+seed-wf009-010,2026-10-04 03:09:00,WF009,Employee Task Assignment,success,1085,s4,Rank candidates,ok,281,,seed
+seed-wf009-010,2026-10-04 03:09:00,WF009,Employee Task Assignment,success,1085,s5,Select employee,ok,196,,seed
+seed-wf009-010,2026-10-04 03:09:00,WF009,Employee Task Assignment,success,1085,s6,Generate assignment summary,ok,182,,seed
+seed-wf001-033,2026-10-04 08:34:00,WF001,Inventory Restock Check,success,676,s1,Load inventory,ok,117,,seed
+seed-wf001-033,2026-10-04 08:34:00,WF001,Inventory Restock Check,success,676,s2,Compare current stock with minimum threshold,ok,240,,seed
+seed-wf001-033,2026-10-04 08:34:00,WF001,Inventory Restock Check,success,676,s3,Identify low-stock products,ok,122,,seed
+seed-wf001-033,2026-10-04 08:34:00,WF001,Inventory Restock Check,success,676,s4,Calculate reorder quantity,ok,77,,seed
+seed-wf001-033,2026-10-04 08:34:00,WF001,Inventory Restock Check,success,676,s5,Generate restock list,ok,120,,seed
+seed-wf004-019,2026-10-04 09:43:00,WF004,Product Description Generator,success,5722,s1,Validate required attributes,ok,809,,seed
+seed-wf004-019,2026-10-04 09:43:00,WF004,Product Description Generator,success,5722,s2,Create product description,ok,1934,,seed
+seed-wf004-019,2026-10-04 09:43:00,WF004,Product Description Generator,success,5722,s3,Generate short description,ok,922,,seed
+seed-wf004-019,2026-10-04 09:43:00,WF004,Product Description Generator,success,5722,s4,Generate SEO title,ok,947,,seed
+seed-wf004-019,2026-10-04 09:43:00,WF004,Product Description Generator,success,5722,s5,Generate meta description,ok,1110,,seed
+seed-wf007-013,2026-10-04 10:29:00,WF007,Marketing Campaign Brief,success,16147,s1,Validate inputs,ok,2130,,seed
+seed-wf007-013,2026-10-04 10:29:00,WF007,Marketing Campaign Brief,success,16147,s2,Identify campaign objective,ok,1770,,seed
+seed-wf007-013,2026-10-04 10:29:00,WF007,Marketing Campaign Brief,success,16147,s3,Summarize products,ok,1532,,seed
+seed-wf007-013,2026-10-04 10:29:00,WF007,Marketing Campaign Brief,success,16147,s4,Create messaging,ok,6226,,seed
+seed-wf007-013,2026-10-04 10:29:00,WF007,Marketing Campaign Brief,success,16147,s5,Create channel recommendations,ok,1638,,seed
+seed-wf007-013,2026-10-04 10:29:00,WF007,Marketing Campaign Brief,success,16147,s6,Create campaign checklist,ok,2851,,seed
+seed-wf005-025,2026-10-04 11:10:00,WF005,Customer Order Status,failed,1554,s1,Validate identifier,ok,244,,seed
+seed-wf005-025,2026-10-04 11:10:00,WF005,Customer Order Status,failed,1554,s2,Search order data,failed,1310,Order API timeout (504),seed
+seed-wf006-004,2026-10-04 12:50:00,WF006,Duplicate Product Detection,success,2201,s1,Load products,ok,269,,seed
+seed-wf006-004,2026-10-04 12:50:00,WF006,Duplicate Product Detection,success,2201,s2,Normalize names/SKUs,ok,272,,seed
+seed-wf006-004,2026-10-04 12:50:00,WF006,Duplicate Product Detection,success,2201,s3,Compare identifiers,ok,199,,seed
+seed-wf006-004,2026-10-04 12:50:00,WF006,Duplicate Product Detection,success,2201,s4,Compare product attributes,ok,233,,seed
+seed-wf006-004,2026-10-04 12:50:00,WF006,Duplicate Product Detection,success,2201,s5,Group likely duplicates,ok,1025,,seed
+seed-wf006-004,2026-10-04 12:50:00,WF006,Duplicate Product Detection,success,2201,s6,Assign confidence,ok,203,,seed
+seed-wf005-022,2026-10-04 13:33:00,WF005,Customer Order Status,failed,833,s1,Validate identifier,ok,115,,seed
+seed-wf005-022,2026-10-04 13:33:00,WF005,Customer Order Status,failed,833,s2,Search order data,failed,718,Order API timeout (504),seed
+seed-wf003-016,2026-10-04 14:53:00,WF003,Vendor File Processing,success,4197,s1,Read file,ok,3017,,seed
+seed-wf003-016,2026-10-04 14:53:00,WF003,Vendor File Processing,success,4197,s2,Detect columns,ok,179,,seed
+seed-wf003-016,2026-10-04 14:53:00,WF003,Vendor File Processing,success,4197,s3,Normalize column names,ok,169,,seed
+seed-wf003-016,2026-10-04 14:53:00,WF003,Vendor File Processing,success,4197,s4,Validate required fields,ok,258,,seed
+seed-wf003-016,2026-10-04 14:53:00,WF003,Vendor File Processing,success,4197,s5,Identify invalid rows,ok,276,,seed
+seed-wf003-016,2026-10-04 14:53:00,WF003,Vendor File Processing,success,4197,s6,Produce cleaned dataset,ok,298,,seed
+seed-wf008-010,2026-10-04 14:55:00,WF008,SEO Keyword Classification,success,6932,s1,Read keywords,ok,515,,seed
+seed-wf008-010,2026-10-04 14:55:00,WF008,SEO Keyword Classification,success,6932,s2,Remove duplicates,ok,772,,seed
+seed-wf008-010,2026-10-04 14:55:00,WF008,SEO Keyword Classification,success,6932,s3,Classify search intent,ok,3451,,seed
+seed-wf008-010,2026-10-04 14:55:00,WF008,SEO Keyword Classification,success,6932,s4,Map keywords to categories,ok,891,,seed
+seed-wf008-010,2026-10-04 14:55:00,WF008,SEO Keyword Classification,success,6932,s5,Identify high-priority keywords,ok,502,,seed
+seed-wf008-010,2026-10-04 14:55:00,WF008,SEO Keyword Classification,success,6932,s6,Export results,ok,801,,seed
+seed-wf009-000,2026-10-04 15:34:00,WF009,Employee Task Assignment,success,888,s1,Understand task requirements,ok,153,,seed
+seed-wf009-000,2026-10-04 15:34:00,WF009,Employee Task Assignment,success,888,s2,Compare employee skills,ok,166,,seed
+seed-wf009-000,2026-10-04 15:34:00,WF009,Employee Task Assignment,success,888,s3,Check current workload,ok,96,,seed
+seed-wf009-000,2026-10-04 15:34:00,WF009,Employee Task Assignment,success,888,s4,Rank candidates,ok,195,,seed
+seed-wf009-000,2026-10-04 15:34:00,WF009,Employee Task Assignment,success,888,s5,Select employee,ok,176,,seed
+seed-wf009-000,2026-10-04 15:34:00,WF009,Employee Task Assignment,success,888,s6,Generate assignment summary,ok,102,,seed
+seed-wf001-029,2026-10-04 15:45:00,WF001,Inventory Restock Check,success,551,s1,Load inventory,ok,123,,seed
+seed-wf001-029,2026-10-04 15:45:00,WF001,Inventory Restock Check,success,551,s2,Compare current stock with minimum threshold,ok,110,,seed
+seed-wf001-029,2026-10-04 15:45:00,WF001,Inventory Restock Check,success,551,s3,Identify low-stock products,ok,80,,seed
+seed-wf001-029,2026-10-04 15:45:00,WF001,Inventory Restock Check,success,551,s4,Calculate reorder quantity,ok,144,,seed
+seed-wf001-029,2026-10-04 15:45:00,WF001,Inventory Restock Check,success,551,s5,Generate restock list,ok,94,,seed
+seed-wf009-017,2026-10-04 21:32:00,WF009,Employee Task Assignment,success,1055,s1,Understand task requirements,ok,174,,seed
+seed-wf009-017,2026-10-04 21:32:00,WF009,Employee Task Assignment,success,1055,s2,Compare employee skills,ok,154,,seed
+seed-wf009-017,2026-10-04 21:32:00,WF009,Employee Task Assignment,success,1055,s3,Check current workload,ok,97,,seed
+seed-wf009-017,2026-10-04 21:32:00,WF009,Employee Task Assignment,success,1055,s4,Rank candidates,ok,276,,seed
+seed-wf009-017,2026-10-04 21:32:00,WF009,Employee Task Assignment,success,1055,s5,Select employee,ok,208,,seed
+seed-wf009-017,2026-10-04 21:32:00,WF009,Employee Task Assignment,success,1055,s6,Generate assignment summary,ok,146,,seed
+seed-wf010-000,2026-10-04 22:41:00,WF010,Workflow Performance Report,success,601,s1,Load execution logs,ok,103,,seed
+seed-wf010-000,2026-10-04 22:41:00,WF010,Workflow Performance Report,success,601,s2,Calculate success/failure rate,ok,85,,seed
+seed-wf010-000,2026-10-04 22:41:00,WF010,Workflow Performance Report,success,601,s3,Calculate average execution time,ok,142,,seed
+seed-wf010-000,2026-10-04 22:41:00,WF010,Workflow Performance Report,success,601,s4,Identify frequent errors,ok,70,,seed
+seed-wf010-000,2026-10-04 22:41:00,WF010,Workflow Performance Report,success,601,s5,Identify slow steps,ok,110,,seed
+seed-wf010-000,2026-10-04 22:41:00,WF010,Workflow Performance Report,success,601,s6,Generate recommendations,ok,91,,seed
+seed-wf005-007,2026-10-04 23:39:00,WF005,Customer Order Status,success,1918,s1,Validate identifier,ok,238,,seed
+seed-wf005-007,2026-10-04 23:39:00,WF005,Customer Order Status,success,1918,s2,Search order data,ok,1217,,seed
+seed-wf005-007,2026-10-04 23:39:00,WF005,Customer Order Status,success,1918,s3,Retrieve order status,ok,151,,seed
+seed-wf005-007,2026-10-04 23:39:00,WF005,Customer Order Status,success,1918,s4,Retrieve shipment information,ok,200,,seed
+seed-wf005-007,2026-10-04 23:39:00,WF005,Customer Order Status,success,1918,s5,Summarize current status,ok,112,,seed
+seed-wf003-004,2026-10-05 02:09:00,WF003,Vendor File Processing,success,3584,s1,Read file,ok,2205,,seed
+seed-wf003-004,2026-10-05 02:09:00,WF003,Vendor File Processing,success,3584,s2,Detect columns,ok,233,,seed
+seed-wf003-004,2026-10-05 02:09:00,WF003,Vendor File Processing,success,3584,s3,Normalize column names,ok,261,,seed
+seed-wf003-004,2026-10-05 02:09:00,WF003,Vendor File Processing,success,3584,s4,Validate required fields,ok,226,,seed
+seed-wf003-004,2026-10-05 02:09:00,WF003,Vendor File Processing,success,3584,s5,Identify invalid rows,ok,332,,seed
+seed-wf003-004,2026-10-05 02:09:00,WF003,Vendor File Processing,success,3584,s6,Produce cleaned dataset,ok,327,,seed
+seed-wf001-045,2026-10-05 03:26:00,WF001,Inventory Restock Check,success,618,s1,Load inventory,ok,92,,seed
+seed-wf001-045,2026-10-05 03:26:00,WF001,Inventory Restock Check,success,618,s2,Compare current stock with minimum threshold,ok,143,,seed
+seed-wf001-045,2026-10-05 03:26:00,WF001,Inventory Restock Check,success,618,s3,Identify low-stock products,ok,81,,seed
+seed-wf001-045,2026-10-05 03:26:00,WF001,Inventory Restock Check,success,618,s4,Calculate reorder quantity,ok,146,,seed
+seed-wf001-045,2026-10-05 03:26:00,WF001,Inventory Restock Check,success,618,s5,Generate restock list,ok,156,,seed
+seed-wf002-006,2026-10-05 05:13:00,WF002,Product Price Validation,success,874,s1,Load product prices,ok,132,,seed
+seed-wf002-006,2026-10-05 05:13:00,WF002,Product Price Validation,success,874,s2,Match products by SKU,ok,331,,seed
+seed-wf002-006,2026-10-05 05:13:00,WF002,Product Price Validation,success,874,s3,Compare internal and vendor prices,ok,119,,seed
+seed-wf002-006,2026-10-05 05:13:00,WF002,Product Price Validation,success,874,s4,Calculate percentage difference,ok,151,,seed
+seed-wf002-006,2026-10-05 05:13:00,WF002,Product Price Validation,success,874,s5,Flag exceptions,ok,141,,seed
+seed-wf009-003,2026-10-05 06:16:00,WF009,Employee Task Assignment,success,1043,s1,Understand task requirements,ok,111,,seed
+seed-wf009-003,2026-10-05 06:16:00,WF009,Employee Task Assignment,success,1043,s2,Compare employee skills,ok,195,,seed
+seed-wf009-003,2026-10-05 06:16:00,WF009,Employee Task Assignment,success,1043,s3,Check current workload,ok,111,,seed
+seed-wf009-003,2026-10-05 06:16:00,WF009,Employee Task Assignment,success,1043,s4,Rank candidates,ok,280,,seed
+seed-wf009-003,2026-10-05 06:16:00,WF009,Employee Task Assignment,success,1043,s5,Select employee,ok,209,,seed
+seed-wf009-003,2026-10-05 06:16:00,WF009,Employee Task Assignment,success,1043,s6,Generate assignment summary,ok,137,,seed
+seed-wf004-035,2026-10-05 06:22:00,WF004,Product Description Generator,success,5404,s1,Validate required attributes,ok,894,,seed
+seed-wf004-035,2026-10-05 06:22:00,WF004,Product Description Generator,success,5404,s2,Create product description,ok,1829,,seed
+seed-wf004-035,2026-10-05 06:22:00,WF004,Product Description Generator,success,5404,s3,Generate short description,ok,1178,,seed
+seed-wf004-035,2026-10-05 06:22:00,WF004,Product Description Generator,success,5404,s4,Generate SEO title,ok,637,,seed
+seed-wf004-035,2026-10-05 06:22:00,WF004,Product Description Generator,success,5404,s5,Generate meta description,ok,866,,seed
+seed-wf004-028,2026-10-05 10:34:00,WF004,Product Description Generator,success,5377,s1,Validate required attributes,ok,1067,,seed
+seed-wf004-028,2026-10-05 10:34:00,WF004,Product Description Generator,success,5377,s2,Create product description,ok,1814,,seed
+seed-wf004-028,2026-10-05 10:34:00,WF004,Product Description Generator,success,5377,s3,Generate short description,ok,752,,seed
+seed-wf004-028,2026-10-05 10:34:00,WF004,Product Description Generator,success,5377,s4,Generate SEO title,ok,1078,,seed
+seed-wf004-028,2026-10-05 10:34:00,WF004,Product Description Generator,success,5377,s5,Generate meta description,ok,666,,seed
+seed-wf008-011,2026-10-05 12:31:00,WF008,SEO Keyword Classification,success,6178,s1,Read keywords,ok,812,,seed
+seed-wf008-011,2026-10-05 12:31:00,WF008,SEO Keyword Classification,success,6178,s2,Remove duplicates,ok,526,,seed
+seed-wf008-011,2026-10-05 12:31:00,WF008,SEO Keyword Classification,success,6178,s3,Classify search intent,ok,3001,,seed
+seed-wf008-011,2026-10-05 12:31:00,WF008,SEO Keyword Classification,success,6178,s4,Map keywords to categories,ok,654,,seed
+seed-wf008-011,2026-10-05 12:31:00,WF008,SEO Keyword Classification,success,6178,s5,Identify high-priority keywords,ok,651,,seed
+seed-wf008-011,2026-10-05 12:31:00,WF008,SEO Keyword Classification,success,6178,s6,Export results,ok,534,,seed
+seed-wf002-026,2026-10-05 15:18:00,WF002,Product Price Validation,success,1033,s1,Load product prices,ok,158,,seed
+seed-wf002-026,2026-10-05 15:18:00,WF002,Product Price Validation,success,1033,s2,Match products by SKU,ok,346,,seed
+seed-wf002-026,2026-10-05 15:18:00,WF002,Product Price Validation,success,1033,s3,Compare internal and vendor prices,ok,165,,seed
+seed-wf002-026,2026-10-05 15:18:00,WF002,Product Price Validation,success,1033,s4,Calculate percentage difference,ok,178,,seed
+seed-wf002-026,2026-10-05 15:18:00,WF002,Product Price Validation,success,1033,s5,Flag exceptions,ok,186,,seed
+seed-wf003-008,2026-10-05 15:40:00,WF003,Vendor File Processing,success,3201,s1,Read file,ok,2012,,seed
+seed-wf003-008,2026-10-05 15:40:00,WF003,Vendor File Processing,success,3201,s2,Detect columns,ok,257,,seed
+seed-wf003-008,2026-10-05 15:40:00,WF003,Vendor File Processing,success,3201,s3,Normalize column names,ok,229,,seed
+seed-wf003-008,2026-10-05 15:40:00,WF003,Vendor File Processing,success,3201,s4,Validate required fields,ok,209,,seed
+seed-wf003-008,2026-10-05 15:40:00,WF003,Vendor File Processing,success,3201,s5,Identify invalid rows,ok,214,,seed
+seed-wf003-008,2026-10-05 15:40:00,WF003,Vendor File Processing,success,3201,s6,Produce cleaned dataset,ok,280,,seed
+seed-wf003-002,2026-10-05 18:58:00,WF003,Vendor File Processing,success,3886,s1,Read file,ok,2481,,seed
+seed-wf003-002,2026-10-05 18:58:00,WF003,Vendor File Processing,success,3886,s2,Detect columns,ok,344,,seed
+seed-wf003-002,2026-10-05 18:58:00,WF003,Vendor File Processing,success,3886,s3,Normalize column names,ok,234,,seed
+seed-wf003-002,2026-10-05 18:58:00,WF003,Vendor File Processing,success,3886,s4,Validate required fields,ok,351,,seed
+seed-wf003-002,2026-10-05 18:58:00,WF003,Vendor File Processing,success,3886,s5,Identify invalid rows,ok,197,,seed
+seed-wf003-002,2026-10-05 18:58:00,WF003,Vendor File Processing,success,3886,s6,Produce cleaned dataset,ok,279,,seed
+seed-wf005-001,2026-10-05 23:41:00,WF005,Customer Order Status,failed,899,s1,Validate identifier,ok,143,,seed
+seed-wf005-001,2026-10-05 23:41:00,WF005,Customer Order Status,failed,899,s2,Search order data,failed,756,Shipment API rate limited (429),seed
+seed-wf003-026,2026-10-06 00:21:00,WF003,Vendor File Processing,success,3895,s1,Read file,ok,2662,,seed
+seed-wf003-026,2026-10-06 00:21:00,WF003,Vendor File Processing,success,3895,s2,Detect columns,ok,212,,seed
+seed-wf003-026,2026-10-06 00:21:00,WF003,Vendor File Processing,success,3895,s3,Normalize column names,ok,164,,seed
+seed-wf003-026,2026-10-06 00:21:00,WF003,Vendor File Processing,success,3895,s4,Validate required fields,ok,313,,seed
+seed-wf003-026,2026-10-06 00:21:00,WF003,Vendor File Processing,success,3895,s5,Identify invalid rows,ok,253,,seed
+seed-wf003-026,2026-10-06 00:21:00,WF003,Vendor File Processing,success,3895,s6,Produce cleaned dataset,ok,291,,seed
+seed-wf003-000,2026-10-06 00:45:00,WF003,Vendor File Processing,success,3097,s1,Read file,ok,1850,,seed
+seed-wf003-000,2026-10-06 00:45:00,WF003,Vendor File Processing,success,3097,s2,Detect columns,ok,254,,seed
+seed-wf003-000,2026-10-06 00:45:00,WF003,Vendor File Processing,success,3097,s3,Normalize column names,ok,179,,seed
+seed-wf003-000,2026-10-06 00:45:00,WF003,Vendor File Processing,success,3097,s4,Validate required fields,ok,353,,seed
+seed-wf003-000,2026-10-06 00:45:00,WF003,Vendor File Processing,success,3097,s5,Identify invalid rows,ok,252,,seed
+seed-wf003-000,2026-10-06 00:45:00,WF003,Vendor File Processing,success,3097,s6,Produce cleaned dataset,ok,209,,seed
+seed-wf009-023,2026-10-06 05:55:00,WF009,Employee Task Assignment,success,953,s1,Understand task requirements,ok,98,,seed
+seed-wf009-023,2026-10-06 05:55:00,WF009,Employee Task Assignment,success,953,s2,Compare employee skills,ok,161,,seed
+seed-wf009-023,2026-10-06 05:55:00,WF009,Employee Task Assignment,success,953,s3,Check current workload,ok,143,,seed
+seed-wf009-023,2026-10-06 05:55:00,WF009,Employee Task Assignment,success,953,s4,Rank candidates,ok,238,,seed
+seed-wf009-023,2026-10-06 05:55:00,WF009,Employee Task Assignment,success,953,s5,Select employee,ok,194,,seed
+seed-wf009-023,2026-10-06 05:55:00,WF009,Employee Task Assignment,success,953,s6,Generate assignment summary,ok,119,,seed

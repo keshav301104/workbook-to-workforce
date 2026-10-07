@@ -1,0 +1,16 @@
+sku,product_name,category,current_stock,minimum_stock,max_stock,warehouse,last_counted
+TS-1001,Classic Linen Shirt,Shirts,12,25,120,Miami-1,2026-10-07
+TS-1002,Oxford Button-Down Shirt,Shirts,64,30,150,Miami-1,2026-10-07
+TS-1003,Linen Overshirt,Shirts,0,20,100,Miami-1,2026-10-07
+KN-2001,Merino Crew Sweater,Knitwear,18,18,90,Atlanta-2,2026-10-07
+KN-2002,Cable Knit Cardigan,Knitwear,7,15,,Atlanta-2,2026-10-07
+OW-3001,Waxed Field Jacket,Outerwear,22,10,60,Miami-1,2026-10-07
+OW-3002,Quilted Liner Vest,Outerwear,9,12,50,Atlanta-2,2026-10-07
+TR-4001,Relaxed Chino Trousers,Trousers,140,40,200,Miami-1,2026-10-07
+TR-4002,Pleated Wool Trousers,Trousers,17,15,70,Atlanta-2,2026-10-07
+AC-5001,Leather Belt,Accessories,33,20,100,Miami-1,2026-10-07
+AC-5002,Wool Beanie,Accessories,4,30,150,Atlanta-2,2026-10-07
+AC-5003,Canvas Tote Bag,Accessories,51,25,120,Miami-1,2026-10-07
+HM-6001,Linen Duvet Cover,Home,6,8,40,Atlanta-2,2026-10-07
+HM-6002,Stoneware Mug Set,Home,75,20,120,Miami-1,2026-10-07
+HM-6003,Wool Throw Blanket,Home,11,10,45,Atlanta-2,2026-10-07

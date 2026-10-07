@@ -1,0 +1,11 @@
+employee_id,name,role,skills,current_workload_hours,weekly_capacity_hours,status,seniority
+E-101,Arjun Mehta,Developer,python;fastapi;postgresql;docker,28,40,available,Senior
+E-102,Priya Nair,Developer,react;typescript;css;stripe,36,40,available,Mid
+E-103,Daniel Ortiz,Developer,react;typescript;node.js;stripe;graphql,18,40,available,Senior
+E-104,Hannah Weiss,Developer,react;typescript;stripe;css,10,40,on_leave,Senior
+E-105,Kenji Sato,Developer,python;machine learning;langgraph;aws,22,40,available,Senior
+E-106,Fatima Zahra,Developer,node.js;postgresql;redis;aws,39,40,available,Mid
+E-107,Lucas Brown,Designer,figma;ui design;css,15,40,available,Mid
+E-108,Chloe Martin,Marketer,seo;content;email marketing,20,32,available,Mid
+E-109,Omar Haddad,Developer,shopify;liquid;javascript;css,30,40,available,Junior
+E-110,Grace Liu,Data Analyst,sql;python;tableau,25,40,available,Mid

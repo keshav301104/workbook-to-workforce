@@ -1,0 +1,7 @@
+order_id,customer_email,customer_name,order_date,order_status,items,order_total
+ORD-1001,maya.patel@example.com,Maya Patel,2026-10-01,Shipped,Classic Linen Shirt x1; Leather Belt x1,108.0
+ORD-1002,liam.chen@example.com,Liam Chen,2026-09-24,Delivered,Waxed Field Jacket x1,249.0
+ORD-1003,sofia.reyes@example.com,Sofia Reyes,2026-10-06,Processing,Merino Crew Sweater x2,238.0
+ORD-1004,noah.kim@example.com,Noah Kim,2026-09-28,Cancelled,Wool Beanie x3,105.0
+ORD-1005,maya.patel@example.com,Maya Patel,2026-10-05,Packed,Stoneware Mug Set x1,45.0
+ORD-1006,ava.johnson@example.com,Ava Johnson,2026-10-03,Shipped,Linen Duvet Cover x1; Wool Throw Blanket x1,318.0

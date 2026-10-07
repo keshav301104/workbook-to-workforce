@@ -1,0 +1,16 @@
+sku,product_name,brand,category,collection,launch_date,material,color,size,target_audience,internal_price,unit_cost,features
+TS-1001,Classic Linen Shirt,Halden,Shirts,Summer 2026,2026-04-01,Linen,White,M,Men 25-45,59.0,21.5,Relaxed fit; mother-of-pearl buttons
+TS-1002,Oxford Button-Down Shirt,Halden,Shirts,Core,2025-01-10,Cotton,Light Blue,L,Men 25-45,64.0,24.0,Button-down collar; chest pocket
+TS-1003,Linen Overshirt,Halden,Shirts,Autumn 2026,2026-09-15,Linen,Sage Green,M,Men 25-40,89.0,31.0,Two flap pockets; boxy fit
+KN-2001,Merino Crew Sweater,Halden,Knitwear,Autumn 2026,2026-09-15,Merino Wool,Charcoal,M,Men & Women 25-50,119.0,42.0,Ribbed cuffs; machine washable
+KN-2002,Cable Knit Cardigan,Halden,Knitwear,Autumn 2026,2026-09-15,,Oat,S,Women 25-45,139.0,55.0,Horn buttons
+OW-3001,Waxed Field Jacket,Halden,Outerwear,Autumn 2026,2026-09-15,Waxed Cotton,Olive,L,Men 30-55,249.0,96.0,Corduroy collar; storm flap
+OW-3002,Quilted Liner Vest,Halden,Outerwear,Autumn 2026,2026-09-15,Recycled Polyester,,M,,129.0,44.0,Packable
+TR-4001,Relaxed Chino Trousers,Halden,Trousers,Core,2025-01-10,Cotton Twill,Stone,32,Men 25-45,79.0,27.0,Garment dyed
+TR-4002,Pleated Wool Trousers,Halden,Trousers,Autumn 2026,2026-09-15,Wool,Navy,32,Men 30-55,149.0,58.0,Single pleat; side adjusters
+AC-5001,Leather Belt,Halden,Accessories,Core,2025-01-10,Full-grain Leather,Brown,90,Men & Women,49.0,15.0,Solid brass buckle
+AC-5002,Wool Beanie,Halden,Accessories,Autumn 2026,2026-09-15,Lambswool,Rust,One Size,Men & Women,35.0,9.5,Fold-over cuff
+AC-5003,Canvas Tote Bag,Halden,Accessories,Summer 2026,2026-04-01,Organic Cotton Canvas,Natural,One Size,Men & Women,39.0,11.0,Inner zip pocket
+HM-6001,Linen Duvet Cover,Halden Home,Home,Core,2025-03-01,Linen,Clay,Queen,Homeowners,189.0,70.0,Coconut buttons
+HM-6002,Stoneware Mug Set,Halden Home,Home,Core,2025-03-01,Stoneware,Speckled White,Set of 4,Homeowners,45.0,14.0,Dishwasher safe
+HM-6003,Wool Throw Blanket,Halden Home,Home,Autumn 2026,2026-09-15,Wool,Forest,130x180,Homeowners,129.0,47.0,Fringed edges
