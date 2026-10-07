@@ -91,7 +91,7 @@ This repository is built incrementally. The commit history follows the order bel
 
 - [x] Project scaffold: separate `backend/` and `frontend/`, dependencies, central settings
 - [x] Seeded sample business data with planted edge cases
-- [ ] Spec layer: read the Excel workbook, typed models, plan validation, hot reload
+- [x] Spec layer: read the Excel workbook, typed models, plan validation, hot reload
 - [ ] Tool library and provider-agnostic LLM client with offline fallback
 - [ ] Engine: router, input extraction, LangGraph executor, result rendering, run log
 - [ ] Execution plans for WF001–WF010
