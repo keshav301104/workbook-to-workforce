@@ -23,6 +23,7 @@ from ..compiler import draft
 from ..config import get_settings
 from ..engine import get_engine
 from ..engine import runlog
+from ..engine.router import lexical_route
 from ..llm import get_llm
 from ..spec import get_registry
 from ..tools import TOOLS
@@ -87,6 +88,7 @@ def _wf_payload(w) -> dict:
             t = TOOLS.get(st.tool or "")
             steps.append({"id": st.id, "title": st.title, "kind": "decision" if st.kind == "condition" else "tool",
                           "tool": st.tool, "category": t.category if t else "decision", "llm": bool(t and t.llm),
+                          "api": (st.args.get("api") or t.simulated_api) if t and t.simulated_api else None,
                           "excel_steps": st.excel_steps, "when": st.when, "note": st.note})
     return {
         "id": s.id, "name": s.name, "trigger": s.trigger, "inputs_text": s.inputs_text, "excel_steps": s.steps,
@@ -127,6 +129,16 @@ def draft_plan(wid: str) -> dict:
     out = reg.settings.plans_dir / f"{wid}.yaml.draft"
     out.write_text(text, encoding="utf-8")
     return {"file": out.name, "method": method, "issues": issues, "yaml": text}
+
+
+@app.get("/api/route/preview")
+def route_preview(q: str = "") -> dict:
+    """Instant, LLM-free guess shown while the user types. The real run may still use the LLM router."""
+    reg = get_registry()
+    if len(q.strip()) < 3:
+        return {"workflow_id": None, "workflow_name": None, "confidence": 0.0, "alternatives": []}
+    r = lexical_route(q, reg.all())
+    return r.as_dict(reg.workflows) | {"threshold": reg.settings.router_min_confidence}
 
 
 @app.get("/api/tools")

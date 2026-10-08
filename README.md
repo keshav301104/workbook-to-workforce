@@ -11,16 +11,58 @@ Write a workflow as a row in a spreadsheet. Flowline reads it, works out which w
 ![FastAPI](https://img.shields.io/badge/FastAPI-SSE%20streaming-009688?logo=fastapi&logoColor=white)
 ![LLM](https://img.shields.io/badge/LLM-OpenAI%20%7C%20Gemini%20%7C%20Groq%20%7C%20Anthropic-6B4FD8)
 ![Offline](https://img.shields.io/badge/runs%20without%20an%20API%20key-yes-2E7D4F)
+![Tests](https://img.shields.io/badge/tests-76%20passing-2E7D4F)
 
 </div>
 
 ---
 
+## What sets this submission apart
+
+Beyond what the brief asks for, these are the parts built to make Flowline behave like a production system rather than a demo:
+
+| | Feature | Why it matters |
+|---|---|---|
+| 1 | **The spreadsheet really drives behaviour** | "exceeds 10%" in an Excel cell becomes `threshold_pct = 10`. Edit the cell, click Reload, and the agent follows the new rule with no code change |
+| 2 | **Pause, ask, resume the same run** | When information is missing or wrong, the run stops (LangGraph `interrupt`), asks with a typed form, and continues from that step instead of starting over |
+| 3 | **An 11th workflow with zero Python** | One Excel row plus a short YAML plan. The LLM can even draft that plan (`python -m flowline compile WF011`), and a test proves it works |
+| 4 | **Plans are validated before anything runs** | Unknown tools, misspelled arguments, impossible jumps and Excel steps left unimplemented are caught at load time; a broken plan disables only its own workflow |
+| 5 | **LLM for language, Python for maths** | The model routes, extracts and writes. Thresholds, percentages and rankings run in code, so exactly 10.00% is never "rounded" into an exception |
+| 6 | **Grounded, checked LLM output** | Labels are restricted to the allowed values, skills to a known vocabulary, and generated copy is checked so missing attributes are never invented |
+| 7 | **Works with any provider, or none** | OpenAI, Gemini, Groq or Anthropic by config. With no key every LLM step has a deterministic fallback, and a circuit breaker stops a failing provider from slowing every step |
+| 8 | **Real failure handling, visible** | Simulated APIs with latency and fault injection, retries with exponential backoff, and a UI toggle to make them fail on demand and watch the recovery live |
+| 9 | **The agent reports on itself** | Every run is logged in the same format WF010 analyses, so the performance report includes the agent's own runs |
+| 10 | **A live console, not a chat box** | Workflow choice with confidence and reasoning, every step with its tool and Excel step, a live **flow map** of the path taken, live counters for LLM calls, API calls and retries, and an intent preview while you type |
+| 11 | **Insights, Tool library, Run history** | A dashboard over all runs, the 32 shared tools with how many workflows reuse each, and the full trace of any past run |
+| 12 | **Built for daily use** | `Ctrl K` command palette, keyboard shortcuts, sortable and filterable tables with CSV copy, Copy as Markdown, drag-and-drop uploads, light and dark themes |
+| 13 | **76 automated tests** | Every Excel test question end to end, the planted edge cases, routing, pause/resume, retries, the LLM paths with a fake model, the API and WF011 |
+
+---
+
+## Screenshots
+
+**Live run with simulated API faults.** Retries happen in front of you; the flow map on the right draws the path the agent takes.
+
+![Live run with retries and the flow map](docs/02-live-run.png)
+
+| | |
+|---|---|
+| ![Start page](docs/01-console.png) | ![Agent asking for missing inputs](docs/03-ask.png) |
+| **Start page.** Test requests come straight from the spreadsheet; the pill shows the LLM in use. | **Human in the loop.** WF007 asks for the goal and dates before writing anything. |
+| ![Grounded LLM content](docs/04-llm-content.png) | ![Insights dashboard](docs/05-insights.png) |
+| **Grounded LLM content.** Missing attributes are reported, and quality checks confirm none were invented. | **Insights.** Finish rate, timing, routing confidence and outcomes per workflow. |
+| ![Tool library](docs/06-tools.png) | ![Workflows page](docs/07-workflows.png) |
+| **Tool library.** 32 shared tools and how many workflows reuse each one. | **Workflows.** Each Excel row next to the plan that runs it, with `threshold_pct = 10` read from the sheet. |
+
+---
+
 ## Contents
 
+- [What sets this submission apart](#what-sets-this-submission-apart)
+- [Screenshots](#screenshots)
 - [What it does](#what-it-does)
+- [Assignment checklist](#assignment-checklist)
 - [Why it is built this way](#why-it-is-built-this-way)
-- [Build progress](#build-progress)
 - [Architecture](#architecture)
 - [How a request flows](#how-a-request-flows)
 - [The spreadsheet is the source of truth](#the-spreadsheet-is-the-source-of-truth)
@@ -29,6 +71,8 @@ Write a workflow as a row in a spreadsheet. Flowline reads it, works out which w
 - [Conditions, human-in-the-loop and error handling](#conditions-human-in-the-loop-and-error-handling)
 - [The 10 workflows](#the-10-workflows)
 - [Adding an 11th workflow](#adding-an-11th-workflow)
+- [The console](#the-console)
+- [HTTP API](#http-api)
 - [Design decisions](#design-decisions)
 - [Repository layout](#repository-layout)
 - [Getting started](#getting-started)
@@ -57,18 +101,25 @@ Result    ▸ 6 products need restocking  (table · CSV download)
 
 **A single generic agent runs every workflow.** There are no per-workflow chatbots and no `if workflow == "WF001"` branches. Each Excel row is paired with a short, validated **execution plan**, and one engine interprets all of them using a shared **tool library**.
 
-### Highlights
+---
 
-| | |
-|---|---|
-| **Excel-driven** | Workflow IDs, names, triggers, steps, rules and test questions are read from the workbook at runtime. Thresholds such as "exceeds 10%" are parsed from the sheet's own text, so edit the cell and the behaviour changes. |
-| **Zero-code extension** | A new workflow is one Excel row plus one plan file. The LLM can draft that plan from the row and the tool catalogue. |
-| **Human-in-the-loop** | When required information is missing, the run *pauses*, asks a typed question (date pickers, choices, file upload) and *resumes the same run*. It does not start over. |
-| **Never invents data** | Missing product attributes are reported, not made up. Tracking numbers are never guessed. LLM outputs are constrained to enums and vocabularies, then checked. |
-| **Exact where it matters** | The LLM handles language. Arithmetic and rules run in plain Python, so a 10.00% difference is never mistaken for 10.01%. |
-| **Resilient** | Simulated external APIs with latency and fault injection, retries with exponential backoff, an LLM circuit breaker, and deterministic fallbacks for every LLM step. |
-| **Observable** | Every routing decision, input, tool call, retry and rule outcome streams live to the UI. Every run is logged step by step, and one workflow (WF010) reports on those logs. |
-| **Works offline** | No API key? Routing, extraction and content fall back to deterministic logic, and everything still runs end to end. |
+## Assignment checklist
+
+Every requirement in the brief, how it is met, and where to find it.
+
+| Requirement | How Flowline does it | Where to look |
+|---|---|---|
+| Convert the 10 Excel workflows into an agent system | Each row of the `Workflows` sheet is parsed at runtime and paired with a declarative YAML plan; one engine runs all of them | `backend/flowline/spec/`, `backend/workflows/plans/` |
+| Understand the user's request | LLM structured-output extraction into a schema generated from each plan, with regex patterns as the fallback | `backend/flowline/engine/extractor.py` |
+| Select the right workflow | LLM router over a catalogue built from the Excel rows; BM25-style lexical fallback; asks the user when confidence is low; says so when nothing matches | `backend/flowline/engine/router.py` |
+| Execute steps with tools and APIs | 32 reusable tools; simulated Order, Shipment and Records APIs with latency and fault injection | `backend/flowline/tools/` |
+| Handle conditions | `Decision_Logic` becomes decision steps (`continue`, `ask`, `escalate`, `complete`, `fail`, `goto`); thresholds are read from the Excel text | the plans, `backend/flowline/engine/graph.py` |
+| Handle errors | Retries with exponential backoff, a clear failure on the step that hit it, LLM fallback plus a circuit breaker, invalid input re-asked | `backend/flowline/engine/graph.py`, `backend/flowline/llm/client.py` |
+| Show the selected workflow, the steps executed and the final output | Live web console, a terminal CLI, and saved transcripts of 18 runs | `frontend/`, `python -m flowline run`, `backend/examples/outputs/` |
+| Not 10 hard-coded chatbots | No `if workflow == …` anywhere; every workflow is data (Excel row + plan) run by the same engine | `backend/flowline/engine/graph.py` |
+| An 11th workflow with minimal code | WF011 is one Excel row plus a short YAML plan (under 90 lines), with **zero Python changes**, proved by a test | `backend/examples/wf011/`, `backend/tests/test_eleventh_workflow.py` |
+| Python, LLM, agent/tool calling, Excel as the source | Python 3.10+, LangGraph, LangChain structured output over OpenAI, Gemini, Groq or Anthropic, `openpyxl`/`pandas` | `backend/requirements.txt` |
+| Test with the sheet's test questions | Every question in `Test_Questions` runs end to end in the test suite | `backend/tests/test_workflows.py` |
 
 ---
 
@@ -82,23 +133,6 @@ Two simpler designs both fall short:
 2. **A free-form ReAct agent that picks tools as it goes.** It's flexible, but runs aren't repeatable, are hard to audit against the sheet, are slow, and can't be trusted with arithmetic.
 
 Flowline sits between them. **The spreadsheet says *what*, a small declarative plan says *how*, and one engine runs any plan.** The LLM does the parts that need language understanding: picking the workflow, reading inputs, writing content, classifying, and drafting new plans. Deterministic code does the parts that need to be exact.
-
----
-
-## Build progress
-
-This repository is built incrementally. The commit history follows the order below.
-
-- [x] Project scaffold: separate `backend/` and `frontend/`, dependencies, central settings
-- [x] Seeded sample business data with planted edge cases
-- [x] Spec layer: read the Excel workbook, typed models, plan validation, hot reload
-- [ ] Tool library and provider-agnostic LLM client with offline fallback
-- [ ] Engine: router, input extraction, LangGraph executor, result rendering, run log
-- [ ] Execution plans for WF001–WF010
-- [ ] Streaming HTTP API and command-line interface
-- [ ] Live execution console (frontend)
-- [ ] Test suite covering every workflow and edge case
-- [ ] WF011 example: extension with zero code changes
 
 ---
 
@@ -143,8 +177,8 @@ flowchart TD
 | **Tools** | `flowline/tools/` | Reusable, typed functions: load and clean tables, join, flag, aggregate, fuzzy lookup, duplicate grouping, LLM generate/classify/map/extract, text validation |
 | **LLM** | `flowline/llm/` | One interface over OpenAI, Gemini, Groq and Anthropic using structured output, with a circuit breaker |
 | **Engine** | `flowline/engine/` | Router, input extractor, the LangGraph state machine, result rendering, run logging |
-| **API** | `flowline/api/` | FastAPI service that streams each run as Server-Sent Events, plus file upload and download endpoints |
-| **Frontend** | `frontend/` | Static HTML/CSS/JS console (no build step) that renders the event stream live |
+| **API** | `flowline/api/` | FastAPI service that streams each run as Server-Sent Events, plus upload, download, history, tools and route-preview endpoints |
+| **Frontend** | `frontend/` | Static HTML/CSS/JS console (no build step): live run view, flow map, insights, tool library, command palette |
 
 ---
 
@@ -278,7 +312,48 @@ steps:
    `python -m flowline compile WF011`. The draft is validated, repaired once if needed, and kept as `.draft` until a person reviews it.
 3. Reload. The workflow is routable and runnable, and **no Python changes were made**.
 
+To see it live, run `python scripts/add_wf011.py` from `backend` (it adds the row and installs `examples/wf011/WF011.yaml`), click Reload in the console, and ask *"Which products have low margins?"*. `python scripts/add_wf011.py --remove` restores the original workbook. `tests/test_eleventh_workflow.py` does the same on a copy of the workbook.
+
 A new **tool** is needed only for a capability the library doesn't have yet. That's one decorated function.
+
+---
+
+## The console
+
+A static frontend (no build step) that renders the backend's event stream as it arrives.
+
+| Page | What you see |
+|---|---|
+| **Console** | Your request, the workflow chosen with its confidence and reasoning, the inputs and where each came from, every step with its tool, Excel step, timing, logs and data preview, decisions with their rule and outcome, questions as inline forms, and the result as tables, KPIs, content, charts and downloads |
+| **Flow map** (right panel) | The plan as a live graph. A gradient line follows the path the agent takes, skipped steps dim, decision outcomes show, and a dashed arc marks a jump back after a question. Click any node to open that step |
+| **Insights** | Runs logged, finish rate, average time, routing confidence, runs per workflow by outcome, time per run, routing method split, most frequent requests |
+| **Workflows** | Each Excel row next to its plan, with parameters and where they came from, validation issues, test requests to run, and *Draft a plan* for rows that have none |
+| **Tool library** | Every tool, its arguments, whether it uses the LLM or a simulated API, and which workflows reuse it |
+| **Run history** | Every logged run with its full step trace and result |
+
+Also: an intent preview while typing, `Ctrl K` command palette, sortable and filterable result tables with CSV copy, *Run again*, *Copy as Markdown*, drag-and-drop file upload, light and dark themes, and keyboard shortcuts (`?` lists them).
+
+The gradient (sheet green → cyan → blue → violet) is used for one thing only: progress through a run. Status colours stay flat so done, failed and needs-you read at a glance.
+
+---
+
+## HTTP API
+
+| Method | Path | Purpose |
+|---|---|---|
+| `GET` | `/api/status` | LLM mode, workbook, workflow and tool counts, load problems |
+| `GET` | `/api/workflows` | Every Excel row with its plan, parameters, issues and test requests |
+| `POST` | `/api/workflows/reload` | Re-read the workbook and plans |
+| `POST` | `/api/workflows/{id}/draft` | Draft a plan for a row (LLM, offline skeleton without a key) |
+| `GET` | `/api/route/preview?q=` | Instant, LLM-free guess of the workflow for partial input |
+| `GET` | `/api/tools` | The tool library with arguments |
+| `POST` | `/api/upload` | Upload a CSV, XLSX, TSV or JSON file for a run |
+| `POST` | `/api/runs` | Start a run; the response is a Server-Sent Events stream |
+| `POST` | `/api/runs/{id}/resume` | Answer a question and continue the paused run (streamed) |
+| `GET` | `/api/runs`, `/api/runs/{id}` | Run history and a run's full trace |
+| `GET` | `/api/files/{run}/{name}` | Download a file a run produced |
+
+Interactive docs are at `http://127.0.0.1:8000/docs` while the backend runs.
 
 ---
 
@@ -315,15 +390,19 @@ workbook-to-workforce/
 │   ├── workflows/
 │   │   ├── AI_Agent_Workflow_Assessment_1.xlsx   source of truth
 │   │   └── plans/             one execution plan per workflow
-│   ├── data/                  simulated business data
-│   ├── scripts/               data generator, example runner
-│   ├── tests/
+│   ├── data/                  simulated business data with planted edge cases
+│   ├── examples/
+│   │   ├── outputs/           transcripts of 18 runs (every test question + edge cases)
+│   │   └── wf011/             the 11th workflow's plan
+│   ├── scripts/               data generator, example runner, WF011 installer
+│   ├── tests/                 76 tests
 │   ├── requirements.txt
 │   └── .env.example
-└── frontend/
-    ├── index.html
-    ├── styles.css
-    └── app.js
+├── frontend/
+│   ├── index.html             layout: console, flow map, insights, workflows, tools, history
+│   ├── styles.css             design tokens, light and dark themes
+│   └── app.js                 event-stream rendering and all interactions
+└── docs/                      screenshots used in this README
 ```
 
 ---
@@ -331,6 +410,11 @@ workbook-to-workforce/
 ## Getting started
 
 **Requirements:** Python 3.10+ and Git. No Node.js needed.
+
+```bash
+git clone https://github.com/keshav301104/workbook-to-workforce.git
+cd workbook-to-workforce
+```
 
 ### Backend
 
@@ -353,7 +437,24 @@ cd frontend
 python -m http.server 5500      # or VS Code "Live Server"
 ```
 
-Open **http://localhost:5500**.
+Open **http://localhost:5500**. The pill at the top right shows the LLM in use, or *Offline mode* when there's no key.
+
+### Using an LLM
+
+Put one key in `backend/.env`. With `LLM_PROVIDER=auto` the first provider with a key is used. Groq has a free tier:
+
+```bash
+pip install langchain-groq           # or langchain-google-genai / langchain-anthropic
+# backend/.env
+GROQ_API_KEY=gsk_...
+LLM_MODEL=openai/gpt-oss-120b        # optional; this is the Groq default
+```
+
+### Example transcripts
+
+```bash
+python scripts/generate_examples.py   # writes examples/outputs/*.md for 18 scenarios
+```
 
 ### Command line
 
@@ -373,7 +474,7 @@ All settings live in `backend/.env` (see `.env.example`).
 | Variable | Default | Purpose |
 |---|---|---|
 | `LLM_PROVIDER` | `auto` | `auto` uses the first provider with a key; `offline` disables the LLM; or `openai`, `google_genai`, `groq`, `anthropic` |
-| `LLM_MODEL` | per provider | Override the model |
+| `LLM_MODEL` | per provider | Override the model (defaults: `gpt-4.1-mini`, `gemini-2.5-flash`, `openai/gpt-oss-120b` on Groq, `claude-haiku-4-5`) |
 | `OPENAI_API_KEY` / `GOOGLE_API_KEY` / `GROQ_API_KEY` / `ANTHROPIC_API_KEY` | – | Provider credentials |
 | `WORKFLOW_FILE` | `workflows/AI_Agent_Workflow_Assessment_1.xlsx` | The workbook to load |
 | `ROUTER_MIN_CONFIDENCE` | `0.55` | Below this, the agent asks which workflow was meant |
@@ -390,7 +491,7 @@ cd backend
 pytest
 ```
 
-The suite runs offline, deterministically and quickly. It covers:
+**76 tests.** The suite runs offline, deterministically and in under a minute. It covers:
 
 - every Excel test question, end to end
 - the edge cases planted in the sample data
@@ -398,7 +499,7 @@ The suite runs offline, deterministically and quickly. It covers:
 - pause/resume flows
 - retries and failures
 - the LLM code paths, using a fake model
-- the HTTP API
+- the HTTP API, including streaming, resume, uploads and the route preview
 - adding an 11th workflow with no code changes
 
 ---

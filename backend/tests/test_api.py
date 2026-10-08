@@ -23,6 +23,12 @@ def test_status_and_workflows(client):
     assert wfs[0]["id"] == "WF001" and wfs[0]["steps"][0]["tool"] == "load_table"
 
 
+def test_route_preview_is_instant_and_llm_free(client):
+    r = client.get("/api/route/preview", params={"q": "Is ORD-1003 shipped yet?"}).json()
+    assert r["workflow_id"] == "WF005" and r["method"] == "lexical" and r["confidence"] > r["threshold"]
+    assert client.get("/api/route/preview", params={"q": "hi"}).json()["workflow_id"] is None
+
+
 def test_streaming_run_and_resume(client):
     ev = sse(client.post("/api/runs", json={"message": "Create a campaign brief for the new collection."}))
     ask = ev[-1]

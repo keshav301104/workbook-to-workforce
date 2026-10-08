@@ -44,6 +44,18 @@ const I = {
   tool: '<path d="M12.5 3.5a3.5 3.5 0 0 0-3.3 4.7L3.5 13.9 6.1 16.5l5.7-5.7a3.5 3.5 0 0 0 4.7-3.3l-2 2-2.2-.5-.5-2.2 2-2z"/>',
   close: '<path d="M6 6l8 8M14 6l-8 8"/>',
   person: '<circle cx="10" cy="7" r="3"/><path d="M4 16.5a6 6 0 0 1 12 0"/>',
+  search: '<circle cx="9" cy="9" r="5.5"/><path d="M13 13l4 4"/>',
+  play: '<path d="M6.5 4.5v11l9-5.5z"/>',
+  console: '<path d="M3 5h14M3 10h9M3 15h6"/>',
+  chart: '<path d="M3 16.5h14M5.5 13V9M10 13V5M14.5 13v-6"/>',
+  history: '<circle cx="10" cy="10" r="7"/><path d="M10 6v4l3 2"/>',
+  map: '<circle cx="5" cy="4.5" r="2"/><circle cx="5" cy="15.5" r="2"/><circle cx="15" cy="10" r="2"/><path d="M5 6.5v7M6.8 5.5 13.3 9M6.8 14.5l6.5-3.5"/>',
+  bolt: '<path d="M11 2.5 4.5 11H10l-1 6.5L15.5 9H10z"/>',
+  moon: '<path d="M10 3a7 7 0 1 0 7 7 5.5 5.5 0 0 1-7-7z"/>',
+  expand: '<path d="M4 8V4h4M16 8V4h-4M4 12v4h4M16 12v4h-4"/>',
+  md: '<rect x="2.5" y="4.5" width="15" height="11" rx="2"/><path d="M5.5 12.5v-5l2 2.5 2-2.5v5M13.5 7.5v5M11.8 10.8l1.7 1.7 1.7-1.7"/>',
+  trash: '<path d="M4 6h12M8 6V4.5h4V6M6 6l.8 10h6.4L14 6"/>',
+  keys: '<rect x="2.5" y="5" width="15" height="10" rx="2"/><path d="M5.5 8h1M8.5 8h1M11.5 8h1M6.5 12h7"/>',
 };
 const icon = (name, cls = "") => {
   const s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -71,63 +83,105 @@ function fmt(v, key = "") {
 }
 const isNumCol = (rows, key) => rows.length > 0 && rows.every((r) => r[key] === null || r[key] === undefined || typeof r[key] === "number");
 const ms = (n) => (n >= 1000 ? (n / 1000).toFixed(n >= 10000 ? 0 : 1) + "s" : `${n}ms`);
-const toast = (msg) => {
+const toast = (msg, ic = "ok") => {
   const t = $("#toast");
-  t.textContent = msg;
+  t.innerHTML = "";
+  t.append(icon(ic), msg);
   t.classList.add("show");
   clearTimeout(toast._t);
   toast._t = setTimeout(() => t.classList.remove("show"), 2200);
 };
 
-// ------------------------------------------------------------------ tables
-function table(columns, rows, { tones = null, limit = 10, total = null, empty = "No rows" } = {}) {
-  const wrap = h("div", { class: "preview" });
-  if (!rows.length) {
-    wrap.append(h("div", { class: "empty", style: { padding: "16px" } }, empty));
-    return wrap;
-  }
+const copyText = (text, msg) =>
+  (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject(new Error("no clipboard")))
+    .then(() => toast(msg))
+    .catch(() => toast("The browser blocked copying. Select the text and copy it manually.", "warn"));
+
+// ------------------------------------------------------------------ smart tables
+const csvCell = (v) => {
+  if (v === null || v === undefined) return "";
+  const t = Array.isArray(v) ? v.join("; ") : typeof v === "object" ? JSON.stringify(v) : String(v);
+  return /[",\n]/.test(t) ? `"${t.replace(/"/g, '""')}"` : t;
+};
+const cmp = (a, b) => {
+  const na = a === null || a === undefined || a === "", nb = b === null || b === undefined || b === "";
+  if (na || nb) return na === nb ? 0 : na ? 1 : -1;            // empty values always last
+  if (typeof a === "number" && typeof b === "number") return a - b;
+  return String(a).localeCompare(String(b), undefined, { numeric: true, sensitivity: "base" });
+};
+
+// Sortable, filterable table with CSV copy. `tools` adds the toolbar for bigger tables.
+function table(columns, rows, { tones = null, limit = 10, total = null, empty = "No rows", tools = true, title = "table" } = {}) {
+  if (!rows.length) return h("div", { class: "preview" }, h("div", { class: "empty", style: { padding: "16px" } }, empty));
   const cols = columns.map((c) => (typeof c === "string" ? { key: c, label: c.replace(/_/g, " ") } : c));
   const numeric = Object.fromEntries(cols.map((c) => [c.key, isNumCol(rows, c.key)]));
-  const tbl = h("table", { class: "tbl" },
-    h("thead", {}, h("tr", {}, cols.map((c) => h("th", { class: numeric[c.key] ? "num" : "" }, c.label)))));
+  let order = rows.map((_, i) => i);
+  let sortKey = null, dir = 1, query = "", expanded = false;
   const body = h("tbody");
-  const draw = (n) => {
-    body.innerHTML = "";
-    rows.slice(0, n).forEach((r, i) => {
-      const tone = tones && tones[i];
-      body.append(h("tr", { class: tone ? `tone-${tone}` : "" },
-        cols.map((c) => {
-          const v = r[c.key];
-          const long = typeof v === "string" && v.length > 48;
-          const short = typeof v === "string" && v.length <= 14;
-          return h("td", { class: (numeric[c.key] ? "num" : "") + (long ? " wrap" : "") + (short ? " nowrap" : "") }, fmt(v, c.key));
-        })));
-    });
-  };
-  draw(limit);
-  tbl.append(body);
-  wrap.append(tbl);
-  const count = total ?? rows.length;
-  if (count > limit || count > rows.length) {
-    const more = h("div", { class: "tbl-more" });
-    let expanded = false;
-    const btn = h("button", { class: "link-btn", type: "button" }, `Show all ${rows.length}`);
-    btn.onclick = () => {
-      expanded = !expanded;
-      draw(expanded ? rows.length : limit);
-      btn.textContent = expanded ? "Show fewer" : `Show all ${rows.length}`;
+  const foot = h("div", { class: "tbl-more" });
+  const ths = cols.map((c) => {
+    const ind = h("span", { class: "sort-ind" });
+    const th = h("th", { class: `${numeric[c.key] ? "num " : ""}sortable`, tabindex: "0", "aria-sort": "none", title: "Sort" }, c.label, ind);
+    const go = () => {
+      if (sortKey === c.key) dir = -dir;
+      else (sortKey = c.key), (dir = numeric[c.key] ? -1 : 1);
+      order = rows.map((_, i) => i).sort((a, b) => cmp(rows[a][c.key], rows[b][c.key]) * dir);
+      ths.forEach((x) => (x.setAttribute("aria-sort", "none"), (x.lastChild.textContent = "")));
+      th.setAttribute("aria-sort", dir > 0 ? "ascending" : "descending");
+      ind.textContent = dir > 0 ? "▲" : "▼";
+      draw();
     };
-    more.append(h("span", {}, `${Math.min(limit, rows.length)} of ${count} rows`), rows.length > limit ? btn : "");
-    wrap.after(more);
-    const box = h("div", {}, wrap, more);
-    return box;
+    th.onclick = go;
+    th.onkeydown = (ev) => (ev.key === "Enter" || ev.key === " ") && (ev.preventDefault(), go());
+    return th;
+  });
+  const visible = () => (query ? order.filter((i) => cols.some((c) => String(rows[i][c.key] ?? "").toLowerCase().includes(query))) : order);
+  const draw = () => {
+    body.innerHTML = "";
+    const vis = visible();
+    const n = expanded ? vis.length : Math.min(limit, vis.length);
+    vis.slice(0, n).forEach((i) => {
+      const r = rows[i];
+      const tone = tones && tones[i];
+      body.append(h("tr", { class: tone ? `tone-${tone}` : "" }, cols.map((c) => {
+        const v = r[c.key];
+        const long = typeof v === "string" && v.length > 48;
+        const short = typeof v === "string" && v.length <= 14;
+        return h("td", { class: (numeric[c.key] ? "num" : "") + (long ? " wrap" : "") + (short ? " nowrap" : "") }, fmt(v, c.key));
+      })));
+    });
+    if (!vis.length) body.append(h("tr", {}, h("td", { colspan: cols.length, class: "muted" }, `Nothing matches “${query}”`)));
+    foot.innerHTML = "";
+    const count = query ? vis.length : (total ?? rows.length);
+    const shown = h("span", {}, `${n} of ${count} rows${query ? " matching" : ""}${total && total > rows.length && !query ? ` (first ${rows.length} included)` : ""}`);
+    foot.append(shown);
+    if (vis.length > limit) {
+      const btn = h("button", { class: "link-btn", type: "button" }, expanded ? "Show fewer" : `Show all ${vis.length}`);
+      btn.onclick = () => ((expanded = !expanded), draw());
+      foot.append(btn);
+    }
+    foot.style.display = count > limit || query || (total && total > rows.length) ? "" : "none";
+  };
+  const tbl = h("table", { class: "tbl" }, h("thead", {}, h("tr", {}, ths)), body);
+  draw();
+  const box = h("div", { class: "tbl-box" });
+  if (tools && rows.length > 5) {
+    const inp = h("input", { type: "search", placeholder: `Filter ${rows.length} rows`, "aria-label": "Filter rows" });
+    inp.oninput = () => ((query = inp.value.trim().toLowerCase()), draw());
+    const copy = h("button", { class: "btn ghost", type: "button", title: "Copy as CSV" }, icon("copy"), "Copy CSV");
+    copy.onclick = () => {
+      const lines = [cols.map((c) => csvCell(c.label)).join(","), ...visible().map((i) => cols.map((c) => csvCell(rows[i][c.key])).join(","))];
+      copyText(lines.join("\n"), `Copied ${lines.length - 1} rows of ${title} as CSV`);
+    };
+    box.append(h("div", { class: "tbl-tools" }, h("label", { class: "filter" }, icon("search"), inp), h("span", { class: "spacer" }), copy));
   }
-  return wrap;
+  box.append(h("div", { class: "preview" }, tbl), foot);
+  return box;
 }
 
 function previewEl(p) {
   if (!p) return null;
-  if (p.kind === "table") return table(p.columns, p.rows, { total: p.total, limit: 5, empty: "Empty table" });
+  if (p.kind === "table") return table(p.columns, p.rows, { total: p.total, limit: 5, empty: "Empty table", tools: false });
   if (p.kind === "list") return h("div", { class: "preview" }, h("div", { class: "kv" }, h("dt", {}, `${p.total} items`), h("dd", {}, p.items.join(", "))));
   if (p.kind === "text") return h("div", { class: "preview" }, h("div", { class: "kv" }, h("dt", {}, "value"), h("dd", {}, String(p.text ?? "—"))));
   if (p.kind === "object") {
@@ -157,11 +211,11 @@ function sectionEl(s) {
       return h("div", { class: `alert ${tone}` }, icon(ic), h("div", {}, s.title ? h("b", {}, s.title) : null, s.text));
     }
     case "table":
-      return h("div", {}, title, table(s.columns, s.rows, { tones: s.tones, total: s.total, empty: s.empty }));
+      return h("div", {}, title, table(s.columns, s.rows, { tones: s.tones, total: s.total, empty: s.empty, title: s.title || "table" }));
     case "content":
       return h("div", {}, title, h("div", { class: "content-fields" }, s.fields.map((f) => {
         const copy = h("button", { class: "copy-btn", type: "button", title: "Copy", "aria-label": `Copy ${f.label}` }, icon("copy"));
-        copy.onclick = () => navigator.clipboard?.writeText(f.value).then(() => toast(`${f.label} copied`));
+        copy.onclick = () => copyText(f.value, `${f.label} copied`);
         return h("div", { class: "cfield" }, h("div", { class: "cfield-top" }, h("span", { class: "cfield-label" }, f.label), f.meta ? h("span", { class: "cfield-meta" }, f.meta) : null, f.copy !== false ? copy : null), h("div", { class: "cfield-value" }, f.value));
       })));
     case "record":
@@ -219,6 +273,184 @@ async function stream(url, body, onEvent) {
   }
 }
 
+// ------------------------------------------------------------------ flow map
+// The live graph beside the console. It follows the most recent run: nodes light up as
+// steps run, the spectrum fill grows down the path actually taken, skipped steps dim,
+// decisions show their outcome, and jumps (goto / resume after a question) draw an arc.
+class FlowMap {
+  constructor(el) {
+    this.el = el;
+    this.owner = null;
+    this.empty();
+  }
+
+  legend() {
+    return h("div", { class: "fm-foot" }, [["Done", "var(--s2)"], ["Running", "var(--s3)"], ["Needs you", "var(--ask)"], ["Skipped", "var(--rule-strong)"]]
+      .map(([l, c]) => h("span", {}, h("i", { style: { background: c } }), l)));
+  }
+
+  empty() {
+    this.el.innerHTML = "";
+    this.el.append(
+      h("div", { class: "fm-head" }, h("div", { class: "fm-kicker" }, h("span", { class: "live" }), "Flow map"), h("h3", { class: "fm-title" }, "Waiting for a request")),
+      h("div", { class: "fm-body" }, h("div", { class: "fm-empty" },
+        "Run a request and its plan appears here as a live graph: the path the agent takes, the rules it checks and the steps it skips.",
+        h("div", { class: "ghost" }, ["72%", "54%", "63%", "47%", "58%"].map((w) => h("i", { style: { "--w": w } }))),
+        "Click any step to jump to its details.")),
+      this.legend());
+  }
+
+  attach(view) {
+    this.owner = view;
+    this.nodes = new Map();
+    this.order = [];
+    this.reached = -1;
+    this.planned = null;
+    this.el.innerHTML = "";
+    this.live = h("span", { class: "live on" });
+    this.kicker = h("div", { class: "fm-kicker" }, this.live, h("span", {}, "Live run"));
+    this.title = h("h3", { class: "fm-title" }, "Selecting a workflow…");
+    this.statEls = {};
+    const stats = h("div", { class: "fm-stats" }, [["steps", "steps"], ["llm", "LLM"], ["api", "API"], ["retries", "retries"]].map(([k, l]) => {
+      const b = h("b", {}, k === "steps" ? "–" : "0");
+      this.statEls[k] = b;
+      return h("div", { class: `fm-stat ${k === "llm" ? "llm" : k === "retries" ? "retry" : ""}` }, b, h("span", {}, l));
+    }));
+    this.body = h("div", { class: "fm-body" }, h("div", { class: "fm-empty" }, h("span", { class: "shimmer" }, `Matching “${view.request}” against the spreadsheet…`)));
+    this.el.append(h("div", { class: "fm-head" }, this.kicker, this.title, stats), this.body, this.legend());
+  }
+
+  stats(c, total) {
+    if (!this.statEls) return;
+    this.statEls.steps.textContent = total ? `${c.steps}/${total}` : "–";
+    this.statEls.llm.textContent = c.llm;
+    this.statEls.api.textContent = c.api;
+    this.statEls.retries.textContent = c.retries;
+  }
+
+  route(e) {
+    this.title.innerHTML = "";
+    if (!e.workflow_id) {
+      this.title.append("No matching workflow");
+      this.body.innerHTML = "";
+      this.body.append(h("div", { class: "fm-empty" }, e.reasoning || "Nothing in the spreadsheet fits this request."));
+      return;
+    }
+    this.title.append(h("code", {}, e.workflow_id), e.workflow_name);
+    if (e.status === "clarify") {
+      this.status("wait", "Waiting for you to pick a workflow");
+      this.body.innerHTML = "";
+      this.body.append(h("div", { class: "fm-empty" }, `Not sure enough to start: the best match is ${e.workflow_id} at ${Math.round((e.confidence || 0) * 100)}%. Pick a workflow in the console and its plan appears here.`));
+      return;
+    }
+    // Draw the plan straight away from the catalogue, so it is visible while inputs are checked.
+    const wf = state.workflows.find((w) => w.id === e.workflow_id);
+    if (wf?.executable && wf.steps.length && this.planned !== wf.id) {
+      this.plan(wf.steps);
+      this.planned = wf.id;
+    }
+  }
+
+  plan(steps) {
+    this.body.innerHTML = "";
+    const graph = h("div", { class: "fm-graph" });
+    this.spine = h("div", { class: "fm-spine" });
+    this.fill = h("div", { class: "fm-fill" });
+    this.jumps = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    this.jumps.setAttribute("class", "fm-jumps");
+    graph.append(this.spine, this.fill, this.jumps);
+    steps.forEach((s, i) => {
+      const dot = h("span", { class: "fm-dot" }, icon(s.kind === "decision" ? "q" : "dot"));
+      const t = h("span", { class: "t" });
+      const node = h("button", { class: `fm-node pending ${s.kind === "decision" ? "decision" : ""}`, type: "button", title: `${s.title} — show details` },
+        dot, h("span", { class: "fm-label" }, h("span", { class: "fm-name" }, s.title),
+          h("span", { class: "fm-sub" }, s.kind === "decision" ? "rule" : s.tool, s.llm ? h("span", { class: "fm-badge llm" }, "LLM") : null, s.api ? h("span", { class: "fm-badge api" }, "API") : null, t)));
+      node.onclick = () => this.owner?.focusStep(s.id);
+      this.nodes.set(s.id, { node, dot, t, i, kind: s.kind });
+      this.order.push(s.id);
+      graph.append(node);
+    });
+    this.body.append(graph);
+    this.graph = graph;
+    requestAnimationFrame(() => this.layout());
+  }
+
+  y(id) {
+    const n = this.nodes.get(id);
+    return n ? n.node.offsetTop + 19 : 0;
+  }
+
+  layout() {
+    if (!this.order.length) return;
+    const first = this.y(this.order[0]);
+    this.spine.style.top = `${first}px`;
+    this.spine.style.height = `${this.y(this.order[this.order.length - 1]) - first}px`;
+    this.fill.style.top = `${first}px`;
+  }
+
+  reach(id) {
+    const n = this.nodes.get(id);
+    if (!n) return;
+    if (this.reached >= 0 && Math.abs(n.i - this.reached) > 1) this.arc(this.order[this.reached], id);
+    this.reached = n.i;
+    this.fill.style.height = `${this.y(id) - this.y(this.order[0])}px`;
+    const box = this.body;
+    const top = n.node.offsetTop - box.clientHeight / 2;
+    box.scrollTo({ top: Math.max(0, top), behavior: REDUCED ? "auto" : "smooth" });
+  }
+
+  arc(fromId, toId) {
+    const a = this.y(fromId), b = this.y(toId);
+    const p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    const bulge = -16 - Math.min(10, Math.abs(b - a) / 30);
+    p.setAttribute("d", `M14 ${a} C ${bulge} ${a}, ${bulge} ${b}, 14 ${b}`);
+    this.jumps.append(p);
+  }
+
+  set(id, st, ms_) {
+    const n = this.nodes.get(id);
+    if (!n) return;
+    n.node.classList.remove("pending", "running", "done", "failed", "skipped", "waiting", "retrying");
+    n.node.classList.add(st);
+    n.dot.innerHTML = "";
+    n.dot.append(icon({ done: "check", failed: "x", skipped: "dash", waiting: "q", retrying: "retry" }[st] || (n.kind === "decision" ? "q" : "dot")));
+    if (ms_ !== undefined) n.t.textContent = ms(ms_);
+    if (st === "running") {
+      this.reach(id);
+      this.fill.classList.add("moving");
+      this.status("on", "Live run");
+    }
+  }
+
+  decision(id, truth) {
+    this.nodes.get(id)?.node.classList.toggle("dtrue", !!truth);
+  }
+
+  rewind(toId) {
+    let hit = false;
+    for (const id of this.order) {
+      if (id === toId) hit = true;
+      if (hit) {
+        this.set(id, "pending");
+        this.nodes.get(id).t.textContent = "";
+      }
+    }
+  }
+
+  status(cls, label) {
+    if (!this.live) return;
+    this.live.className = `live ${cls}`;
+    this.kicker.lastChild.textContent = label;
+    if (cls !== "on") this.fill?.classList.remove("moving");
+  }
+
+  done(status) {
+    const label = { completed: "Completed", escalated: "Escalated", failed: "Failed", no_match: "No match", not_executable: "Not runnable" }[status] || status;
+    this.status(status === "failed" ? "fail" : status === "completed" ? "done" : "wait", label);
+  }
+}
+const flow = new FlowMap(document.getElementById("flowmap"));
+
 // ------------------------------------------------------------------ run view
 const STAGES = [["route", "Select workflow"], ["inputs", "Check inputs"], ["exec", "Run steps"], ["result", "Result"]];
 
@@ -232,6 +464,8 @@ class RunView {
     this.runId = null;
     this.finished = false;
     this.shownAt = {};
+    this.request = request;
+    this.counts = { steps: 0, llm: 0, api: 0, retries: 0 };
 
     const stagesEl = h("div", { class: "stages" });
     this.stageEls = {};
@@ -242,11 +476,22 @@ class RunView {
       stagesEl.append(el);
     });
     this.clock = h("span", { class: "run-clock" }, "0.0s");
-    this.bar = h("div", { class: "progress-bar" });
+    this.tm = {};
+    const tmEl = h("div", { class: "telemetry" });
+    [["steps", "Steps", "–"], ["llm", "LLM calls", "0"], ["api", "API calls", "0"], ["retries", "Retries", "0"]].forEach(([k, l, v]) => {
+      const b = h("b", {}, v);
+      const el = h("span", { class: `tm ${k === "llm" ? "llm" : k === "retries" ? "retry" : ""}` }, l, b);
+      this.tm[k] = { el, b };
+      tmEl.append(el);
+    });
+    this.bar = h("div", { class: "progress-bar running" });
     this.body = h("div", { class: "run-body" });
     this.el = h("div", { class: "turn" },
       h("div", { class: "req" }, h("div", {}, h("div", { class: "req-bubble" }, request), files.length ? h("div", { class: "req-files" }, files.map((f) => h("span", { class: "chip" }, icon("file"), f.name))) : null)),
-      h("div", { class: "run" }, h("div", { class: "run-head" }, stagesEl, this.clock), h("div", { class: "progress" }, this.bar), this.body));
+      h("div", { class: "run" }, h("div", { class: "run-head" }, stagesEl, this.clock, tmEl), h("div", { class: "progress" }, this.bar), this.body));
+    this.actions = h("div", { class: "run-actions", style: { display: "none" } });
+    $(".run", this.el).append(this.actions);
+    flow.attach(this);
     this.tick = setInterval(() => {
       if (!this.waiting) this.clock.textContent = ((performance.now() - this.started) / 1000).toFixed(1) + "s";
     }, 100);
@@ -256,6 +501,30 @@ class RunView {
     const el = this.stageEls[key];
     el.classList.remove("active", "done", "wait", "fail");
     if (cls) el.classList.add(cls);
+  }
+
+  get fm() {
+    return flow.owner === this ? flow : null;
+  }
+
+  count(k, n = 1) {
+    this.counts[k] += n;
+    const t = this.tm[k];
+    t.b.textContent = k === "steps" ? `${this.counts.steps}/${this.total || "–"}` : this.counts[k];
+    t.el.classList.remove("bump");
+    void t.el.offsetWidth;
+    t.el.classList.add("bump");
+    this.fm?.stats(this.counts, this.total);
+  }
+
+  focusStep(id) {
+    const s = this.steps.get(id);
+    if (!s) return;
+    s.li.classList.add("open");
+    s.li.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "center" });
+    s.li.classList.remove("flash");
+    void s.li.offsetWidth;
+    s.li.classList.add("flash");
   }
 
   push(e) {
@@ -304,10 +573,14 @@ class RunView {
         break;
       case "route":
         this.renderRoute(e);
+        this.fm?.route(e);
+        if (e.method === "llm") this.count("llm");
+        markLive(e.workflow_id);
         break;
       case "inputs":
       case "input_check":
         this.renderInputs(e);
+        if (e.type === "inputs" && e.method === "llm") this.count("llm");
         break;
       case "params":
         this.params = e.params;
@@ -315,10 +588,14 @@ class RunView {
         break;
       case "plan":
         this.renderPlan(e);
+        if (flow.planned !== e.workflow_id) this.fm?.plan(e.steps);
+        if (this.fm) flow.planned = e.workflow_id;
+        this.count("steps", 0);
         break;
       case "step_started":
         this.stepState(e.step_id, "running", { summary: e.kind === "decision" ? "Evaluating rule…" : `Running ${e.tool}…`, shimmer: true });
         this.shownAt[e.step_id] = performance.now();
+        this.fm?.set(e.step_id, "running");
         break;
       case "step_log": {
         const s = this.steps.get(e.step_id);
@@ -336,28 +613,41 @@ class RunView {
           s.retry.append(icon("retry"), `Attempt ${e.attempt} failed — ${e.error}. Retrying in ${e.backoff_s}s`);
           s.retry.style.display = "";
         }
+        this.fm?.set(e.step_id, "retrying");
+        this.count("retries");
+        this.count("api");
         break;
       }
-      case "step_finished":
+      case "step_finished": {
         this.finishStep(e);
+        const st = e.status === "ok" ? "done" : e.status === "failed" ? "failed" : "skipped";
+        this.fm?.set(e.step_id, st, e.duration_ms || 0);
+        if (e.status === "ok" && e.engine === "llm") this.count("llm");
+        if (e.status !== "skipped" && this.steps.get(e.step_id)?.def.api) this.count("api");
+        this.count("steps");
         break;
+      }
       case "decision":
         this.renderDecision(e);
+        this.fm?.decision(e.step_id, e.result);
         break;
       case "rewind":
         this.rewind(e.to_step);
+        this.fm?.rewind(e.to_step);
         break;
       case "ask":
         this.renderAsk(e);
         break;
       case "resumed":
         this.waiting = false;
+        this.bar.classList.add("running");
         break;
       case "result":
         this.renderResult(e);
         break;
       case "run_finished":
         this.done(e.status);
+        this.fm?.done(e.status);
         break;
       case "error":
         this.block().append(h("div", { class: "alert danger" }, icon("danger"), h("div", {}, h("b", {}, "Something went wrong"), e.message)));
@@ -426,6 +716,7 @@ class RunView {
 
   renderPlan(e) {
     this.total = e.steps.length;
+    this.plan = e;
     const b = this.block("Execution", `${e.plan_file} · ${e.steps.length} steps`);
     if (e.decision_logic) b.append(h("div", { class: "note" }, h("b", {}, "Rule from the spreadsheet: "), e.decision_logic));
     const rail = h("ol", { class: "rail" });
@@ -505,10 +796,12 @@ class RunView {
   }
 
   rewind(toStep) {
+    this.counts.steps = [...this.steps.values()].filter((x) => x.li.classList.contains("done") || x.li.classList.contains("skipped")).length;
     let hit = false;
     for (const [id, s] of this.steps) {
       if (id === toStep) hit = true;
       if (hit) {
+        if (s.li.classList.contains("done") || s.li.classList.contains("skipped")) this.counts.steps -= 1;
         this.stepState(id, "pending", { summary: "" });
         s.meta.innerHTML = "";
         s.logs.innerHTML = "";
@@ -526,12 +819,15 @@ class RunView {
     this.waiting = true;
     this.clock.textContent = "Waiting for you";
     this.bar.classList.add("wait");
+    this.bar.classList.remove("running");
+    this.fm?.status("wait", "Waiting for your answer");
     if (e.kind === "workflow") this.stage("route", "wait");
     else if (e.kind === "inputs") this.stage("inputs", "wait");
     else {
       this.stage("exec", "wait");
       const s = this.steps.get(e.step_id);
       if (s) this.stepState(e.step_id, "waiting");
+      this.fm?.set(e.step_id, "waiting");
     }
     const card = h("div", { class: "ask-card" }, h("div", { class: "ask-head" }, icon("q"), h("div", { class: "ask-msg" }, e.message)));
     const b = this.block();
@@ -658,21 +954,71 @@ class RunView {
     this.stage("result", e.status === "failed" ? "fail" : "done");
     const b = this.block();
     b.append(resultEl(e, e.status));
+    this.result = e;
   }
 
   done(status) {
     if (this.finished) return;
     this.finished = true;
+    this.status = status;
     this.waiting = false;
     clearInterval(this.tick);
     this.clock.textContent = ((performance.now() - this.started) / 1000).toFixed(1) + "s";
     this.bar.style.width = "100%";
     this.bar.classList.remove("wait");
     this.bar.classList.add(status === "failed" ? "fail" : "ok");
+    this.bar.classList.remove("running");
     ["route", "inputs", "exec"].forEach((k) => {
       if (this.stageEls[k].classList.contains("active")) this.stage(k, status === "failed" ? "fail" : "done");
     });
+    markLive(null);
+    this.renderActions();
     setBusy(false);
+  }
+
+  renderActions() {
+    const a = this.actions;
+    a.innerHTML = "";
+    const rerun = h("button", { class: "btn", type: "button" }, icon("retry"), "Run again");
+    rerun.onclick = () => submit(this.request);
+    a.append(rerun);
+    if (this.result) {
+      const md = h("button", { class: "btn", type: "button" }, icon("md"), "Copy as Markdown");
+      md.onclick = () => copyText(toMarkdown(this.request, this.result), "Result copied as Markdown");
+      a.append(md);
+    }
+    if (this.steps.size) {
+      const exp = h("button", { class: "btn ghost", type: "button" }, icon("expand"), "Expand all steps");
+      exp.onclick = () => {
+        const open = exp.dataset.open !== "1";
+        this.steps.forEach((s) => s.li.classList.toggle("open", open));
+        exp.dataset.open = open ? "1" : "0";
+        exp.lastChild.textContent = open ? "Collapse all steps" : "Expand all steps";
+      };
+      a.append(exp);
+      const map = h("button", { class: "btn ghost", type: "button" }, icon("map"), "Show in flow map");
+      map.onclick = () => this.replayMap();
+      a.append(map);
+    }
+    a.style.display = "";
+  }
+
+  // Re-draw this run's path in the flow map (e.g. after a newer run took it over).
+  replayMap() {
+    if (!this.plan) return;
+    setMap(true);
+    flow.attach(this);
+    flow.route({ workflow_id: this.plan.workflow_id, workflow_name: this.plan.workflow_name });
+    if (flow.planned !== this.plan.workflow_id) flow.plan(this.plan.steps);
+    requestAnimationFrame(() => {
+      for (const [id, s] of this.steps) {
+        const st = ["done", "failed", "skipped", "waiting"].find((c) => s.li.classList.contains(c));
+        if (st) flow.set(id, st === "done" || st === "failed" ? "running" : st);
+        if (st === "done" || st === "failed") flow.set(id, st);
+      }
+      flow.stats(this.counts, this.total);
+      flow.done(this.status || "completed");
+    });
   }
 }
 
@@ -709,8 +1055,10 @@ async function uploadFile(file) {
 
 async function submit(text) {
   text = (text ?? $("#input").value).trim();
-  if (!text || state.busy) return;
+  if (!text) return;
+  if (state.busy) return toast("A run is still in progress. Answer or wait for it first.", "info");
   $("#intro")?.remove();
+  $("#intent").classList.remove("show");
   const files = state.attachments.slice();
   const view = new RunView(text, files);
   $("#thread").append(view.el);
@@ -760,7 +1108,7 @@ async function loadAll() {
       $("#input").focus();
       $("#sidebar").classList.remove("open");
     };
-    list.append(h("li", {}, btn));
+    list.append(h("li", { "data-id": w.id }, btn));
   });
   $("#sideFoot").innerHTML = "";
   $("#sideFoot").append(
@@ -776,7 +1124,9 @@ async function loadAll() {
     wf.workflows.forEach((w) => {
       const t = w.test_requests[0];
       if (!t) return;
-      sug.append(h("button", { class: "suggestion", type: "button", onclick: () => submit(t.request) }, h("span", { class: "s-text" }, t.request), h("span", { class: "s-meta" }, h("code", {}, w.id), ` ${t.check}`)));
+      sug.append(h("button", { class: "suggestion", type: "button", title: t.check, onclick: () => submit(t.request) },
+        h("span", { class: "s-top" }, h("span", { class: "s-id" }, w.id), h("span", { class: "s-wf" }, w.name)),
+        h("span", { class: "s-text" }, t.request), t.check ? h("span", { class: "s-meta" }, t.check) : null));
     });
   }
   renderWorkflowsPage(wf);
@@ -798,9 +1148,10 @@ function renderWorkflowsPage(wf) {
   const open = new Set($$(".wfd.open", list).map((x) => x.dataset.id));
   list.innerHTML = "";
   wf.workflows.forEach((w) => {
-    const card = h("div", { class: `wfd ${open.has(w.id) ? "open" : ""}`, "data-id": w.id });
+    const card = h("div", { class: `wfd ${open.has(w.id) ? "open" : ""}`, "data-id": w.id, "data-text": `${w.id} ${w.name} ${w.trigger} ${w.tools.join(" ")}`.toLowerCase() });
     const head = h("div", { class: "wfd-head", role: "button", tabindex: "0" }, icon("chev", "caret"), h("span", { class: "route-id" }, w.id),
       h("div", { class: "grow" }, h("h3", {}, w.name), h("div", { class: "trig" }, w.trigger)),
+      h("span", { class: "wfd-spark", title: "Plan shape: tool steps, LLM steps and decisions" }, w.steps.map((s) => h("i", { class: s.kind === "decision" ? "decision" : s.llm ? "llm" : "tool" }))),
       w.executable ? h("span", { class: "chip ok" }, `${w.steps.length} plan steps`) : h("span", { class: "chip warn" }, "Needs a plan"));
     head.onclick = () => card.classList.toggle("open");
     head.onkeydown = (ev) => ev.key === "Enter" && card.classList.toggle("open");
@@ -836,6 +1187,12 @@ function renderWorkflowsPage(wf) {
     card.append(head, h("div", { class: "wfd-body" }, xl, plan), foot);
     list.append(card);
   });
+  filterWorkflows();
+}
+
+function filterWorkflows() {
+  const q = ($("#wfFilter")?.value || "").trim().toLowerCase();
+  $$(".wfd", $("#wfDetails")).forEach((c) => (c.style.display = !q || c.dataset.text.includes(q) ? "" : "none"));
 }
 
 // ------------------------------------------------------------------ runs page
@@ -882,36 +1239,455 @@ async function showRun(id) {
   det.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" });
 }
 
+// ------------------------------------------------------------------ markdown export
+function toMarkdown(request, r) {
+  const out = [`# ${r.title || "Result"}`, "", `**Request:** ${request}`, ""];
+  if (r.subtitle) out.push(`_${r.subtitle}_`, "");
+  const cell = (v) => (v === null || v === undefined ? "" : Array.isArray(v) ? v.join(", ") : String(v)).replace(/\|/g, "/").replace(/\n/g, " ");
+  for (const s of r.sections || []) {
+    if (s.title) out.push(`## ${s.title}`);
+    if (s.type === "alert" || s.type === "summary") out.push(`> ${s.text}`);
+    else if (s.type === "kpis") s.items.forEach((k) => out.push(`- ${k.label}: **${k.value}**`));
+    else if (s.type === "table") {
+      if (!s.rows.length) out.push(`_${s.empty || "No rows"}_`);
+      else {
+        const cols = s.columns.map((c) => (typeof c === "string" ? { key: c, label: c } : c));
+        out.push(`| ${cols.map((c) => c.label).join(" | ")} |`, `|${cols.map(() => "---").join("|")}|`);
+        s.rows.slice(0, 100).forEach((row) => out.push(`| ${cols.map((c) => cell(row[c.key])).join(" | ")} |`));
+      }
+    } else if (s.type === "content") s.fields.forEach((f) => out.push(`**${f.label}:** ${f.value}`, ""));
+    else if (s.type === "record") s.items.forEach((i) => out.push(`- **${i.label}:** ${i.value ?? "—"}`));
+    else if (s.type === "list") s.items.forEach((i) => out.push(`- ${i}`));
+    else if (s.type === "bars") s.items.forEach((i) => out.push(`- ${i.label}: ${s.format === "pct" ? i.value.toFixed(1) + "%" : i.value}`));
+    else if (s.type === "download") s.files.forEach((f) => out.push(`- ${f.label} (${f.rows ?? "?"} rows)`));
+    out.push("");
+  }
+  return out.join("\n");
+}
+
+// ------------------------------------------------------------------ live helpers
+function markLive(id) {
+  $$("#wfList li").forEach((li) => li.classList.toggle("live", !!id && li.dataset.id === id));
+}
+
+function setMap(on) {
+  const c = $(".console");
+  const wide = matchMedia("(min-width: 1241px)").matches;
+  c.classList.toggle("map-off", wide && !on);
+  c.classList.toggle("map-on", !wide && on);
+  $("#mapBtn").setAttribute("aria-pressed", String(on));
+  try { localStorage.setItem("flowline-map", on ? "1" : "0"); } catch { /* storage unavailable */ }
+}
+const mapIsOn = () => $("#mapBtn").getAttribute("aria-pressed") === "true";
+
+// Instant, LLM-free guess of the workflow while typing (the run itself may use the LLM router).
+let intentTimer = null, intentSeq = 0;
+function previewIntent() {
+  clearTimeout(intentTimer);
+  const el = $("#intent");
+  const q = $("#input").value.trim();
+  if (q.length < 4) return el.classList.remove("show");
+  intentTimer = setTimeout(async () => {
+    const seq = ++intentSeq;
+    try {
+      const r = await fetch(`${API}/api/route/preview?q=${encodeURIComponent(q)}`).then((x) => x.json());
+      if (seq !== intentSeq || $("#input").value.trim() !== q) return;
+      el.innerHTML = "";
+      if (!r.workflow_id) {
+        el.append(icon("info"), h("span", {}, "No workflow matches yet. Keep typing, or press Ctrl K to browse."));
+      } else {
+        const pct = Math.round(r.confidence * 100);
+        const low = pct < Math.round((r.threshold || 0.55) * 100);
+        el.classList.toggle("low", low);
+        el.append(h("span", {}, "Likely"), h("span", { class: "route-id" }, r.workflow_id), h("b", {}, r.workflow_name),
+          h("span", { class: "meter", title: `${pct}% match` }, h("i", { style: { width: `${pct}%` } })), h("span", {}, `${pct}%`),
+          low ? h("span", { class: "alt" }, "· low, the agent will ask you to confirm") : r.alternatives?.[0] ? h("span", { class: "alt" }, `· next best ${r.alternatives[0].id}`) : null);
+      }
+      el.classList.add("show");
+    } catch {
+      el.classList.remove("show");
+    }
+  }, 220);
+}
+
+// ------------------------------------------------------------------ command palette
+const palette = { items: [], sel: 0 };
+
+function paletteCommands() {
+  const cmds = [];
+  const views = [["console", "Go to Console", "console"], ["insights", "Go to Insights", "chart"], ["workflows", "Go to Workflows", "sheet"], ["tools", "Go to Tool library", "tool"], ["runs", "Go to Run history", "history"]];
+  views.forEach(([v, label, ic], i) => cmds.push({ group: "Pages", label, ic, hint: String(i + 1), run: () => showView(v) }));
+  state.workflows.forEach((w) => (w.test_requests || []).forEach((t) => cmds.push({ group: "Run a test request", label: t.request, ic: "play", id: w.id, hint: w.name, run: () => (showView("console"), submit(t.request)) })));
+  state.workflows.forEach((w) => cmds.push({ group: "Open a workflow", label: w.name, ic: "sheet", id: w.id, hint: w.executable ? `${w.steps.length} steps` : "needs a plan", run: () => openWorkflow(w.id) }));
+  cmds.push(
+    { group: "Actions", label: $("#faultToggle").checked ? "Turn off simulated API faults" : "Turn on simulated API faults", ic: "bolt", hint: "F", run: toggleFaults },
+    { group: "Actions", label: mapIsOn() ? "Hide the flow map" : "Show the flow map", ic: "map", hint: "M", run: () => setMap(!mapIsOn()) },
+    { group: "Actions", label: "Toggle light and dark", ic: "moon", hint: "T", run: toggleTheme },
+    { group: "Actions", label: "Reload workflows from Excel", ic: "retry", run: reload },
+    { group: "Actions", label: "Clear the console", ic: "trash", run: clearConsole },
+    { group: "Actions", label: "Keyboard shortcuts", ic: "keys", hint: "?", run: () => openOverlay("#shortcuts") });
+  return cmds;
+}
+
+function score(q, c) {
+  if (!q) return 1;
+  const hay = `${c.label} ${c.id || ""} ${c.hint || ""} ${c.group}`.toLowerCase();
+  const words = q.toLowerCase().split(/\s+/).filter(Boolean);
+  if (!words.every((w) => hay.includes(w))) return 0;
+  return (c.label.toLowerCase().startsWith(words[0]) ? 3 : 1) + (c.id && c.id.toLowerCase() === words[0] ? 4 : 0);
+}
+
+function renderPalette() {
+  const q = $("#paletteInput").value.trim();
+  const list = $("#paletteList");
+  list.innerHTML = "";
+  let items = paletteCommands().map((c) => ({ c, s: score(q, c) })).filter((x) => x.s > 0);
+  if (q) items.sort((a, b) => b.s - a.s);
+  items = items.map((x) => x.c).slice(0, q ? 30 : 60);
+  if (q) items.push({ group: "Ask the agent", label: `Run “${q}”`, ic: "play", hint: "Enter", run: () => (showView("console"), submit(q)) });
+  palette.items = items;
+  palette.sel = Math.min(palette.sel, Math.max(0, items.length - 1));
+  let group = null;
+  items.forEach((c, i) => {
+    if (c.group !== group) {
+      group = c.group;
+      list.append(h("li", { class: "grp", role: "presentation" }, group));
+    }
+    const li = h("li", { class: `item ${i === palette.sel ? "sel" : ""}`, role: "option", "aria-selected": String(i === palette.sel) },
+      icon(c.ic), c.id ? h("span", { class: "route-id" }, c.id) : null, h("span", { class: "txt" }, c.label), c.hint ? h("span", { class: "hint" }, c.hint) : null);
+    li.onmouseenter = () => {
+      palette.sel = i;
+      $$(".item", list).forEach((x, j) => x.classList.toggle("sel", j === i));
+    };
+    li.onclick = () => choosePalette(i);
+    list.append(li);
+  });
+  if (!items.length) list.append(h("li", { class: "none" }, "No matches."));
+  $(".item.sel", list)?.scrollIntoView({ block: "nearest" });
+}
+
+function choosePalette(i) {
+  const c = palette.items[i];
+  closeOverlays();
+  c?.run();
+}
+
+function openPalette() {
+  palette.sel = 0;
+  $("#paletteInput").value = "";
+  openOverlay("#palette");
+  renderPalette();
+  setTimeout(() => $("#paletteInput").focus(), 10);
+}
+
+function openOverlay(sel) {
+  closeOverlays();
+  $(sel).hidden = false;
+}
+function closeOverlays() {
+  if (document.activeElement?.closest(".overlay")) document.activeElement.blur();
+  $$(".overlay").forEach((o) => (o.hidden = true));
+}
+
+function openWorkflow(id) {
+  showView("workflows");
+  const f = $("#wfFilter");
+  if (f) f.value = "";
+  filterWorkflows();
+  const card = $(`.wfd[data-id="${id}"]`);
+  if (!card) return;
+  card.classList.add("open");
+  card.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" });
+}
+
+function toggleFaults() {
+  const t = $("#faultToggle");
+  t.checked = !t.checked;
+  toast(t.checked ? "Simulated API faults on: the next API call fails first, then retries" : "Simulated API faults off", t.checked ? "bolt" : "ok");
+}
+
+function clearConsole() {
+  showView("console");
+  $$("#thread .turn").forEach((t) => t.remove());
+  flow.owner = null;
+  flow.empty();
+  toast("Console cleared");
+}
+
+// ------------------------------------------------------------------ insights
+async function renderInsights() {
+  const box = $("#insights");
+  box.innerHTML = "";
+  box.append(h("div", { class: "empty shimmer" }, "Loading run history…"));
+  let runs = [];
+  try {
+    runs = (await fetch(API + "/api/runs?limit=200").then((r) => r.json())).runs;
+  } catch (err) {
+    box.innerHTML = "";
+    box.append(h("div", { class: "alert danger" }, icon("danger"), `Could not load runs: ${err.message}`));
+    return;
+  }
+  box.innerHTML = "";
+  if (!runs.length) {
+    const go = h("button", { class: "btn primary", type: "button" }, icon("play"), "Run the first test request");
+    go.onclick = () => {
+      const t = state.workflows.find((w) => w.test_requests?.length)?.test_requests[0];
+      showView("console");
+      if (t) submit(t.request);
+    };
+    box.append(h("div", { class: "runs-wrap" }, h("div", { class: "empty" }, h("div", {}, "No runs logged yet. Insights appear after the first run."), go)));
+    return;
+  }
+  const n = runs.length;
+  const by = (k) => runs.filter((r) => r.status === k).length;
+  const completed = by("completed"), escalated = by("escalated"), failed = by("failed");
+  const routed = runs.filter((r) => r.workflow_id);
+  const llmRouted = runs.filter((r) => r.route_method === "llm").length;
+  const avgMs = Math.round(runs.reduce((a, r) => a + (r.active_ms || 0), 0) / n);
+  const conf = routed.length ? routed.reduce((a, r) => a + (r.confidence || 0), 0) / routed.length : 0;
+  const success = routed.length ? (completed + escalated) / routed.length : 0;
+
+  const svgDefs = `<defs><linearGradient id="insGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#19C37D"/><stop offset=".5" stop-color="#4C7DFF"/><stop offset="1" stop-color="#9A6BFF"/></linearGradient></defs>`;
+  const ring = (frac) => {
+    const r = 18, c = 2 * Math.PI * r;
+    const el = h("span", { html: `<svg class="ring" viewBox="0 0 44 44">${svgDefs}<circle class="bg" cx="22" cy="22" r="${r}"/><circle class="fg" cx="22" cy="22" r="${r}" stroke-dasharray="${c}" stroke-dashoffset="${c}"/></svg>` });
+    const svg = el.firstChild;
+    requestAnimationFrame(() => requestAnimationFrame(() => ($(".fg", svg).style.strokeDashoffset = c * (1 - frac))));
+    return svg;
+  };
+  box.append(h("div", { class: "ins-kpis" },
+    h("div", { class: "ins-kpi" }, h("div", { class: "v" }, n), h("div", { class: "l" }, "Runs logged")),
+    h("div", { class: "ins-kpi" }, ring(success), h("div", { class: "v" }, `${Math.round(success * 100)}%`), h("div", { class: "l" }, "Finished (completed or escalated)")),
+    h("div", { class: "ins-kpi" }, h("div", { class: "v" }, ms(avgMs)), h("div", { class: "l" }, "Average active time per run")),
+    h("div", { class: "ins-kpi" }, ring(conf), h("div", { class: "v" }, `${Math.round(conf * 100)}%`), h("div", { class: "l" }, "Average routing confidence")),
+    h("div", { class: "ins-kpi" }, h("div", { class: "v" }, failed), h("div", { class: "l" }, failed === 1 ? "Failed run" : "Failed runs"))));
+
+  // per-workflow status mix
+  const wfs = {};
+  runs.forEach((r) => {
+    const k = r.workflow_id || "none";
+    wfs[k] ??= { id: r.workflow_id, name: r.workflow_name || "No match", completed: 0, escalated: 0, failed: 0, other: 0, n: 0 };
+    const b = wfs[k];
+    b.n += 1;
+    b[["completed", "escalated", "failed"].includes(r.status) ? r.status : "other"] += 1;
+  });
+  const rowsSorted = Object.values(wfs).sort((a, b) => b.n - a.n);
+  const max = Math.max(...rowsSorted.map((r) => r.n));
+  const stacks = h("div", { class: "stack-rows" }, rowsSorted.map((r) => {
+    const st = h("div", { class: "stack", style: { width: `${(r.n / max) * 100}%` }, title: `${r.completed} completed · ${r.escalated} escalated · ${r.failed} failed · ${r.other} other` },
+      ["completed", "escalated", "failed", "other"].map((k) => h("i", { class: k, style: { width: `${(r[k] / r.n) * 100}%` } })));
+    return h("div", { class: "stack-row" }, h("span", { class: "lbl", title: r.name }, r.id ? h("code", {}, r.id) : null, r.name), h("div", {}, st), h("span", { class: "n" }, r.n));
+  }));
+  const legend = h("div", { class: "legend" }, [["Completed", "linear-gradient(90deg,var(--s1),var(--s2))"], ["Escalated", "var(--warn)"], ["Failed", "var(--danger)"], ["No match / other", "var(--faint)"]].map(([l, c]) => h("span", {}, h("i", { style: { background: c } }), l)));
+
+  // active time per run, oldest → newest
+  const series = runs.slice(0, 40).reverse();
+  const W = 520, H = 150, P = 26;
+  const vmax = Math.max(...series.map((r) => r.active_ms || 0), 1);
+  const x = (i) => P + (series.length === 1 ? (W - 2 * P) / 2 : (i * (W - 2 * P)) / (series.length - 1));
+  const y = (v) => H - 20 - (v / vmax) * (H - 40);
+  const pts = series.map((r, i) => [x(i), y(r.active_ms || 0)]);
+  const line = pts.map((p, i) => `${i ? "L" : "M"}${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(" ");
+  const area = `${line} L${pts[pts.length - 1][0].toFixed(1)} ${H - 20} L${pts[0][0].toFixed(1)} ${H - 20} Z`;
+  const spark = h("div", { html: `<svg class="spark-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Active time per run">
+    <defs><linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4C7DFF"/><stop offset="1" stop-color="#4C7DFF" stop-opacity="0"/></linearGradient>
+    <linearGradient id="sparkLine" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#19C37D"/><stop offset=".5" stop-color="#4C7DFF"/><stop offset="1" stop-color="#9A6BFF"/></linearGradient></defs>
+    <line class="grid" x1="${P}" x2="${W - P}" y1="${H - 20}" y2="${H - 20}"/><line class="grid" x1="${P}" x2="${W - P}" y1="20" y2="20" stroke-dasharray="3 4"/>
+    <text x="${P}" y="14">${ms(vmax)}</text><text x="${P}" y="${H - 4}">older</text><text x="${W - P}" y="${H - 4}" text-anchor="end">latest</text>
+    <path class="area" d="${area}"/><path class="line" d="${line}"/>
+    ${pts.map((p, i) => `<circle class="pt ${series[i].status}" cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3.5"><title>${(series[i].request || "").replace(/[<&]/g, "")} · ${ms(series[i].active_ms || 0)} · ${series[i].status}</title></circle>`).join("")}
+  </svg>` });
+
+  // routing method split
+  const lex = runs.filter((r) => r.route_method === "lexical").length;
+  const other = n - llmRouted - lex;
+  const split = h("div", { class: "split" },
+    h("div", { class: "split-bar" }, h("i", { style: { width: `${(llmRouted / n) * 100}%`, background: "var(--llm)" } }), h("i", { style: { width: `${(lex / n) * 100}%`, background: "var(--s2)" } }), h("i", { style: { width: `${(other / n) * 100}%`, background: "var(--faint)" } })),
+    h("div", { class: "legend" }, h("span", {}, h("i", { style: { background: "var(--llm)" } }), `LLM router ${llmRouted}`), h("span", {}, h("i", { style: { background: "var(--s2)" } }), `Lexical (offline) ${lex}`), h("span", {}, h("i", { style: { background: "var(--faint)" } }), `Chosen by you / other ${other}`)));
+
+  const counts = {};
+  runs.forEach((r) => (counts[r.request] = (counts[r.request] || 0) + 1));
+  const top = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 6);
+  const topList = h("ul", { class: "top-list" }, top.map(([q, c]) => {
+    const li = h("li", {}, h("span", { class: "q", title: q }, q), h("span", { class: "c" }, `×${c}`));
+    const btn = h("button", { class: "link-btn", type: "button" }, "Run");
+    btn.onclick = () => (showView("console"), submit(q));
+    li.append(btn);
+    return li;
+  }));
+
+  box.append(h("div", { class: "ins-grid" },
+    h("div", { class: "panel" }, h("h3", {}, "Runs by workflow"), h("p", { class: "sub" }, "Bar length is the number of runs; colour shows how they ended."), stacks, legend),
+    h("div", { class: "panel" }, h("h3", {}, "Active time per run"), h("p", { class: "sub" }, "The last 40 runs. Hover a point for the request."), spark),
+    h("div", { class: "panel" }, h("h3", {}, "How requests were routed"), h("p", { class: "sub" }, "LLM routing needs an API key; the lexical router runs offline."), split),
+    h("div", { class: "panel" }, h("h3", {}, "Most frequent requests"), h("p", { class: "sub" }, "Run any of them again in one click."), topList)));
+}
+
+// ------------------------------------------------------------------ tool library
+let toolCache = null;
+async function renderTools() {
+  const box = $("#tools");
+  if (!toolCache) {
+    box.innerHTML = "";
+    box.append(h("div", { class: "empty shimmer" }, "Loading the tool library…"));
+    try {
+      toolCache = (await fetch(API + "/api/tools").then((r) => r.json())).tools;
+    } catch (err) {
+      box.innerHTML = "";
+      box.append(h("div", { class: "alert danger" }, icon("danger"), `Could not load tools: ${err.message}`));
+      return;
+    }
+  }
+  const usedBy = {};
+  state.workflows.forEach((w) => w.steps.forEach((s) => s.tool && (usedBy[s.tool] ??= new Set()).add(w.id)));
+  const nWf = state.workflows.length || 10;
+  const shared = toolCache.filter((t) => (usedBy[t.name]?.size || 0) > 1).length;
+  $("#toolsSub").textContent = `${toolCache.length} tools, ${shared} of them shared by two or more workflows. Workflows are YAML plans that call these; none of them belongs to a single workflow.`;
+  const q = ($("#toolFilter").value || "").trim().toLowerCase();
+  const cats = {};
+  toolCache.filter((t) => !q || `${t.name} ${t.description} ${t.category}`.toLowerCase().includes(q)).forEach((t) => (cats[t.category] ??= []).push(t));
+  box.innerHTML = "";
+  const wrap = h("div", { class: "tool-cats" });
+  Object.entries(cats).sort((a, b) => b[1].length - a[1].length).forEach(([cat, tools]) => {
+    tools.sort((a, b) => (usedBy[b.name]?.size || 0) - (usedBy[a.name]?.size || 0));
+    wrap.append(h("div", { class: "tool-cat" }, h("h3", {}, cat, h("span", {}, `${tools.length} tool${tools.length > 1 ? "s" : ""}`)),
+      h("div", { class: "tool-grid" }, tools.map((t) => {
+        const used = [...(usedBy[t.name] || [])].sort();
+        return h("div", { class: "tool-card" },
+          h("div", { class: "tc-top" }, h("span", { class: "tc-name" }, t.name), t.llm ? h("span", { class: "chip llm" }, "LLM") : null, t.simulated_api ? h("span", { class: "chip api" }, t.simulated_api) : null,
+            h("span", { class: "reuse", title: `Used by ${used.length} of ${nWf} workflows` }, Array.from({ length: nWf }, (_, i) => h("i", { class: i < used.length ? "on" : "" })))),
+          h("div", { class: "tc-desc" }, t.description),
+          h("div", { class: "tc-args" }, Object.entries(t.args).map(([a, d]) => h("code", { class: d === "required" ? "req" : "", title: d }, a))),
+          h("div", { class: "tc-used" }, used.length ? ["Used by", ...used.map((id) => {
+            const b = h("button", { class: "route-id", type: "button", style: { border: 0, cursor: "pointer" }, title: "Open workflow" }, id);
+            b.onclick = () => openWorkflow(id);
+            return b;
+          })] : "Not used by any plan yet"));
+      }))));
+  });
+  if (!wrap.children.length) wrap.append(h("div", { class: "empty" }, `No tools match “${q}”.`));
+  box.append(wrap);
+}
+
 // ------------------------------------------------------------------ navigation & boot
+const TITLES = { console: "Console", insights: "Insights", workflows: "Workflows", tools: "Tool library", runs: "Run history" };
 function showView(v) {
   $$(".view").forEach((x) => x.classList.toggle("active", x.id === `view-${v}`));
   $$(".nav-item").forEach((x) => x.classList.toggle("active", x.dataset.view === v));
-  $("#viewTitle").textContent = { console: "Console", workflows: "Workflows", runs: "Run history" }[v];
+  $("#viewTitle").textContent = TITLES[v];
   if (v === "runs") renderRuns();
+  if (v === "insights") renderInsights();
+  if (v === "tools") renderTools();
   $("#sidebar").classList.remove("open");
+}
+
+function toggleTheme() {
+  const dark = document.documentElement.dataset.theme === "dark" || (!document.documentElement.dataset.theme && matchMedia("(prefers-color-scheme: dark)").matches);
+  const next = dark ? "light" : "dark";
+  document.documentElement.dataset.theme = next;
+  try { localStorage.setItem("flowline-theme", next); } catch { /* ignore */ }
 }
 
 function initTheme() {
   let t = null;
   try { t = localStorage.getItem("flowline-theme"); } catch { /* storage unavailable */ }
   if (t) document.documentElement.dataset.theme = t;
-  $("#themeBtn").onclick = () => {
-    const dark = document.documentElement.dataset.theme === "dark" || (!document.documentElement.dataset.theme && matchMedia("(prefers-color-scheme: dark)").matches);
-    const next = dark ? "light" : "dark";
-    document.documentElement.dataset.theme = next;
-    try { localStorage.setItem("flowline-theme", next); } catch { /* ignore */ }
-  };
+  $("#themeBtn").onclick = toggleTheme;
+}
+
+async function attachFile(file) {
+  try {
+    const meta = await uploadFile(file);
+    state.attachments.push(meta);
+    renderAttachments();
+    toast(`Attached ${meta.name}`, "file");
+  } catch (err) {
+    toast(err.message, "warn");
+  }
+}
+
+function initDrop() {
+  const zone = $("#dropZone"), ov = $("#dropOverlay");
+  let depth = 0;
+  zone.addEventListener("dragenter", (e) => {
+    if (![...(e.dataTransfer?.types || [])].includes("Files")) return;
+    e.preventDefault();
+    depth += 1;
+    ov.classList.add("show");
+  });
+  zone.addEventListener("dragover", (e) => e.dataTransfer?.types?.includes("Files") && e.preventDefault());
+  zone.addEventListener("dragleave", () => (depth = Math.max(0, depth - 1)) || ov.classList.remove("show"));
+  zone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    depth = 0;
+    ov.classList.remove("show");
+    [...(e.dataTransfer?.files || [])].forEach(attachFile);
+  });
+}
+
+function initKeys() {
+  document.addEventListener("keydown", (e) => {
+    const typing = /INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName) || document.activeElement?.isContentEditable;
+    const pal = !$("#palette").hidden;
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+      e.preventDefault();
+      return pal ? closeOverlays() : openPalette();
+    }
+    if (e.key === "Escape") return closeOverlays();
+    if (pal) {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        palette.sel = (palette.sel + (e.key === "ArrowDown" ? 1 : -1) + palette.items.length) % Math.max(1, palette.items.length);
+        renderPalette();
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        choosePalette(palette.sel);
+      }
+      return;
+    }
+    if (typing || e.ctrlKey || e.metaKey || e.altKey) return;
+    const views = ["console", "insights", "workflows", "tools", "runs"];
+    if (/^[1-5]$/.test(e.key)) return showView(views[Number(e.key) - 1]);
+    if (e.key === "/") {
+      e.preventDefault();
+      showView("console");
+      return $("#input").focus();
+    }
+    if (e.key === "?") return openOverlay("#shortcuts");
+    const k = e.key.toLowerCase();
+    if (k === "m") return setMap(!mapIsOn());
+    if (k === "f") return toggleFaults();
+    if (k === "t") return toggleTheme();
+  });
+  $$(".overlay").forEach((o) => o.addEventListener("mousedown", (e) => e.target === o && closeOverlays()));
+  $$("[data-close]").forEach((b) => (b.onclick = closeOverlays));
+  $("#paletteInput").addEventListener("input", () => ((palette.sel = 0), renderPalette()));
 }
 
 function boot() {
   initTheme();
+  initKeys();
+  initDrop();
+  let mapPref = "1";
+  try { mapPref = localStorage.getItem("flowline-map") ?? "1"; } catch { /* storage unavailable */ }
+  setMap(mapPref === "1" && matchMedia("(min-width: 1241px)").matches);
   $$(".nav-item").forEach((b) => (b.onclick = () => showView(b.dataset.view)));
   $("#menuBtn").onclick = () => $("#sidebar").classList.toggle("open");
-  $("#reloadBtn").onclick = reload;
+  $("#mapBtn").onclick = () => setMap(!mapIsOn());
+  $("#paletteBtn").onclick = openPalette;
+  $("#helpBtn").onclick = () => openOverlay("#shortcuts");
+  $("#reloadBtn").onclick = () => {
+    $("#reloadBtn").classList.add("spin");
+    setTimeout(() => $("#reloadBtn").classList.remove("spin"), 800);
+    reload();
+  };
   $("#reloadBtn2").onclick = reload;
   $("#refreshRuns").onclick = renderRuns;
+  $("#refreshInsights").onclick = renderInsights;
+  $("#wfFilter").addEventListener("input", filterWorkflows);
+  $("#toolFilter").addEventListener("input", renderTools);
   $("#composer").onsubmit = (e) => (e.preventDefault(), submit());
-  $("#input").addEventListener("input", autosize);
+  $("#input").addEventListener("input", () => (autosize(), previewIntent()));
   $("#input").addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -921,18 +1697,11 @@ function boot() {
   $("#fileInput").onchange = async (e) => {
     const file = e.target.files[0];
     e.target.value = "";
-    if (!file) return;
-    try {
-      const meta = await uploadFile(file);
-      state.attachments.push(meta);
-      renderAttachments();
-    } catch (err) {
-      toast(err.message);
-    }
+    if (file) attachFile(file);
   };
   loadAll().catch((err) => {
     $(".label", $("#modePill")).textContent = "Backend unreachable";
-    toast(`Could not reach the backend: ${err.message}`);
+    toast(`Could not reach the backend at ${API}: ${err.message}`, "warn");
   });
 }
 

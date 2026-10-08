@@ -6,29 +6,38 @@
   <title>Flowline · Workflow agent</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2315201B'/%3E%3Cpath d='M9 10h14M9 16h9M9 22h5' stroke='%2393B4FF' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2319C37D'/%3E%3Cstop offset='.5' stop-color='%234C7DFF'/%3E%3Cstop offset='1' stop-color='%239A6BFF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='%230C0F22'/%3E%3Cpath d='M9 10h14M9 16h9M9 22h5' stroke='url(%23g)' stroke-width='3.2' stroke-linecap='round'/%3E%3C/svg%3E">
 </head>
 <body>
   <div class="app">
     <aside class="sidebar" id="sidebar">
       <div class="brand">
-        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7"/><path d="M9 10h14M9 16h9M9 22h5"/></svg>
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <defs><linearGradient id="brandGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#19C37D"/><stop offset=".5" stop-color="#4C7DFF"/><stop offset="1" stop-color="#9A6BFF"/></linearGradient></defs>
+          <rect width="32" height="32" rx="8"/><path d="M9 10h14M9 16h9M9 22h5"/>
+        </svg>
         <div>
           <div class="brand-name">Flowline</div>
-          <div class="brand-sub">Workflow agent</div>
+          <div class="brand-sub">Spreadsheet-driven agent</div>
         </div>
       </div>
       <nav class="nav" aria-label="Main">
         <button class="nav-item active" data-view="console">
-          <svg viewBox="0 0 20 20"><path d="M3 5h14M3 10h9M3 15h6"/></svg>Console
+          <svg viewBox="0 0 20 20"><path d="M3 5h14M3 10h9M3 15h6"/></svg><span>Console</span><kbd>1</kbd>
+        </button>
+        <button class="nav-item" data-view="insights">
+          <svg viewBox="0 0 20 20"><path d="M3 16.5h14M5.5 13V9M10 13V5M14.5 13v-6"/></svg><span>Insights</span><kbd>2</kbd>
         </button>
         <button class="nav-item" data-view="workflows">
-          <svg viewBox="0 0 20 20"><rect x="3" y="3" width="14" height="14" rx="2"/><path d="M3 8h14M8 8v9"/></svg>Workflows
+          <svg viewBox="0 0 20 20"><rect x="3" y="3" width="14" height="14" rx="2"/><path d="M3 8h14M8 8v9"/></svg><span>Workflows</span><kbd>3</kbd>
+        </button>
+        <button class="nav-item" data-view="tools">
+          <svg viewBox="0 0 20 20"><path d="M12.5 3.5a3.5 3.5 0 0 0-3.3 4.7L3.5 13.9 6.1 16.5l5.7-5.7a3.5 3.5 0 0 0 4.7-3.3l-2 2-2.2-.5-.5-2.2 2-2z"/></svg><span>Tool library</span><kbd>4</kbd>
         </button>
         <button class="nav-item" data-view="runs">
-          <svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l3 2"/></svg>Run history
+          <svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l3 2"/></svg><span>Run history</span><kbd>5</kbd>
         </button>
       </nav>
       <div class="side-section">
@@ -49,8 +58,19 @@
           <svg viewBox="0 0 20 20"><path d="M3 6h14M3 10h14M3 14h14"/></svg>
         </button>
         <h1 class="view-title" id="viewTitle">Console</h1>
+        <button class="search-btn" id="paletteBtn" type="button" aria-label="Open command palette">
+          <svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.5"/><path d="M13 13l4 4"/></svg>
+          <span>Search workflows, run a test request…</span>
+          <kbd>Ctrl K</kbd>
+        </button>
         <div class="topbar-right">
           <span class="mode-pill" id="modePill"><span class="dot"></span><span class="label">Connecting…</span></span>
+          <button class="icon-btn" id="mapBtn" aria-label="Toggle flow map" title="Toggle flow map" aria-pressed="true">
+            <svg viewBox="0 0 20 20"><circle cx="5" cy="4.5" r="2"/><circle cx="5" cy="15.5" r="2"/><circle cx="15" cy="10" r="2"/><path d="M5 6.5v7M6.8 5.5 13.3 9M6.8 14.5l6.5-3.5"/></svg>
+          </button>
+          <button class="icon-btn" id="helpBtn" aria-label="Keyboard shortcuts" title="Keyboard shortcuts (?)">
+            <svg viewBox="0 0 20 20"><rect x="2.5" y="5" width="15" height="10" rx="2"/><path d="M5.5 8h1M8.5 8h1M11.5 8h1M14.5 8h0M6.5 12h7"/></svg>
+          </button>
           <button class="icon-btn" id="themeBtn" aria-label="Toggle theme" title="Toggle theme">
             <svg viewBox="0 0 20 20"><path d="M10 3a7 7 0 1 0 7 7 5.5 5.5 0 0 1-7-7z"/></svg>
           </button>
@@ -58,37 +78,68 @@
       </header>
 
       <section class="view active" id="view-console">
-        <div class="thread" id="thread">
-          <div class="intro" id="intro">
-            <h2>Ask for a business task.</h2>
-            <p class="intro-lede">Flowline reads the workflows in your spreadsheet, picks the one that fits, and runs it step by step — asking you when something is missing.</p>
-            <div class="intro-source" id="introSource"></div>
-            <div class="intro-label">Try a test request from the spreadsheet</div>
-            <div class="suggestions" id="suggestions"></div>
-          </div>
-        </div>
-        <form class="composer" id="composer" autocomplete="off">
-          <div class="attachments" id="attachments"></div>
-          <div class="composer-box">
-            <textarea id="input" rows="1" placeholder="e.g. Which products need restocking?" aria-label="Request"></textarea>
-            <div class="composer-actions">
-              <label class="attach-btn" title="Attach CSV or XLSX">
-                <input type="file" id="fileInput" accept=".csv,.xlsx,.xls,.tsv,.json" hidden>
-                <svg viewBox="0 0 20 20"><path d="M14.5 9.5 9 15a3.5 3.5 0 0 1-5-5l6-6a2.3 2.3 0 0 1 3.3 3.3L7.5 13.1a1.2 1.2 0 0 1-1.7-1.7L11 6.2"/></svg>
-                <span>Attach</span>
-              </label>
-              <label class="toggle" title="Make simulated APIs fail on the first attempt to see retries">
-                <input type="checkbox" id="faultToggle">
-                <span class="switch"></span>
-                <span>Simulate API faults</span>
-              </label>
-              <button type="submit" class="send-btn" id="sendBtn">
-                <span>Run</span>
-                <svg viewBox="0 0 20 20"><path d="M4 10h11M11 5l5 5-5 5"/></svg>
-              </button>
+        <div class="console">
+          <div class="console-main" id="dropZone">
+            <div class="thread" id="thread">
+              <div class="intro" id="intro">
+                <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+                <h2>What should the workbook do today?</h2>
+                <p class="intro-lede">Describe a task in plain words. Flowline matches it to a workflow from the spreadsheet, runs every step with tools, and stops to ask you when something is missing.</p>
+                <div class="intro-source" id="introSource"></div>
+                <ol class="how" aria-label="How a request runs">
+                  <li><b>Match</b><span>Your words are scored against every row of the sheet</span></li>
+                  <li><b>Fill in</b><span>Inputs are read from the request, or asked for</span></li>
+                  <li><b>Run</b><span>Each Excel step becomes a tool call, with rules and retries</span></li>
+                  <li><b>Report</b><span>Tables, content and files, plus a full step trace</span></li>
+                </ol>
+                <div class="intro-label">Test requests from the spreadsheet</div>
+                <div class="suggestions" id="suggestions"></div>
+              </div>
+            </div>
+            <form class="composer" id="composer" autocomplete="off">
+              <div class="intent" id="intent" aria-live="polite"></div>
+              <div class="attachments" id="attachments"></div>
+              <div class="composer-box">
+                <textarea id="input" rows="1" placeholder="e.g. Which products need restocking?" aria-label="Request"></textarea>
+                <div class="composer-actions">
+                  <label class="attach-btn" title="Attach CSV or XLSX (or drop a file here)">
+                    <input type="file" id="fileInput" accept=".csv,.xlsx,.xls,.tsv,.json" hidden>
+                    <svg viewBox="0 0 20 20"><path d="M14.5 9.5 9 15a3.5 3.5 0 0 1-5-5l6-6a2.3 2.3 0 0 1 3.3 3.3L7.5 13.1a1.2 1.2 0 0 1-1.7-1.7L11 6.2"/></svg>
+                    <span>Attach</span>
+                  </label>
+                  <label class="toggle" title="Make simulated APIs fail on the first attempt to see retries">
+                    <input type="checkbox" id="faultToggle">
+                    <span class="switch"></span>
+                    <span>Simulate API faults</span>
+                  </label>
+                  <button type="submit" class="send-btn" id="sendBtn">
+                    <span>Run</span>
+                    <svg viewBox="0 0 20 20"><path d="M4 10h11M11 5l5 5-5 5"/></svg>
+                  </button>
+                </div>
+              </div>
+            </form>
+            <div class="drop-overlay" id="dropOverlay" aria-hidden="true">
+              <div><svg viewBox="0 0 20 20"><path d="M10 13.5v-9M6 8.5l4-4 4 4M4 16.5h12"/></svg>Drop a CSV or XLSX to attach it</div>
             </div>
           </div>
-        </form>
+          <aside class="flowmap" id="flowmap" aria-label="Flow map of the current run"></aside>
+        </div>
+      </section>
+
+      <section class="view" id="view-insights">
+        <div class="page">
+          <div class="page-head">
+            <div>
+              <h2>Insights</h2>
+              <p class="muted">How the agent has performed across every logged run.</p>
+            </div>
+            <button class="btn" id="refreshInsights">
+              <svg viewBox="0 0 20 20"><path d="M16 10a6 6 0 1 1-2-4.5M16 3v4h-4"/></svg>Refresh
+            </button>
+          </div>
+          <div id="insights"></div>
+        </div>
       </section>
 
       <section class="view" id="view-workflows">
@@ -98,12 +149,30 @@
               <h2>Workflows</h2>
               <p class="muted" id="wfPageSub">Each row of the spreadsheet, next to the execution plan that runs it.</p>
             </div>
-            <button class="btn" id="reloadBtn2">
-              <svg viewBox="0 0 20 20"><path d="M16 10a6 6 0 1 1-2-4.5M16 3v4h-4"/></svg>Reload from Excel
-            </button>
+            <div class="head-actions">
+              <label class="filter"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.5"/><path d="M13 13l4 4"/></svg><input id="wfFilter" type="search" placeholder="Filter workflows" aria-label="Filter workflows"></label>
+              <button class="btn" id="reloadBtn2">
+                <svg viewBox="0 0 20 20"><path d="M16 10a6 6 0 1 1-2-4.5M16 3v4h-4"/></svg>Reload from Excel
+              </button>
+            </div>
           </div>
           <div id="problems"></div>
           <div class="wf-detail-list" id="wfDetails"></div>
+        </div>
+      </section>
+
+      <section class="view" id="view-tools">
+        <div class="page">
+          <div class="page-head">
+            <div>
+              <h2>Tool library</h2>
+              <p class="muted" id="toolsSub">Every workflow is built from these shared tools. None of them belongs to a single workflow.</p>
+            </div>
+            <div class="head-actions">
+              <label class="filter"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.5"/><path d="M13 13l4 4"/></svg><input id="toolFilter" type="search" placeholder="Filter tools" aria-label="Filter tools"></label>
+            </div>
+          </div>
+          <div id="tools"></div>
         </div>
       </section>
 
@@ -124,6 +193,36 @@
       </section>
     </main>
   </div>
+
+  <div class="overlay" id="palette" hidden>
+    <div class="palette" role="dialog" aria-modal="true" aria-label="Command palette">
+      <div class="palette-input">
+        <svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.5"/><path d="M13 13l4 4"/></svg>
+        <input id="paletteInput" type="text" placeholder="Type a command, workflow or request" aria-label="Command" autocomplete="off">
+        <kbd>Esc</kbd>
+      </div>
+      <ul class="palette-list" id="paletteList" role="listbox"></ul>
+      <div class="palette-foot"><span><kbd>↑</kbd><kbd>↓</kbd> move</span><span><kbd>Enter</kbd> choose</span><span>Anything else you type runs as a request</span></div>
+    </div>
+  </div>
+
+  <div class="overlay" id="shortcuts" hidden>
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="shortcutsTitle">
+      <div class="dialog-head"><h3 id="shortcutsTitle">Keyboard shortcuts</h3><button class="icon-btn" data-close aria-label="Close"><svg viewBox="0 0 20 20"><path d="M6 6l8 8M14 6l-8 8"/></svg></button></div>
+      <dl class="keys">
+        <dt><kbd>Ctrl</kbd><kbd>K</kbd></dt><dd>Command palette</dd>
+        <dt><kbd>/</kbd></dt><dd>Focus the request box</dd>
+        <dt><kbd>Enter</kbd></dt><dd>Run the request</dd>
+        <dt><kbd>Shift</kbd><kbd>Enter</kbd></dt><dd>New line</dd>
+        <dt><kbd>1</kbd> – <kbd>5</kbd></dt><dd>Switch page</dd>
+        <dt><kbd>M</kbd></dt><dd>Show or hide the flow map</dd>
+        <dt><kbd>F</kbd></dt><dd>Toggle simulated API faults</dd>
+        <dt><kbd>T</kbd></dt><dd>Toggle light and dark</dd>
+        <dt><kbd>?</kbd></dt><dd>This list</dd>
+      </dl>
+    </div>
+  </div>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script type="module" src="app.js"></script>
 </body>
