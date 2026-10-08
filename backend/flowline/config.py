@@ -14,7 +14,7 @@ load_dotenv(ROOT / ".env")
 PROVIDERS: dict[str, tuple[str, str]] = {
     "openai": ("OPENAI_API_KEY", "gpt-4.1-mini"),
     "google_genai": ("GOOGLE_API_KEY", "gemini-2.5-flash"),
-    "groq": ("GROQ_API_KEY", "llama-3.3-70b-versatile"),
+    "groq": ("GROQ_API_KEY", "openai/gpt-oss-120b"),
     "anthropic": ("ANTHROPIC_API_KEY", "claude-haiku-4-5"),
 }
 PROVIDER_ALIASES = {"gemini": "google_genai", "google": "google_genai", "claude": "anthropic"}

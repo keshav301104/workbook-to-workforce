@@ -18,6 +18,7 @@ python-dotenv>=1.0
 #   pip install langchain-groq           # LLM_PROVIDER=groq
 #   pip install langchain-anthropic      # LLM_PROVIDER=anthropic
 langchain-openai>=0.3
+langchain-groq
 
 # Tests
 pytest>=8.0
