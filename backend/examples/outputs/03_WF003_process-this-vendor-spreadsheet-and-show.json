@@ -1,0 +1,1332 @@
+[
+ {
+  "type": "run_started",
+  "run_id": "74af18d2f5fe",
+  "ts": 1791449382.7522688,
+  "request": "Process this vendor spreadsheet and show invalid rows.",
+  "llm": "Offline (deterministic fallback)",
+  "llm_enabled": false
+ },
+ {
+  "type": "stage",
+  "ts": 1791449382.759611,
+  "stage": "routing",
+  "status": "started",
+  "message": "Reading 10 workflows from AI_Agent_Workflow_Assessment_1.xlsx",
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "route",
+  "ts": 1791449382.7626386,
+  "workflow_id": "WF003",
+  "workflow_name": "Vendor File Processing",
+  "confidence": 0.97,
+  "reasoning": "Matched on: invalid, process, rows, spreadsheet, vendor.",
+  "method": "lexical",
+  "alternatives": [
+   {
+    "id": "WF002",
+    "score": 0.21,
+    "name": "Product Price Validation"
+   },
+   {
+    "id": "WF008",
+    "score": 0.12,
+    "name": "SEO Keyword Classification"
+   },
+   {
+    "id": "WF001",
+    "score": 0.05,
+    "name": "Inventory Restock Check"
+   }
+  ],
+  "note": null,
+  "threshold": 0.55,
+  "status": "routed",
+  "duration_ms": 4,
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "stage",
+  "ts": 1791449382.769893,
+  "stage": "extracting",
+  "status": "started",
+  "message": "Reading inputs from your request",
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "inputs",
+  "ts": 1791449382.769893,
+  "inputs": [
+   {
+    "name": "vendor_file",
+    "label": "Vendor file",
+    "value": null,
+    "type": "file",
+    "required": true
+   }
+  ],
+  "sources": {},
+  "method": "patterns",
+  "note": null,
+  "duration_ms": 0,
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "params",
+  "ts": 1791449382.769893,
+  "params": [],
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "input_check",
+  "ts": 1791449382.7737832,
+  "ok": false,
+  "missing": [
+   "vendor_file"
+  ],
+  "inputs": [
+   {
+    "name": "vendor_file",
+    "label": "Vendor file",
+    "value": null,
+    "type": "file",
+    "required": true
+   }
+  ],
+  "sources": {},
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "ask",
+  "run_id": "74af18d2f5fe",
+  "ts": 1791449382.7851853,
+  "kind": "inputs",
+  "message": "Attach the vendor file (CSV or XLSX) you want processed, or use the sample vendor feed.",
+  "fields": [
+   {
+    "name": "vendor_file",
+    "label": "Vendor file",
+    "type": "file",
+    "description": "CSV or XLSX file with vendor product data",
+    "required": true,
+    "choices": [],
+    "sample": "vendor_upload_sample.xlsx",
+    "accept": [
+     ".csv",
+     ".xlsx",
+     ".xls",
+     ".tsv"
+    ],
+    "multiline": false,
+    "placeholder": "CSV or XLSX file with vendor product data"
+   }
+  ],
+  "workflow_id": "WF003"
+ },
+ {
+  "type": "resumed",
+  "run_id": "74af18d2f5fe",
+  "ts": 1791449382.7871983
+ },
+ {
+  "type": "inputs",
+  "ts": 1791449382.7928329,
+  "inputs": [
+   {
+    "name": "vendor_file",
+    "label": "Vendor file",
+    "value": "vendor_upload_sample.xlsx",
+    "type": "file",
+    "required": true
+   }
+  ],
+  "sources": {
+   "vendor_file": "you"
+  },
+  "method": "user",
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "input_check",
+  "ts": 1791449382.7987182,
+  "ok": true,
+  "missing": [],
+  "inputs": [
+   {
+    "name": "vendor_file",
+    "label": "Vendor file",
+    "value": "vendor_upload_sample.xlsx",
+    "type": "file",
+    "required": true
+   }
+  ],
+  "sources": {
+   "vendor_file": "you"
+  },
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "plan",
+  "ts": 1791449382.8024747,
+  "workflow_id": "WF003",
+  "workflow_name": "Vendor File Processing",
+  "steps": [
+   {
+    "id": "read",
+    "title": "Read file",
+    "kind": "tool",
+    "tool": "load_table",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Read file"
+    ],
+    "note": null
+   },
+   {
+    "id": "detect",
+    "title": "Detect columns",
+    "kind": "tool",
+    "tool": "detect_columns",
+    "category": "data",
+    "llm": true,
+    "api": null,
+    "excel_steps": [
+     2
+    ],
+    "excel_text": [
+     "detect columns"
+    ],
+    "note": "Headers are matched to the canonical schema by alias, then fuzzy similarity; the LLM is only asked about required fields that are still unmatched."
+   },
+   {
+    "id": "required_columns",
+    "title": "Required columns present?",
+    "kind": "decision",
+    "tool": null,
+    "category": "decision",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     2
+    ],
+    "excel_text": [
+     "detect columns"
+    ],
+    "note": null
+   },
+   {
+    "id": "normalize",
+    "title": "Normalize column names",
+    "kind": "tool",
+    "tool": "rename_columns",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     3
+    ],
+    "excel_text": [
+     "normalize column names"
+    ],
+    "note": null
+   },
+   {
+    "id": "clean",
+    "title": "Clean values",
+    "kind": "tool",
+    "tool": "clean_values",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     3
+    ],
+    "excel_text": [
+     "normalize column names"
+    ],
+    "note": "Trims whitespace, upper-cases SKUs, parses numbers ('$29.99' \u2192 29.99) and reports values it could not parse. Fully blank rows are dropped."
+   },
+   {
+    "id": "validate",
+    "title": "Validate required fields",
+    "kind": "tool",
+    "tool": "validate_required",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     4,
+     5
+    ],
+    "excel_text": [
+     "validate required fields",
+     "identify invalid rows"
+    ],
+    "note": "Excel rule: rows missing SKU or product name are invalid. Other problems (bad price, duplicate SKU) are warnings, not invalid rows."
+   },
+   {
+    "id": "export_clean",
+    "title": "Produce cleaned dataset",
+    "kind": "tool",
+    "tool": "export_table",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     6
+    ],
+    "excel_text": [
+     "produce cleaned dataset"
+    ],
+    "note": null
+   },
+   {
+    "id": "export_invalid",
+    "title": "Export invalid-row report",
+    "kind": "tool",
+    "tool": "export_table",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     6
+    ],
+    "excel_text": [
+     "produce cleaned dataset"
+    ],
+    "note": null
+   }
+  ],
+  "excel_steps": [
+   "Read file",
+   "detect columns",
+   "normalize column names",
+   "validate required fields",
+   "identify invalid rows",
+   "produce cleaned dataset"
+  ],
+  "decision_logic": "Rows missing SKU or product name are invalid",
+  "plan_file": "WF003.yaml",
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "stage",
+  "ts": 1791449382.8024747,
+  "stage": "executing",
+  "status": "started",
+  "message": "Running 8 steps",
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.8080213,
+  "step_id": "read",
+  "title": "Read file",
+  "tool": "load_table",
+  "kind": "tool",
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.9015872,
+  "step_id": "read",
+  "title": "Read file",
+  "kind": "tool",
+  "tool": "load_table",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 94,
+  "summary": "Loaded 12 rows \u00d7 6 columns from vendor_upload_sample.xlsx",
+  "engine": null,
+  "output": "raw",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "Item Code",
+    " Product Title",
+    "Unit Cost ($)",
+    "Qty Available",
+    "Colour",
+    "Dept."
+   ],
+   "rows": [
+    {
+     "Item Code": "NS-701",
+     " Product Title": "  Garment-Dyed Tee ",
+     "Unit Cost ($)": "18.50",
+     "Qty Available": "120",
+     "Colour": "Bone",
+     "Dept.": "Tops"
+    },
+    {
+     "Item Code": "NS-702",
+     " Product Title": "Heavyweight Hoodie",
+     "Unit Cost ($)": "42",
+     "Qty Available": "60",
+     "Colour": "Black",
+     "Dept.": "Tops"
+    },
+    {
+     "Item Code": null,
+     " Product Title": "Ribbed Tank Top",
+     "Unit Cost ($)": "12.00",
+     "Qty Available": "80",
+     "Colour": "White",
+     "Dept.": "Tops"
+    },
+    {
+     "Item Code": "NS-704",
+     " Product Title": null,
+     "Unit Cost ($)": "25.00",
+     "Qty Available": "40",
+     "Colour": "Navy",
+     "Dept.": "Tops"
+    },
+    {
+     "Item Code": "NS-705",
+     " Product Title": "   ",
+     "Unit Cost ($)": "31.00",
+     "Qty Available": "35",
+     "Colour": "Grey",
+     "Dept.": "Tops"
+    }
+   ],
+   "total": 12
+  },
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.9057343,
+  "step_id": "detect",
+  "title": "Detect columns",
+  "tool": "detect_columns",
+  "kind": "tool",
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449382.910204,
+  "step_id": "detect",
+  "message": "'Unit Cost ($)' \u2192 unit_cost (100% match)",
+  "level": "info",
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449382.910204,
+  "step_id": "detect",
+  "message": "'Item Code' \u2192 sku (100% match)",
+  "level": "info",
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449382.910204,
+  "step_id": "detect",
+  "message": "'Qty Available' \u2192 quantity (100% match)",
+  "level": "info",
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449382.910204,
+  "step_id": "detect",
+  "message": "'Product Title' \u2192 product_name (100% match)",
+  "level": "info",
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449382.910204,
+  "step_id": "detect",
+  "message": "'Colour' \u2192 color (100% match)",
+  "level": "info",
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449382.910204,
+  "step_id": "detect",
+  "message": "'Dept.' \u2192 category (100% match)",
+  "level": "info",
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.910204,
+  "step_id": "detect",
+  "title": "Detect columns",
+  "kind": "tool",
+  "tool": "detect_columns",
+  "excel_steps": [
+   2
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 2,
+  "summary": "Detected 6 of 6 schema fields",
+  "engine": "rules",
+  "output": "columns",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "mapping": {
+     "kind": "text",
+     "text": "6 fields"
+    },
+    "confidence": {
+     "kind": "text",
+     "text": "6 fields"
+    },
+    "unmapped": {
+     "kind": "list",
+     "items": [],
+     "total": 0
+    },
+    "missing_required": {
+     "kind": "list",
+     "items": [],
+     "total": 0
+    }
+   }
+  },
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.9153361,
+  "step_id": "required_columns",
+  "title": "Required columns present?",
+  "tool": null,
+  "kind": "decision",
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "decision",
+  "ts": 1791449382.9153361,
+  "step_id": "required_columns",
+  "expression": "len(columns.missing_required) > 0",
+  "result": false,
+  "action": "continue",
+  "message": null,
+  "note": null,
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.9153361,
+  "step_id": "required_columns",
+  "title": "Required columns present?",
+  "kind": "decision",
+  "tool": null,
+  "excel_steps": [
+   2
+  ],
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "`len(columns.missing_required) > 0` \u2192 false \u2192 continue",
+  "result": false,
+  "action": "continue",
+  "message": null,
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.917928,
+  "step_id": "normalize",
+  "title": "Normalize column names",
+  "tool": "rename_columns",
+  "kind": "tool",
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.9217782,
+  "step_id": "normalize",
+  "title": "Normalize column names",
+  "kind": "tool",
+  "tool": "rename_columns",
+  "excel_steps": [
+   3
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 2,
+  "summary": "Normalized column names: sku, product_name, unit_cost, quantity, color, category",
+  "engine": null,
+  "output": "normalized",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "sku",
+    "product_name",
+    "unit_cost",
+    "quantity",
+    "color",
+    "category"
+   ],
+   "rows": [
+    {
+     "sku": "NS-701",
+     "product_name": "  Garment-Dyed Tee ",
+     "unit_cost": "18.50",
+     "quantity": "120",
+     "color": "Bone",
+     "category": "Tops"
+    },
+    {
+     "sku": "NS-702",
+     "product_name": "Heavyweight Hoodie",
+     "unit_cost": "42",
+     "quantity": "60",
+     "color": "Black",
+     "category": "Tops"
+    },
+    {
+     "sku": null,
+     "product_name": "Ribbed Tank Top",
+     "unit_cost": "12.00",
+     "quantity": "80",
+     "color": "White",
+     "category": "Tops"
+    },
+    {
+     "sku": "NS-704",
+     "product_name": null,
+     "unit_cost": "25.00",
+     "quantity": "40",
+     "color": "Navy",
+     "category": "Tops"
+    },
+    {
+     "sku": "NS-705",
+     "product_name": "   ",
+     "unit_cost": "31.00",
+     "quantity": "35",
+     "color": "Grey",
+     "category": "Tops"
+    }
+   ],
+   "total": 12
+  },
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.9250312,
+  "step_id": "clean",
+  "title": "Clean values",
+  "tool": "clean_values",
+  "kind": "tool",
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.9345193,
+  "step_id": "clean",
+  "title": "Clean values",
+  "kind": "tool",
+  "tool": "clean_values",
+  "excel_steps": [
+   3
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 11,
+  "summary": "Cleaned 11 rows, dropped 1 empty row(s), 2 value warning(s)",
+  "engine": null,
+  "output": "cleaned",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "table": {
+     "kind": "table",
+     "columns": [
+      "source_row",
+      "sku",
+      "product_name",
+      "unit_cost",
+      "quantity",
+      "color",
+      "category"
+     ],
+     "rows": [
+      {
+       "source_row": 2,
+       "sku": "NS-701",
+       "product_name": "Garment-Dyed Tee",
+       "unit_cost": 18.5,
+       "quantity": 120.0,
+       "color": "Bone",
+       "category": "Tops"
+      },
+      {
+       "source_row": 3,
+       "sku": "NS-702",
+       "product_name": "Heavyweight Hoodie",
+       "unit_cost": 42.0,
+       "quantity": 60.0,
+       "color": "Black",
+       "category": "Tops"
+      },
+      {
+       "source_row": 4,
+       "sku": null,
+       "product_name": "Ribbed Tank Top",
+       "unit_cost": 12.0,
+       "quantity": 80.0,
+       "color": "White",
+       "category": "Tops"
+      },
+      {
+       "source_row": 5,
+       "sku": "NS-704",
+       "product_name": null,
+       "unit_cost": 25.0,
+       "quantity": 40.0,
+       "color": "Navy",
+       "category": "Tops"
+      },
+      {
+       "source_row": 6,
+       "sku": "NS-705",
+       "product_name": null,
+       "unit_cost": 31.0,
+       "quantity": 35.0,
+       "color": "Grey",
+       "category": "Tops"
+      }
+     ],
+     "total": 11
+    },
+    "warnings": {
+     "kind": "table",
+     "columns": [
+      "source_row",
+      "field",
+      "value",
+      "issue"
+     ],
+     "rows": [
+      {
+       "source_row": 8,
+       "field": "unit_cost",
+       "value": "N/A",
+       "issue": "'N/A' is not a number"
+      },
+      {
+       "source_row": 10,
+       "field": "sku",
+       "value": "NS-702",
+       "issue": "duplicate sku (first seen earlier in the file)"
+      }
+     ],
+     "total": 2
+    },
+    "dropped_empty": {
+     "kind": "text",
+     "text": 1
+    }
+   }
+  },
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.9366522,
+  "step_id": "validate",
+  "title": "Validate required fields",
+  "tool": "validate_required",
+  "kind": "tool",
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.9438324,
+  "step_id": "validate",
+  "title": "Validate required fields",
+  "kind": "tool",
+  "tool": "validate_required",
+  "excel_steps": [
+   4,
+   5
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 6,
+  "summary": "7 valid, 4 invalid (required: sku, product_name)",
+  "engine": null,
+  "output": "validation",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "valid": {
+     "kind": "table",
+     "columns": [
+      "source_row",
+      "sku",
+      "product_name",
+      "unit_cost",
+      "quantity",
+      "color",
+      "category"
+     ],
+     "rows": [
+      {
+       "source_row": 2,
+       "sku": "NS-701",
+       "product_name": "Garment-Dyed Tee",
+       "unit_cost": 18.5,
+       "quantity": 120.0,
+       "color": "Bone",
+       "category": "Tops"
+      },
+      {
+       "source_row": 3,
+       "sku": "NS-702",
+       "product_name": "Heavyweight Hoodie",
+       "unit_cost": 42.0,
+       "quantity": 60.0,
+       "color": "Black",
+       "category": "Tops"
+      },
+      {
+       "source_row": 8,
+       "sku": "NS-706",
+       "product_name": "Fleece Joggers",
+       "unit_cost": null,
+       "quantity": 50.0,
+       "color": "Heather",
+       "category": "Bottoms"
+      },
+      {
+       "source_row": 9,
+       "sku": "NS-707",
+       "product_name": "Utility Cargo Pants",
+       "unit_cost": 48.0,
+       "quantity": null,
+       "color": "Khaki",
+       "category": "Bottoms"
+      },
+      {
+       "source_row": 10,
+       "sku": "NS-702",
+       "product_name": "Heavyweight Hoodie",
+       "unit_cost": 42.0,
+       "quantity": 60.0,
+       "color": "Black",
+       "category": "Tops"
+      }
+     ],
+     "total": 7
+    },
+    "invalid": {
+     "kind": "table",
+     "columns": [
+      "source_row",
+      "sku",
+      "product_name",
+      "unit_cost",
+      "quantity",
+      "color",
+      "category",
+      "issue"
+     ],
+     "rows": [
+      {
+       "source_row": 4,
+       "sku": null,
+       "product_name": "Ribbed Tank Top",
+       "unit_cost": 12.0,
+       "quantity": 80.0,
+       "color": "White",
+       "category": "Tops",
+       "issue": "Missing SKU"
+      },
+      {
+       "source_row": 5,
+       "sku": "NS-704",
+       "product_name": null,
+       "unit_cost": 25.0,
+       "quantity": 40.0,
+       "color": "Navy",
+       "category": "Tops",
+       "issue": "Missing product name"
+      },
+      {
+       "source_row": 6,
+       "sku": "NS-705",
+       "product_name": null,
+       "unit_cost": 31.0,
+       "quantity": 35.0,
+       "color": "Grey",
+       "category": "Tops",
+       "issue": "Missing product name"
+      },
+      {
+       "source_row": 13,
+       "sku": null,
+       "product_name": null,
+       "unit_cost": 15.0,
+       "quantity": 10.0,
+       "color": "Red",
+       "category": "Tops",
+       "issue": "Missing SKU and product name"
+      }
+     ],
+     "total": 4
+    }
+   }
+  },
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.9486575,
+  "step_id": "export_clean",
+  "title": "Produce cleaned dataset",
+  "tool": "export_table",
+  "kind": "tool",
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.9512348,
+  "step_id": "export_clean",
+  "title": "Produce cleaned dataset",
+  "kind": "tool",
+  "tool": "export_table",
+  "excel_steps": [
+   6
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 3,
+  "summary": "Exported 7 rows to vendor_clean.csv",
+  "engine": null,
+  "output": "clean_file",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "url": {
+     "kind": "text",
+     "text": "/api/files/74af18d2f5fe/vendor_clean.csv"
+    },
+    "filename": {
+     "kind": "text",
+     "text": "vendor_clean.csv"
+    },
+    "rows": {
+     "kind": "text",
+     "text": 7
+    },
+    "path": {
+     "kind": "text",
+     "text": "C:\\Users\\david\\AppData\\Local\\Temp\\tmpceetzcxn\\runs\\exports\\74af18d2f5fe\\vendor_clean.csv"
+    }
+   }
+  },
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.9568677,
+  "step_id": "export_invalid",
+  "title": "Export invalid-row report",
+  "tool": "export_table",
+  "kind": "tool",
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.96131,
+  "step_id": "export_invalid",
+  "title": "Export invalid-row report",
+  "kind": "tool",
+  "tool": "export_table",
+  "excel_steps": [
+   6
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 3,
+  "summary": "Exported 4 rows to vendor_invalid_rows.csv",
+  "engine": null,
+  "output": "invalid_file",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "url": {
+     "kind": "text",
+     "text": "/api/files/74af18d2f5fe/vendor_invalid_rows.csv"
+    },
+    "filename": {
+     "kind": "text",
+     "text": "vendor_invalid_rows.csv"
+    },
+    "rows": {
+     "kind": "text",
+     "text": 4
+    },
+    "path": {
+     "kind": "text",
+     "text": "C:\\Users\\david\\AppData\\Local\\Temp\\tmpceetzcxn\\runs\\exports\\74af18d2f5fe\\vendor_invalid_rows.csv"
+    }
+   }
+  },
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "result",
+  "ts": 1791449382.9703655,
+  "status": "completed",
+  "title": "7 clean rows, 4 invalid",
+  "subtitle": "12 rows read from vendor_upload_sample.xlsx",
+  "sections": [
+   {
+    "type": "kpis",
+    "title": null,
+    "items": [
+     {
+      "label": "Rows read",
+      "value": "12",
+      "tone": null,
+      "hint": null
+     },
+     {
+      "label": "Valid rows",
+      "value": "7",
+      "tone": "ok",
+      "hint": null
+     },
+     {
+      "label": "Invalid rows",
+      "value": "4",
+      "tone": "danger",
+      "hint": null
+     },
+     {
+      "label": "Warnings",
+      "value": "2",
+      "tone": "warn",
+      "hint": null
+     },
+     {
+      "label": "Blank rows dropped",
+      "value": "1",
+      "tone": null,
+      "hint": null
+     }
+    ]
+   },
+   {
+    "type": "table",
+    "title": "Invalid rows",
+    "columns": [
+     {
+      "key": "source_row",
+      "label": "Row",
+      "format": null
+     },
+     {
+      "key": "sku",
+      "label": "SKU",
+      "format": null
+     },
+     {
+      "key": "product_name",
+      "label": "Product name",
+      "format": null
+     },
+     {
+      "key": "issue",
+      "label": "Problem",
+      "format": null
+     }
+    ],
+    "rows": [
+     {
+      "source_row": 4,
+      "sku": null,
+      "product_name": "Ribbed Tank Top",
+      "issue": "Missing SKU"
+     },
+     {
+      "source_row": 5,
+      "sku": "NS-704",
+      "product_name": null,
+      "issue": "Missing product name"
+     },
+     {
+      "source_row": 6,
+      "sku": "NS-705",
+      "product_name": null,
+      "issue": "Missing product name"
+     },
+     {
+      "source_row": 13,
+      "sku": null,
+      "product_name": null,
+      "issue": "Missing SKU and product name"
+     }
+    ],
+    "total": 4,
+    "tones": [
+     "danger",
+     "danger",
+     "danger",
+     "danger"
+    ],
+    "empty": "Every row has a SKU and a product name."
+   },
+   {
+    "type": "table",
+    "title": "Detected columns",
+    "columns": [
+     {
+      "key": "field",
+      "label": "Standard field",
+      "format": null
+     },
+     {
+      "key": "source_column",
+      "label": "Column in file",
+      "format": null
+     },
+     {
+      "key": "match",
+      "label": "Match",
+      "format": null
+     }
+    ],
+    "rows": [
+     {
+      "field": "unit_cost",
+      "source_column": "Unit Cost ($)",
+      "match": "100%"
+     },
+     {
+      "field": "sku",
+      "source_column": "Item Code",
+      "match": "100%"
+     },
+     {
+      "field": "quantity",
+      "source_column": "Qty Available",
+      "match": "100%"
+     },
+     {
+      "field": "product_name",
+      "source_column": "Product Title",
+      "match": "100%"
+     },
+     {
+      "field": "color",
+      "source_column": "Colour",
+      "match": "100%"
+     },
+     {
+      "field": "category",
+      "source_column": "Dept.",
+      "match": "100%"
+     }
+    ],
+    "total": 6,
+    "tones": null,
+    "empty": "No rows"
+   },
+   {
+    "type": "table",
+    "title": "Warnings (rows kept)",
+    "columns": [
+     {
+      "key": "source_row",
+      "label": "Row",
+      "format": null
+     },
+     {
+      "key": "field",
+      "label": "Field",
+      "format": null
+     },
+     {
+      "key": "value",
+      "label": "Value",
+      "format": null
+     },
+     {
+      "key": "issue",
+      "label": "Issue",
+      "format": null
+     }
+    ],
+    "rows": [
+     {
+      "source_row": 8,
+      "field": "unit_cost",
+      "value": "N/A",
+      "issue": "'N/A' is not a number"
+     },
+     {
+      "source_row": 10,
+      "field": "sku",
+      "value": "NS-702",
+      "issue": "duplicate sku (first seen earlier in the file)"
+     }
+    ],
+    "total": 2,
+    "tones": [
+     "warn",
+     "warn"
+    ],
+    "empty": "No rows"
+   },
+   {
+    "type": "table",
+    "title": "Cleaned dataset",
+    "columns": [
+     {
+      "key": "source_row",
+      "label": "Row",
+      "format": null
+     },
+     {
+      "key": "sku",
+      "label": "SKU",
+      "format": null
+     },
+     {
+      "key": "product_name",
+      "label": "Product name",
+      "format": null
+     },
+     {
+      "key": "unit_cost",
+      "label": "Unit cost",
+      "format": null
+     },
+     {
+      "key": "quantity",
+      "label": "Quantity",
+      "format": null
+     },
+     {
+      "key": "color",
+      "label": "Color",
+      "format": null
+     },
+     {
+      "key": "category",
+      "label": "Category",
+      "format": null
+     }
+    ],
+    "rows": [
+     {
+      "source_row": 2,
+      "sku": "NS-701",
+      "product_name": "Garment-Dyed Tee",
+      "unit_cost": 18.5,
+      "quantity": 120.0,
+      "color": "Bone",
+      "category": "Tops"
+     },
+     {
+      "source_row": 3,
+      "sku": "NS-702",
+      "product_name": "Heavyweight Hoodie",
+      "unit_cost": 42.0,
+      "quantity": 60.0,
+      "color": "Black",
+      "category": "Tops"
+     },
+     {
+      "source_row": 8,
+      "sku": "NS-706",
+      "product_name": "Fleece Joggers",
+      "unit_cost": null,
+      "quantity": 50.0,
+      "color": "Heather",
+      "category": "Bottoms"
+     },
+     {
+      "source_row": 9,
+      "sku": "NS-707",
+      "product_name": "Utility Cargo Pants",
+      "unit_cost": 48.0,
+      "quantity": null,
+      "color": "Khaki",
+      "category": "Bottoms"
+     },
+     {
+      "source_row": 10,
+      "sku": "NS-702",
+      "product_name": "Heavyweight Hoodie",
+      "unit_cost": 42.0,
+      "quantity": 60.0,
+      "color": "Black",
+      "category": "Tops"
+     },
+     {
+      "source_row": 11,
+      "sku": "NS-708",
+      "product_name": "Corduroy Cap",
+      "unit_cost": 22.0,
+      "quantity": 90.0,
+      "color": "Rust",
+      "category": "Accessories"
+     },
+     {
+      "source_row": 12,
+      "sku": "NS-709",
+      "product_name": "Waffle Knit Henley",
+      "unit_cost": 29.99,
+      "quantity": 70.0,
+      "color": "Oat",
+      "category": "Tops"
+     }
+    ],
+    "total": 7,
+    "tones": null,
+    "empty": "No rows"
+   },
+   {
+    "type": "download",
+    "title": null,
+    "files": [
+     {
+      "label": "Cleaned file (CSV)",
+      "url": "/api/files/74af18d2f5fe/vendor_clean.csv",
+      "filename": "vendor_clean.csv",
+      "rows": 7
+     },
+     {
+      "label": "Invalid rows (CSV)",
+      "url": "/api/files/74af18d2f5fe/vendor_invalid_rows.csv",
+      "filename": "vendor_invalid_rows.csv",
+      "rows": 4
+     }
+    ]
+   }
+  ],
+  "run_id": "74af18d2f5fe"
+ },
+ {
+  "type": "run_finished",
+  "ts": 1791449382.9703655,
+  "status": "completed",
+  "active_ms": 125,
+  "workflow_id": "WF003",
+  "run_id": "74af18d2f5fe"
+ }
+]

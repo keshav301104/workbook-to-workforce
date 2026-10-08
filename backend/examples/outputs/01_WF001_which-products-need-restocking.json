@@ -1,0 +1,1310 @@
+[
+ {
+  "type": "run_started",
+  "run_id": "659984f90acf",
+  "ts": 1791449382.331347,
+  "request": "Which products need restocking?",
+  "llm": "Offline (deterministic fallback)",
+  "llm_enabled": false
+ },
+ {
+  "type": "stage",
+  "ts": 1791449382.3462987,
+  "stage": "routing",
+  "status": "started",
+  "message": "Reading 10 workflows from AI_Agent_Workflow_Assessment_1.xlsx",
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "route",
+  "ts": 1791449382.3462987,
+  "workflow_id": "WF001",
+  "workflow_name": "Inventory Restock Check",
+  "confidence": 0.97,
+  "reasoning": "Matched on: products, restocking.",
+  "method": "lexical",
+  "alternatives": [
+   {
+    "id": "WF002",
+    "score": 0.28,
+    "name": "Product Price Validation"
+   },
+   {
+    "id": "WF004",
+    "score": 0.28,
+    "name": "Product Description Generator"
+   },
+   {
+    "id": "WF006",
+    "score": 0.28,
+    "name": "Duplicate Product Detection"
+   }
+  ],
+  "note": null,
+  "threshold": 0.55,
+  "status": "routed",
+  "duration_ms": 3,
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "stage",
+  "ts": 1791449382.3517487,
+  "stage": "extracting",
+  "status": "started",
+  "message": "Reading inputs from your request",
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "inputs",
+  "ts": 1791449382.3539162,
+  "inputs": [
+   {
+    "name": "inventory_file",
+    "label": "Inventory file",
+    "value": null,
+    "type": "file",
+    "required": false
+   },
+   {
+    "name": "threshold_override",
+    "label": "Minimum stock threshold",
+    "value": null,
+    "type": "number",
+    "required": false
+   },
+   {
+    "name": "product",
+    "label": "Product",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "category",
+    "label": "Category",
+    "value": null,
+    "type": "text",
+    "required": false
+   }
+  ],
+  "sources": {},
+  "method": "patterns",
+  "note": null,
+  "duration_ms": 2,
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "params",
+  "ts": 1791449382.3539162,
+  "params": [
+   {
+    "name": "reorder_cover",
+    "value": 2,
+    "source": "plan default",
+    "description": "Products without a max_stock are reordered up to this multiple of their minimum stock"
+   }
+  ],
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "input_check",
+  "ts": 1791449382.3568313,
+  "ok": true,
+  "missing": [],
+  "inputs": [
+   {
+    "name": "inventory_file",
+    "label": "Inventory file",
+    "value": "inventory.csv",
+    "type": "file",
+    "required": false
+   },
+   {
+    "name": "threshold_override",
+    "label": "Minimum stock threshold",
+    "value": null,
+    "type": "number",
+    "required": false
+   },
+   {
+    "name": "product",
+    "label": "Product",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "category",
+    "label": "Category",
+    "value": null,
+    "type": "text",
+    "required": false
+   }
+  ],
+  "sources": {
+   "inventory_file": "default"
+  },
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "plan",
+  "ts": 1791449382.3614519,
+  "workflow_id": "WF001",
+  "workflow_name": "Inventory Restock Check",
+  "steps": [
+   {
+    "id": "load",
+    "title": "Load inventory",
+    "kind": "tool",
+    "tool": "load_table",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Load inventory"
+    ],
+    "note": null
+   },
+   {
+    "id": "scope",
+    "title": "Limit to the requested category",
+    "kind": "tool",
+    "tool": "filter_rows",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Load inventory"
+    ],
+    "note": null
+   },
+   {
+    "id": "one_product",
+    "title": "Limit to the requested product",
+    "kind": "tool",
+    "tool": "filter_rows",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Load inventory"
+    ],
+    "note": null
+   },
+   {
+    "id": "product_found",
+    "title": "Requested product in inventory?",
+    "kind": "decision",
+    "tool": null,
+    "category": "decision",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Load inventory"
+    ],
+    "note": null
+   },
+   {
+    "id": "threshold",
+    "title": "Compare current stock with minimum threshold",
+    "kind": "tool",
+    "tool": "compute_column",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     2
+    ],
+    "excel_text": [
+     "compare current stock with minimum threshold"
+    ],
+    "note": null
+   },
+   {
+    "id": "flag",
+    "title": "Apply restock rule",
+    "kind": "tool",
+    "tool": "flag_rows",
+    "category": "decision",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     3
+    ],
+    "excel_text": [
+     "identify low-stock products"
+    ],
+    "note": "Excel rule: if current_stock < minimum_stock, mark for restock. Strictly less than, so stock equal to the minimum is not flagged."
+   },
+   {
+    "id": "anything_low",
+    "title": "Any products below threshold?",
+    "kind": "decision",
+    "tool": null,
+    "category": "decision",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     3
+    ],
+    "excel_text": [
+     "identify low-stock products"
+    ],
+    "note": null
+   },
+   {
+    "id": "identify",
+    "title": "Identify low-stock products",
+    "kind": "tool",
+    "tool": "filter_rows",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     3
+    ],
+    "excel_text": [
+     "identify low-stock products"
+    ],
+    "note": null
+   },
+   {
+    "id": "reorder",
+    "title": "Calculate reorder quantity",
+    "kind": "tool",
+    "tool": "compute_column",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     4
+    ],
+    "excel_text": [
+     "calculate reorder quantity"
+    ],
+    "note": "Reorder up to max_stock; if a product has no max_stock, up to reorder_cover \u00d7 minimum."
+   },
+   {
+    "id": "generate",
+    "title": "Generate restock list",
+    "kind": "tool",
+    "tool": "sort_rows",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     5
+    ],
+    "excel_text": [
+     "generate restock list"
+    ],
+    "note": null
+   },
+   {
+    "id": "export",
+    "title": "Export restock list",
+    "kind": "tool",
+    "tool": "export_table",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     5
+    ],
+    "excel_text": [
+     "generate restock list"
+    ],
+    "note": null
+   }
+  ],
+  "excel_steps": [
+   "Load inventory",
+   "compare current stock with minimum threshold",
+   "identify low-stock products",
+   "calculate reorder quantity",
+   "generate restock list"
+  ],
+  "decision_logic": "If current_stock < minimum_stock, mark product for restock",
+  "plan_file": "WF001.yaml",
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "stage",
+  "ts": 1791449382.3614519,
+  "stage": "executing",
+  "status": "started",
+  "message": "Running 11 steps",
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.3652859,
+  "step_id": "load",
+  "title": "Load inventory",
+  "tool": "load_table",
+  "kind": "tool",
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.377465,
+  "step_id": "load",
+  "title": "Load inventory",
+  "kind": "tool",
+  "tool": "load_table",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 12,
+  "summary": "Loaded 15 rows \u00d7 8 columns from inventory.csv",
+  "engine": null,
+  "output": "inventory",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "sku",
+    "product_name",
+    "category",
+    "current_stock",
+    "minimum_stock",
+    "max_stock",
+    "warehouse",
+    "last_counted"
+   ],
+   "rows": [
+    {
+     "sku": "TS-1001",
+     "product_name": "Classic Linen Shirt",
+     "category": "Shirts",
+     "current_stock": 12,
+     "minimum_stock": 25,
+     "max_stock": 120.0,
+     "warehouse": "Miami-1",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "TS-1002",
+     "product_name": "Oxford Button-Down Shirt",
+     "category": "Shirts",
+     "current_stock": 64,
+     "minimum_stock": 30,
+     "max_stock": 150.0,
+     "warehouse": "Miami-1",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "TS-1003",
+     "product_name": "Linen Overshirt",
+     "category": "Shirts",
+     "current_stock": 0,
+     "minimum_stock": 20,
+     "max_stock": 100.0,
+     "warehouse": "Miami-1",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "KN-2001",
+     "product_name": "Merino Crew Sweater",
+     "category": "Knitwear",
+     "current_stock": 18,
+     "minimum_stock": 18,
+     "max_stock": 90.0,
+     "warehouse": "Atlanta-2",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "KN-2002",
+     "product_name": "Cable Knit Cardigan",
+     "category": "Knitwear",
+     "current_stock": 7,
+     "minimum_stock": 15,
+     "max_stock": null,
+     "warehouse": "Atlanta-2",
+     "last_counted": "2026-10-07"
+    }
+   ],
+   "total": 15
+  },
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.3806677,
+  "step_id": "scope",
+  "title": "Limit to the requested category",
+  "tool": "filter_rows",
+  "kind": "tool",
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.3806677,
+  "step_id": "scope",
+  "title": "Limit to the requested category",
+  "kind": "tool",
+  "tool": "filter_rows",
+  "excel_steps": [
+   1
+  ],
+  "status": "skipped",
+  "duration_ms": 0,
+  "summary": "Skipped: `exists(inputs.category)` is false",
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.3850722,
+  "step_id": "one_product",
+  "title": "Limit to the requested product",
+  "tool": "filter_rows",
+  "kind": "tool",
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.3850722,
+  "step_id": "one_product",
+  "title": "Limit to the requested product",
+  "kind": "tool",
+  "tool": "filter_rows",
+  "excel_steps": [
+   1
+  ],
+  "status": "skipped",
+  "duration_ms": 0,
+  "summary": "Skipped: `exists(inputs.product)` is false",
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.389427,
+  "step_id": "product_found",
+  "title": "Requested product in inventory?",
+  "tool": null,
+  "kind": "decision",
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "decision",
+  "ts": 1791449382.389427,
+  "step_id": "product_found",
+  "expression": "exists(inputs.product) and len(inventory) == 0",
+  "result": false,
+  "action": "continue",
+  "message": null,
+  "note": null,
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.389427,
+  "step_id": "product_found",
+  "title": "Requested product in inventory?",
+  "kind": "decision",
+  "tool": null,
+  "excel_steps": [
+   1
+  ],
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "`exists(inputs.product) and len(inventory) == 0` \u2192 false \u2192 continue",
+  "result": false,
+  "action": "continue",
+  "message": null,
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.3948562,
+  "step_id": "threshold",
+  "title": "Compare current stock with minimum threshold",
+  "tool": "compute_column",
+  "kind": "tool",
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.402696,
+  "step_id": "threshold",
+  "title": "Compare current stock with minimum threshold",
+  "kind": "tool",
+  "tool": "compute_column",
+  "excel_steps": [
+   2
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 7,
+  "summary": "Computed threshold, stock_gap for 15 rows",
+  "engine": null,
+  "output": "inventory",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "sku",
+    "product_name",
+    "category",
+    "current_stock",
+    "minimum_stock",
+    "max_stock",
+    "warehouse",
+    "last_counted"
+   ],
+   "rows": [
+    {
+     "sku": "TS-1001",
+     "product_name": "Classic Linen Shirt",
+     "category": "Shirts",
+     "current_stock": 12,
+     "minimum_stock": 25,
+     "max_stock": 120.0,
+     "warehouse": "Miami-1",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "TS-1002",
+     "product_name": "Oxford Button-Down Shirt",
+     "category": "Shirts",
+     "current_stock": 64,
+     "minimum_stock": 30,
+     "max_stock": 150.0,
+     "warehouse": "Miami-1",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "TS-1003",
+     "product_name": "Linen Overshirt",
+     "category": "Shirts",
+     "current_stock": 0,
+     "minimum_stock": 20,
+     "max_stock": 100.0,
+     "warehouse": "Miami-1",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "KN-2001",
+     "product_name": "Merino Crew Sweater",
+     "category": "Knitwear",
+     "current_stock": 18,
+     "minimum_stock": 18,
+     "max_stock": 90.0,
+     "warehouse": "Atlanta-2",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "KN-2002",
+     "product_name": "Cable Knit Cardigan",
+     "category": "Knitwear",
+     "current_stock": 7,
+     "minimum_stock": 15,
+     "max_stock": null,
+     "warehouse": "Atlanta-2",
+     "last_counted": "2026-10-07"
+    }
+   ],
+   "total": 15
+  },
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.4054854,
+  "step_id": "flag",
+  "title": "Apply restock rule",
+  "tool": "flag_rows",
+  "kind": "tool",
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449382.4072382,
+  "step_id": "flag",
+  "message": "Rule `current_stock < threshold` is true for 6 row(s)",
+  "level": "info",
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.4122663,
+  "step_id": "flag",
+  "title": "Apply restock rule",
+  "kind": "tool",
+  "tool": "flag_rows",
+  "excel_steps": [
+   3
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 6,
+  "summary": "Flagged 6 of 15 rows",
+  "engine": null,
+  "output": "inventory",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "sku",
+    "product_name",
+    "category",
+    "current_stock",
+    "minimum_stock",
+    "max_stock",
+    "warehouse",
+    "last_counted"
+   ],
+   "rows": [
+    {
+     "sku": "TS-1001",
+     "product_name": "Classic Linen Shirt",
+     "category": "Shirts",
+     "current_stock": 12,
+     "minimum_stock": 25,
+     "max_stock": 120.0,
+     "warehouse": "Miami-1",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "TS-1002",
+     "product_name": "Oxford Button-Down Shirt",
+     "category": "Shirts",
+     "current_stock": 64,
+     "minimum_stock": 30,
+     "max_stock": 150.0,
+     "warehouse": "Miami-1",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "TS-1003",
+     "product_name": "Linen Overshirt",
+     "category": "Shirts",
+     "current_stock": 0,
+     "minimum_stock": 20,
+     "max_stock": 100.0,
+     "warehouse": "Miami-1",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "KN-2001",
+     "product_name": "Merino Crew Sweater",
+     "category": "Knitwear",
+     "current_stock": 18,
+     "minimum_stock": 18,
+     "max_stock": 90.0,
+     "warehouse": "Atlanta-2",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "KN-2002",
+     "product_name": "Cable Knit Cardigan",
+     "category": "Knitwear",
+     "current_stock": 7,
+     "minimum_stock": 15,
+     "max_stock": null,
+     "warehouse": "Atlanta-2",
+     "last_counted": "2026-10-07"
+    }
+   ],
+   "total": 15
+  },
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.4162738,
+  "step_id": "anything_low",
+  "title": "Any products below threshold?",
+  "tool": null,
+  "kind": "decision",
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "decision",
+  "ts": 1791449382.4162738,
+  "step_id": "anything_low",
+  "expression": "count(inventory, 'needs_restock') == 0",
+  "result": false,
+  "action": "continue",
+  "message": null,
+  "note": null,
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.4162738,
+  "step_id": "anything_low",
+  "title": "Any products below threshold?",
+  "kind": "decision",
+  "tool": null,
+  "excel_steps": [
+   3
+  ],
+  "status": "ok",
+  "duration_ms": 2,
+  "summary": "`count(inventory, 'needs_restock') == 0` \u2192 false \u2192 continue",
+  "result": false,
+  "action": "continue",
+  "message": null,
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.4206328,
+  "step_id": "identify",
+  "title": "Identify low-stock products",
+  "tool": "filter_rows",
+  "kind": "tool",
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.4262605,
+  "step_id": "identify",
+  "title": "Identify low-stock products",
+  "kind": "tool",
+  "tool": "filter_rows",
+  "excel_steps": [
+   3
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 4,
+  "summary": "6 of 15 rows match `needs_restock`",
+  "engine": null,
+  "output": "low_stock",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "sku",
+    "product_name",
+    "category",
+    "current_stock",
+    "minimum_stock",
+    "max_stock",
+    "warehouse",
+    "last_counted"
+   ],
+   "rows": [
+    {
+     "sku": "TS-1001",
+     "product_name": "Classic Linen Shirt",
+     "category": "Shirts",
+     "current_stock": 12,
+     "minimum_stock": 25,
+     "max_stock": 120.0,
+     "warehouse": "Miami-1",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "TS-1003",
+     "product_name": "Linen Overshirt",
+     "category": "Shirts",
+     "current_stock": 0,
+     "minimum_stock": 20,
+     "max_stock": 100.0,
+     "warehouse": "Miami-1",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "KN-2002",
+     "product_name": "Cable Knit Cardigan",
+     "category": "Knitwear",
+     "current_stock": 7,
+     "minimum_stock": 15,
+     "max_stock": null,
+     "warehouse": "Atlanta-2",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "OW-3002",
+     "product_name": "Quilted Liner Vest",
+     "category": "Outerwear",
+     "current_stock": 9,
+     "minimum_stock": 12,
+     "max_stock": 50.0,
+     "warehouse": "Atlanta-2",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "AC-5002",
+     "product_name": "Wool Beanie",
+     "category": "Accessories",
+     "current_stock": 4,
+     "minimum_stock": 30,
+     "max_stock": 150.0,
+     "warehouse": "Atlanta-2",
+     "last_counted": "2026-10-07"
+    }
+   ],
+   "total": 6
+  },
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.4290876,
+  "step_id": "reorder",
+  "title": "Calculate reorder quantity",
+  "tool": "compute_column",
+  "kind": "tool",
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.4427407,
+  "step_id": "reorder",
+  "title": "Calculate reorder quantity",
+  "kind": "tool",
+  "tool": "compute_column",
+  "excel_steps": [
+   4
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 13,
+  "summary": "Computed suggested_reorder_qty, reorder_basis, urgency, cover_ratio for 6 rows",
+  "engine": null,
+  "output": "low_stock",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "sku",
+    "product_name",
+    "category",
+    "current_stock",
+    "minimum_stock",
+    "max_stock",
+    "warehouse",
+    "last_counted"
+   ],
+   "rows": [
+    {
+     "sku": "TS-1001",
+     "product_name": "Classic Linen Shirt",
+     "category": "Shirts",
+     "current_stock": 12,
+     "minimum_stock": 25,
+     "max_stock": 120.0,
+     "warehouse": "Miami-1",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "TS-1003",
+     "product_name": "Linen Overshirt",
+     "category": "Shirts",
+     "current_stock": 0,
+     "minimum_stock": 20,
+     "max_stock": 100.0,
+     "warehouse": "Miami-1",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "KN-2002",
+     "product_name": "Cable Knit Cardigan",
+     "category": "Knitwear",
+     "current_stock": 7,
+     "minimum_stock": 15,
+     "max_stock": null,
+     "warehouse": "Atlanta-2",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "OW-3002",
+     "product_name": "Quilted Liner Vest",
+     "category": "Outerwear",
+     "current_stock": 9,
+     "minimum_stock": 12,
+     "max_stock": 50.0,
+     "warehouse": "Atlanta-2",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "AC-5002",
+     "product_name": "Wool Beanie",
+     "category": "Accessories",
+     "current_stock": 4,
+     "minimum_stock": 30,
+     "max_stock": 150.0,
+     "warehouse": "Atlanta-2",
+     "last_counted": "2026-10-07"
+    }
+   ],
+   "total": 6
+  },
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.4463866,
+  "step_id": "generate",
+  "title": "Generate restock list",
+  "tool": "sort_rows",
+  "kind": "tool",
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.4463866,
+  "step_id": "generate",
+  "title": "Generate restock list",
+  "kind": "tool",
+  "tool": "sort_rows",
+  "excel_steps": [
+   5
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 4,
+  "summary": "Sorted by cover_ratio (asc)",
+  "engine": null,
+  "output": "restock_list",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "sku",
+    "product_name",
+    "category",
+    "current_stock",
+    "minimum_stock",
+    "max_stock",
+    "warehouse",
+    "last_counted"
+   ],
+   "rows": [
+    {
+     "sku": "TS-1003",
+     "product_name": "Linen Overshirt",
+     "category": "Shirts",
+     "current_stock": 0,
+     "minimum_stock": 20,
+     "max_stock": 100.0,
+     "warehouse": "Miami-1",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "AC-5002",
+     "product_name": "Wool Beanie",
+     "category": "Accessories",
+     "current_stock": 4,
+     "minimum_stock": 30,
+     "max_stock": 150.0,
+     "warehouse": "Atlanta-2",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "KN-2002",
+     "product_name": "Cable Knit Cardigan",
+     "category": "Knitwear",
+     "current_stock": 7,
+     "minimum_stock": 15,
+     "max_stock": null,
+     "warehouse": "Atlanta-2",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "TS-1001",
+     "product_name": "Classic Linen Shirt",
+     "category": "Shirts",
+     "current_stock": 12,
+     "minimum_stock": 25,
+     "max_stock": 120.0,
+     "warehouse": "Miami-1",
+     "last_counted": "2026-10-07"
+    },
+    {
+     "sku": "OW-3002",
+     "product_name": "Quilted Liner Vest",
+     "category": "Outerwear",
+     "current_stock": 9,
+     "minimum_stock": 12,
+     "max_stock": 50.0,
+     "warehouse": "Atlanta-2",
+     "last_counted": "2026-10-07"
+    }
+   ],
+   "total": 6
+  },
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.4534397,
+  "step_id": "export",
+  "title": "Export restock list",
+  "tool": "export_table",
+  "kind": "tool",
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.4598682,
+  "step_id": "export",
+  "title": "Export restock list",
+  "kind": "tool",
+  "tool": "export_table",
+  "excel_steps": [
+   5
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 6,
+  "summary": "Exported 6 rows to restock_list.csv",
+  "engine": null,
+  "output": "restock_file",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "url": {
+     "kind": "text",
+     "text": "/api/files/659984f90acf/restock_list.csv"
+    },
+    "filename": {
+     "kind": "text",
+     "text": "restock_list.csv"
+    },
+    "rows": {
+     "kind": "text",
+     "text": 6
+    },
+    "path": {
+     "kind": "text",
+     "text": "C:\\Users\\david\\AppData\\Local\\Temp\\tmpceetzcxn\\runs\\exports\\659984f90acf\\restock_list.csv"
+    }
+   }
+  },
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "result",
+  "ts": 1791449382.4875505,
+  "status": "completed",
+  "title": "6 products need restocking",
+  "subtitle": "Checked 15 products against each product\u2019s minimum stock",
+  "sections": [
+   {
+    "type": "kpis",
+    "title": null,
+    "items": [
+     {
+      "label": "Products checked",
+      "value": "15",
+      "tone": null,
+      "hint": null
+     },
+     {
+      "label": "Need restock",
+      "value": "6",
+      "tone": "warn",
+      "hint": null
+     },
+     {
+      "label": "Out of stock",
+      "value": "1",
+      "tone": "danger",
+      "hint": null
+     },
+     {
+      "label": "Units to reorder",
+      "value": "452",
+      "tone": null,
+      "hint": null
+     }
+    ]
+   },
+   {
+    "type": "table",
+    "title": "Restock list",
+    "columns": [
+     {
+      "key": "sku",
+      "label": "SKU",
+      "format": null
+     },
+     {
+      "key": "product_name",
+      "label": "Product",
+      "format": null
+     },
+     {
+      "key": "category",
+      "label": "Category",
+      "format": null
+     },
+     {
+      "key": "current_stock",
+      "label": "Current stock",
+      "format": null
+     },
+     {
+      "key": "threshold",
+      "label": "Minimum",
+      "format": null
+     },
+     {
+      "key": "suggested_reorder_qty",
+      "label": "Suggested reorder",
+      "format": null
+     },
+     {
+      "key": "reorder_basis",
+      "label": "Basis",
+      "format": null
+     },
+     {
+      "key": "urgency",
+      "label": "Urgency",
+      "format": null
+     }
+    ],
+    "rows": [
+     {
+      "sku": "TS-1003",
+      "product_name": "Linen Overshirt",
+      "category": "Shirts",
+      "current_stock": 0,
+      "threshold": 20,
+      "suggested_reorder_qty": 100,
+      "reorder_basis": "Up to max stock (100)",
+      "urgency": "Out of stock"
+     },
+     {
+      "sku": "AC-5002",
+      "product_name": "Wool Beanie",
+      "category": "Accessories",
+      "current_stock": 4,
+      "threshold": 30,
+      "suggested_reorder_qty": 146,
+      "reorder_basis": "Up to max stock (150)",
+      "urgency": "Critical"
+     },
+     {
+      "sku": "KN-2002",
+      "product_name": "Cable Knit Cardigan",
+      "category": "Knitwear",
+      "current_stock": 7,
+      "threshold": 15,
+      "suggested_reorder_qty": 23,
+      "reorder_basis": "No max set: 2\u00d7 minimum",
+      "urgency": "Critical"
+     },
+     {
+      "sku": "TS-1001",
+      "product_name": "Classic Linen Shirt",
+      "category": "Shirts",
+      "current_stock": 12,
+      "threshold": 25,
+      "suggested_reorder_qty": 108,
+      "reorder_basis": "Up to max stock (120)",
+      "urgency": "Critical"
+     },
+     {
+      "sku": "OW-3002",
+      "product_name": "Quilted Liner Vest",
+      "category": "Outerwear",
+      "current_stock": 9,
+      "threshold": 12,
+      "suggested_reorder_qty": 41,
+      "reorder_basis": "Up to max stock (50)",
+      "urgency": "Low"
+     },
+     {
+      "sku": "HM-6001",
+      "product_name": "Linen Duvet Cover",
+      "category": "Home",
+      "current_stock": 6,
+      "threshold": 8,
+      "suggested_reorder_qty": 34,
+      "reorder_basis": "Up to max stock (40)",
+      "urgency": "Low"
+     }
+    ],
+    "total": 6,
+    "tones": [
+     "danger",
+     "warn",
+     "warn",
+     "warn",
+     null,
+     null
+    ],
+    "empty": "No rows"
+   },
+   {
+    "type": "table",
+    "title": "Exactly at minimum (not flagged)",
+    "columns": [
+     {
+      "key": "sku",
+      "label": "SKU",
+      "format": null
+     },
+     {
+      "key": "product_name",
+      "label": "Product",
+      "format": null
+     },
+     {
+      "key": "current_stock",
+      "label": "Current stock",
+      "format": null
+     },
+     {
+      "key": "threshold",
+      "label": "Minimum",
+      "format": null
+     }
+    ],
+    "rows": [
+     {
+      "sku": "KN-2001",
+      "product_name": "Merino Crew Sweater",
+      "current_stock": 18,
+      "threshold": 18
+     }
+    ],
+    "total": 1,
+    "tones": null,
+    "empty": "No rows"
+   },
+   {
+    "type": "alert",
+    "title": null,
+    "text": "Rule from the workflow sheet: a product is restocked only when current stock is below the minimum. Products exactly at the minimum are listed above but not flagged.",
+    "tone": "info"
+   },
+   {
+    "type": "download",
+    "title": null,
+    "files": [
+     {
+      "label": "Restock list (CSV)",
+      "url": "/api/files/659984f90acf/restock_list.csv",
+      "filename": "restock_list.csv",
+      "rows": 6
+     }
+    ]
+   }
+  ],
+  "run_id": "659984f90acf"
+ },
+ {
+  "type": "run_finished",
+  "ts": 1791449382.4875505,
+  "status": "completed",
+  "active_ms": 59,
+  "workflow_id": "WF001",
+  "run_id": "659984f90acf"
+ }
+]

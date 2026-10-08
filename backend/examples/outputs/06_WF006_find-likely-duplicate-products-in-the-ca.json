@@ -1,0 +1,871 @@
+[
+ {
+  "type": "run_started",
+  "run_id": "b59217c5f31c",
+  "ts": 1791449383.2593472,
+  "request": "Find likely duplicate products in the catalog.",
+  "llm": "Offline (deterministic fallback)",
+  "llm_enabled": false
+ },
+ {
+  "type": "stage",
+  "ts": 1791449383.2664018,
+  "stage": "routing",
+  "status": "started",
+  "message": "Reading 10 workflows from AI_Agent_Workflow_Assessment_1.xlsx",
+  "run_id": "b59217c5f31c"
+ },
+ {
+  "type": "route",
+  "ts": 1791449383.2685437,
+  "workflow_id": "WF006",
+  "workflow_name": "Duplicate Product Detection",
+  "confidence": 0.97,
+  "reasoning": "Matched on: catalog, duplicate, likely, products.",
+  "method": "lexical",
+  "alternatives": [
+   {
+    "id": "WF002",
+    "score": 0.13,
+    "name": "Product Price Validation"
+   },
+   {
+    "id": "WF004",
+    "score": 0.13,
+    "name": "Product Description Generator"
+   },
+   {
+    "id": "WF001",
+    "score": 0.11,
+    "name": "Inventory Restock Check"
+   }
+  ],
+  "note": null,
+  "threshold": 0.55,
+  "status": "routed",
+  "duration_ms": 3,
+  "run_id": "b59217c5f31c"
+ },
+ {
+  "type": "stage",
+  "ts": 1791449383.2719827,
+  "stage": "extracting",
+  "status": "started",
+  "message": "Reading inputs from your request",
+  "run_id": "b59217c5f31c"
+ },
+ {
+  "type": "inputs",
+  "ts": 1791449383.2719827,
+  "inputs": [
+   {
+    "name": "catalog_file",
+    "label": "Product catalog",
+    "value": null,
+    "type": "file",
+    "required": false
+   }
+  ],
+  "sources": {},
+  "method": "patterns",
+  "note": null,
+  "duration_ms": 0,
+  "run_id": "b59217c5f31c"
+ },
+ {
+  "type": "params",
+  "ts": 1791449383.2719827,
+  "params": [
+   {
+    "name": "high_similarity",
+    "value": 0.9,
+    "source": "plan default",
+    "description": "Combined name + attribute score at or above which a possible duplicate is High confidence"
+   },
+   {
+    "name": "medium_similarity",
+    "value": 0.8,
+    "source": "plan default",
+    "description": "Minimum combined score to report a possible duplicate (Medium confidence)"
+   }
+  ],
+  "run_id": "b59217c5f31c"
+ },
+ {
+  "type": "input_check",
+  "ts": 1791449383.2735395,
+  "ok": true,
+  "missing": [],
+  "inputs": [
+   {
+    "name": "catalog_file",
+    "label": "Product catalog",
+    "value": "catalog.csv",
+    "type": "file",
+    "required": false
+   }
+  ],
+  "sources": {
+   "catalog_file": "default"
+  },
+  "run_id": "b59217c5f31c"
+ },
+ {
+  "type": "plan",
+  "ts": 1791449383.2792962,
+  "workflow_id": "WF006",
+  "workflow_name": "Duplicate Product Detection",
+  "steps": [
+   {
+    "id": "load",
+    "title": "Load products",
+    "kind": "tool",
+    "tool": "load_table",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Load products"
+    ],
+    "note": null
+   },
+   {
+    "id": "normalize",
+    "title": "Normalize names and SKUs",
+    "kind": "tool",
+    "tool": "compute_column",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     2
+    ],
+    "excel_text": [
+     "normalize names/SKUs"
+    ],
+    "note": "SKUs: upper-case, spaces and punctuation removed ('ts-1001 ' \u2192 TS1001). Names: lower-case, punctuation removed."
+   },
+   {
+    "id": "identifiers",
+    "title": "Compare identifiers",
+    "kind": "tool",
+    "tool": "aggregate",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     3
+    ],
+    "excel_text": [
+     "compare identifiers"
+    ],
+    "note": null
+   },
+   {
+    "id": "clashes",
+    "title": "Find repeated identifiers",
+    "kind": "tool",
+    "tool": "filter_rows",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     3
+    ],
+    "excel_text": [
+     "compare identifiers"
+    ],
+    "note": null
+   },
+   {
+    "id": "group",
+    "title": "Compare attributes, group duplicates and assign confidence",
+    "kind": "tool",
+    "tool": "group_duplicates",
+    "category": "similarity",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     4,
+     5,
+     6
+    ],
+    "excel_text": [
+     "compare product attributes",
+     "group likely duplicates",
+     "assign confidence"
+    ],
+    "note": "Excel rule: exact SKU match = definite duplicate; high attribute similarity = possible duplicate. Records that differ only by size or color are product variants, not duplicates."
+   },
+   {
+    "id": "export",
+    "title": "Export duplicate report",
+    "kind": "tool",
+    "tool": "export_table",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     6
+    ],
+    "excel_text": [
+     "assign confidence"
+    ],
+    "note": null
+   }
+  ],
+  "excel_steps": [
+   "Load products",
+   "normalize names/SKUs",
+   "compare identifiers",
+   "compare product attributes",
+   "group likely duplicates",
+   "assign confidence"
+  ],
+  "decision_logic": "Exact SKU match is a definite duplicate; high attribute similarity is a possible duplicate",
+  "plan_file": "WF006.yaml",
+  "run_id": "b59217c5f31c"
+ },
+ {
+  "type": "stage",
+  "ts": 1791449383.2792962,
+  "stage": "executing",
+  "status": "started",
+  "message": "Running 6 steps",
+  "run_id": "b59217c5f31c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.2843566,
+  "step_id": "load",
+  "title": "Load products",
+  "tool": "load_table",
+  "kind": "tool",
+  "run_id": "b59217c5f31c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.2931604,
+  "step_id": "load",
+  "title": "Load products",
+  "kind": "tool",
+  "tool": "load_table",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 9,
+  "summary": "Loaded 21 rows \u00d7 8 columns from catalog.csv",
+  "engine": null,
+  "output": "catalog",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "sku",
+    "product_name",
+    "brand",
+    "category",
+    "color",
+    "size",
+    "price",
+    "source"
+   ],
+   "rows": [
+    {
+     "sku": "TS-1001",
+     "product_name": "Classic Linen Shirt",
+     "brand": "Halden",
+     "category": "Shirts",
+     "color": "White",
+     "size": "M",
+     "price": 59.0,
+     "source": "Main store"
+    },
+    {
+     "sku": "ts-1001 ",
+     "product_name": "Classic Linen Shirt - White",
+     "brand": "Halden",
+     "category": "Shirts",
+     "color": "White",
+     "size": "M",
+     "price": 59.0,
+     "source": "Marketplace import"
+    },
+    {
+     "sku": "TS-1002",
+     "product_name": "Oxford Button-Down Shirt",
+     "brand": "Halden",
+     "category": "Shirts",
+     "color": "Light Blue",
+     "size": "L",
+     "price": 64.0,
+     "source": "Main store"
+    },
+    {
+     "sku": "MK-88213",
+     "product_name": "Oxford Button Down Shirt Light Blue",
+     "brand": "Halden",
+     "category": "Shirts",
+     "color": "Light Blue",
+     "size": "L",
+     "price": 64.0,
+     "source": "Marketplace import"
+    },
+    {
+     "sku": "TS-1003",
+     "product_name": "Linen Overshirt",
+     "brand": "Halden",
+     "category": "Shirts",
+     "color": "Sage Green",
+     "size": "M",
+     "price": 89.0,
+     "source": "Main store"
+    }
+   ],
+   "total": 21
+  },
+  "run_id": "b59217c5f31c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.2977245,
+  "step_id": "normalize",
+  "title": "Normalize names and SKUs",
+  "tool": "compute_column",
+  "kind": "tool",
+  "run_id": "b59217c5f31c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.30422,
+  "step_id": "normalize",
+  "title": "Normalize names and SKUs",
+  "kind": "tool",
+  "tool": "compute_column",
+  "excel_steps": [
+   2
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 7,
+  "summary": "Computed sku_key, name_key for 21 rows",
+  "engine": null,
+  "output": "catalog",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "sku",
+    "product_name",
+    "brand",
+    "category",
+    "color",
+    "size",
+    "price",
+    "source"
+   ],
+   "rows": [
+    {
+     "sku": "TS-1001",
+     "product_name": "Classic Linen Shirt",
+     "brand": "Halden",
+     "category": "Shirts",
+     "color": "White",
+     "size": "M",
+     "price": 59.0,
+     "source": "Main store"
+    },
+    {
+     "sku": "ts-1001 ",
+     "product_name": "Classic Linen Shirt - White",
+     "brand": "Halden",
+     "category": "Shirts",
+     "color": "White",
+     "size": "M",
+     "price": 59.0,
+     "source": "Marketplace import"
+    },
+    {
+     "sku": "TS-1002",
+     "product_name": "Oxford Button-Down Shirt",
+     "brand": "Halden",
+     "category": "Shirts",
+     "color": "Light Blue",
+     "size": "L",
+     "price": 64.0,
+     "source": "Main store"
+    },
+    {
+     "sku": "MK-88213",
+     "product_name": "Oxford Button Down Shirt Light Blue",
+     "brand": "Halden",
+     "category": "Shirts",
+     "color": "Light Blue",
+     "size": "L",
+     "price": 64.0,
+     "source": "Marketplace import"
+    },
+    {
+     "sku": "TS-1003",
+     "product_name": "Linen Overshirt",
+     "brand": "Halden",
+     "category": "Shirts",
+     "color": "Sage Green",
+     "size": "M",
+     "price": 89.0,
+     "source": "Main store"
+    }
+   ],
+   "total": 21
+  },
+  "run_id": "b59217c5f31c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.30422,
+  "step_id": "identifiers",
+  "title": "Compare identifiers",
+  "tool": "aggregate",
+  "kind": "tool",
+  "run_id": "b59217c5f31c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.318866,
+  "step_id": "identifiers",
+  "title": "Compare identifiers",
+  "kind": "tool",
+  "tool": "aggregate",
+  "excel_steps": [
+   3
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 10,
+  "summary": "19 group(s) by sku_key",
+  "engine": null,
+  "output": "sku_counts",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "sku_key",
+    "records",
+    "skus"
+   ],
+   "rows": [
+    {
+     "sku_key": "AC5001",
+     "records": 1,
+     "skus": "AC-5001"
+    },
+    {
+     "sku_key": "AC5002",
+     "records": 1,
+     "skus": "AC-5002"
+    },
+    {
+     "sku_key": "AC5003",
+     "records": 1,
+     "skus": "AC-5003"
+    },
+    {
+     "sku_key": "HM6001",
+     "records": 1,
+     "skus": "HM-6001"
+    },
+    {
+     "sku_key": "HM6002",
+     "records": 1,
+     "skus": "HM-6002"
+    }
+   ],
+   "total": 19
+  },
+  "run_id": "b59217c5f31c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.322731,
+  "step_id": "clashes",
+  "title": "Find repeated identifiers",
+  "tool": "filter_rows",
+  "kind": "tool",
+  "run_id": "b59217c5f31c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.326043,
+  "step_id": "clashes",
+  "title": "Find repeated identifiers",
+  "kind": "tool",
+  "tool": "filter_rows",
+  "excel_steps": [
+   3
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 3,
+  "summary": "2 of 19 rows match `records > 1`",
+  "engine": null,
+  "output": "sku_clashes",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "sku_key",
+    "records",
+    "skus"
+   ],
+   "rows": [
+    {
+     "sku_key": "KN2001",
+     "records": 2,
+     "skus": "KN-2001"
+    },
+    {
+     "sku_key": "TS1001",
+     "records": 2,
+     "skus": "TS-1001"
+    }
+   ],
+   "total": 2
+  },
+  "run_id": "b59217c5f31c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.3278296,
+  "step_id": "group",
+  "title": "Compare attributes, group duplicates and assign confidence",
+  "tool": "group_duplicates",
+  "kind": "tool",
+  "run_id": "b59217c5f31c"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449383.3488214,
+  "step_id": "group",
+  "message": "Ignored 5 pair(s) that differ only by size/color (product variants)",
+  "level": "info",
+  "run_id": "b59217c5f31c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.3506396,
+  "step_id": "group",
+  "title": "Compare attributes, group duplicates and assign confidence",
+  "kind": "tool",
+  "tool": "group_duplicates",
+  "excel_steps": [
+   4,
+   5,
+   6
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 20,
+  "summary": "5 duplicate group(s): 2 definite, 3 possible",
+  "engine": null,
+  "output": "groups",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "group",
+    "confidence",
+    "score",
+    "match_type",
+    "records",
+    "skus",
+    "names",
+    "sources"
+   ],
+   "rows": [
+    {
+     "group": "G1",
+     "confidence": "Definite",
+     "score": 100,
+     "match_type": "Exact SKU match",
+     "records": 2,
+     "skus": "TS-1001 | ts-1001",
+     "names": "Classic Linen Shirt | Classic Linen Shirt - White",
+     "sources": "Main store | Marketplace import"
+    },
+    {
+     "group": "G2",
+     "confidence": "Definite",
+     "score": 100,
+     "match_type": "Exact SKU match",
+     "records": 2,
+     "skus": "KN-2001 | KN-2001",
+     "names": "Merino Crew Sweater | Merino Crewneck Sweater Charcoal",
+     "sources": "Main store | Wholesale feed"
+    },
+    {
+     "group": "G3",
+     "confidence": "High",
+     "score": 97,
+     "match_type": "Attribute similarity",
+     "records": 2,
+     "skus": "TS-1002 | MK-88213",
+     "names": "Oxford Button-Down Shirt | Oxford Button Down Shirt Light Blue",
+     "sources": "Main store | Marketplace import"
+    },
+    {
+     "group": "G4",
+     "confidence": "High",
+     "score": 97,
+     "match_type": "Attribute similarity",
+     "records": 2,
+     "skus": "OW-3001 | WH-55120",
+     "names": "Waxed Field Jacket | Field Jacket, Waxed - Olive",
+     "sources": "Main store | Wholesale feed"
+    },
+    {
+     "group": "G5",
+     "confidence": "High",
+     "score": 94,
+     "match_type": "Attribute similarity",
+     "records": 2,
+     "skus": "AC-5002 | MK-90021",
+     "names": "Wool Beanie | Lambswool Beanie Rust",
+     "sources": "Main store | Marketplace import"
+    }
+   ],
+   "total": 5
+  },
+  "run_id": "b59217c5f31c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.3525574,
+  "step_id": "export",
+  "title": "Export duplicate report",
+  "tool": "export_table",
+  "kind": "tool",
+  "run_id": "b59217c5f31c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.3572032,
+  "step_id": "export",
+  "title": "Export duplicate report",
+  "kind": "tool",
+  "tool": "export_table",
+  "excel_steps": [
+   6
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 3,
+  "summary": "Exported 5 rows to duplicate_groups.csv",
+  "engine": null,
+  "output": "groups_file",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "url": {
+     "kind": "text",
+     "text": "/api/files/b59217c5f31c/duplicate_groups.csv"
+    },
+    "filename": {
+     "kind": "text",
+     "text": "duplicate_groups.csv"
+    },
+    "rows": {
+     "kind": "text",
+     "text": 5
+    },
+    "path": {
+     "kind": "text",
+     "text": "C:\\Users\\david\\AppData\\Local\\Temp\\tmpceetzcxn\\runs\\exports\\b59217c5f31c\\duplicate_groups.csv"
+    }
+   }
+  },
+  "run_id": "b59217c5f31c"
+ },
+ {
+  "type": "result",
+  "ts": 1791449383.3768587,
+  "status": "completed",
+  "title": "5 duplicate groups found in 21 records",
+  "subtitle": "2 definite (same SKU) \u00b7 3 possible (similar attributes)",
+  "sections": [
+   {
+    "type": "kpis",
+    "title": null,
+    "items": [
+     {
+      "label": "Records scanned",
+      "value": "21",
+      "tone": null,
+      "hint": null
+     },
+     {
+      "label": "Definite duplicates",
+      "value": "2",
+      "tone": "danger",
+      "hint": null
+     },
+     {
+      "label": "High confidence",
+      "value": "3",
+      "tone": "warn",
+      "hint": null
+     },
+     {
+      "label": "Medium confidence",
+      "value": "0",
+      "tone": null,
+      "hint": null
+     }
+    ]
+   },
+   {
+    "type": "table",
+    "title": "Duplicate groups",
+    "columns": [
+     {
+      "key": "group",
+      "label": "Group",
+      "format": null
+     },
+     {
+      "key": "confidence",
+      "label": "Confidence",
+      "format": null
+     },
+     {
+      "key": "score",
+      "label": "Score",
+      "format": null
+     },
+     {
+      "key": "match_type",
+      "label": "Match type",
+      "format": null
+     },
+     {
+      "key": "skus",
+      "label": "SKUs",
+      "format": null
+     },
+     {
+      "key": "names",
+      "label": "Names",
+      "format": null
+     },
+     {
+      "key": "sources",
+      "label": "Sources",
+      "format": null
+     },
+     {
+      "key": "matching_fields",
+      "label": "Matching fields",
+      "format": null
+     },
+     {
+      "key": "reason",
+      "label": "Reason",
+      "format": null
+     }
+    ],
+    "rows": [
+     {
+      "group": "G1",
+      "confidence": "Definite",
+      "score": 100,
+      "match_type": "Exact SKU match",
+      "skus": "TS-1001 | ts-1001",
+      "names": "Classic Linen Shirt | Classic Linen Shirt - White",
+      "sources": "Main store | Marketplace import",
+      "matching_fields": "sku",
+      "reason": "Same SKU 'TS1001' after normalising case/spacing"
+     },
+     {
+      "group": "G2",
+      "confidence": "Definite",
+      "score": 100,
+      "match_type": "Exact SKU match",
+      "skus": "KN-2001 | KN-2001",
+      "names": "Merino Crew Sweater | Merino Crewneck Sweater Charcoal",
+      "sources": "Main store | Wholesale feed",
+      "matching_fields": "sku",
+      "reason": "Same SKU 'KN2001' after normalising case/spacing"
+     },
+     {
+      "group": "G3",
+      "confidence": "High",
+      "score": 97,
+      "match_type": "Attribute similarity",
+      "skus": "TS-1002 | MK-88213",
+      "names": "Oxford Button-Down Shirt | Oxford Button Down Shirt Light Blue",
+      "sources": "Main store | Marketplace import",
+      "matching_fields": "product_name, brand, category, color, size",
+      "reason": "Name similarity with matching brand, category, color, size"
+     },
+     {
+      "group": "G4",
+      "confidence": "High",
+      "score": 97,
+      "match_type": "Attribute similarity",
+      "skus": "OW-3001 | WH-55120",
+      "names": "Waxed Field Jacket | Field Jacket, Waxed - Olive",
+      "sources": "Main store | Wholesale feed",
+      "matching_fields": "product_name, brand, category, color, size",
+      "reason": "Name similarity with matching brand, category, color, size"
+     },
+     {
+      "group": "G5",
+      "confidence": "High",
+      "score": 94,
+      "match_type": "Attribute similarity",
+      "skus": "AC-5002 | MK-90021",
+      "names": "Wool Beanie | Lambswool Beanie Rust",
+      "sources": "Main store | Marketplace import",
+      "matching_fields": "product_name, brand, category, color, size",
+      "reason": "Name similarity with matching brand, category, color, size"
+     }
+    ],
+    "total": 5,
+    "tones": [
+     "danger",
+     "danger",
+     "warn",
+     "warn",
+     "warn"
+    ],
+    "empty": "No duplicates found."
+   },
+   {
+    "type": "alert",
+    "title": null,
+    "text": "Size and color variants of the same product (e.g. Merino Crew Sweater M vs L) are not reported as duplicates. Score = 60% name similarity + 40% matching brand/category/color/size.",
+    "tone": "info"
+   },
+   {
+    "type": "download",
+    "title": null,
+    "files": [
+     {
+      "label": "Duplicate groups (CSV)",
+      "url": "/api/files/b59217c5f31c/duplicate_groups.csv",
+      "filename": "duplicate_groups.csv",
+      "rows": 5
+     }
+    ]
+   }
+  ],
+  "run_id": "b59217c5f31c"
+ },
+ {
+  "type": "run_finished",
+  "ts": 1791449383.3768587,
+  "status": "completed",
+  "active_ms": 55,
+  "workflow_id": "WF006",
+  "run_id": "b59217c5f31c"
+ }
+]

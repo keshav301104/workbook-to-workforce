@@ -1,0 +1,1029 @@
+[
+ {
+  "type": "run_started",
+  "run_id": "384266f4dc61",
+  "ts": 1791449385.3704138,
+  "request": "Where is order ORD-1003?",
+  "llm": "Offline (deterministic fallback)",
+  "llm_enabled": false
+ },
+ {
+  "type": "stage",
+  "ts": 1791449385.3737564,
+  "stage": "routing",
+  "status": "started",
+  "message": "Reading 10 workflows from AI_Agent_Workflow_Assessment_1.xlsx",
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "route",
+  "ts": 1791449385.3737564,
+  "workflow_id": "WF005",
+  "workflow_name": "Customer Order Status",
+  "confidence": 0.97,
+  "reasoning": "Matched on: 1003, ord, order.",
+  "method": "lexical",
+  "alternatives": [],
+  "note": null,
+  "threshold": 0.55,
+  "status": "routed",
+  "duration_ms": 3,
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "stage",
+  "ts": 1791449385.3828127,
+  "stage": "extracting",
+  "status": "started",
+  "message": "Reading inputs from your request",
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "inputs",
+  "ts": 1791449385.3828127,
+  "inputs": [
+   {
+    "name": "identifier",
+    "label": "Order ID or email",
+    "value": "ORD-1003",
+    "type": "identifier",
+    "required": true
+   }
+  ],
+  "sources": {
+   "identifier": "request"
+  },
+  "method": "patterns",
+  "note": null,
+  "duration_ms": 0,
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "params",
+  "ts": 1791449385.3828127,
+  "params": [],
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "input_check",
+  "ts": 1791449385.3862197,
+  "ok": true,
+  "missing": [],
+  "inputs": [
+   {
+    "name": "identifier",
+    "label": "Order ID or email",
+    "value": "ORD-1003",
+    "type": "identifier",
+    "required": true
+   }
+  ],
+  "sources": {
+   "identifier": "request"
+  },
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "plan",
+  "ts": 1791449385.3908923,
+  "workflow_id": "WF005",
+  "workflow_name": "Customer Order Status",
+  "steps": [
+   {
+    "id": "validate",
+    "title": "Validate identifier",
+    "kind": "tool",
+    "tool": "validate_identifier",
+    "category": "lookup",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Validate identifier"
+    ],
+    "note": null
+   },
+   {
+    "id": "valid_format",
+    "title": "Identifier format valid?",
+    "kind": "decision",
+    "tool": null,
+    "category": "decision",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Validate identifier"
+    ],
+    "note": null
+   },
+   {
+    "id": "load_orders",
+    "title": "Connect to order database",
+    "kind": "tool",
+    "tool": "load_table",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     2
+    ],
+    "excel_text": [
+     "search order data"
+    ],
+    "note": null
+   },
+   {
+    "id": "search",
+    "title": "Search order data",
+    "kind": "tool",
+    "tool": "lookup_records",
+    "category": "lookup",
+    "llm": false,
+    "api": "Order API",
+    "excel_steps": [
+     2
+    ],
+    "excel_text": [
+     "search order data"
+    ],
+    "note": null
+   },
+   {
+    "id": "found",
+    "title": "Order found?",
+    "kind": "decision",
+    "tool": null,
+    "category": "decision",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     2
+    ],
+    "excel_text": [
+     "search order data"
+    ],
+    "note": "Excel rule: if no order is found, ask for another identifier."
+   },
+   {
+    "id": "status",
+    "title": "Retrieve order status",
+    "kind": "tool",
+    "tool": "select_columns",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     3
+    ],
+    "excel_text": [
+     "retrieve order status"
+    ],
+    "note": null
+   },
+   {
+    "id": "load_shipments",
+    "title": "Connect to shipment service",
+    "kind": "tool",
+    "tool": "load_table",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     4
+    ],
+    "excel_text": [
+     "retrieve shipment information"
+    ],
+    "note": null
+   },
+   {
+    "id": "shipment",
+    "title": "Retrieve shipment information",
+    "kind": "tool",
+    "tool": "lookup_records",
+    "category": "lookup",
+    "llm": false,
+    "api": "Shipment API",
+    "excel_steps": [
+     4
+    ],
+    "excel_text": [
+     "retrieve shipment information"
+    ],
+    "note": null
+   },
+   {
+    "id": "combine",
+    "title": "Combine order and shipment",
+    "kind": "tool",
+    "tool": "join_tables",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     5
+    ],
+    "excel_text": [
+     "summarize current status"
+    ],
+    "note": null
+   },
+   {
+    "id": "summarize",
+    "title": "Summarize current status",
+    "kind": "tool",
+    "tool": "compute_column",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     5
+    ],
+    "excel_text": [
+     "summarize current status"
+    ],
+    "note": "Tracking is shown only when the carrier has issued a number; it is never guessed."
+   }
+  ],
+  "excel_steps": [
+   "Validate identifier",
+   "search order data",
+   "retrieve order status",
+   "retrieve shipment information",
+   "summarize current status"
+  ],
+  "decision_logic": "If no order is found, ask for another identifier",
+  "plan_file": "WF005.yaml",
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "stage",
+  "ts": 1791449385.3908923,
+  "stage": "executing",
+  "status": "started",
+  "message": "Running 10 steps",
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449385.3929927,
+  "step_id": "validate",
+  "title": "Validate identifier",
+  "tool": "validate_identifier",
+  "kind": "tool",
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449385.3929927,
+  "step_id": "validate",
+  "title": "Validate identifier",
+  "kind": "tool",
+  "tool": "validate_identifier",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "'ORD-1003' is a valid order id",
+  "engine": null,
+  "output": "ident",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "valid": {
+     "kind": "text",
+     "text": true
+    },
+    "kind": {
+     "kind": "text",
+     "text": "order_id"
+    },
+    "value": {
+     "kind": "text",
+     "text": "ORD-1003"
+    }
+   }
+  },
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449385.401713,
+  "step_id": "valid_format",
+  "title": "Identifier format valid?",
+  "tool": null,
+  "kind": "decision",
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "decision",
+  "ts": 1791449385.401713,
+  "step_id": "valid_format",
+  "expression": "not ident.valid",
+  "result": false,
+  "action": "continue",
+  "message": null,
+  "note": null,
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449385.401713,
+  "step_id": "valid_format",
+  "title": "Identifier format valid?",
+  "kind": "decision",
+  "tool": null,
+  "excel_steps": [
+   1
+  ],
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "`not ident.valid` \u2192 false \u2192 continue",
+  "result": false,
+  "action": "continue",
+  "message": null,
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449385.4052343,
+  "step_id": "load_orders",
+  "title": "Connect to order database",
+  "tool": "load_table",
+  "kind": "tool",
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449385.411259,
+  "step_id": "load_orders",
+  "title": "Connect to order database",
+  "kind": "tool",
+  "tool": "load_table",
+  "excel_steps": [
+   2
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 7,
+  "summary": "Loaded 6 rows \u00d7 7 columns from orders.csv",
+  "engine": null,
+  "output": "orders_db",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "order_id",
+    "customer_email",
+    "customer_name",
+    "order_date",
+    "order_status",
+    "items",
+    "order_total"
+   ],
+   "rows": [
+    {
+     "order_id": "ORD-1001",
+     "customer_email": "maya.patel@example.com",
+     "customer_name": "Maya Patel",
+     "order_date": "2026-10-01",
+     "order_status": "Shipped",
+     "items": "Classic Linen Shirt x1; Leather Belt x1",
+     "order_total": 108.0
+    },
+    {
+     "order_id": "ORD-1002",
+     "customer_email": "liam.chen@example.com",
+     "customer_name": "Liam Chen",
+     "order_date": "2026-09-24",
+     "order_status": "Delivered",
+     "items": "Waxed Field Jacket x1",
+     "order_total": 249.0
+    },
+    {
+     "order_id": "ORD-1003",
+     "customer_email": "sofia.reyes@example.com",
+     "customer_name": "Sofia Reyes",
+     "order_date": "2026-10-06",
+     "order_status": "Processing",
+     "items": "Merino Crew Sweater x2",
+     "order_total": 238.0
+    },
+    {
+     "order_id": "ORD-1004",
+     "customer_email": "noah.kim@example.com",
+     "customer_name": "Noah Kim",
+     "order_date": "2026-09-28",
+     "order_status": "Cancelled",
+     "items": "Wool Beanie x3",
+     "order_total": 105.0
+    },
+    {
+     "order_id": "ORD-1005",
+     "customer_email": "maya.patel@example.com",
+     "customer_name": "Maya Patel",
+     "order_date": "2026-10-05",
+     "order_status": "Packed",
+     "items": "Stoneware Mug Set x1",
+     "order_total": 45.0
+    }
+   ],
+   "total": 6
+  },
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449385.415992,
+  "step_id": "search",
+  "title": "Search order data",
+  "tool": "lookup_records",
+  "kind": "tool",
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449385.415992,
+  "step_id": "search",
+  "message": "Calling Order API\u2026",
+  "level": "info",
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_retry",
+  "ts": 1791449385.415992,
+  "step_id": "search",
+  "attempt": 1,
+  "max_attempts": 3,
+  "error": "Order API returned 503 Service Unavailable (simulated fault)",
+  "backoff_s": 0.4,
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449385.817112,
+  "step_id": "search",
+  "message": "Calling Order API\u2026",
+  "level": "info",
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449385.8200536,
+  "step_id": "search",
+  "title": "Search order data",
+  "kind": "tool",
+  "tool": "lookup_records",
+  "excel_steps": [
+   2
+  ],
+  "attempts": 2,
+  "status": "ok",
+  "duration_ms": 403,
+  "summary": "1 record(s) where order_id = ORD-1003",
+  "engine": null,
+  "output": "order",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "found": {
+     "kind": "text",
+     "text": true
+    },
+    "count": {
+     "kind": "text",
+     "text": 1
+    },
+    "records": {
+     "kind": "table",
+     "columns": [
+      "order_id",
+      "customer_email",
+      "customer_name",
+      "order_date",
+      "order_status",
+      "items",
+      "order_total"
+     ],
+     "rows": [
+      {
+       "order_id": "ORD-1003",
+       "customer_email": "sofia.reyes@example.com",
+       "customer_name": "Sofia Reyes",
+       "order_date": "2026-10-06",
+       "order_status": "Processing",
+       "items": "Merino Crew Sweater x2",
+       "order_total": 238.0
+      }
+     ],
+     "total": 1
+    },
+    "record": {
+     "kind": "text",
+     "text": "7 fields"
+    }
+   }
+  },
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449385.8200536,
+  "step_id": "found",
+  "title": "Order found?",
+  "tool": null,
+  "kind": "decision",
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "decision",
+  "ts": 1791449385.8200536,
+  "step_id": "found",
+  "expression": "not order.found",
+  "result": false,
+  "action": "continue",
+  "message": null,
+  "note": "Excel rule: if no order is found, ask for another identifier.",
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449385.8200536,
+  "step_id": "found",
+  "title": "Order found?",
+  "kind": "decision",
+  "tool": null,
+  "excel_steps": [
+   2
+  ],
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "`not order.found` \u2192 false \u2192 continue",
+  "result": false,
+  "action": "continue",
+  "message": null,
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449385.8200536,
+  "step_id": "status",
+  "title": "Retrieve order status",
+  "tool": "select_columns",
+  "kind": "tool",
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449385.8299694,
+  "step_id": "status",
+  "title": "Retrieve order status",
+  "kind": "tool",
+  "tool": "select_columns",
+  "excel_steps": [
+   3
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 3,
+  "summary": "Prepared 1 rows with 7 columns",
+  "engine": null,
+  "output": "orders_found",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "order_id",
+    "order_date",
+    "order_status",
+    "items",
+    "order_total",
+    "customer_name",
+    "customer_email"
+   ],
+   "rows": [
+    {
+     "order_id": "ORD-1003",
+     "order_date": "2026-10-06",
+     "order_status": "Processing",
+     "items": "Merino Crew Sweater x2",
+     "order_total": 238.0,
+     "customer_name": "Sofia Reyes",
+     "customer_email": "sofia.reyes@example.com"
+    }
+   ],
+   "total": 1
+  },
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449385.8344588,
+  "step_id": "load_shipments",
+  "title": "Connect to shipment service",
+  "tool": "load_table",
+  "kind": "tool",
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449385.8344588,
+  "step_id": "load_shipments",
+  "title": "Connect to shipment service",
+  "kind": "tool",
+  "tool": "load_table",
+  "excel_steps": [
+   4
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 7,
+  "summary": "Loaded 4 rows \u00d7 7 columns from shipments.csv",
+  "engine": null,
+  "output": "shipments_db",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "order_id",
+    "carrier",
+    "tracking_number",
+    "shipment_status",
+    "last_location",
+    "estimated_delivery",
+    "last_update"
+   ],
+   "rows": [
+    {
+     "order_id": "ORD-1001",
+     "carrier": "UPS",
+     "tracking_number": "1Z999AA10123456784",
+     "shipment_status": "In transit",
+     "last_location": "Jacksonville, FL",
+     "estimated_delivery": "2026-10-09",
+     "last_update": "2026-10-07 08:42"
+    },
+    {
+     "order_id": "ORD-1002",
+     "carrier": "FedEx",
+     "tracking_number": "784512369874",
+     "shipment_status": "Delivered",
+     "last_location": "Orlando, FL",
+     "estimated_delivery": "2026-09-27",
+     "last_update": "2026-09-27 14:10"
+    },
+    {
+     "order_id": "ORD-1005",
+     "carrier": "USPS",
+     "tracking_number": null,
+     "shipment_status": "Label created",
+     "last_location": "Miami, FL",
+     "estimated_delivery": "2026-10-10",
+     "last_update": "2026-10-06 17:05"
+    },
+    {
+     "order_id": "ORD-1006",
+     "carrier": "UPS",
+     "tracking_number": "1Z999AA10198765432",
+     "shipment_status": "Out for delivery",
+     "last_location": "Tampa, FL",
+     "estimated_delivery": "2026-10-07",
+     "last_update": "2026-10-07 07:15"
+    }
+   ],
+   "total": 4
+  },
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449385.8483603,
+  "step_id": "shipment",
+  "title": "Retrieve shipment information",
+  "tool": "lookup_records",
+  "kind": "tool",
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449385.8489568,
+  "step_id": "shipment",
+  "message": "Calling Shipment API\u2026",
+  "level": "info",
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_retry",
+  "ts": 1791449385.8489568,
+  "step_id": "shipment",
+  "attempt": 1,
+  "max_attempts": 3,
+  "error": "Shipment API returned 503 Service Unavailable (simulated fault)",
+  "backoff_s": 0.4,
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449386.2492392,
+  "step_id": "shipment",
+  "message": "Calling Shipment API\u2026",
+  "level": "info",
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449386.2492392,
+  "step_id": "shipment",
+  "title": "Retrieve shipment information",
+  "kind": "tool",
+  "tool": "lookup_records",
+  "excel_steps": [
+   4
+  ],
+  "attempts": 2,
+  "status": "ok",
+  "duration_ms": 403,
+  "summary": "0 record(s) where order_id = ORD-1003",
+  "engine": null,
+  "output": "shipment",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "found": {
+     "kind": "text",
+     "text": false
+    },
+    "count": {
+     "kind": "text",
+     "text": 0
+    },
+    "records": {
+     "kind": "table",
+     "columns": [
+      "order_id",
+      "carrier",
+      "tracking_number",
+      "shipment_status",
+      "last_location",
+      "estimated_delivery",
+      "last_update"
+     ],
+     "rows": [],
+     "total": 0
+    },
+    "record": {
+     "kind": "text",
+     "text": null
+    }
+   }
+  },
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449386.2546706,
+  "step_id": "combine",
+  "title": "Combine order and shipment",
+  "tool": "join_tables",
+  "kind": "tool",
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449386.2736225,
+  "step_id": "combine",
+  "title": "Combine order and shipment",
+  "kind": "tool",
+  "tool": "join_tables",
+  "excel_steps": [
+   5
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 20,
+  "summary": "0 matched, 1 only in left, 0 only in right",
+  "engine": null,
+  "output": "combined",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "matched": {
+     "kind": "table",
+     "columns": [
+      "order_id",
+      "order_date",
+      "order_status",
+      "items",
+      "order_total",
+      "customer_name",
+      "customer_email",
+      "order_id_right"
+     ],
+     "rows": [],
+     "total": 0
+    },
+    "left_only": {
+     "kind": "table",
+     "columns": [
+      "order_id",
+      "order_date",
+      "order_status",
+      "items",
+      "order_total",
+      "customer_name",
+      "customer_email"
+     ],
+     "rows": [
+      {
+       "order_id": "ORD-1003",
+       "order_date": "2026-10-06",
+       "order_status": "Processing",
+       "items": "Merino Crew Sweater x2",
+       "order_total": 238.0,
+       "customer_name": "Sofia Reyes",
+       "customer_email": "sofia.reyes@example.com"
+      }
+     ],
+     "total": 1
+    },
+    "right_only": {
+     "kind": "table",
+     "columns": [
+      "order_id",
+      "carrier",
+      "tracking_number",
+      "shipment_status",
+      "last_location",
+      "estimated_delivery",
+      "last_update"
+     ],
+     "rows": [],
+     "total": 0
+    },
+    "joined": {
+     "kind": "table",
+     "columns": [
+      "order_id",
+      "order_date",
+      "order_status",
+      "items",
+      "order_total",
+      "customer_name",
+      "customer_email",
+      "order_id_right"
+     ],
+     "rows": [
+      {
+       "order_id": "ORD-1003",
+       "order_date": "2026-10-06",
+       "order_status": "Processing",
+       "items": "Merino Crew Sweater x2",
+       "order_total": 238.0,
+       "customer_name": "Sofia Reyes",
+       "customer_email": "sofia.reyes@example.com",
+       "order_id_right": null
+      }
+     ],
+     "total": 1
+    }
+   }
+  },
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449386.2800193,
+  "step_id": "summarize",
+  "title": "Summarize current status",
+  "tool": "compute_column",
+  "kind": "tool",
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449386.2883203,
+  "step_id": "summarize",
+  "title": "Summarize current status",
+  "kind": "tool",
+  "tool": "compute_column",
+  "excel_steps": [
+   5
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 8,
+  "summary": "Computed tracking, shipment, summary for 1 rows",
+  "engine": null,
+  "output": "summary",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "order_id",
+    "order_date",
+    "order_status",
+    "items",
+    "order_total",
+    "customer_name",
+    "customer_email",
+    "order_id_right"
+   ],
+   "rows": [
+    {
+     "order_id": "ORD-1003",
+     "order_date": "2026-10-06",
+     "order_status": "Processing",
+     "items": "Merino Crew Sweater x2",
+     "order_total": 238.0,
+     "customer_name": "Sofia Reyes",
+     "customer_email": "sofia.reyes@example.com",
+     "order_id_right": null
+    }
+   ],
+   "total": 1
+  },
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "result",
+  "ts": 1791449386.2953613,
+  "status": "completed",
+  "title": "Order ORD-1003: Processing",
+  "subtitle": "ORD-1003: Processing \u00b7 not shipped yet",
+  "sections": [
+   {
+    "type": "record",
+    "title": null,
+    "items": [
+     {
+      "label": "Customer",
+      "value": "Sofia Reyes",
+      "tone": null
+     },
+     {
+      "label": "Order date",
+      "value": "Oct 06, 2026",
+      "tone": null
+     },
+     {
+      "label": "Order status",
+      "value": "Processing",
+      "tone": null
+     },
+     {
+      "label": "Items",
+      "value": "Merino Crew Sweater x2",
+      "tone": null
+     },
+     {
+      "label": "Order total",
+      "value": "$238.00",
+      "tone": null
+     },
+     {
+      "label": "Shipment",
+      "value": "Not shipped yet",
+      "tone": null
+     },
+     {
+      "label": "Carrier",
+      "value": "\u2014",
+      "tone": null
+     },
+     {
+      "label": "Tracking number",
+      "value": "Not available yet",
+      "tone": "warn"
+     },
+     {
+      "label": "Last location",
+      "value": "\u2014",
+      "tone": null
+     },
+     {
+      "label": "Estimated delivery",
+      "value": "\u2014",
+      "tone": null
+     },
+     {
+      "label": "Last update",
+      "value": "\u2014",
+      "tone": null
+     }
+    ]
+   }
+  ],
+  "run_id": "384266f4dc61"
+ },
+ {
+  "type": "run_finished",
+  "ts": 1791449386.2953613,
+  "status": "completed",
+  "active_ms": 854,
+  "workflow_id": "WF005",
+  "run_id": "384266f4dc61"
+ }
+]

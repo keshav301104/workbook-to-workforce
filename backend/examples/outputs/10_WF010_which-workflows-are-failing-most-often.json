@@ -1,0 +1,1918 @@
+[
+ {
+  "type": "run_started",
+  "run_id": "de33c45c1953",
+  "ts": 1791449383.8918533,
+  "request": "Which workflows are failing most often?",
+  "llm": "Offline (deterministic fallback)",
+  "llm_enabled": false
+ },
+ {
+  "type": "stage",
+  "ts": 1791449383.8997405,
+  "stage": "routing",
+  "status": "started",
+  "message": "Reading 10 workflows from AI_Agent_Workflow_Assessment_1.xlsx",
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "route",
+  "ts": 1791449383.8997405,
+  "workflow_id": "WF010",
+  "workflow_name": "Workflow Performance Report",
+  "confidence": 0.97,
+  "reasoning": "Matched on: failing, often, workflows.",
+  "method": "lexical",
+  "alternatives": [],
+  "note": null,
+  "threshold": 0.55,
+  "status": "routed",
+  "duration_ms": 3,
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "stage",
+  "ts": 1791449383.8997405,
+  "stage": "extracting",
+  "status": "started",
+  "message": "Reading inputs from your request",
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "inputs",
+  "ts": 1791449383.9065256,
+  "inputs": [
+   {
+    "name": "log_file",
+    "label": "Execution log",
+    "value": null,
+    "type": "file",
+    "required": false
+   },
+   {
+    "name": "source",
+    "label": "Log source",
+    "value": null,
+    "type": "choice",
+    "required": false
+   },
+   {
+    "name": "workflow",
+    "label": "Workflow",
+    "value": null,
+    "type": "text",
+    "required": false
+   }
+  ],
+  "sources": {},
+  "method": "patterns",
+  "note": null,
+  "duration_ms": 2,
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "params",
+  "ts": 1791449383.9065256,
+  "params": [
+   {
+    "name": "max_failure_rate",
+    "value": 10,
+    "source": "Excel decision logic",
+    "description": "Flag workflows whose failure rate is above this percentage"
+   },
+   {
+    "name": "max_avg_seconds",
+    "value": 4,
+    "source": "plan default",
+    "description": "The 'defined threshold' for average execution time, in seconds"
+   }
+  ],
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "input_check",
+  "ts": 1791449383.90945,
+  "ok": true,
+  "missing": [],
+  "inputs": [
+   {
+    "name": "log_file",
+    "label": "Execution log",
+    "value": "execution_logs.csv",
+    "type": "file",
+    "required": false
+   },
+   {
+    "name": "source",
+    "label": "Log source",
+    "value": "all",
+    "type": "choice",
+    "required": false
+   },
+   {
+    "name": "workflow",
+    "label": "Workflow",
+    "value": null,
+    "type": "text",
+    "required": false
+   }
+  ],
+  "sources": {
+   "log_file": "default",
+   "source": "default"
+  },
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "plan",
+  "ts": 1791449383.9140003,
+  "workflow_id": "WF010",
+  "workflow_name": "Workflow Performance Report",
+  "steps": [
+   {
+    "id": "load_seed",
+    "title": "Load execution logs",
+    "kind": "tool",
+    "tool": "load_table",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Load execution logs"
+    ],
+    "note": null
+   },
+   {
+    "id": "load_live",
+    "title": "Load live run log",
+    "kind": "tool",
+    "tool": "load_table",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Load execution logs"
+    ],
+    "note": "Every run of this system appends to runs/execution_log.csv, so this report includes the agent's own behaviour."
+   },
+   {
+    "id": "combine",
+    "title": "Combine log sources",
+    "kind": "tool",
+    "tool": "concat_tables",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Load execution logs"
+    ],
+    "note": null
+   },
+   {
+    "id": "scope",
+    "title": "Apply filters",
+    "kind": "tool",
+    "tool": "filter_rows",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Load execution logs"
+    ],
+    "note": null
+   },
+   {
+    "id": "runs",
+    "title": "Collapse steps into runs",
+    "kind": "tool",
+    "tool": "aggregate",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     2
+    ],
+    "excel_text": [
+     "calculate success/failure rate"
+    ],
+    "note": null
+   },
+   {
+    "id": "rates",
+    "title": "Calculate success/failure rate",
+    "kind": "tool",
+    "tool": "aggregate",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     2,
+     3
+    ],
+    "excel_text": [
+     "calculate success/failure rate",
+     "calculate average execution time"
+    ],
+    "note": null
+   },
+   {
+    "id": "round",
+    "title": "Calculate average execution time",
+    "kind": "tool",
+    "tool": "compute_column",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     3
+    ],
+    "excel_text": [
+     "calculate average execution time"
+    ],
+    "note": null
+   },
+   {
+    "id": "errors",
+    "title": "Identify frequent errors",
+    "kind": "tool",
+    "tool": "top_values",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     4
+    ],
+    "excel_text": [
+     "identify frequent errors"
+    ],
+    "note": null
+   },
+   {
+    "id": "step_times",
+    "title": "Identify slow steps",
+    "kind": "tool",
+    "tool": "aggregate",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     5
+    ],
+    "excel_text": [
+     "identify slow steps"
+    ],
+    "note": null
+   },
+   {
+    "id": "slowest",
+    "title": "Rank slow steps",
+    "kind": "tool",
+    "tool": "sort_rows",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     5
+    ],
+    "excel_text": [
+     "identify slow steps"
+    ],
+    "note": null
+   },
+   {
+    "id": "round_steps",
+    "title": "Round step timings",
+    "kind": "tool",
+    "tool": "compute_column",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     5
+    ],
+    "excel_text": [
+     "identify slow steps"
+    ],
+    "note": null
+   },
+   {
+    "id": "flag",
+    "title": "Flag problem workflows",
+    "kind": "tool",
+    "tool": "flag_rows",
+    "category": "decision",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     5
+    ],
+    "excel_text": [
+     "identify slow steps"
+    ],
+    "note": "Excel rule: flag workflows with failure rate above 10% or average execution time above the defined threshold."
+   },
+   {
+    "id": "sort",
+    "title": "Sort by failure rate",
+    "kind": "tool",
+    "tool": "sort_rows",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     5
+    ],
+    "excel_text": [
+     "identify slow steps"
+    ],
+    "note": null
+   },
+   {
+    "id": "recommend",
+    "title": "Generate recommendations",
+    "kind": "tool",
+    "tool": "rule_recommendations",
+    "category": "decision",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     6
+    ],
+    "excel_text": [
+     "generate recommendations"
+    ],
+    "note": null
+   }
+  ],
+  "excel_steps": [
+   "Load execution logs",
+   "calculate success/failure rate",
+   "calculate average execution time",
+   "identify frequent errors",
+   "identify slow steps",
+   "generate recommendations"
+  ],
+  "decision_logic": "Flag workflows with failure rate above 10% or average execution time above defined threshold",
+  "plan_file": "WF010.yaml",
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "stage",
+  "ts": 1791449383.9140003,
+  "stage": "executing",
+  "status": "started",
+  "message": "Running 14 steps",
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.9193025,
+  "step_id": "load_seed",
+  "title": "Load execution logs",
+  "tool": "load_table",
+  "kind": "tool",
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.9489856,
+  "step_id": "load_seed",
+  "title": "Load execution logs",
+  "kind": "tool",
+  "tool": "load_table",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 34,
+  "summary": "Loaded 1524 rows \u00d7 12 columns from execution_logs.csv",
+  "engine": null,
+  "output": "seed_logs",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "run_id",
+    "timestamp",
+    "workflow_id",
+    "workflow_name",
+    "run_status",
+    "run_duration_ms",
+    "step_id",
+    "step_name"
+   ],
+   "rows": [
+    {
+     "run_id": "seed-wf004-027",
+     "timestamp": "2026-09-06 23:00:00",
+     "workflow_id": "WF004",
+     "workflow_name": "Product Description Generator",
+     "run_status": "success",
+     "run_duration_ms": 5133,
+     "step_id": "s1",
+     "step_name": "Validate required attributes"
+    },
+    {
+     "run_id": "seed-wf004-027",
+     "timestamp": "2026-09-06 23:00:00",
+     "workflow_id": "WF004",
+     "workflow_name": "Product Description Generator",
+     "run_status": "success",
+     "run_duration_ms": 5133,
+     "step_id": "s2",
+     "step_name": "Create product description"
+    },
+    {
+     "run_id": "seed-wf004-027",
+     "timestamp": "2026-09-06 23:00:00",
+     "workflow_id": "WF004",
+     "workflow_name": "Product Description Generator",
+     "run_status": "success",
+     "run_duration_ms": 5133,
+     "step_id": "s3",
+     "step_name": "Generate short description"
+    },
+    {
+     "run_id": "seed-wf004-027",
+     "timestamp": "2026-09-06 23:00:00",
+     "workflow_id": "WF004",
+     "workflow_name": "Product Description Generator",
+     "run_status": "success",
+     "run_duration_ms": 5133,
+     "step_id": "s4",
+     "step_name": "Generate SEO title"
+    },
+    {
+     "run_id": "seed-wf004-027",
+     "timestamp": "2026-09-06 23:00:00",
+     "workflow_id": "WF004",
+     "workflow_name": "Product Description Generator",
+     "run_status": "success",
+     "run_duration_ms": 5133,
+     "step_id": "s5",
+     "step_name": "Generate meta description"
+    }
+   ],
+   "total": 1524
+  },
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.9541473,
+  "step_id": "load_live",
+  "title": "Load live run log",
+  "tool": "load_table",
+  "kind": "tool",
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.9865775,
+  "step_id": "load_live",
+  "title": "Load live run log",
+  "kind": "tool",
+  "tool": "load_table",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 28,
+  "summary": "Loaded 73 rows \u00d7 12 columns from execution_log.csv",
+  "engine": null,
+  "output": "live_logs",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "run_id",
+    "timestamp",
+    "workflow_id",
+    "workflow_name",
+    "run_status",
+    "run_duration_ms",
+    "step_id",
+    "step_name"
+   ],
+   "rows": [
+    {
+     "run_id": "659984f90acf",
+     "timestamp": "2026-10-08 14:19:42",
+     "workflow_id": "WF001",
+     "workflow_name": "Inventory Restock Check",
+     "run_status": "success",
+     "run_duration_ms": 59,
+     "step_id": "load",
+     "step_name": "Load inventory"
+    },
+    {
+     "run_id": "659984f90acf",
+     "timestamp": "2026-10-08 14:19:42",
+     "workflow_id": "WF001",
+     "workflow_name": "Inventory Restock Check",
+     "run_status": "success",
+     "run_duration_ms": 59,
+     "step_id": "threshold",
+     "step_name": "Compare current stock with minimum threshold"
+    },
+    {
+     "run_id": "659984f90acf",
+     "timestamp": "2026-10-08 14:19:42",
+     "workflow_id": "WF001",
+     "workflow_name": "Inventory Restock Check",
+     "run_status": "success",
+     "run_duration_ms": 59,
+     "step_id": "flag",
+     "step_name": "Apply restock rule"
+    },
+    {
+     "run_id": "659984f90acf",
+     "timestamp": "2026-10-08 14:19:42",
+     "workflow_id": "WF001",
+     "workflow_name": "Inventory Restock Check",
+     "run_status": "success",
+     "run_duration_ms": 59,
+     "step_id": "identify",
+     "step_name": "Identify low-stock products"
+    },
+    {
+     "run_id": "659984f90acf",
+     "timestamp": "2026-10-08 14:19:42",
+     "workflow_id": "WF001",
+     "workflow_name": "Inventory Restock Check",
+     "run_status": "success",
+     "run_duration_ms": 59,
+     "step_id": "reorder",
+     "step_name": "Calculate reorder quantity"
+    }
+   ],
+   "total": 73
+  },
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.9868839,
+  "step_id": "combine",
+  "title": "Combine log sources",
+  "tool": "concat_tables",
+  "kind": "tool",
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.9868839,
+  "step_id": "combine",
+  "title": "Combine log sources",
+  "kind": "tool",
+  "tool": "concat_tables",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 2,
+  "summary": "Combined 2 sources into 1597 rows",
+  "engine": null,
+  "output": "logs",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "run_id",
+    "timestamp",
+    "workflow_id",
+    "workflow_name",
+    "run_status",
+    "run_duration_ms",
+    "step_id",
+    "step_name"
+   ],
+   "rows": [
+    {
+     "run_id": "seed-wf004-027",
+     "timestamp": "2026-09-06 23:00:00",
+     "workflow_id": "WF004",
+     "workflow_name": "Product Description Generator",
+     "run_status": "success",
+     "run_duration_ms": 5133,
+     "step_id": "s1",
+     "step_name": "Validate required attributes"
+    },
+    {
+     "run_id": "seed-wf004-027",
+     "timestamp": "2026-09-06 23:00:00",
+     "workflow_id": "WF004",
+     "workflow_name": "Product Description Generator",
+     "run_status": "success",
+     "run_duration_ms": 5133,
+     "step_id": "s2",
+     "step_name": "Create product description"
+    },
+    {
+     "run_id": "seed-wf004-027",
+     "timestamp": "2026-09-06 23:00:00",
+     "workflow_id": "WF004",
+     "workflow_name": "Product Description Generator",
+     "run_status": "success",
+     "run_duration_ms": 5133,
+     "step_id": "s3",
+     "step_name": "Generate short description"
+    },
+    {
+     "run_id": "seed-wf004-027",
+     "timestamp": "2026-09-06 23:00:00",
+     "workflow_id": "WF004",
+     "workflow_name": "Product Description Generator",
+     "run_status": "success",
+     "run_duration_ms": 5133,
+     "step_id": "s4",
+     "step_name": "Generate SEO title"
+    },
+    {
+     "run_id": "seed-wf004-027",
+     "timestamp": "2026-09-06 23:00:00",
+     "workflow_id": "WF004",
+     "workflow_name": "Product Description Generator",
+     "run_status": "success",
+     "run_duration_ms": 5133,
+     "step_id": "s5",
+     "step_name": "Generate meta description"
+    }
+   ],
+   "total": 1597
+  },
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.9868839,
+  "step_id": "scope",
+  "title": "Apply filters",
+  "tool": "filter_rows",
+  "kind": "tool",
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.9868839,
+  "step_id": "scope",
+  "title": "Apply filters",
+  "kind": "tool",
+  "tool": "filter_rows",
+  "excel_steps": [
+   1
+  ],
+  "status": "skipped",
+  "duration_ms": 0,
+  "summary": "Skipped: `inputs.source != 'all' or exists(inputs.workflow)` is false",
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.9868839,
+  "step_id": "runs",
+  "title": "Collapse steps into runs",
+  "tool": "aggregate",
+  "kind": "tool",
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.0028608,
+  "step_id": "runs",
+  "title": "Collapse steps into runs",
+  "kind": "tool",
+  "tool": "aggregate",
+  "excel_steps": [
+   2
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 14,
+  "summary": "299 group(s) by run_id",
+  "engine": null,
+  "output": "runs",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "run_id",
+    "workflow_id",
+    "workflow_name",
+    "status",
+    "duration_ms"
+   ],
+   "rows": [
+    {
+     "run_id": "3491fb3d0c43",
+     "workflow_id": "WF008",
+     "workflow_name": "SEO Keyword Classification",
+     "status": "success",
+     "duration_ms": 73
+    },
+    {
+     "run_id": "659984f90acf",
+     "workflow_id": "WF001",
+     "workflow_name": "Inventory Restock Check",
+     "status": "success",
+     "duration_ms": 59
+    },
+    {
+     "run_id": "74af18d2f5fe",
+     "workflow_id": "WF003",
+     "workflow_name": "Vendor File Processing",
+     "status": "success",
+     "duration_ms": 125
+    },
+    {
+     "run_id": "b271c165c55c",
+     "workflow_id": "WF009",
+     "workflow_name": "Employee Task Assignment",
+     "status": "success",
+     "duration_ms": 86
+    },
+    {
+     "run_id": "b59217c5f31c",
+     "workflow_id": "WF006",
+     "workflow_name": "Duplicate Product Detection",
+     "status": "success",
+     "duration_ms": 55
+    }
+   ],
+   "total": 299
+  },
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.0028608,
+  "step_id": "rates",
+  "title": "Calculate success/failure rate",
+  "tool": "aggregate",
+  "kind": "tool",
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.0667968,
+  "step_id": "rates",
+  "title": "Calculate success/failure rate",
+  "kind": "tool",
+  "tool": "aggregate",
+  "excel_steps": [
+   2,
+   3
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 52,
+  "summary": "10 group(s) by workflow_id",
+  "engine": null,
+  "output": "stats",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "workflow_id",
+    "workflow_name",
+    "runs",
+    "failures",
+    "escalations",
+    "failure_rate",
+    "avg_seconds"
+   ],
+   "rows": [
+    {
+     "workflow_id": "WF001",
+     "workflow_name": "Inventory Restock Check",
+     "runs": 47,
+     "failures": 2.0,
+     "escalations": 0.0,
+     "failure_rate": 4.25531914893617,
+     "avg_seconds": 0.6222127659574468
+    },
+    {
+     "workflow_id": "WF002",
+     "workflow_name": "Product Price Validation",
+     "runs": 32,
+     "failures": 2.0,
+     "escalations": 0.0,
+     "failure_rate": 6.25,
+     "avg_seconds": 0.81590625
+    },
+    {
+     "workflow_id": "WF003",
+     "workflow_name": "Vendor File Processing",
+     "runs": 29,
+     "failures": 1.0,
+     "escalations": 0.0,
+     "failure_rate": 3.4482758620689653,
+     "avg_seconds": 3.3514137931034482
+    },
+    {
+     "workflow_id": "WF004",
+     "workflow_name": "Product Description Generator",
+     "runs": 40,
+     "failures": 2.0,
+     "escalations": 0.0,
+     "failure_rate": 5.0,
+     "avg_seconds": 6.036875
+    },
+    {
+     "workflow_id": "WF005",
+     "workflow_name": "Customer Order Status",
+     "runs": 53,
+     "failures": 9.0,
+     "escalations": 0.0,
+     "failure_rate": 16.9811320754717,
+     "avg_seconds": 1.629018867924528
+    }
+   ],
+   "total": 10
+  },
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.0667968,
+  "step_id": "round",
+  "title": "Calculate average execution time",
+  "tool": "compute_column",
+  "kind": "tool",
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.0950093,
+  "step_id": "round",
+  "title": "Calculate average execution time",
+  "kind": "tool",
+  "tool": "compute_column",
+  "excel_steps": [
+   3
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 22,
+  "summary": "Computed failure_rate, success_rate, avg_seconds, failures, escalations for 10 rows",
+  "engine": null,
+  "output": "stats",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "workflow_id",
+    "workflow_name",
+    "runs",
+    "failures",
+    "escalations",
+    "failure_rate",
+    "avg_seconds",
+    "success_rate"
+   ],
+   "rows": [
+    {
+     "workflow_id": "WF001",
+     "workflow_name": "Inventory Restock Check",
+     "runs": 47,
+     "failures": 2,
+     "escalations": 0,
+     "failure_rate": 4.3,
+     "avg_seconds": 0.62,
+     "success_rate": 95.7
+    },
+    {
+     "workflow_id": "WF002",
+     "workflow_name": "Product Price Validation",
+     "runs": 32,
+     "failures": 2,
+     "escalations": 0,
+     "failure_rate": 6.2,
+     "avg_seconds": 0.82,
+     "success_rate": 93.8
+    },
+    {
+     "workflow_id": "WF003",
+     "workflow_name": "Vendor File Processing",
+     "runs": 29,
+     "failures": 1,
+     "escalations": 0,
+     "failure_rate": 3.4,
+     "avg_seconds": 3.35,
+     "success_rate": 96.6
+    },
+    {
+     "workflow_id": "WF004",
+     "workflow_name": "Product Description Generator",
+     "runs": 40,
+     "failures": 2,
+     "escalations": 0,
+     "failure_rate": 5.0,
+     "avg_seconds": 6.04,
+     "success_rate": 95.0
+    },
+    {
+     "workflow_id": "WF005",
+     "workflow_name": "Customer Order Status",
+     "runs": 53,
+     "failures": 9,
+     "escalations": 0,
+     "failure_rate": 17.0,
+     "avg_seconds": 1.63,
+     "success_rate": 83.0
+    }
+   ],
+   "total": 10
+  },
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.0988286,
+  "step_id": "errors",
+  "title": "Identify frequent errors",
+  "tool": "top_values",
+  "kind": "tool",
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.2411222,
+  "step_id": "errors",
+  "title": "Identify frequent errors",
+  "kind": "tool",
+  "tool": "top_values",
+  "excel_steps": [
+   4
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 141,
+  "summary": "Top 8 value(s) of error_message",
+  "engine": null,
+  "output": "errors",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "workflow_id",
+    "error_message",
+    "count"
+   ],
+   "rows": [
+    {
+     "workflow_id": "WF005",
+     "error_message": "Order API timeout (504)",
+     "count": 5
+    },
+    {
+     "workflow_id": "WF005",
+     "error_message": "Shipment API rate limited (429)",
+     "count": 4
+    },
+    {
+     "workflow_id": "WF001",
+     "error_message": "Inventory file not found",
+     "count": 2
+    },
+    {
+     "workflow_id": "WF004",
+     "error_message": "LLM timeout after 30s",
+     "count": 2
+    },
+    {
+     "workflow_id": "WF002",
+     "error_message": "SKU column missing in vendor price list",
+     "count": 2
+    }
+   ],
+   "total": 8
+  },
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.2462661,
+  "step_id": "step_times",
+  "title": "Identify slow steps",
+  "tool": "aggregate",
+  "kind": "tool",
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.3454974,
+  "step_id": "step_times",
+  "title": "Identify slow steps",
+  "kind": "tool",
+  "tool": "aggregate",
+  "excel_steps": [
+   5
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 99,
+  "summary": "84 group(s) by workflow_id, step_name",
+  "engine": null,
+  "output": "step_times",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "workflow_id",
+    "step_name",
+    "avg_seconds",
+    "executions"
+   ],
+   "rows": [
+    {
+     "workflow_id": "WF001",
+     "step_name": "Apply restock rule",
+     "avg_seconds": 0.006,
+     "executions": 1
+    },
+    {
+     "workflow_id": "WF001",
+     "step_name": "Calculate reorder quantity",
+     "avg_seconds": 0.11632608695652173,
+     "executions": 46
+    },
+    {
+     "workflow_id": "WF001",
+     "step_name": "Compare current stock with minimum threshold",
+     "avg_seconds": 0.1686595744680851,
+     "executions": 47
+    },
+    {
+     "workflow_id": "WF001",
+     "step_name": "Export restock list",
+     "avg_seconds": 0.006,
+     "executions": 1
+    },
+    {
+     "workflow_id": "WF001",
+     "step_name": "Generate restock list",
+     "avg_seconds": 0.11947826086956523,
+     "executions": 46
+    }
+   ],
+   "total": 84
+  },
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.3498437,
+  "step_id": "slowest",
+  "title": "Rank slow steps",
+  "tool": "sort_rows",
+  "kind": "tool",
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.3520598,
+  "step_id": "slowest",
+  "title": "Rank slow steps",
+  "kind": "tool",
+  "tool": "sort_rows",
+  "excel_steps": [
+   5
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 3,
+  "summary": "Sorted by avg_seconds (desc), top 6",
+  "engine": null,
+  "output": "slow_steps",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "workflow_id",
+    "step_name",
+    "avg_seconds",
+    "executions"
+   ],
+   "rows": [
+    {
+     "workflow_id": "WF007",
+     "step_name": "Create messaging",
+     "avg_seconds": 4.354260869565217,
+     "executions": 23
+    },
+    {
+     "workflow_id": "WF008",
+     "step_name": "Classify search intent",
+     "avg_seconds": 3.0885,
+     "executions": 20
+    },
+    {
+     "workflow_id": "WF004",
+     "step_name": "Create product description",
+     "avg_seconds": 2.68825641025641,
+     "executions": 39
+    },
+    {
+     "workflow_id": "WF003",
+     "step_name": "Read file",
+     "avg_seconds": 2.1730689655172415,
+     "executions": 29
+    },
+    {
+     "workflow_id": "WF007",
+     "step_name": "Validate inputs",
+     "avg_seconds": 2.076217391304348,
+     "executions": 23
+    }
+   ],
+   "total": 6
+  },
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.355595,
+  "step_id": "round_steps",
+  "title": "Round step timings",
+  "tool": "compute_column",
+  "kind": "tool",
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.3596172,
+  "step_id": "round_steps",
+  "title": "Round step timings",
+  "kind": "tool",
+  "tool": "compute_column",
+  "excel_steps": [
+   5
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 2,
+  "summary": "Computed avg_seconds for 6 rows",
+  "engine": null,
+  "output": "slow_steps",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "workflow_id",
+    "step_name",
+    "avg_seconds",
+    "executions"
+   ],
+   "rows": [
+    {
+     "workflow_id": "WF007",
+     "step_name": "Create messaging",
+     "avg_seconds": 4.35,
+     "executions": 23
+    },
+    {
+     "workflow_id": "WF008",
+     "step_name": "Classify search intent",
+     "avg_seconds": 3.09,
+     "executions": 20
+    },
+    {
+     "workflow_id": "WF004",
+     "step_name": "Create product description",
+     "avg_seconds": 2.69,
+     "executions": 39
+    },
+    {
+     "workflow_id": "WF003",
+     "step_name": "Read file",
+     "avg_seconds": 2.17,
+     "executions": 29
+    },
+    {
+     "workflow_id": "WF007",
+     "step_name": "Validate inputs",
+     "avg_seconds": 2.08,
+     "executions": 23
+    }
+   ],
+   "total": 6
+  },
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.364235,
+  "step_id": "flag",
+  "title": "Flag problem workflows",
+  "tool": "flag_rows",
+  "kind": "tool",
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449384.3716295,
+  "step_id": "flag",
+  "message": "Rule `failure_rate > params.max_failure_rate or avg_seconds > params.max_avg_seconds` is true for 4 row(s)",
+  "level": "info",
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.3733847,
+  "step_id": "flag",
+  "title": "Flag problem workflows",
+  "kind": "tool",
+  "tool": "flag_rows",
+  "excel_steps": [
+   5
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 8,
+  "summary": "Flagged 4 of 10 rows",
+  "engine": null,
+  "output": "stats",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "workflow_id",
+    "workflow_name",
+    "runs",
+    "failures",
+    "escalations",
+    "failure_rate",
+    "avg_seconds",
+    "success_rate"
+   ],
+   "rows": [
+    {
+     "workflow_id": "WF001",
+     "workflow_name": "Inventory Restock Check",
+     "runs": 47,
+     "failures": 2,
+     "escalations": 0,
+     "failure_rate": 4.3,
+     "avg_seconds": 0.62,
+     "success_rate": 95.7
+    },
+    {
+     "workflow_id": "WF002",
+     "workflow_name": "Product Price Validation",
+     "runs": 32,
+     "failures": 2,
+     "escalations": 0,
+     "failure_rate": 6.2,
+     "avg_seconds": 0.82,
+     "success_rate": 93.8
+    },
+    {
+     "workflow_id": "WF003",
+     "workflow_name": "Vendor File Processing",
+     "runs": 29,
+     "failures": 1,
+     "escalations": 0,
+     "failure_rate": 3.4,
+     "avg_seconds": 3.35,
+     "success_rate": 96.6
+    },
+    {
+     "workflow_id": "WF004",
+     "workflow_name": "Product Description Generator",
+     "runs": 40,
+     "failures": 2,
+     "escalations": 0,
+     "failure_rate": 5.0,
+     "avg_seconds": 6.04,
+     "success_rate": 95.0
+    },
+    {
+     "workflow_id": "WF005",
+     "workflow_name": "Customer Order Status",
+     "runs": 53,
+     "failures": 9,
+     "escalations": 0,
+     "failure_rate": 17.0,
+     "avg_seconds": 1.63,
+     "success_rate": 83.0
+    }
+   ],
+   "total": 10
+  },
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.3753948,
+  "step_id": "sort",
+  "title": "Sort by failure rate",
+  "tool": "sort_rows",
+  "kind": "tool",
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.3818696,
+  "step_id": "sort",
+  "title": "Sort by failure rate",
+  "kind": "tool",
+  "tool": "sort_rows",
+  "excel_steps": [
+   5
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 4,
+  "summary": "Sorted by failure_rate, avg_seconds (desc)",
+  "engine": null,
+  "output": "stats",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "workflow_id",
+    "workflow_name",
+    "runs",
+    "failures",
+    "escalations",
+    "failure_rate",
+    "avg_seconds",
+    "success_rate"
+   ],
+   "rows": [
+    {
+     "workflow_id": "WF005",
+     "workflow_name": "Customer Order Status",
+     "runs": 53,
+     "failures": 9,
+     "escalations": 0,
+     "failure_rate": 17.0,
+     "avg_seconds": 1.63,
+     "success_rate": 83.0
+    },
+    {
+     "workflow_id": "WF007",
+     "workflow_name": "Marketing Campaign Brief",
+     "runs": 23,
+     "failures": 2,
+     "escalations": 0,
+     "failure_rate": 8.7,
+     "avg_seconds": 14.18,
+     "success_rate": 91.3
+    },
+    {
+     "workflow_id": "WF002",
+     "workflow_name": "Product Price Validation",
+     "runs": 32,
+     "failures": 2,
+     "escalations": 0,
+     "failure_rate": 6.2,
+     "avg_seconds": 0.82,
+     "success_rate": 93.8
+    },
+    {
+     "workflow_id": "WF008",
+     "workflow_name": "SEO Keyword Classification",
+     "runs": 20,
+     "failures": 1,
+     "escalations": 0,
+     "failure_rate": 5.0,
+     "avg_seconds": 6.23,
+     "success_rate": 95.0
+    },
+    {
+     "workflow_id": "WF004",
+     "workflow_name": "Product Description Generator",
+     "runs": 40,
+     "failures": 2,
+     "escalations": 0,
+     "failure_rate": 5.0,
+     "avg_seconds": 6.04,
+     "success_rate": 95.0
+    }
+   ],
+   "total": 10
+  },
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.3848267,
+  "step_id": "recommend",
+  "title": "Generate recommendations",
+  "tool": "rule_recommendations",
+  "kind": "tool",
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.39886,
+  "step_id": "recommend",
+  "title": "Generate recommendations",
+  "kind": "tool",
+  "tool": "rule_recommendations",
+  "excel_steps": [
+   6
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 14,
+  "summary": "4 recommendation(s) generated from 3 rule(s)",
+  "engine": null,
+  "output": "recommendations",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "workflow_name",
+    "area",
+    "recommendation"
+   ],
+   "rows": [
+    {
+     "workflow_name": "Customer Order Status",
+     "area": "Reliability",
+     "recommendation": "Failure rate is 17%. Most common error: \u201cOrder API timeout (504)\u201d. Add retries \u2026"
+    },
+    {
+     "workflow_name": "Marketing Campaign Brief",
+     "area": "Speed",
+     "recommendation": "Average run takes 14.18s (threshold 4s). Slowest step: \u201cCreate messaging\u201d. Cach\u2026"
+    },
+    {
+     "workflow_name": "SEO Keyword Classification",
+     "area": "Speed",
+     "recommendation": "Average run takes 6.23s (threshold 4s). Slowest step: \u201cClassify search intent\u201d.\u2026"
+    },
+    {
+     "workflow_name": "Product Description Generator",
+     "area": "Speed",
+     "recommendation": "Average run takes 6.04s (threshold 4s). Slowest step: \u201cCreate product descripti\u2026"
+    }
+   ],
+   "total": 4
+  },
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "result",
+  "ts": 1791449384.4297016,
+  "status": "completed",
+  "title": "Customer Order Status fails most often (17.0%)",
+  "subtitle": "299 runs across 10 workflows \u00b7 4 flagged \u00b7 thresholds: failure > 10%, avg time > 4s",
+  "sections": [
+   {
+    "type": "kpis",
+    "title": null,
+    "items": [
+     {
+      "label": "Runs analysed",
+      "value": "299",
+      "tone": null,
+      "hint": null
+     },
+     {
+      "label": "Overall success rate",
+      "value": "93.3%",
+      "tone": "ok",
+      "hint": null
+     },
+     {
+      "label": "Avg run time",
+      "value": "3.37s",
+      "tone": null,
+      "hint": null
+     },
+     {
+      "label": "Workflows flagged",
+      "value": "4",
+      "tone": "danger",
+      "hint": null
+     },
+     {
+      "label": "Live runs included",
+      "value": "9",
+      "tone": null,
+      "hint": null
+     }
+    ]
+   },
+   {
+    "type": "bars",
+    "title": "Failure rate by workflow",
+    "items": [
+     {
+      "label": "Customer Order Status",
+      "value": 17.0
+     },
+     {
+      "label": "Marketing Campaign Brief",
+      "value": 8.7
+     },
+     {
+      "label": "Product Price Validation",
+      "value": 6.2
+     },
+     {
+      "label": "SEO Keyword Classification",
+      "value": 5.0
+     },
+     {
+      "label": "Product Description Generator",
+      "value": 5.0
+     },
+     {
+      "label": "Inventory Restock Check",
+      "value": 4.3
+     },
+     {
+      "label": "Employee Task Assignment",
+      "value": 4.0
+     },
+     {
+      "label": "Vendor File Processing",
+      "value": 3.4
+     },
+     {
+      "label": "Duplicate Product Detection",
+      "value": 0.0
+     },
+     {
+      "label": "Workflow Performance Report",
+      "value": 0.0
+     }
+    ],
+    "format": "pct",
+    "threshold": 10
+   },
+   {
+    "type": "table",
+    "title": "Workflow metrics",
+    "columns": [
+     {
+      "key": "workflow_id",
+      "label": "ID",
+      "format": null
+     },
+     {
+      "key": "workflow_name",
+      "label": "Workflow",
+      "format": null
+     },
+     {
+      "key": "runs",
+      "label": "Runs",
+      "format": null
+     },
+     {
+      "key": "failures",
+      "label": "Failures",
+      "format": null
+     },
+     {
+      "key": "failure_rate",
+      "label": "Failure %",
+      "format": null
+     },
+     {
+      "key": "success_rate",
+      "label": "Success %",
+      "format": null
+     },
+     {
+      "key": "avg_seconds",
+      "label": "Avg time (s)",
+      "format": null
+     },
+     {
+      "key": "needs_attention",
+      "label": "Flagged",
+      "format": null
+     },
+     {
+      "key": "needs_attention_reason",
+      "label": "Why",
+      "format": null
+     }
+    ],
+    "rows": [
+     {
+      "workflow_id": "WF005",
+      "workflow_name": "Customer Order Status",
+      "runs": 53,
+      "failures": 9,
+      "failure_rate": 17.0,
+      "success_rate": 83.0,
+      "avg_seconds": 1.63,
+      "needs_attention": true,
+      "needs_attention_reason": "failure rate 17.0% > 10%"
+     },
+     {
+      "workflow_id": "WF007",
+      "workflow_name": "Marketing Campaign Brief",
+      "runs": 23,
+      "failures": 2,
+      "failure_rate": 8.7,
+      "success_rate": 91.3,
+      "avg_seconds": 14.18,
+      "needs_attention": true,
+      "needs_attention_reason": "avg 14.18s > 4s"
+     },
+     {
+      "workflow_id": "WF002",
+      "workflow_name": "Product Price Validation",
+      "runs": 32,
+      "failures": 2,
+      "failure_rate": 6.2,
+      "success_rate": 93.8,
+      "avg_seconds": 0.82,
+      "needs_attention": false,
+      "needs_attention_reason": null
+     },
+     {
+      "workflow_id": "WF008",
+      "workflow_name": "SEO Keyword Classification",
+      "runs": 20,
+      "failures": 1,
+      "failure_rate": 5.0,
+      "success_rate": 95.0,
+      "avg_seconds": 6.23,
+      "needs_attention": true,
+      "needs_attention_reason": "avg 6.23s > 4s"
+     },
+     {
+      "workflow_id": "WF004",
+      "workflow_name": "Product Description Generator",
+      "runs": 40,
+      "failures": 2,
+      "failure_rate": 5.0,
+      "success_rate": 95.0,
+      "avg_seconds": 6.04,
+      "needs_attention": true,
+      "needs_attention_reason": "avg 6.04s > 4s"
+     },
+     {
+      "workflow_id": "WF001",
+      "workflow_name": "Inventory Restock Check",
+      "runs": 47,
+      "failures": 2,
+      "failure_rate": 4.3,
+      "success_rate": 95.7,
+      "avg_seconds": 0.62,
+      "needs_attention": false,
+      "needs_attention_reason": null
+     },
+     {
+      "workflow_id": "WF009",
+      "workflow_name": "Employee Task Assignment",
+      "runs": 25,
+      "failures": 1,
+      "failure_rate": 4.0,
+      "success_rate": 96.0,
+      "avg_seconds": 0.97,
+      "needs_attention": false,
+      "needs_attention_reason": null
+     },
+     {
+      "workflow_id": "WF003",
+      "workflow_name": "Vendor File Processing",
+      "runs": 29,
+      "failures": 1,
+      "failure_rate": 3.4,
+      "success_rate": 96.6,
+      "avg_seconds": 3.35,
+      "needs_attention": false,
+      "needs_attention_reason": null
+     },
+     {
+      "workflow_id": "WF006",
+      "workflow_name": "Duplicate Product Detection",
+      "runs": 18,
+      "failures": 0,
+      "failure_rate": 0.0,
+      "success_rate": 100.0,
+      "avg_seconds": 2.5,
+      "needs_attention": false,
+      "needs_attention_reason": null
+     },
+     {
+      "workflow_id": "WF010",
+      "workflow_name": "Workflow Performance Report",
+      "runs": 12,
+      "failures": 0,
+      "failure_rate": 0.0,
+      "success_rate": 100.0,
+      "avg_seconds": 0.66,
+      "needs_attention": false,
+      "needs_attention_reason": null
+     }
+    ],
+    "total": 10,
+    "tones": [
+     "danger",
+     "danger",
+     null,
+     "danger",
+     "danger",
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "empty": "No rows"
+   },
+   {
+    "type": "table",
+    "title": "Most frequent errors",
+    "columns": [
+     {
+      "key": "workflow_id",
+      "label": "Workflow",
+      "format": null
+     },
+     {
+      "key": "error_message",
+      "label": "Error",
+      "format": null
+     },
+     {
+      "key": "count",
+      "label": "Count",
+      "format": null
+     }
+    ],
+    "rows": [
+     {
+      "workflow_id": "WF005",
+      "error_message": "Order API timeout (504)",
+      "count": 5
+     },
+     {
+      "workflow_id": "WF005",
+      "error_message": "Shipment API rate limited (429)",
+      "count": 4
+     },
+     {
+      "workflow_id": "WF001",
+      "error_message": "Inventory file not found",
+      "count": 2
+     },
+     {
+      "workflow_id": "WF004",
+      "error_message": "LLM timeout after 30s",
+      "count": 2
+     },
+     {
+      "workflow_id": "WF002",
+      "error_message": "SKU column missing in vendor price list",
+      "count": 2
+     },
+     {
+      "workflow_id": "WF007",
+      "error_message": "LLM returned invalid JSON",
+      "count": 2
+     },
+     {
+      "workflow_id": "WF003",
+      "error_message": "Unsupported file encoding",
+      "count": 1
+     },
+     {
+      "workflow_id": "WF008",
+      "error_message": "LLM returned an unknown intent label",
+      "count": 1
+     }
+    ],
+    "total": 8,
+    "tones": null,
+    "empty": "No failed steps in the logs."
+   },
+   {
+    "type": "table",
+    "title": "Slowest steps",
+    "columns": [
+     {
+      "key": "workflow_id",
+      "label": "Workflow",
+      "format": null
+     },
+     {
+      "key": "step_name",
+      "label": "Step",
+      "format": null
+     },
+     {
+      "key": "avg_seconds",
+      "label": "Avg time (s)",
+      "format": null
+     },
+     {
+      "key": "executions",
+      "label": "Executions",
+      "format": null
+     }
+    ],
+    "rows": [
+     {
+      "workflow_id": "WF007",
+      "step_name": "Create messaging",
+      "avg_seconds": 4.35,
+      "executions": 23
+     },
+     {
+      "workflow_id": "WF008",
+      "step_name": "Classify search intent",
+      "avg_seconds": 3.09,
+      "executions": 20
+     },
+     {
+      "workflow_id": "WF004",
+      "step_name": "Create product description",
+      "avg_seconds": 2.69,
+      "executions": 39
+     },
+     {
+      "workflow_id": "WF003",
+      "step_name": "Read file",
+      "avg_seconds": 2.17,
+      "executions": 29
+     },
+     {
+      "workflow_id": "WF007",
+      "step_name": "Validate inputs",
+      "avg_seconds": 2.08,
+      "executions": 23
+     },
+     {
+      "workflow_id": "WF007",
+      "step_name": "Create campaign checklist",
+      "avg_seconds": 2.06,
+      "executions": 22
+     }
+    ],
+    "total": 6,
+    "tones": null,
+    "empty": "No rows"
+   },
+   {
+    "type": "table",
+    "title": "Recommendations",
+    "columns": [
+     {
+      "key": "workflow_name",
+      "label": "Workflow",
+      "format": null
+     },
+     {
+      "key": "area",
+      "label": "Area",
+      "format": null
+     },
+     {
+      "key": "recommendation",
+      "label": "Recommendation",
+      "format": null
+     }
+    ],
+    "rows": [
+     {
+      "workflow_name": "Customer Order Status",
+      "area": "Reliability",
+      "recommendation": "Failure rate is 17%. Most common error: \u201cOrder API timeout (504)\u201d. Add retries with backoff around that call and validate inputs before it runs."
+     },
+     {
+      "workflow_name": "Marketing Campaign Brief",
+      "area": "Speed",
+      "recommendation": "Average run takes 14.18s (threshold 4s). Slowest step: \u201cCreate messaging\u201d. Cache its inputs or run it asynchronously."
+     },
+     {
+      "workflow_name": "SEO Keyword Classification",
+      "area": "Speed",
+      "recommendation": "Average run takes 6.23s (threshold 4s). Slowest step: \u201cClassify search intent\u201d. Cache its inputs or run it asynchronously."
+     },
+     {
+      "workflow_name": "Product Description Generator",
+      "area": "Speed",
+      "recommendation": "Average run takes 6.04s (threshold 4s). Slowest step: \u201cCreate product description\u201d. Cache its inputs or run it asynchronously."
+     }
+    ],
+    "total": 4,
+    "tones": null,
+    "empty": "Every workflow is within the thresholds."
+   }
+  ],
+  "run_id": "de33c45c1953"
+ },
+ {
+  "type": "run_finished",
+  "ts": 1791449384.4297016,
+  "status": "completed",
+  "active_ms": 428,
+  "workflow_id": "WF010",
+  "run_id": "de33c45c1953"
+ }
+]

@@ -1,0 +1,87 @@
+# Execution plan for a NEW Excel row WF011 — Low Margin Alert.
+# Built only from existing tools: adding this workflow needs zero Python changes.
+# Demo: add the WF011 row to the Excel file, copy this file to workflows/plans/WF011.yaml, click "Reload".
+workflow_id: WF011
+description: Flag products whose gross margin is below the target and show the gap.
+examples:
+  - Which products have low margins?
+  - Show me items with thin profit margins
+
+params:
+  min_margin_pct:
+    default: 62
+    from_excel: 'below (\d+(?:\.\d+)?)\s*%'
+    description: Minimum acceptable gross margin, read from the Excel decision logic
+    override_patterns: ['(?:below|under|less than)\s*(\d+(?:\.\d+)?)\s*%']
+
+inputs:
+  - name: products_file
+    type: file
+    label: Product file
+    description: Product CSV with internal_price and unit_cost
+    default: products.csv
+    accept: [.csv, .xlsx]
+
+steps:
+  - id: load
+    title: Load products
+    excel_step: 1
+    tool: load_table
+    args: {path: "{{ inputs.products_file }}"}
+    output: products
+
+  - id: margin
+    title: Calculate gross margin
+    excel_step: 2
+    tool: compute_column
+    args:
+      table: $products
+      columns:
+        margin_pct: "round((internal_price - unit_cost) / internal_price * 100, 1)"
+        gap_pct: "round(params.min_margin_pct - (internal_price - unit_cost) / internal_price * 100, 1)"
+    output: products
+
+  - id: flag
+    title: Flag low-margin products
+    excel_step: 3
+    tool: flag_rows
+    args: {table: $products, when: "margin_pct < params.min_margin_pct", flag: low_margin, reason: "{{ gap_pct }} pts below target"}
+    output: products
+
+  - id: any_low
+    title: Any products below target?
+    excel_step: 3
+    kind: condition
+    when: "count(products, 'low_margin') == 0"
+    then: {action: complete, message: "Every product meets the {{ params.min_margin_pct }}% margin target."}
+
+  - id: rank
+    title: Rank by margin
+    excel_step: 4
+    tool: sort_rows
+    args: {table: "{{ where(products, 'low_margin') }}", by: margin_pct, descending: false}
+    output: alerts
+
+  - id: export
+    title: Generate alert list
+    excel_step: 5
+    tool: export_table
+    args: {table: $alerts, filename: low_margin_alerts}
+    output: alert_file
+
+result:
+  title: "{{ plural(count(products, 'low_margin'), 'product') }} below the {{ params.min_margin_pct }}% margin target"
+  sections:
+    - type: kpis
+      items:
+        - {label: Products checked, value: "{{ len(products) }}"}
+        - {label: Below target, value: "{{ count(products, 'low_margin') }}", tone: danger}
+        - {label: Average margin, value: "{{ pct(sum(col(products, 'margin_pct')) / len(products)) }}"}
+    - type: table
+      title: Low-margin products
+      data: $alerts
+      columns: [sku:SKU, product_name:Product, internal_price:Price, unit_cost:Unit cost, "margin_pct:Margin %", "gap_pct:Gap (pts)"]
+      highlight: {danger: "True"}
+    - type: download
+      files:
+        - {label: Alert list (CSV), file: $alert_file}

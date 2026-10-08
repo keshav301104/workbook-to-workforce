@@ -1,0 +1,1626 @@
+[
+ {
+  "type": "run_started",
+  "run_id": "b8c177a585bc",
+  "ts": 1791449382.4930375,
+  "request": "Find products where vendor price differs by more than 10%.",
+  "llm": "Offline (deterministic fallback)",
+  "llm_enabled": false
+ },
+ {
+  "type": "stage",
+  "ts": 1791449382.500997,
+  "stage": "routing",
+  "status": "started",
+  "message": "Reading 10 workflows from AI_Agent_Workflow_Assessment_1.xlsx",
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "route",
+  "ts": 1791449382.5027344,
+  "workflow_id": "WF002",
+  "workflow_name": "Product Price Validation",
+  "confidence": 0.97,
+  "reasoning": "Matched on: 10, differs, price, products, vendor.",
+  "method": "lexical",
+  "alternatives": [
+   {
+    "id": "WF003",
+    "score": 0.25,
+    "name": "Vendor File Processing"
+   },
+   {
+    "id": "WF004",
+    "score": 0.11,
+    "name": "Product Description Generator"
+   },
+   {
+    "id": "WF006",
+    "score": 0.11,
+    "name": "Duplicate Product Detection"
+   }
+  ],
+  "note": null,
+  "threshold": 0.55,
+  "status": "routed",
+  "duration_ms": 4,
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "stage",
+  "ts": 1791449382.509213,
+  "stage": "extracting",
+  "status": "started",
+  "message": "Reading inputs from your request",
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "inputs",
+  "ts": 1791449382.509213,
+  "inputs": [
+   {
+    "name": "products_file",
+    "label": "Product price file",
+    "value": null,
+    "type": "file",
+    "required": false
+   },
+   {
+    "name": "vendor_file",
+    "label": "Vendor price list",
+    "value": null,
+    "type": "file",
+    "required": false
+   }
+  ],
+  "sources": {},
+  "method": "patterns",
+  "note": null,
+  "duration_ms": 0,
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "params",
+  "ts": 1791449382.509213,
+  "params": [
+   {
+    "name": "threshold_pct",
+    "value": 10,
+    "source": "request",
+    "description": "Flag a product when the price difference exceeds this percentage"
+   }
+  ],
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "input_check",
+  "ts": 1791449382.512979,
+  "ok": true,
+  "missing": [],
+  "inputs": [
+   {
+    "name": "products_file",
+    "label": "Product price file",
+    "value": "products.csv",
+    "type": "file",
+    "required": false
+   },
+   {
+    "name": "vendor_file",
+    "label": "Vendor price list",
+    "value": "vendor_prices.csv",
+    "type": "file",
+    "required": false
+   }
+  ],
+  "sources": {
+   "products_file": "default",
+   "vendor_file": "default"
+  },
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "plan",
+  "ts": 1791449382.5165293,
+  "workflow_id": "WF002",
+  "workflow_name": "Product Price Validation",
+  "steps": [
+   {
+    "id": "load_products",
+    "title": "Load product prices",
+    "kind": "tool",
+    "tool": "load_table",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Load product prices"
+    ],
+    "note": null
+   },
+   {
+    "id": "load_vendor",
+    "title": "Load vendor price list",
+    "kind": "tool",
+    "tool": "load_table",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Load product prices"
+    ],
+    "note": null
+   },
+   {
+    "id": "match",
+    "title": "Match products by SKU",
+    "kind": "tool",
+    "tool": "join_tables",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     2
+    ],
+    "excel_text": [
+     "match products by SKU"
+    ],
+    "note": "SKUs are compared after removing case, spaces and punctuation, so 'ts1001' matches 'TS-1001'."
+   },
+   {
+    "id": "compare",
+    "title": "Compare internal and vendor prices",
+    "kind": "tool",
+    "tool": "compute_column",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     3
+    ],
+    "excel_text": [
+     "compare internal and vendor prices"
+    ],
+    "note": null
+   },
+   {
+    "id": "percent",
+    "title": "Calculate percentage difference",
+    "kind": "tool",
+    "tool": "compute_column",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     4
+    ],
+    "excel_text": [
+     "calculate percentage difference"
+    ],
+    "note": "Percentage is measured against the internal price and rounded to 2 decimals before the rule is applied."
+   },
+   {
+    "id": "flag",
+    "title": "Flag exceptions",
+    "kind": "tool",
+    "tool": "flag_rows",
+    "category": "decision",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     5
+    ],
+    "excel_text": [
+     "flag exceptions"
+    ],
+    "note": "Excel rule: flag when the price difference exceeds the threshold. Exactly 10.00% does not exceed 10%, so it is not flagged."
+   },
+   {
+    "id": "exceptions",
+    "title": "Collect exceptions",
+    "kind": "tool",
+    "tool": "filter_rows",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     5
+    ],
+    "excel_text": [
+     "flag exceptions"
+    ],
+    "note": null
+   },
+   {
+    "id": "rank",
+    "title": "Rank exceptions by size",
+    "kind": "tool",
+    "tool": "sort_rows",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     5
+    ],
+    "excel_text": [
+     "flag exceptions"
+    ],
+    "note": null
+   },
+   {
+    "id": "export",
+    "title": "Export validation report",
+    "kind": "tool",
+    "tool": "export_table",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     5
+    ],
+    "excel_text": [
+     "flag exceptions"
+    ],
+    "note": null
+   }
+  ],
+  "excel_steps": [
+   "Load product prices",
+   "match products by SKU",
+   "compare internal and vendor prices",
+   "calculate percentage difference",
+   "flag exceptions"
+  ],
+  "decision_logic": "Flag when price difference exceeds 10%",
+  "plan_file": "WF002.yaml",
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "stage",
+  "ts": 1791449382.5165293,
+  "stage": "executing",
+  "status": "started",
+  "message": "Running 9 steps",
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.521062,
+  "step_id": "load_products",
+  "title": "Load product prices",
+  "tool": "load_table",
+  "kind": "tool",
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.5359905,
+  "step_id": "load_products",
+  "title": "Load product prices",
+  "kind": "tool",
+  "tool": "load_table",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 15,
+  "summary": "Loaded 15 rows \u00d7 13 columns from products.csv",
+  "engine": null,
+  "output": "products",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "sku",
+    "product_name",
+    "brand",
+    "category",
+    "collection",
+    "launch_date",
+    "material",
+    "color"
+   ],
+   "rows": [
+    {
+     "sku": "TS-1001",
+     "product_name": "Classic Linen Shirt",
+     "brand": "Halden",
+     "category": "Shirts",
+     "collection": "Summer 2026",
+     "launch_date": "2026-04-01",
+     "material": "Linen",
+     "color": "White"
+    },
+    {
+     "sku": "TS-1002",
+     "product_name": "Oxford Button-Down Shirt",
+     "brand": "Halden",
+     "category": "Shirts",
+     "collection": "Core",
+     "launch_date": "2025-01-10",
+     "material": "Cotton",
+     "color": "Light Blue"
+    },
+    {
+     "sku": "TS-1003",
+     "product_name": "Linen Overshirt",
+     "brand": "Halden",
+     "category": "Shirts",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Linen",
+     "color": "Sage Green"
+    },
+    {
+     "sku": "KN-2001",
+     "product_name": "Merino Crew Sweater",
+     "brand": "Halden",
+     "category": "Knitwear",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Merino Wool",
+     "color": "Charcoal"
+    },
+    {
+     "sku": "KN-2002",
+     "product_name": "Cable Knit Cardigan",
+     "brand": "Halden",
+     "category": "Knitwear",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": null,
+     "color": "Oat"
+    }
+   ],
+   "total": 15
+  },
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.5552764,
+  "step_id": "load_vendor",
+  "title": "Load vendor price list",
+  "tool": "load_table",
+  "kind": "tool",
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.560784,
+  "step_id": "load_vendor",
+  "title": "Load vendor price list",
+  "kind": "tool",
+  "tool": "load_table",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 6,
+  "summary": "Loaded 14 rows \u00d7 4 columns from vendor_prices.csv",
+  "engine": null,
+  "output": "vendor",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "vendor_sku",
+    "vendor_name",
+    "vendor_price",
+    "currency"
+   ],
+   "rows": [
+    {
+     "vendor_sku": "ts1001",
+     "vendor_name": "Northshore Textiles",
+     "vendor_price": 61.95,
+     "currency": "USD"
+    },
+    {
+     "vendor_sku": "TS-1002",
+     "vendor_name": "Northshore Textiles",
+     "vendor_price": 70.4,
+     "currency": "USD"
+    },
+    {
+     "vendor_sku": "ts-1003",
+     "vendor_name": "Northshore Textiles",
+     "vendor_price": 98.5,
+     "currency": "USD"
+    },
+    {
+     "vendor_sku": "KN2001",
+     "vendor_name": "Highland Knits",
+     "vendor_price": 101.15,
+     "currency": "USD"
+    },
+    {
+     "vendor_sku": "KN-2002",
+     "vendor_name": "Highland Knits",
+     "vendor_price": 141.0,
+     "currency": "USD"
+    }
+   ],
+   "total": 14
+  },
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.5674772,
+  "step_id": "match",
+  "title": "Match products by SKU",
+  "tool": "join_tables",
+  "kind": "tool",
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449382.5841043,
+  "step_id": "match",
+  "message": "Keys normalised with 'sku' rules (case, spaces and punctuation ignored)",
+  "level": "info",
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.596052,
+  "step_id": "match",
+  "title": "Match products by SKU",
+  "kind": "tool",
+  "tool": "join_tables",
+  "excel_steps": [
+   2
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 27,
+  "summary": "13 matched, 2 only in left, 1 only in right",
+  "engine": null,
+  "output": "match",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "matched": {
+     "kind": "table",
+     "columns": [
+      "sku",
+      "product_name",
+      "brand",
+      "category",
+      "collection",
+      "launch_date",
+      "material",
+      "color"
+     ],
+     "rows": [
+      {
+       "sku": "AC-5001",
+       "product_name": "Leather Belt",
+       "brand": "Halden",
+       "category": "Accessories",
+       "collection": "Core",
+       "launch_date": "2025-01-10",
+       "material": "Full-grain Leather",
+       "color": "Brown"
+      },
+      {
+       "sku": "AC-5002",
+       "product_name": "Wool Beanie",
+       "brand": "Halden",
+       "category": "Accessories",
+       "collection": "Autumn 2026",
+       "launch_date": "2026-09-15",
+       "material": "Lambswool",
+       "color": "Rust"
+      },
+      {
+       "sku": "HM-6001",
+       "product_name": "Linen Duvet Cover",
+       "brand": "Halden Home",
+       "category": "Home",
+       "collection": "Core",
+       "launch_date": "2025-03-01",
+       "material": "Linen",
+       "color": "Clay"
+      },
+      {
+       "sku": "HM-6002",
+       "product_name": "Stoneware Mug Set",
+       "brand": "Halden Home",
+       "category": "Home",
+       "collection": "Core",
+       "launch_date": "2025-03-01",
+       "material": "Stoneware",
+       "color": "Speckled White"
+      },
+      {
+       "sku": "KN-2001",
+       "product_name": "Merino Crew Sweater",
+       "brand": "Halden",
+       "category": "Knitwear",
+       "collection": "Autumn 2026",
+       "launch_date": "2026-09-15",
+       "material": "Merino Wool",
+       "color": "Charcoal"
+      }
+     ],
+     "total": 13
+    },
+    "left_only": {
+     "kind": "table",
+     "columns": [
+      "sku",
+      "product_name",
+      "brand",
+      "category",
+      "collection",
+      "launch_date",
+      "material",
+      "color"
+     ],
+     "rows": [
+      {
+       "sku": "AC-5003",
+       "product_name": "Canvas Tote Bag",
+       "brand": "Halden",
+       "category": "Accessories",
+       "collection": "Summer 2026",
+       "launch_date": "2026-04-01",
+       "material": "Organic Cotton Canvas",
+       "color": "Natural"
+      },
+      {
+       "sku": "HM-6003",
+       "product_name": "Wool Throw Blanket",
+       "brand": "Halden Home",
+       "category": "Home",
+       "collection": "Autumn 2026",
+       "launch_date": "2026-09-15",
+       "material": "Wool",
+       "color": "Forest"
+      }
+     ],
+     "total": 2
+    },
+    "right_only": {
+     "kind": "table",
+     "columns": [
+      "vendor_sku",
+      "vendor_name",
+      "vendor_price",
+      "currency"
+     ],
+     "rows": [
+      {
+       "vendor_sku": "XX-9001",
+       "vendor_name": "Casa Linen",
+       "vendor_price": 22.0,
+       "currency": "USD"
+      }
+     ],
+     "total": 1
+    },
+    "joined": {
+     "kind": "table",
+     "columns": [
+      "sku",
+      "product_name",
+      "brand",
+      "category",
+      "collection",
+      "launch_date",
+      "material",
+      "color"
+     ],
+     "rows": [
+      {
+       "sku": "AC-5001",
+       "product_name": "Leather Belt",
+       "brand": "Halden",
+       "category": "Accessories",
+       "collection": "Core",
+       "launch_date": "2025-01-10",
+       "material": "Full-grain Leather",
+       "color": "Brown"
+      },
+      {
+       "sku": "AC-5002",
+       "product_name": "Wool Beanie",
+       "brand": "Halden",
+       "category": "Accessories",
+       "collection": "Autumn 2026",
+       "launch_date": "2026-09-15",
+       "material": "Lambswool",
+       "color": "Rust"
+      },
+      {
+       "sku": "HM-6001",
+       "product_name": "Linen Duvet Cover",
+       "brand": "Halden Home",
+       "category": "Home",
+       "collection": "Core",
+       "launch_date": "2025-03-01",
+       "material": "Linen",
+       "color": "Clay"
+      },
+      {
+       "sku": "HM-6002",
+       "product_name": "Stoneware Mug Set",
+       "brand": "Halden Home",
+       "category": "Home",
+       "collection": "Core",
+       "launch_date": "2025-03-01",
+       "material": "Stoneware",
+       "color": "Speckled White"
+      },
+      {
+       "sku": "KN-2001",
+       "product_name": "Merino Crew Sweater",
+       "brand": "Halden",
+       "category": "Knitwear",
+       "collection": "Autumn 2026",
+       "launch_date": "2026-09-15",
+       "material": "Merino Wool",
+       "color": "Charcoal"
+      }
+     ],
+     "total": 13
+    }
+   }
+  },
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.6004305,
+  "step_id": "compare",
+  "title": "Compare internal and vendor prices",
+  "tool": "compute_column",
+  "kind": "tool",
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.6089773,
+  "step_id": "compare",
+  "title": "Compare internal and vendor prices",
+  "kind": "tool",
+  "tool": "compute_column",
+  "excel_steps": [
+   3
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 8,
+  "summary": "Computed price_diff for 13 rows",
+  "engine": null,
+  "output": "compared",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "sku",
+    "product_name",
+    "brand",
+    "category",
+    "collection",
+    "launch_date",
+    "material",
+    "color"
+   ],
+   "rows": [
+    {
+     "sku": "AC-5001",
+     "product_name": "Leather Belt",
+     "brand": "Halden",
+     "category": "Accessories",
+     "collection": "Core",
+     "launch_date": "2025-01-10",
+     "material": "Full-grain Leather",
+     "color": "Brown"
+    },
+    {
+     "sku": "AC-5002",
+     "product_name": "Wool Beanie",
+     "brand": "Halden",
+     "category": "Accessories",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Lambswool",
+     "color": "Rust"
+    },
+    {
+     "sku": "HM-6001",
+     "product_name": "Linen Duvet Cover",
+     "brand": "Halden Home",
+     "category": "Home",
+     "collection": "Core",
+     "launch_date": "2025-03-01",
+     "material": "Linen",
+     "color": "Clay"
+    },
+    {
+     "sku": "HM-6002",
+     "product_name": "Stoneware Mug Set",
+     "brand": "Halden Home",
+     "category": "Home",
+     "collection": "Core",
+     "launch_date": "2025-03-01",
+     "material": "Stoneware",
+     "color": "Speckled White"
+    },
+    {
+     "sku": "KN-2001",
+     "product_name": "Merino Crew Sweater",
+     "brand": "Halden",
+     "category": "Knitwear",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Merino Wool",
+     "color": "Charcoal"
+    }
+   ],
+   "total": 13
+  },
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.6153867,
+  "step_id": "percent",
+  "title": "Calculate percentage difference",
+  "tool": "compute_column",
+  "kind": "tool",
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.6292744,
+  "step_id": "percent",
+  "title": "Calculate percentage difference",
+  "kind": "tool",
+  "tool": "compute_column",
+  "excel_steps": [
+   4
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 14,
+  "summary": "Computed pct_diff, abs_pct for 13 rows",
+  "engine": null,
+  "output": "compared",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "sku",
+    "product_name",
+    "brand",
+    "category",
+    "collection",
+    "launch_date",
+    "material",
+    "color"
+   ],
+   "rows": [
+    {
+     "sku": "AC-5001",
+     "product_name": "Leather Belt",
+     "brand": "Halden",
+     "category": "Accessories",
+     "collection": "Core",
+     "launch_date": "2025-01-10",
+     "material": "Full-grain Leather",
+     "color": "Brown"
+    },
+    {
+     "sku": "AC-5002",
+     "product_name": "Wool Beanie",
+     "brand": "Halden",
+     "category": "Accessories",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Lambswool",
+     "color": "Rust"
+    },
+    {
+     "sku": "HM-6001",
+     "product_name": "Linen Duvet Cover",
+     "brand": "Halden Home",
+     "category": "Home",
+     "collection": "Core",
+     "launch_date": "2025-03-01",
+     "material": "Linen",
+     "color": "Clay"
+    },
+    {
+     "sku": "HM-6002",
+     "product_name": "Stoneware Mug Set",
+     "brand": "Halden Home",
+     "category": "Home",
+     "collection": "Core",
+     "launch_date": "2025-03-01",
+     "material": "Stoneware",
+     "color": "Speckled White"
+    },
+    {
+     "sku": "KN-2001",
+     "product_name": "Merino Crew Sweater",
+     "brand": "Halden",
+     "category": "Knitwear",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Merino Wool",
+     "color": "Charcoal"
+    }
+   ],
+   "total": 13
+  },
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.6369512,
+  "step_id": "flag",
+  "title": "Flag exceptions",
+  "tool": "flag_rows",
+  "kind": "tool",
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449382.6506424,
+  "step_id": "flag",
+  "message": "Rule `abs_pct > params.threshold_pct` is true for 5 row(s)",
+  "level": "info",
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.6588416,
+  "step_id": "flag",
+  "title": "Flag exceptions",
+  "kind": "tool",
+  "tool": "flag_rows",
+  "excel_steps": [
+   5
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 21,
+  "summary": "Flagged 5 of 13 rows",
+  "engine": null,
+  "output": "compared",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "sku",
+    "product_name",
+    "brand",
+    "category",
+    "collection",
+    "launch_date",
+    "material",
+    "color"
+   ],
+   "rows": [
+    {
+     "sku": "AC-5001",
+     "product_name": "Leather Belt",
+     "brand": "Halden",
+     "category": "Accessories",
+     "collection": "Core",
+     "launch_date": "2025-01-10",
+     "material": "Full-grain Leather",
+     "color": "Brown"
+    },
+    {
+     "sku": "AC-5002",
+     "product_name": "Wool Beanie",
+     "brand": "Halden",
+     "category": "Accessories",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Lambswool",
+     "color": "Rust"
+    },
+    {
+     "sku": "HM-6001",
+     "product_name": "Linen Duvet Cover",
+     "brand": "Halden Home",
+     "category": "Home",
+     "collection": "Core",
+     "launch_date": "2025-03-01",
+     "material": "Linen",
+     "color": "Clay"
+    },
+    {
+     "sku": "HM-6002",
+     "product_name": "Stoneware Mug Set",
+     "brand": "Halden Home",
+     "category": "Home",
+     "collection": "Core",
+     "launch_date": "2025-03-01",
+     "material": "Stoneware",
+     "color": "Speckled White"
+    },
+    {
+     "sku": "KN-2001",
+     "product_name": "Merino Crew Sweater",
+     "brand": "Halden",
+     "category": "Knitwear",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Merino Wool",
+     "color": "Charcoal"
+    }
+   ],
+   "total": 13
+  },
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.6639066,
+  "step_id": "exceptions",
+  "title": "Collect exceptions",
+  "tool": "filter_rows",
+  "kind": "tool",
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.6713464,
+  "step_id": "exceptions",
+  "title": "Collect exceptions",
+  "kind": "tool",
+  "tool": "filter_rows",
+  "excel_steps": [
+   5
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 10,
+  "summary": "5 of 13 rows match `exception`",
+  "engine": null,
+  "output": "exceptions",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "sku",
+    "product_name",
+    "brand",
+    "category",
+    "collection",
+    "launch_date",
+    "material",
+    "color"
+   ],
+   "rows": [
+    {
+     "sku": "HM-6002",
+     "product_name": "Stoneware Mug Set",
+     "brand": "Halden Home",
+     "category": "Home",
+     "collection": "Core",
+     "launch_date": "2025-03-01",
+     "material": "Stoneware",
+     "color": "Speckled White"
+    },
+    {
+     "sku": "KN-2001",
+     "product_name": "Merino Crew Sweater",
+     "brand": "Halden",
+     "category": "Knitwear",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Merino Wool",
+     "color": "Charcoal"
+    },
+    {
+     "sku": "OW-3001",
+     "product_name": "Waxed Field Jacket",
+     "brand": "Halden",
+     "category": "Outerwear",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Waxed Cotton",
+     "color": "Olive"
+    },
+    {
+     "sku": "TR-4002",
+     "product_name": "Pleated Wool Trousers",
+     "brand": "Halden",
+     "category": "Trousers",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Wool",
+     "color": "Navy"
+    },
+    {
+     "sku": "TS-1003",
+     "product_name": "Linen Overshirt",
+     "brand": "Halden",
+     "category": "Shirts",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Linen",
+     "color": "Sage Green"
+    }
+   ],
+   "total": 5
+  },
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.680022,
+  "step_id": "rank",
+  "title": "Rank exceptions by size",
+  "tool": "sort_rows",
+  "kind": "tool",
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.6861422,
+  "step_id": "rank",
+  "title": "Rank exceptions by size",
+  "kind": "tool",
+  "tool": "sort_rows",
+  "excel_steps": [
+   5
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 5,
+  "summary": "Sorted by abs_pct (desc)",
+  "engine": null,
+  "output": "exceptions",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "sku",
+    "product_name",
+    "brand",
+    "category",
+    "collection",
+    "launch_date",
+    "material",
+    "color"
+   ],
+   "rows": [
+    {
+     "sku": "OW-3001",
+     "product_name": "Waxed Field Jacket",
+     "brand": "Halden",
+     "category": "Outerwear",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Waxed Cotton",
+     "color": "Olive"
+    },
+    {
+     "sku": "KN-2001",
+     "product_name": "Merino Crew Sweater",
+     "brand": "Halden",
+     "category": "Knitwear",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Merino Wool",
+     "color": "Charcoal"
+    },
+    {
+     "sku": "HM-6002",
+     "product_name": "Stoneware Mug Set",
+     "brand": "Halden Home",
+     "category": "Home",
+     "collection": "Core",
+     "launch_date": "2025-03-01",
+     "material": "Stoneware",
+     "color": "Speckled White"
+    },
+    {
+     "sku": "TR-4002",
+     "product_name": "Pleated Wool Trousers",
+     "brand": "Halden",
+     "category": "Trousers",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Wool",
+     "color": "Navy"
+    },
+    {
+     "sku": "TS-1003",
+     "product_name": "Linen Overshirt",
+     "brand": "Halden",
+     "category": "Shirts",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Linen",
+     "color": "Sage Green"
+    }
+   ],
+   "total": 5
+  },
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449382.6918335,
+  "step_id": "export",
+  "title": "Export validation report",
+  "tool": "export_table",
+  "kind": "tool",
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449382.6924179,
+  "step_id": "export",
+  "title": "Export validation report",
+  "kind": "tool",
+  "tool": "export_table",
+  "excel_steps": [
+   5
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 3,
+  "summary": "Exported 13 rows to price_validation_report.csv",
+  "engine": null,
+  "output": "report_file",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "url": {
+     "kind": "text",
+     "text": "/api/files/b8c177a585bc/price_validation_report.csv"
+    },
+    "filename": {
+     "kind": "text",
+     "text": "price_validation_report.csv"
+    },
+    "rows": {
+     "kind": "text",
+     "text": 13
+    },
+    "path": {
+     "kind": "text",
+     "text": "C:\\Users\\david\\AppData\\Local\\Temp\\tmpceetzcxn\\runs\\exports\\b8c177a585bc\\price_validation_report.csv"
+    }
+   }
+  },
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "result",
+  "ts": 1791449382.7369194,
+  "status": "completed",
+  "title": "5 price exceptions above 10%",
+  "subtitle": "13 of 15 products matched to the vendor list by SKU",
+  "sections": [
+   {
+    "type": "kpis",
+    "title": null,
+    "items": [
+     {
+      "label": "Products",
+      "value": "15",
+      "tone": null,
+      "hint": null
+     },
+     {
+      "label": "Matched by SKU",
+      "value": "13",
+      "tone": null,
+      "hint": null
+     },
+     {
+      "label": "Exceptions (> 10%)",
+      "value": "5",
+      "tone": "danger",
+      "hint": null
+     },
+     {
+      "label": "Unmatched",
+      "value": "3",
+      "tone": "warn",
+      "hint": null
+     }
+    ]
+   },
+   {
+    "type": "table",
+    "title": "Exceptions",
+    "columns": [
+     {
+      "key": "sku",
+      "label": "SKU",
+      "format": null
+     },
+     {
+      "key": "product_name",
+      "label": "Product",
+      "format": null
+     },
+     {
+      "key": "vendor_name",
+      "label": "Vendor",
+      "format": null
+     },
+     {
+      "key": "internal_price",
+      "label": "Internal",
+      "format": null
+     },
+     {
+      "key": "vendor_price",
+      "label": "Vendor price",
+      "format": null
+     },
+     {
+      "key": "pct_diff",
+      "label": "Difference %",
+      "format": null
+     },
+     {
+      "key": "exception_reason",
+      "label": "Reason",
+      "format": null
+     }
+    ],
+    "rows": [
+     {
+      "sku": "OW-3001",
+      "product_name": "Waxed Field Jacket",
+      "vendor_name": "Fieldcraft Supply",
+      "internal_price": 249.0,
+      "vendor_price": 311.25,
+      "pct_diff": 25.0,
+      "exception_reason": "Vendor higher by 25%"
+     },
+     {
+      "sku": "KN-2001",
+      "product_name": "Merino Crew Sweater",
+      "vendor_name": "Highland Knits",
+      "internal_price": 119.0,
+      "vendor_price": 101.15,
+      "pct_diff": -15.0,
+      "exception_reason": "Vendor lower by 15%"
+     },
+     {
+      "sku": "HM-6002",
+      "product_name": "Stoneware Mug Set",
+      "vendor_name": "Casa Linen",
+      "internal_price": 45.0,
+      "vendor_price": 39.0,
+      "pct_diff": -13.33,
+      "exception_reason": "Vendor lower by 13.33%"
+     },
+     {
+      "sku": "TR-4002",
+      "product_name": "Pleated Wool Trousers",
+      "vendor_name": "Highland Knits",
+      "internal_price": 149.0,
+      "vendor_price": 133.0,
+      "pct_diff": -10.74,
+      "exception_reason": "Vendor lower by 10.74%"
+     },
+     {
+      "sku": "TS-1003",
+      "product_name": "Linen Overshirt",
+      "vendor_name": "Northshore Textiles",
+      "internal_price": 89.0,
+      "vendor_price": 98.5,
+      "pct_diff": 10.67,
+      "exception_reason": "Vendor higher by 10.67%"
+     }
+    ],
+    "total": 5,
+    "tones": [
+     "danger",
+     "warn",
+     "warn",
+     "warn",
+     "warn"
+    ],
+    "empty": "No price differs by more than 10%."
+   },
+   {
+    "type": "table",
+    "title": "All matched products",
+    "columns": [
+     {
+      "key": "sku",
+      "label": "SKU",
+      "format": null
+     },
+     {
+      "key": "vendor_sku",
+      "label": "Vendor SKU",
+      "format": null
+     },
+     {
+      "key": "product_name",
+      "label": "Product",
+      "format": null
+     },
+     {
+      "key": "internal_price",
+      "label": "Internal",
+      "format": null
+     },
+     {
+      "key": "vendor_price",
+      "label": "Vendor price",
+      "format": null
+     },
+     {
+      "key": "price_diff",
+      "label": "Difference",
+      "format": null
+     },
+     {
+      "key": "pct_diff",
+      "label": "Difference %",
+      "format": null
+     },
+     {
+      "key": "exception",
+      "label": "Flagged",
+      "format": null
+     }
+    ],
+    "rows": [
+     {
+      "sku": "AC-5001",
+      "vendor_sku": "AC-5001",
+      "product_name": "Leather Belt",
+      "internal_price": 49.0,
+      "vendor_price": 52.0,
+      "price_diff": 3.0,
+      "pct_diff": 6.12,
+      "exception": false
+     },
+     {
+      "sku": "AC-5002",
+      "vendor_sku": "AC-5002",
+      "product_name": "Wool Beanie",
+      "internal_price": 35.0,
+      "vendor_price": 31.5,
+      "price_diff": -3.5,
+      "pct_diff": -10.0,
+      "exception": false
+     },
+     {
+      "sku": "HM-6001",
+      "vendor_sku": "HM-6001",
+      "product_name": "Linen Duvet Cover",
+      "internal_price": 189.0,
+      "vendor_price": 204.0,
+      "price_diff": 15.0,
+      "pct_diff": 7.94,
+      "exception": false
+     },
+     {
+      "sku": "HM-6002",
+      "vendor_sku": "HM-6002",
+      "product_name": "Stoneware Mug Set",
+      "internal_price": 45.0,
+      "vendor_price": 39.0,
+      "price_diff": -6.0,
+      "pct_diff": -13.33,
+      "exception": true
+     },
+     {
+      "sku": "KN-2001",
+      "vendor_sku": "KN2001",
+      "product_name": "Merino Crew Sweater",
+      "internal_price": 119.0,
+      "vendor_price": 101.15,
+      "price_diff": -17.85,
+      "pct_diff": -15.0,
+      "exception": true
+     },
+     {
+      "sku": "KN-2002",
+      "vendor_sku": "KN-2002",
+      "product_name": "Cable Knit Cardigan",
+      "internal_price": 139.0,
+      "vendor_price": 141.0,
+      "price_diff": 2.0,
+      "pct_diff": 1.44,
+      "exception": false
+     },
+     {
+      "sku": "OW-3001",
+      "vendor_sku": "ow 3001",
+      "product_name": "Waxed Field Jacket",
+      "internal_price": 249.0,
+      "vendor_price": 311.25,
+      "price_diff": 62.25,
+      "pct_diff": 25.0,
+      "exception": true
+     },
+     {
+      "sku": "OW-3002",
+      "vendor_sku": "OW-3002",
+      "product_name": "Quilted Liner Vest",
+      "internal_price": 129.0,
+      "vendor_price": 125.0,
+      "price_diff": -4.0,
+      "pct_diff": -3.1,
+      "exception": false
+     },
+     {
+      "sku": "TR-4001",
+      "vendor_sku": "TR-4001",
+      "product_name": "Relaxed Chino Trousers",
+      "internal_price": 79.0,
+      "vendor_price": 79.0,
+      "price_diff": 0.0,
+      "pct_diff": 0.0,
+      "exception": false
+     },
+     {
+      "sku": "TR-4002",
+      "vendor_sku": "TR-4002",
+      "product_name": "Pleated Wool Trousers",
+      "internal_price": 149.0,
+      "vendor_price": 133.0,
+      "price_diff": -16.0,
+      "pct_diff": -10.74,
+      "exception": true
+     },
+     {
+      "sku": "TS-1001",
+      "vendor_sku": "ts1001",
+      "product_name": "Classic Linen Shirt",
+      "internal_price": 59.0,
+      "vendor_price": 61.95,
+      "price_diff": 2.95,
+      "pct_diff": 5.0,
+      "exception": false
+     },
+     {
+      "sku": "TS-1002",
+      "vendor_sku": "TS-1002",
+      "product_name": "Oxford Button-Down Shirt",
+      "internal_price": 64.0,
+      "vendor_price": 70.4,
+      "price_diff": 6.4,
+      "pct_diff": 10.0,
+      "exception": false
+     },
+     {
+      "sku": "TS-1003",
+      "vendor_sku": "ts-1003",
+      "product_name": "Linen Overshirt",
+      "internal_price": 89.0,
+      "vendor_price": 98.5,
+      "price_diff": 9.5,
+      "pct_diff": 10.67,
+      "exception": true
+     }
+    ],
+    "total": 13,
+    "tones": [
+     null,
+     "info",
+     null,
+     "danger",
+     "danger",
+     null,
+     "danger",
+     null,
+     null,
+     "danger",
+     null,
+     "info",
+     "danger"
+    ],
+    "empty": "No rows"
+   },
+   {
+    "type": "alert",
+    "title": null,
+    "text": "2 products differ by exactly 10% (AC-5002, TS-1002). The rule flags differences that exceed the threshold, so these are not exceptions.",
+    "tone": "info"
+   },
+   {
+    "type": "table",
+    "title": "In our catalog but missing from the vendor list",
+    "columns": [
+     {
+      "key": "sku",
+      "label": "SKU",
+      "format": null
+     },
+     {
+      "key": "product_name",
+      "label": "Product",
+      "format": null
+     },
+     {
+      "key": "internal_price",
+      "label": "Internal price",
+      "format": null
+     }
+    ],
+    "rows": [
+     {
+      "sku": "AC-5003",
+      "product_name": "Canvas Tote Bag",
+      "internal_price": 39.0
+     },
+     {
+      "sku": "HM-6003",
+      "product_name": "Wool Throw Blanket",
+      "internal_price": 129.0
+     }
+    ],
+    "total": 2,
+    "tones": null,
+    "empty": "No rows"
+   },
+   {
+    "type": "table",
+    "title": "On the vendor list but not in our catalog",
+    "columns": [
+     {
+      "key": "vendor_sku",
+      "label": "Vendor SKU",
+      "format": null
+     },
+     {
+      "key": "vendor_name",
+      "label": "Vendor",
+      "format": null
+     },
+     {
+      "key": "vendor_price",
+      "label": "Vendor price",
+      "format": null
+     }
+    ],
+    "rows": [
+     {
+      "vendor_sku": "XX-9001",
+      "vendor_name": "Casa Linen",
+      "vendor_price": 22.0
+     }
+    ],
+    "total": 1,
+    "tones": null,
+    "empty": "No rows"
+   },
+   {
+    "type": "download",
+    "title": null,
+    "files": [
+     {
+      "label": "Validation report (CSV)",
+      "url": "/api/files/b8c177a585bc/price_validation_report.csv",
+      "filename": "price_validation_report.csv",
+      "rows": 13
+     }
+    ]
+   }
+  ],
+  "run_id": "b8c177a585bc"
+ },
+ {
+  "type": "run_finished",
+  "ts": 1791449382.7369194,
+  "status": "completed",
+  "active_ms": 113,
+  "workflow_id": "WF002",
+  "run_id": "b8c177a585bc"
+ }
+]

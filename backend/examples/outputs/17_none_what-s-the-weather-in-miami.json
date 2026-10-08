@@ -1,0 +1,55 @@
+[
+ {
+  "type": "run_started",
+  "run_id": "b923b5819dc4",
+  "ts": 1791449385.3535619,
+  "request": "What's the weather in Miami?",
+  "llm": "Offline (deterministic fallback)",
+  "llm_enabled": false
+ },
+ {
+  "type": "stage",
+  "ts": 1791449385.3582435,
+  "stage": "routing",
+  "status": "started",
+  "message": "Reading 10 workflows from AI_Agent_Workflow_Assessment_1.xlsx",
+  "run_id": "b923b5819dc4"
+ },
+ {
+  "type": "route",
+  "ts": 1791449385.3624308,
+  "workflow_id": null,
+  "workflow_name": null,
+  "confidence": 0.0,
+  "reasoning": "None of the configured workflows matches this request.",
+  "method": "lexical",
+  "alternatives": [],
+  "note": null,
+  "threshold": 0.55,
+  "status": "no_match",
+  "duration_ms": 3,
+  "run_id": "b923b5819dc4"
+ },
+ {
+  "type": "result",
+  "ts": 1791449385.3662868,
+  "status": "no_match",
+  "title": "No matching workflow",
+  "sections": [
+   {
+    "type": "alert",
+    "tone": "info",
+    "text": "This request doesn't match any configured workflow. Try rephrasing it, or pick one of: Inventory Restock Check, Product Price Validation, Vendor File Processing, Product Description Generator, Customer Order Status, Duplicate Product Detection, Marketing Campaign Brief, SEO Keyword Classification, Employee Task Assignment, Workflow Performance Report."
+   }
+  ],
+  "run_id": "b923b5819dc4"
+ },
+ {
+  "type": "run_finished",
+  "ts": 1791449385.3662868,
+  "status": "no_match",
+  "active_ms": 3,
+  "workflow_id": null,
+  "run_id": "b923b5819dc4"
+ }
+]

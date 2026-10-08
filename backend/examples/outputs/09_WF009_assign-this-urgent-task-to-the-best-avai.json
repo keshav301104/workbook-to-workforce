@@ -1,0 +1,1527 @@
+[
+ {
+  "type": "run_started",
+  "run_id": "b271c165c55c",
+  "ts": 1791449383.7043724,
+  "request": "Assign this urgent task to the best available developer.",
+  "llm": "Offline (deterministic fallback)",
+  "llm_enabled": false
+ },
+ {
+  "type": "stage",
+  "ts": 1791449383.7104075,
+  "stage": "routing",
+  "status": "started",
+  "message": "Reading 10 workflows from AI_Agent_Workflow_Assessment_1.xlsx",
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "route",
+  "ts": 1791449383.7104075,
+  "workflow_id": "WF009",
+  "workflow_name": "Employee Task Assignment",
+  "confidence": 0.97,
+  "reasoning": "Matched on: assign, available, best, developer, task, urgent.",
+  "method": "lexical",
+  "alternatives": [
+   {
+    "id": "WF005",
+    "score": 0.05,
+    "name": "Customer Order Status"
+   },
+   {
+    "id": "WF006",
+    "score": 0.03,
+    "name": "Duplicate Product Detection"
+   }
+  ],
+  "note": null,
+  "threshold": 0.55,
+  "status": "routed",
+  "duration_ms": 3,
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "stage",
+  "ts": 1791449383.715737,
+  "stage": "extracting",
+  "status": "started",
+  "message": "Reading inputs from your request",
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "inputs",
+  "ts": 1791449383.7203183,
+  "inputs": [
+   {
+    "name": "task_description",
+    "label": "Task description",
+    "value": null,
+    "type": "text",
+    "required": true
+   },
+   {
+    "name": "priority",
+    "label": "Priority",
+    "value": "Urgent",
+    "type": "choice",
+    "required": false
+   },
+   {
+    "name": "role",
+    "label": "Role",
+    "value": "Developer",
+    "type": "choice",
+    "required": false
+   },
+   {
+    "name": "required_skills",
+    "label": "Required skills",
+    "value": null,
+    "type": "list",
+    "required": false
+   },
+   {
+    "name": "estimated_hours",
+    "label": "Estimated hours",
+    "value": null,
+    "type": "number",
+    "required": false
+   },
+   {
+    "name": "deadline",
+    "label": "Deadline",
+    "value": null,
+    "type": "date",
+    "required": false
+   }
+  ],
+  "sources": {
+   "priority": "request",
+   "role": "request"
+  },
+  "method": "patterns",
+  "note": null,
+  "duration_ms": 3,
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "params",
+  "ts": 1791449383.7203183,
+  "params": [
+   {
+    "name": "min_skill_match",
+    "value": 0.5,
+    "source": "plan default",
+    "description": "Share of required skills a candidate must have to be eligible"
+   },
+   {
+    "name": "min_free_hours",
+    "value": {
+     "Urgent": 8,
+     "High": 6,
+     "Medium": 4,
+     "Low": 2
+    },
+    "source": "plan default",
+    "description": "Free hours this week a candidate needs when the task has no estimate, by priority"
+   }
+  ],
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "input_check",
+  "ts": 1791449383.7254443,
+  "ok": false,
+  "missing": [
+   "task_description"
+  ],
+  "inputs": [
+   {
+    "name": "task_description",
+    "label": "Task description",
+    "value": null,
+    "type": "text",
+    "required": true
+   },
+   {
+    "name": "priority",
+    "label": "Priority",
+    "value": "Urgent",
+    "type": "choice",
+    "required": false
+   },
+   {
+    "name": "role",
+    "label": "Role",
+    "value": "Developer",
+    "type": "choice",
+    "required": false
+   },
+   {
+    "name": "required_skills",
+    "label": "Required skills",
+    "value": null,
+    "type": "list",
+    "required": false
+   },
+   {
+    "name": "estimated_hours",
+    "label": "Estimated hours",
+    "value": null,
+    "type": "number",
+    "required": false
+   },
+   {
+    "name": "deadline",
+    "label": "Deadline",
+    "value": null,
+    "type": "date",
+    "required": false
+   }
+  ],
+  "sources": {
+   "priority": "request",
+   "role": "request"
+  },
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "ask",
+  "run_id": "b271c165c55c",
+  "ts": 1791449383.7302358,
+  "kind": "inputs",
+  "message": "Describe the task: what needs to be built or fixed? Mention the technologies involved, and an estimate or deadline if you have one.",
+  "fields": [
+   {
+    "name": "task_description",
+    "label": "Task description",
+    "type": "text",
+    "description": "What needs to be done (mention technologies, estimated hours and deadline if known)",
+    "required": true,
+    "choices": [],
+    "sample": null,
+    "accept": [],
+    "multiline": true,
+    "placeholder": "What needs to be done (mention technologies, estimated hours and deadline if known)"
+   }
+  ],
+  "workflow_id": "WF009"
+ },
+ {
+  "type": "resumed",
+  "run_id": "b271c165c55c",
+  "ts": 1791449383.7302358
+ },
+ {
+  "type": "inputs",
+  "ts": 1791449383.7367833,
+  "inputs": [
+   {
+    "name": "task_description",
+    "label": "Task description",
+    "value": "Fix the checkout payment bug in our React frontend (Stripe), about 6 hours",
+    "type": "text",
+    "required": true
+   },
+   {
+    "name": "priority",
+    "label": "Priority",
+    "value": "Urgent",
+    "type": "choice",
+    "required": false
+   },
+   {
+    "name": "role",
+    "label": "Role",
+    "value": "Developer",
+    "type": "choice",
+    "required": false
+   },
+   {
+    "name": "required_skills",
+    "label": "Required skills",
+    "value": null,
+    "type": "list",
+    "required": false
+   },
+   {
+    "name": "estimated_hours",
+    "label": "Estimated hours",
+    "value": 6.0,
+    "type": "number",
+    "required": false
+   },
+   {
+    "name": "deadline",
+    "label": "Deadline",
+    "value": null,
+    "type": "date",
+    "required": false
+   }
+  ],
+  "sources": {
+   "priority": "request",
+   "role": "request",
+   "task_description": "you",
+   "estimated_hours": "you"
+  },
+  "method": "user",
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "input_check",
+  "ts": 1791449383.7367833,
+  "ok": true,
+  "missing": [],
+  "inputs": [
+   {
+    "name": "task_description",
+    "label": "Task description",
+    "value": "Fix the checkout payment bug in our React frontend (Stripe), about 6 hours",
+    "type": "text",
+    "required": true
+   },
+   {
+    "name": "priority",
+    "label": "Priority",
+    "value": "Urgent",
+    "type": "choice",
+    "required": false
+   },
+   {
+    "name": "role",
+    "label": "Role",
+    "value": "Developer",
+    "type": "choice",
+    "required": false
+   },
+   {
+    "name": "required_skills",
+    "label": "Required skills",
+    "value": null,
+    "type": "list",
+    "required": false
+   },
+   {
+    "name": "estimated_hours",
+    "label": "Estimated hours",
+    "value": 6.0,
+    "type": "number",
+    "required": false
+   },
+   {
+    "name": "deadline",
+    "label": "Deadline",
+    "value": null,
+    "type": "date",
+    "required": false
+   }
+  ],
+  "sources": {
+   "priority": "request",
+   "role": "request",
+   "task_description": "you",
+   "estimated_hours": "you"
+  },
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "plan",
+  "ts": 1791449383.7367833,
+  "workflow_id": "WF009",
+  "workflow_name": "Employee Task Assignment",
+  "steps": [
+   {
+    "id": "directory",
+    "title": "Load employee directory",
+    "kind": "tool",
+    "tool": "load_table",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Understand task requirements"
+    ],
+    "note": null
+   },
+   {
+    "id": "requirements",
+    "title": "Understand task requirements",
+    "kind": "tool",
+    "tool": "llm_extract",
+    "category": "language",
+    "llm": true,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Understand task requirements"
+    ],
+    "note": "Skills are constrained to the vocabulary that actually exists in the employee directory."
+   },
+   {
+    "id": "needs",
+    "title": "Settle required skills",
+    "kind": "tool",
+    "tool": "merge_record",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Understand task requirements"
+    ],
+    "note": "Skills you list explicitly win over skills inferred from the description."
+   },
+   {
+    "id": "skills_known",
+    "title": "Required skills identified?",
+    "kind": "decision",
+    "tool": null,
+    "category": "decision",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Understand task requirements"
+    ],
+    "note": null
+   },
+   {
+    "id": "skills",
+    "title": "Compare employee skills",
+    "kind": "tool",
+    "tool": "compute_column",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     2
+    ],
+    "excel_text": [
+     "compare employee skills"
+    ],
+    "note": null
+   },
+   {
+    "id": "workload",
+    "title": "Check current workload",
+    "kind": "tool",
+    "tool": "compute_column",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     3
+    ],
+    "excel_text": [
+     "check current workload"
+    ],
+    "note": "Needed hours = the task estimate if given, otherwise the minimum free hours for the priority. With a deadline, only the free hours available before it count (free hours \u00d7 working days left / 5)."
+   },
+   {
+    "id": "rank",
+    "title": "Rank candidates",
+    "kind": "tool",
+    "tool": "compute_column",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     4
+    ],
+    "excel_text": [
+     "rank candidates"
+    ],
+    "note": "Score = 65% skill match + 35% capacity headroom. Eligible = right role, has capacity, \u2265 min skill match."
+   },
+   {
+    "id": "order",
+    "title": "Order by eligibility and score",
+    "kind": "tool",
+    "tool": "sort_rows",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     4
+    ],
+    "excel_text": [
+     "rank candidates"
+    ],
+    "note": null
+   },
+   {
+    "id": "select",
+    "title": "Select employee",
+    "kind": "tool",
+    "tool": "select_best",
+    "category": "decision",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     5
+    ],
+    "excel_text": [
+     "select employee"
+    ],
+    "note": null
+   },
+   {
+    "id": "suitable",
+    "title": "Suitable employee available?",
+    "kind": "decision",
+    "tool": null,
+    "category": "decision",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     5
+    ],
+    "excel_text": [
+     "select employee"
+    ],
+    "note": "Excel rule: prefer employees with required skills and available capacity; escalate if no suitable employee exists."
+   },
+   {
+    "id": "summary",
+    "title": "Generate assignment summary",
+    "kind": "tool",
+    "tool": "llm_generate",
+    "category": "language",
+    "llm": true,
+    "api": null,
+    "excel_steps": [
+     6
+    ],
+    "excel_text": [
+     "generate assignment summary"
+    ],
+    "note": null
+   }
+  ],
+  "excel_steps": [
+   "Understand task requirements",
+   "compare employee skills",
+   "check current workload",
+   "rank candidates",
+   "select employee",
+   "generate assignment summary"
+  ],
+  "decision_logic": "Prefer employees with required skills and available capacity; escalate if no suitable employee exists",
+  "plan_file": "WF009.yaml",
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "stage",
+  "ts": 1791449383.7367833,
+  "stage": "executing",
+  "status": "started",
+  "message": "Running 11 steps",
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.7488234,
+  "step_id": "directory",
+  "title": "Load employee directory",
+  "tool": "load_table",
+  "kind": "tool",
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.7537985,
+  "step_id": "directory",
+  "title": "Load employee directory",
+  "kind": "tool",
+  "tool": "load_table",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 9,
+  "summary": "Loaded 10 rows \u00d7 8 columns from employees.csv",
+  "engine": null,
+  "output": "employees",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "employee_id",
+    "name",
+    "role",
+    "skills",
+    "current_workload_hours",
+    "weekly_capacity_hours",
+    "status",
+    "seniority"
+   ],
+   "rows": [
+    {
+     "employee_id": "E-101",
+     "name": "Arjun Mehta",
+     "role": "Developer",
+     "skills": "python;fastapi;postgresql;docker",
+     "current_workload_hours": 28,
+     "weekly_capacity_hours": 40,
+     "status": "available",
+     "seniority": "Senior"
+    },
+    {
+     "employee_id": "E-102",
+     "name": "Priya Nair",
+     "role": "Developer",
+     "skills": "react;typescript;css;stripe",
+     "current_workload_hours": 36,
+     "weekly_capacity_hours": 40,
+     "status": "available",
+     "seniority": "Mid"
+    },
+    {
+     "employee_id": "E-103",
+     "name": "Daniel Ortiz",
+     "role": "Developer",
+     "skills": "react;typescript;node.js;stripe;graphql",
+     "current_workload_hours": 18,
+     "weekly_capacity_hours": 40,
+     "status": "available",
+     "seniority": "Senior"
+    },
+    {
+     "employee_id": "E-104",
+     "name": "Hannah Weiss",
+     "role": "Developer",
+     "skills": "react;typescript;stripe;css",
+     "current_workload_hours": 10,
+     "weekly_capacity_hours": 40,
+     "status": "on_leave",
+     "seniority": "Senior"
+    },
+    {
+     "employee_id": "E-105",
+     "name": "Kenji Sato",
+     "role": "Developer",
+     "skills": "python;machine learning;langgraph;aws",
+     "current_workload_hours": 22,
+     "weekly_capacity_hours": 40,
+     "status": "available",
+     "seniority": "Senior"
+    }
+   ],
+   "total": 10
+  },
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.762507,
+  "step_id": "requirements",
+  "title": "Understand task requirements",
+  "tool": "llm_extract",
+  "kind": "tool",
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449383.762507,
+  "step_id": "requirements",
+  "message": "Offline mode: using the deterministic template for this step",
+  "level": "info",
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.7665966,
+  "step_id": "requirements",
+  "title": "Understand task requirements",
+  "kind": "tool",
+  "tool": "llm_extract",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 5,
+  "summary": "Extracted: required_skills=['react', 'stripe']; unlisted_skills=[]",
+  "engine": "rules",
+  "output": "reqs",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "required_skills": {
+     "kind": "list",
+     "items": [
+      "react",
+      "stripe"
+     ],
+     "total": 2
+    },
+    "unlisted_skills": {
+     "kind": "list",
+     "items": [],
+     "total": 0
+    }
+   }
+  },
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.7684696,
+  "step_id": "needs",
+  "title": "Settle required skills",
+  "tool": "merge_record",
+  "kind": "tool",
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.7684696,
+  "step_id": "needs",
+  "title": "Settle required skills",
+  "kind": "tool",
+  "tool": "merge_record",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "Record has 1 populated field(s)",
+  "engine": null,
+  "output": "need",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "skills": {
+     "kind": "list",
+     "items": [
+      "react",
+      "stripe"
+     ],
+     "total": 2
+    }
+   }
+  },
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.7684696,
+  "step_id": "skills_known",
+  "title": "Required skills identified?",
+  "tool": null,
+  "kind": "decision",
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "decision",
+  "ts": 1791449383.7684696,
+  "step_id": "skills_known",
+  "expression": "len(need.skills) == 0",
+  "result": false,
+  "action": "continue",
+  "message": null,
+  "note": null,
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.7684696,
+  "step_id": "skills_known",
+  "title": "Required skills identified?",
+  "kind": "decision",
+  "tool": null,
+  "excel_steps": [
+   1
+  ],
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "`len(need.skills) == 0` \u2192 false \u2192 continue",
+  "result": false,
+  "action": "continue",
+  "message": null,
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.7772486,
+  "step_id": "skills",
+  "title": "Compare employee skills",
+  "tool": "compute_column",
+  "kind": "tool",
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.786729,
+  "step_id": "skills",
+  "title": "Compare employee skills",
+  "kind": "tool",
+  "tool": "compute_column",
+  "excel_steps": [
+   2
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 13,
+  "summary": "Computed skill_match, matched_skills, missing_skills, role_match for 10 rows",
+  "engine": null,
+  "output": "candidates",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "employee_id",
+    "name",
+    "role",
+    "skills",
+    "current_workload_hours",
+    "weekly_capacity_hours",
+    "status",
+    "seniority"
+   ],
+   "rows": [
+    {
+     "employee_id": "E-101",
+     "name": "Arjun Mehta",
+     "role": "Developer",
+     "skills": "python;fastapi;postgresql;docker",
+     "current_workload_hours": 28,
+     "weekly_capacity_hours": 40,
+     "status": "available",
+     "seniority": "Senior"
+    },
+    {
+     "employee_id": "E-102",
+     "name": "Priya Nair",
+     "role": "Developer",
+     "skills": "react;typescript;css;stripe",
+     "current_workload_hours": 36,
+     "weekly_capacity_hours": 40,
+     "status": "available",
+     "seniority": "Mid"
+    },
+    {
+     "employee_id": "E-103",
+     "name": "Daniel Ortiz",
+     "role": "Developer",
+     "skills": "react;typescript;node.js;stripe;graphql",
+     "current_workload_hours": 18,
+     "weekly_capacity_hours": 40,
+     "status": "available",
+     "seniority": "Senior"
+    },
+    {
+     "employee_id": "E-104",
+     "name": "Hannah Weiss",
+     "role": "Developer",
+     "skills": "react;typescript;stripe;css",
+     "current_workload_hours": 10,
+     "weekly_capacity_hours": 40,
+     "status": "on_leave",
+     "seniority": "Senior"
+    },
+    {
+     "employee_id": "E-105",
+     "name": "Kenji Sato",
+     "role": "Developer",
+     "skills": "python;machine learning;langgraph;aws",
+     "current_workload_hours": 22,
+     "weekly_capacity_hours": 40,
+     "status": "available",
+     "seniority": "Senior"
+    }
+   ],
+   "total": 10
+  },
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.7943482,
+  "step_id": "workload",
+  "title": "Check current workload",
+  "tool": "compute_column",
+  "kind": "tool",
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.8126402,
+  "step_id": "workload",
+  "title": "Check current workload",
+  "kind": "tool",
+  "tool": "compute_column",
+  "excel_steps": [
+   3
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 16,
+  "summary": "Computed free_hours, needed_hours, days_left, usable_hours, has_capacity for 10 rows",
+  "engine": null,
+  "output": "candidates",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "employee_id",
+    "name",
+    "role",
+    "skills",
+    "current_workload_hours",
+    "weekly_capacity_hours",
+    "status",
+    "seniority"
+   ],
+   "rows": [
+    {
+     "employee_id": "E-101",
+     "name": "Arjun Mehta",
+     "role": "Developer",
+     "skills": "python;fastapi;postgresql;docker",
+     "current_workload_hours": 28,
+     "weekly_capacity_hours": 40,
+     "status": "available",
+     "seniority": "Senior"
+    },
+    {
+     "employee_id": "E-102",
+     "name": "Priya Nair",
+     "role": "Developer",
+     "skills": "react;typescript;css;stripe",
+     "current_workload_hours": 36,
+     "weekly_capacity_hours": 40,
+     "status": "available",
+     "seniority": "Mid"
+    },
+    {
+     "employee_id": "E-103",
+     "name": "Daniel Ortiz",
+     "role": "Developer",
+     "skills": "react;typescript;node.js;stripe;graphql",
+     "current_workload_hours": 18,
+     "weekly_capacity_hours": 40,
+     "status": "available",
+     "seniority": "Senior"
+    },
+    {
+     "employee_id": "E-104",
+     "name": "Hannah Weiss",
+     "role": "Developer",
+     "skills": "react;typescript;stripe;css",
+     "current_workload_hours": 10,
+     "weekly_capacity_hours": 40,
+     "status": "on_leave",
+     "seniority": "Senior"
+    },
+    {
+     "employee_id": "E-105",
+     "name": "Kenji Sato",
+     "role": "Developer",
+     "skills": "python;machine learning;langgraph;aws",
+     "current_workload_hours": 22,
+     "weekly_capacity_hours": 40,
+     "status": "available",
+     "seniority": "Senior"
+    }
+   ],
+   "total": 10
+  },
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.816689,
+  "step_id": "rank",
+  "title": "Rank candidates",
+  "tool": "compute_column",
+  "kind": "tool",
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.833268,
+  "step_id": "rank",
+  "title": "Rank candidates",
+  "kind": "tool",
+  "tool": "compute_column",
+  "excel_steps": [
+   4
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 16,
+  "summary": "Computed eligible, score, blockers for 10 rows",
+  "engine": null,
+  "output": "candidates",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "employee_id",
+    "name",
+    "role",
+    "skills",
+    "current_workload_hours",
+    "weekly_capacity_hours",
+    "status",
+    "seniority"
+   ],
+   "rows": [
+    {
+     "employee_id": "E-101",
+     "name": "Arjun Mehta",
+     "role": "Developer",
+     "skills": "python;fastapi;postgresql;docker",
+     "current_workload_hours": 28,
+     "weekly_capacity_hours": 40,
+     "status": "available",
+     "seniority": "Senior"
+    },
+    {
+     "employee_id": "E-102",
+     "name": "Priya Nair",
+     "role": "Developer",
+     "skills": "react;typescript;css;stripe",
+     "current_workload_hours": 36,
+     "weekly_capacity_hours": 40,
+     "status": "available",
+     "seniority": "Mid"
+    },
+    {
+     "employee_id": "E-103",
+     "name": "Daniel Ortiz",
+     "role": "Developer",
+     "skills": "react;typescript;node.js;stripe;graphql",
+     "current_workload_hours": 18,
+     "weekly_capacity_hours": 40,
+     "status": "available",
+     "seniority": "Senior"
+    },
+    {
+     "employee_id": "E-104",
+     "name": "Hannah Weiss",
+     "role": "Developer",
+     "skills": "react;typescript;stripe;css",
+     "current_workload_hours": 10,
+     "weekly_capacity_hours": 40,
+     "status": "on_leave",
+     "seniority": "Senior"
+    },
+    {
+     "employee_id": "E-105",
+     "name": "Kenji Sato",
+     "role": "Developer",
+     "skills": "python;machine learning;langgraph;aws",
+     "current_workload_hours": 22,
+     "weekly_capacity_hours": 40,
+     "status": "available",
+     "seniority": "Senior"
+    }
+   ],
+   "total": 10
+  },
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.8348534,
+  "step_id": "order",
+  "title": "Order by eligibility and score",
+  "tool": "sort_rows",
+  "kind": "tool",
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.8348534,
+  "step_id": "order",
+  "title": "Order by eligibility and score",
+  "kind": "tool",
+  "tool": "sort_rows",
+  "excel_steps": [
+   4
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 4,
+  "summary": "Sorted by eligible, score (desc)",
+  "engine": null,
+  "output": "ranked",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "employee_id",
+    "name",
+    "role",
+    "skills",
+    "current_workload_hours",
+    "weekly_capacity_hours",
+    "status",
+    "seniority"
+   ],
+   "rows": [
+    {
+     "employee_id": "E-103",
+     "name": "Daniel Ortiz",
+     "role": "Developer",
+     "skills": "react;typescript;node.js;stripe;graphql",
+     "current_workload_hours": 18,
+     "weekly_capacity_hours": 40,
+     "status": "available",
+     "seniority": "Senior"
+    },
+    {
+     "employee_id": "E-104",
+     "name": "Hannah Weiss",
+     "role": "Developer",
+     "skills": "react;typescript;stripe;css",
+     "current_workload_hours": 10,
+     "weekly_capacity_hours": 40,
+     "status": "on_leave",
+     "seniority": "Senior"
+    },
+    {
+     "employee_id": "E-102",
+     "name": "Priya Nair",
+     "role": "Developer",
+     "skills": "react;typescript;css;stripe",
+     "current_workload_hours": 36,
+     "weekly_capacity_hours": 40,
+     "status": "available",
+     "seniority": "Mid"
+    },
+    {
+     "employee_id": "E-101",
+     "name": "Arjun Mehta",
+     "role": "Developer",
+     "skills": "python;fastapi;postgresql;docker",
+     "current_workload_hours": 28,
+     "weekly_capacity_hours": 40,
+     "status": "available",
+     "seniority": "Senior"
+    },
+    {
+     "employee_id": "E-105",
+     "name": "Kenji Sato",
+     "role": "Developer",
+     "skills": "python;machine learning;langgraph;aws",
+     "current_workload_hours": 22,
+     "weekly_capacity_hours": 40,
+     "status": "available",
+     "seniority": "Senior"
+    }
+   ],
+   "total": 10
+  },
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.844681,
+  "step_id": "select",
+  "title": "Select employee",
+  "tool": "select_best",
+  "kind": "tool",
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.8512998,
+  "step_id": "select",
+  "title": "Select employee",
+  "kind": "tool",
+  "tool": "select_best",
+  "excel_steps": [
+   5
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 6,
+  "summary": "Selected 1 of 1 eligible row(s)",
+  "engine": null,
+  "output": "pick",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "found": {
+     "kind": "text",
+     "text": true
+    },
+    "record": {
+     "kind": "text",
+     "text": "20 fields"
+    },
+    "alternatives": {
+     "kind": "table",
+     "columns": [
+      "employee_id",
+      "name",
+      "role",
+      "skills",
+      "current_workload_hours",
+      "weekly_capacity_hours",
+      "status",
+      "seniority"
+     ],
+     "rows": [],
+     "total": 0
+    },
+    "eligible": {
+     "kind": "text",
+     "text": 1
+    }
+   }
+  },
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.8512998,
+  "step_id": "suitable",
+  "title": "Suitable employee available?",
+  "tool": null,
+  "kind": "decision",
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "decision",
+  "ts": 1791449383.8512998,
+  "step_id": "suitable",
+  "expression": "not pick.found",
+  "result": false,
+  "action": "continue",
+  "message": null,
+  "note": "Excel rule: prefer employees with required skills and available capacity; escalate if no suitable employee exists.",
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.8512998,
+  "step_id": "suitable",
+  "title": "Suitable employee available?",
+  "kind": "decision",
+  "tool": null,
+  "excel_steps": [
+   5
+  ],
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "`not pick.found` \u2192 false \u2192 continue",
+  "result": false,
+  "action": "continue",
+  "message": null,
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.8574986,
+  "step_id": "summary",
+  "title": "Generate assignment summary",
+  "tool": "llm_generate",
+  "kind": "tool",
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449383.8694358,
+  "step_id": "summary",
+  "message": "Offline mode: using the deterministic template for this step",
+  "level": "info",
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.8694358,
+  "step_id": "summary",
+  "title": "Generate assignment summary",
+  "kind": "tool",
+  "tool": "llm_generate",
+  "excel_steps": [
+   6
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 11,
+  "summary": "Generated 2 field(s) from templates",
+  "engine": "rules",
+  "output": "summary",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "reasoning": {
+     "kind": "text",
+     "text": "Daniel Ortiz has 100% of the required skills (react, stripe) and 22 free hours this week against the 6 needed. Not chosen despite a strong skill match: Hannah Weiss (on leave); Priya Nair (only 4h free, needs 6h)."
+    },
+    "task_summary": {
+     "kind": "text",
+     "text": "Fix the checkout payment bug in our React frontend (Stripe), about 6 hours"
+    }
+   }
+  },
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "result",
+  "ts": 1791449383.8752606,
+  "status": "completed",
+  "title": "Assign to Daniel Ortiz",
+  "subtitle": "Urgent priority \u00b7 no deadline given \u00b7 needs react, stripe",
+  "sections": [
+   {
+    "type": "record",
+    "title": "Recommendation",
+    "items": [
+     {
+      "label": "Employee",
+      "value": "Daniel Ortiz (E-103)",
+      "tone": null
+     },
+     {
+      "label": "Role",
+      "value": "Senior Developer",
+      "tone": null
+     },
+     {
+      "label": "Matched skills",
+      "value": "react, stripe",
+      "tone": null
+     },
+     {
+      "label": "Free this week",
+      "value": "22h of 40h",
+      "tone": null
+     },
+     {
+      "label": "Priority",
+      "value": "Urgent",
+      "tone": "danger"
+     },
+     {
+      "label": "Deadline",
+      "value": "Not specified",
+      "tone": null
+     },
+     {
+      "label": "Score",
+      "value": "100 / 100",
+      "tone": null
+     }
+    ]
+   },
+   {
+    "type": "content",
+    "title": "Assignment summary",
+    "fields": [
+     {
+      "label": "Task",
+      "value": "Fix the checkout payment bug in our React frontend (Stripe), about 6 hours",
+      "meta": null,
+      "copy": true
+     },
+     {
+      "label": "Why this person",
+      "value": "Daniel Ortiz has 100% of the required skills (react, stripe) and 22 free hours this week against the 6 needed. Not chosen despite a strong skill match: Hannah Weiss (on leave); Priya Nair (only 4h free, needs 6h).",
+      "meta": null,
+      "copy": true
+     }
+    ]
+   },
+   {
+    "type": "table",
+    "title": "Candidate ranking",
+    "columns": [
+     {
+      "key": "name",
+      "label": "Name",
+      "format": null
+     },
+     {
+      "key": "role",
+      "label": "Role",
+      "format": null
+     },
+     {
+      "key": "skill_pct",
+      "label": "Skill match %",
+      "format": null
+     },
+     {
+      "key": "matched_skills",
+      "label": "Matched",
+      "format": null
+     },
+     {
+      "key": "usable_hours",
+      "label": "Free h",
+      "format": null
+     },
+     {
+      "key": "status",
+      "label": "Status",
+      "format": null
+     },
+     {
+      "key": "score",
+      "label": "Score",
+      "format": null
+     },
+     {
+      "key": "eligible",
+      "label": "Eligible",
+      "format": null
+     },
+     {
+      "key": "blockers",
+      "label": "Blockers",
+      "format": null
+     }
+    ],
+    "rows": [
+     {
+      "name": "Daniel Ortiz",
+      "role": "Developer",
+      "skill_pct": 100.0,
+      "matched_skills": "react, stripe",
+      "usable_hours": 22,
+      "status": "available",
+      "score": 100,
+      "eligible": true,
+      "blockers": "none"
+     },
+     {
+      "name": "Hannah Weiss",
+      "role": "Developer",
+      "skill_pct": 100.0,
+      "matched_skills": "react, stripe",
+      "usable_hours": 30,
+      "status": "on_leave",
+      "score": 100,
+      "eligible": false,
+      "blockers": "on leave"
+     },
+     {
+      "name": "Priya Nair",
+      "role": "Developer",
+      "skill_pct": 100.0,
+      "matched_skills": "react, stripe",
+      "usable_hours": 4,
+      "status": "available",
+      "score": 88,
+      "eligible": false,
+      "blockers": "only 4h free, needs 6h"
+     },
+     {
+      "name": "Arjun Mehta",
+      "role": "Developer",
+      "skill_pct": 0.0,
+      "matched_skills": "",
+      "usable_hours": 12,
+      "status": "available",
+      "score": 35,
+      "eligible": false,
+      "blockers": "missing react, stripe"
+     },
+     {
+      "name": "Kenji Sato",
+      "role": "Developer",
+      "skill_pct": 0.0,
+      "matched_skills": "",
+      "usable_hours": 18,
+      "status": "available",
+      "score": 35,
+      "eligible": false,
+      "blockers": "missing react, stripe"
+     },
+     {
+      "name": "Lucas Brown",
+      "role": "Designer",
+      "skill_pct": 0.0,
+      "matched_skills": "",
+      "usable_hours": 25,
+      "status": "available",
+      "score": 35,
+      "eligible": false,
+      "blockers": "missing react, stripe; not a developer"
+     },
+     {
+      "name": "Chloe Martin",
+      "role": "Marketer",
+      "skill_pct": 0.0,
+      "matched_skills": "",
+      "usable_hours": 12,
+      "status": "available",
+      "score": 35,
+      "eligible": false,
+      "blockers": "missing react, stripe; not a developer"
+     },
+     {
+      "name": "Omar Haddad",
+      "role": "Developer",
+      "skill_pct": 0.0,
+      "matched_skills": "",
+      "usable_hours": 10,
+      "status": "available",
+      "score": 35,
+      "eligible": false,
+      "blockers": "missing react, stripe"
+     },
+     {
+      "name": "Grace Liu",
+      "role": "Data Analyst",
+      "skill_pct": 0.0,
+      "matched_skills": "",
+      "usable_hours": 15,
+      "status": "available",
+      "score": 35,
+      "eligible": false,
+      "blockers": "missing react, stripe; not a developer"
+     },
+     {
+      "name": "Fatima Zahra",
+      "role": "Developer",
+      "skill_pct": 0.0,
+      "matched_skills": "",
+      "usable_hours": 1,
+      "status": "available",
+      "score": 6,
+      "eligible": false,
+      "blockers": "only 1h free, needs 6h; missing react, stripe"
+     }
+    ],
+    "total": 10,
+    "tones": [
+     "ok",
+     "danger",
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "empty": "No rows"
+   }
+  ],
+  "run_id": "b271c165c55c"
+ },
+ {
+  "type": "run_finished",
+  "ts": 1791449383.8752606,
+  "status": "completed",
+  "active_ms": 86,
+  "workflow_id": "WF009",
+  "run_id": "b271c165c55c"
+ }
+]

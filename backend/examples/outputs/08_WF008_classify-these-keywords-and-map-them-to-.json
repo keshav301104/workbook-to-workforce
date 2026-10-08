@@ -1,0 +1,1610 @@
+[
+ {
+  "type": "run_started",
+  "run_id": "3491fb3d0c43",
+  "ts": 1791449383.5161536,
+  "request": "Classify these keywords and map them to pages.",
+  "llm": "Offline (deterministic fallback)",
+  "llm_enabled": false
+ },
+ {
+  "type": "stage",
+  "ts": 1791449383.522171,
+  "stage": "routing",
+  "status": "started",
+  "message": "Reading 10 workflows from AI_Agent_Workflow_Assessment_1.xlsx",
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "route",
+  "ts": 1791449383.522171,
+  "workflow_id": "WF008",
+  "workflow_name": "SEO Keyword Classification",
+  "confidence": 0.97,
+  "reasoning": "Matched on: classify, keywords, map, pages.",
+  "method": "lexical",
+  "alternatives": [],
+  "note": null,
+  "threshold": 0.55,
+  "status": "routed",
+  "duration_ms": 3,
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "stage",
+  "ts": 1791449383.5266337,
+  "stage": "extracting",
+  "status": "started",
+  "message": "Reading inputs from your request",
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "inputs",
+  "ts": 1791449383.5266337,
+  "inputs": [
+   {
+    "name": "keyword_file",
+    "label": "Keyword file",
+    "value": null,
+    "type": "file",
+    "required": false
+   },
+   {
+    "name": "keywords",
+    "label": "Keywords",
+    "value": null,
+    "type": "list",
+    "required": false
+   },
+   {
+    "name": "categories_file",
+    "label": "Site categories",
+    "value": null,
+    "type": "file",
+    "required": false
+   }
+  ],
+  "sources": {},
+  "method": "patterns",
+  "note": null,
+  "duration_ms": 0,
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "params",
+  "ts": 1791449383.5266337,
+  "params": [
+   {
+    "name": "intent_weights",
+    "value": {
+     "transactional": 1.0,
+     "commercial": 0.8,
+     "navigational": 0.5,
+     "informational": 0.4
+    },
+    "source": "plan default",
+    "description": "How much each intent contributes to priority"
+   }
+  ],
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "input_check",
+  "ts": 1791449383.5307505,
+  "ok": true,
+  "missing": [],
+  "inputs": [
+   {
+    "name": "keyword_file",
+    "label": "Keyword file",
+    "value": null,
+    "type": "file",
+    "required": false
+   },
+   {
+    "name": "keywords",
+    "label": "Keywords",
+    "value": null,
+    "type": "list",
+    "required": false
+   },
+   {
+    "name": "categories_file",
+    "label": "Site categories",
+    "value": "categories.csv",
+    "type": "file",
+    "required": false
+   }
+  ],
+  "sources": {
+   "categories_file": "default"
+  },
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "plan",
+  "ts": 1791449383.532095,
+  "workflow_id": "WF008",
+  "workflow_name": "SEO Keyword Classification",
+  "steps": [
+   {
+    "id": "have_keywords",
+    "title": "Keyword list provided?",
+    "kind": "decision",
+    "tool": null,
+    "category": "decision",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Read keywords"
+    ],
+    "note": null
+   },
+   {
+    "id": "read",
+    "title": "Read keywords",
+    "kind": "tool",
+    "tool": "load_table",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Read keywords"
+    ],
+    "note": null
+   },
+   {
+    "id": "dedupe",
+    "title": "Remove duplicates",
+    "kind": "tool",
+    "tool": "dedupe_rows",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     2
+    ],
+    "excel_text": [
+     "remove duplicates"
+    ],
+    "note": "Case and extra spaces are ignored ('Linen Shirt ' = 'linen  shirt')."
+   },
+   {
+    "id": "intent",
+    "title": "Classify search intent",
+    "kind": "tool",
+    "tool": "llm_classify",
+    "category": "language",
+    "llm": true,
+    "api": null,
+    "excel_steps": [
+     3
+    ],
+    "excel_text": [
+     "classify search intent"
+    ],
+    "note": "Excel rule: each keyword is exactly one of informational, commercial, transactional, navigational. The LLM is constrained to these labels; anything else falls back to rules."
+   },
+   {
+    "id": "load_categories",
+    "title": "Load site categories",
+    "kind": "tool",
+    "tool": "load_table",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     4
+    ],
+    "excel_text": [
+     "map keywords to categories"
+    ],
+    "note": null
+   },
+   {
+    "id": "map",
+    "title": "Map keywords to categories",
+    "kind": "tool",
+    "tool": "llm_map",
+    "category": "language",
+    "llm": true,
+    "api": null,
+    "excel_steps": [
+     4
+    ],
+    "excel_text": [
+     "map keywords to categories"
+    ],
+    "note": null
+   },
+   {
+    "id": "priority",
+    "title": "Identify high-priority keywords",
+    "kind": "tool",
+    "tool": "compute_column",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     5
+    ],
+    "excel_text": [
+     "identify high-priority keywords"
+    ],
+    "note": "priority score = search volume \u00d7 intent weight \u00f7 (1 + difficulty/100); keywords without volume use 1,000."
+   },
+   {
+    "id": "bucket",
+    "title": "Assign priority",
+    "kind": "tool",
+    "tool": "rank_bucket",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     5
+    ],
+    "excel_text": [
+     "identify high-priority keywords"
+    ],
+    "note": null
+   },
+   {
+    "id": "sort",
+    "title": "Sort by priority",
+    "kind": "tool",
+    "tool": "sort_rows",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     5
+    ],
+    "excel_text": [
+     "identify high-priority keywords"
+    ],
+    "note": null
+   },
+   {
+    "id": "export",
+    "title": "Export results",
+    "kind": "tool",
+    "tool": "export_table",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     6
+    ],
+    "excel_text": [
+     "export results"
+    ],
+    "note": null
+   }
+  ],
+  "excel_steps": [
+   "Read keywords",
+   "remove duplicates",
+   "classify search intent",
+   "map keywords to categories",
+   "identify high-priority keywords",
+   "export results"
+  ],
+  "decision_logic": "Classify each keyword as informational, commercial, transactional, or navigational",
+  "plan_file": "WF008.yaml",
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "stage",
+  "ts": 1791449383.532095,
+  "stage": "executing",
+  "status": "started",
+  "message": "Running 10 steps",
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.539499,
+  "step_id": "have_keywords",
+  "title": "Keyword list provided?",
+  "tool": null,
+  "kind": "decision",
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "decision",
+  "ts": 1791449383.539499,
+  "step_id": "have_keywords",
+  "expression": "missing(inputs.keyword_file) and missing(inputs.keywords)",
+  "result": true,
+  "action": "ask",
+  "message": "Attach the keyword CSV to classify (or use the sample list). You can also paste keywords as \u201ckeywords: a, b, c\u201d.",
+  "note": null,
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.539499,
+  "step_id": "have_keywords",
+  "title": "Keyword list provided?",
+  "kind": "decision",
+  "tool": null,
+  "excel_steps": [
+   1
+  ],
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "`missing(inputs.keyword_file) and missing(inputs.keywords)` \u2192 true \u2192 ask",
+  "result": true,
+  "action": "ask",
+  "message": "Attach the keyword CSV to classify (or use the sample list). You can also paste keywords as \u201ckeywords: a, b, c\u201d.",
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "ask",
+  "run_id": "3491fb3d0c43",
+  "ts": 1791449383.543681,
+  "kind": "step",
+  "message": "Attach the keyword CSV to classify (or use the sample list). You can also paste keywords as \u201ckeywords: a, b, c\u201d.",
+  "step_id": "have_keywords",
+  "fields": [
+   {
+    "name": "keyword_file",
+    "label": "Keyword file",
+    "type": "file",
+    "description": "CSV with a keyword column (search_volume and difficulty optional)",
+    "required": false,
+    "choices": [],
+    "sample": "keywords.csv",
+    "accept": [
+     ".csv",
+     ".xlsx"
+    ],
+    "multiline": false,
+    "placeholder": "CSV with a keyword column (search_volume and difficulty optional)"
+   }
+  ],
+  "goto": "have_keywords",
+  "workflow_id": "WF008"
+ },
+ {
+  "type": "resumed",
+  "run_id": "3491fb3d0c43",
+  "ts": 1791449383.5464072
+ },
+ {
+  "type": "inputs",
+  "ts": 1791449383.5529203,
+  "inputs": [
+   {
+    "name": "keyword_file",
+    "label": "Keyword file",
+    "value": "keywords.csv",
+    "type": "file",
+    "required": false
+   },
+   {
+    "name": "keywords",
+    "label": "Keywords",
+    "value": null,
+    "type": "list",
+    "required": false
+   },
+   {
+    "name": "categories_file",
+    "label": "Site categories",
+    "value": "categories.csv",
+    "type": "file",
+    "required": false
+   }
+  ],
+  "sources": {
+   "categories_file": "default",
+   "keyword_file": "you"
+  },
+  "method": "user",
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "rewind",
+  "ts": 1791449383.5529203,
+  "to_step": "have_keywords",
+  "message": "Re-running from this step with your answer",
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.5529203,
+  "step_id": "have_keywords",
+  "title": "Keyword list provided?",
+  "tool": null,
+  "kind": "decision",
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "decision",
+  "ts": 1791449383.5529203,
+  "step_id": "have_keywords",
+  "expression": "missing(inputs.keyword_file) and missing(inputs.keywords)",
+  "result": false,
+  "action": "continue",
+  "message": null,
+  "note": null,
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.5529203,
+  "step_id": "have_keywords",
+  "title": "Keyword list provided?",
+  "kind": "decision",
+  "tool": null,
+  "excel_steps": [
+   1
+  ],
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "`missing(inputs.keyword_file) and missing(inputs.keywords)` \u2192 false \u2192 continue",
+  "result": false,
+  "action": "continue",
+  "message": null,
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.5621638,
+  "step_id": "read",
+  "title": "Read keywords",
+  "tool": "load_table",
+  "kind": "tool",
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.568555,
+  "step_id": "read",
+  "title": "Read keywords",
+  "kind": "tool",
+  "tool": "load_table",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 6,
+  "summary": "Loaded 27 rows \u00d7 3 columns from keywords.csv",
+  "engine": null,
+  "output": "raw",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "keyword",
+    "search_volume",
+    "difficulty"
+   ],
+   "rows": [
+    {
+     "keyword": "linen shirt",
+     "search_volume": 14800,
+     "difficulty": 42
+    },
+    {
+     "keyword": "Linen Shirt ",
+     "search_volume": 14800,
+     "difficulty": 42
+    },
+    {
+     "keyword": "linen  shirt",
+     "search_volume": 14800,
+     "difficulty": 42
+    },
+    {
+     "keyword": "buy linen shirt online",
+     "search_volume": 2400,
+     "difficulty": 35
+    },
+    {
+     "keyword": "how to wash linen shirts",
+     "search_volume": 6600,
+     "difficulty": 18
+    }
+   ],
+   "total": 27
+  },
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.568555,
+  "step_id": "dedupe",
+  "title": "Remove duplicates",
+  "tool": "dedupe_rows",
+  "kind": "tool",
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.5813017,
+  "step_id": "dedupe",
+  "title": "Remove duplicates",
+  "kind": "tool",
+  "tool": "dedupe_rows",
+  "excel_steps": [
+   2
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 8,
+  "summary": "25 unique, 2 duplicate(s) removed",
+  "engine": null,
+  "output": "deduped",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "unique": {
+     "kind": "table",
+     "columns": [
+      "keyword",
+      "search_volume",
+      "difficulty"
+     ],
+     "rows": [
+      {
+       "keyword": "linen shirt",
+       "search_volume": 14800,
+       "difficulty": 42
+      },
+      {
+       "keyword": "buy linen shirt online",
+       "search_volume": 2400,
+       "difficulty": 35
+      },
+      {
+       "keyword": "how to wash linen shirts",
+       "search_volume": 6600,
+       "difficulty": 18
+      },
+      {
+       "keyword": "best linen shirts 2026",
+       "search_volume": 3900,
+       "difficulty": 51
+      },
+      {
+       "keyword": "linen vs cotton shirt",
+       "search_volume": 2900,
+       "difficulty": 22
+      }
+     ],
+     "total": 25
+    },
+    "removed": {
+     "kind": "table",
+     "columns": [
+      "keyword",
+      "search_volume",
+      "difficulty",
+      "duplicate_of"
+     ],
+     "rows": [
+      {
+       "keyword": "Linen Shirt ",
+       "search_volume": 14800,
+       "difficulty": 42,
+       "duplicate_of": "linen shirt"
+      },
+      {
+       "keyword": "linen  shirt",
+       "search_volume": 14800,
+       "difficulty": 42,
+       "duplicate_of": "linen shirt"
+      }
+     ],
+     "total": 2
+    }
+   }
+  },
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.5861359,
+  "step_id": "intent",
+  "title": "Classify search intent",
+  "tool": "llm_classify",
+  "kind": "tool",
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449383.5861359,
+  "step_id": "intent",
+  "message": "Offline mode: using the deterministic template for this step",
+  "level": "info",
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.6042347,
+  "step_id": "intent",
+  "title": "Classify search intent",
+  "kind": "tool",
+  "tool": "llm_classify",
+  "excel_steps": [
+   3
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 17,
+  "summary": "Labels: commercial 14, transactional 5, informational 3, navigational 3",
+  "engine": "rules",
+  "output": "classified",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "keyword",
+    "search_volume",
+    "difficulty",
+    "intent",
+    "intent_source"
+   ],
+   "rows": [
+    {
+     "keyword": "linen shirt",
+     "search_volume": 14800,
+     "difficulty": 42,
+     "intent": "commercial",
+     "intent_source": "rules"
+    },
+    {
+     "keyword": "buy linen shirt online",
+     "search_volume": 2400,
+     "difficulty": 35,
+     "intent": "transactional",
+     "intent_source": "rules"
+    },
+    {
+     "keyword": "how to wash linen shirts",
+     "search_volume": 6600,
+     "difficulty": 18,
+     "intent": "informational",
+     "intent_source": "rules"
+    },
+    {
+     "keyword": "best linen shirts 2026",
+     "search_volume": 3900,
+     "difficulty": 51,
+     "intent": "commercial",
+     "intent_source": "rules"
+    },
+    {
+     "keyword": "linen vs cotton shirt",
+     "search_volume": 2900,
+     "difficulty": 22,
+     "intent": "commercial",
+     "intent_source": "rules"
+    }
+   ],
+   "total": 25
+  },
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.6064003,
+  "step_id": "load_categories",
+  "title": "Load site categories",
+  "tool": "load_table",
+  "kind": "tool",
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.6136856,
+  "step_id": "load_categories",
+  "title": "Load site categories",
+  "kind": "tool",
+  "tool": "load_table",
+  "excel_steps": [
+   4
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 5,
+  "summary": "Loaded 8 rows \u00d7 3 columns from categories.csv",
+  "engine": null,
+  "output": "categories",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "category",
+    "page_url",
+    "terms"
+   ],
+   "rows": [
+    {
+     "category": "Shirts",
+     "page_url": "/collections/shirts",
+     "terms": "shirt;linen shirt;oxford;button-down;overshirt"
+    },
+    {
+     "category": "Knitwear",
+     "page_url": "/collections/knitwear",
+     "terms": "sweater;merino;cardigan;knit;jumper"
+    },
+    {
+     "category": "Outerwear",
+     "page_url": "/collections/outerwear",
+     "terms": "jacket;waxed;vest;coat;outerwear"
+    },
+    {
+     "category": "Trousers",
+     "page_url": "/collections/trousers",
+     "terms": "trousers;chino;chinos;pants"
+    },
+    {
+     "category": "Accessories",
+     "page_url": "/collections/accessories",
+     "terms": "belt;beanie;tote;bag;accessory"
+    }
+   ],
+   "total": 8
+  },
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.6152112,
+  "step_id": "map",
+  "title": "Map keywords to categories",
+  "tool": "llm_map",
+  "kind": "tool",
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449383.6177392,
+  "step_id": "map",
+  "message": "Offline mode: using the deterministic template for this step",
+  "level": "info",
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.6284618,
+  "step_id": "map",
+  "title": "Map keywords to categories",
+  "kind": "tool",
+  "tool": "llm_map",
+  "excel_steps": [
+   4
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 15,
+  "summary": "Mapped 25 rows to 8 target(s)",
+  "engine": "rules",
+  "output": "mapped",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "keyword",
+    "search_volume",
+    "difficulty",
+    "intent",
+    "intent_source",
+    "category",
+    "page_url"
+   ],
+   "rows": [
+    {
+     "keyword": "linen shirt",
+     "search_volume": 14800,
+     "difficulty": 42,
+     "intent": "commercial",
+     "intent_source": "rules",
+     "category": "Shirts",
+     "page_url": "/collections/shirts"
+    },
+    {
+     "keyword": "buy linen shirt online",
+     "search_volume": 2400,
+     "difficulty": 35,
+     "intent": "transactional",
+     "intent_source": "rules",
+     "category": "Shirts",
+     "page_url": "/collections/shirts"
+    },
+    {
+     "keyword": "how to wash linen shirts",
+     "search_volume": 6600,
+     "difficulty": 18,
+     "intent": "informational",
+     "intent_source": "rules",
+     "category": "Shirts",
+     "page_url": "/collections/shirts"
+    },
+    {
+     "keyword": "best linen shirts 2026",
+     "search_volume": 3900,
+     "difficulty": 51,
+     "intent": "commercial",
+     "intent_source": "rules",
+     "category": "Shirts",
+     "page_url": "/collections/shirts"
+    },
+    {
+     "keyword": "linen vs cotton shirt",
+     "search_volume": 2900,
+     "difficulty": 22,
+     "intent": "commercial",
+     "intent_source": "rules",
+     "category": "Shirts",
+     "page_url": "/collections/shirts"
+    }
+   ],
+   "total": 25
+  },
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.6366875,
+  "step_id": "priority",
+  "title": "Identify high-priority keywords",
+  "tool": "compute_column",
+  "kind": "tool",
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.6366875,
+  "step_id": "priority",
+  "title": "Identify high-priority keywords",
+  "kind": "tool",
+  "tool": "compute_column",
+  "excel_steps": [
+   5
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 9,
+  "summary": "Computed priority_score, target_page for 25 rows",
+  "engine": null,
+  "output": "scored",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "keyword",
+    "search_volume",
+    "difficulty",
+    "intent",
+    "intent_source",
+    "category",
+    "page_url",
+    "priority_score"
+   ],
+   "rows": [
+    {
+     "keyword": "linen shirt",
+     "search_volume": 14800,
+     "difficulty": 42,
+     "intent": "commercial",
+     "intent_source": "rules",
+     "category": "Shirts",
+     "page_url": "/collections/shirts",
+     "priority_score": 8338
+    },
+    {
+     "keyword": "buy linen shirt online",
+     "search_volume": 2400,
+     "difficulty": 35,
+     "intent": "transactional",
+     "intent_source": "rules",
+     "category": "Shirts",
+     "page_url": "/collections/shirts",
+     "priority_score": 1778
+    },
+    {
+     "keyword": "how to wash linen shirts",
+     "search_volume": 6600,
+     "difficulty": 18,
+     "intent": "informational",
+     "intent_source": "rules",
+     "category": "Shirts",
+     "page_url": "/collections/shirts",
+     "priority_score": 2237
+    },
+    {
+     "keyword": "best linen shirts 2026",
+     "search_volume": 3900,
+     "difficulty": 51,
+     "intent": "commercial",
+     "intent_source": "rules",
+     "category": "Shirts",
+     "page_url": "/collections/shirts",
+     "priority_score": 2066
+    },
+    {
+     "keyword": "linen vs cotton shirt",
+     "search_volume": 2900,
+     "difficulty": 22,
+     "intent": "commercial",
+     "intent_source": "rules",
+     "category": "Shirts",
+     "page_url": "/collections/shirts",
+     "priority_score": 1902
+    }
+   ],
+   "total": 25
+  },
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.649535,
+  "step_id": "bucket",
+  "title": "Assign priority",
+  "tool": "rank_bucket",
+  "kind": "tool",
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.6523955,
+  "step_id": "bucket",
+  "title": "Assign priority",
+  "kind": "tool",
+  "tool": "rank_bucket",
+  "excel_steps": [
+   5
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 4,
+  "summary": "Buckets: High 9, Medium 8, Low 8",
+  "engine": null,
+  "output": "scored",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "keyword",
+    "search_volume",
+    "difficulty",
+    "intent",
+    "intent_source",
+    "category",
+    "page_url",
+    "priority_score"
+   ],
+   "rows": [
+    {
+     "keyword": "linen shirt",
+     "search_volume": 14800,
+     "difficulty": 42,
+     "intent": "commercial",
+     "intent_source": "rules",
+     "category": "Shirts",
+     "page_url": "/collections/shirts",
+     "priority_score": 8338
+    },
+    {
+     "keyword": "buy linen shirt online",
+     "search_volume": 2400,
+     "difficulty": 35,
+     "intent": "transactional",
+     "intent_source": "rules",
+     "category": "Shirts",
+     "page_url": "/collections/shirts",
+     "priority_score": 1778
+    },
+    {
+     "keyword": "how to wash linen shirts",
+     "search_volume": 6600,
+     "difficulty": 18,
+     "intent": "informational",
+     "intent_source": "rules",
+     "category": "Shirts",
+     "page_url": "/collections/shirts",
+     "priority_score": 2237
+    },
+    {
+     "keyword": "best linen shirts 2026",
+     "search_volume": 3900,
+     "difficulty": 51,
+     "intent": "commercial",
+     "intent_source": "rules",
+     "category": "Shirts",
+     "page_url": "/collections/shirts",
+     "priority_score": 2066
+    },
+    {
+     "keyword": "linen vs cotton shirt",
+     "search_volume": 2900,
+     "difficulty": 22,
+     "intent": "commercial",
+     "intent_source": "rules",
+     "category": "Shirts",
+     "page_url": "/collections/shirts",
+     "priority_score": 1902
+    }
+   ],
+   "total": 25
+  },
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.658949,
+  "step_id": "sort",
+  "title": "Sort by priority",
+  "tool": "sort_rows",
+  "kind": "tool",
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.6605914,
+  "step_id": "sort",
+  "title": "Sort by priority",
+  "kind": "tool",
+  "tool": "sort_rows",
+  "excel_steps": [
+   5
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 2,
+  "summary": "Sorted by priority_score (desc)",
+  "engine": null,
+  "output": "report",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "keyword",
+    "search_volume",
+    "difficulty",
+    "intent",
+    "intent_source",
+    "category",
+    "page_url",
+    "priority_score"
+   ],
+   "rows": [
+    {
+     "keyword": "linen shirt",
+     "search_volume": 14800,
+     "difficulty": 42,
+     "intent": "commercial",
+     "intent_source": "rules",
+     "category": "Shirts",
+     "page_url": "/collections/shirts",
+     "priority_score": 8338
+    },
+    {
+     "keyword": "merino wool sweater",
+     "search_volume": 9900,
+     "difficulty": 47,
+     "intent": "commercial",
+     "intent_source": "rules",
+     "category": "Knitwear",
+     "page_url": "/collections/knitwear",
+     "priority_score": 5388
+    },
+    {
+     "keyword": "waxed jacket",
+     "search_volume": 8100,
+     "difficulty": 45,
+     "intent": "commercial",
+     "intent_source": "rules",
+     "category": "Outerwear",
+     "page_url": "/collections/outerwear",
+     "priority_score": 4469
+    },
+    {
+     "keyword": "chino trousers men",
+     "search_volume": 6600,
+     "difficulty": 44,
+     "intent": "commercial",
+     "intent_source": "rules",
+     "category": "Trousers",
+     "page_url": "/collections/trousers",
+     "priority_score": 3667
+    },
+    {
+     "keyword": "wool throw blanket",
+     "search_volume": 5400,
+     "difficulty": 40,
+     "intent": "commercial",
+     "intent_source": "rules",
+     "category": "Home",
+     "page_url": "/collections/home",
+     "priority_score": 3086
+    }
+   ],
+   "total": 25
+  },
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.66689,
+  "step_id": "export",
+  "title": "Export results",
+  "tool": "export_table",
+  "kind": "tool",
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.6712801,
+  "step_id": "export",
+  "title": "Export results",
+  "kind": "tool",
+  "tool": "export_table",
+  "excel_steps": [
+   6
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 4,
+  "summary": "Exported 25 rows to keyword_report.csv",
+  "engine": null,
+  "output": "report_file",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "url": {
+     "kind": "text",
+     "text": "/api/files/3491fb3d0c43/keyword_report.csv"
+    },
+    "filename": {
+     "kind": "text",
+     "text": "keyword_report.csv"
+    },
+    "rows": {
+     "kind": "text",
+     "text": 25
+    },
+    "path": {
+     "kind": "text",
+     "text": "C:\\Users\\david\\AppData\\Local\\Temp\\tmpceetzcxn\\runs\\exports\\3491fb3d0c43\\keyword_report.csv"
+    }
+   }
+  },
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "result",
+  "ts": 1791449383.6949368,
+  "status": "completed",
+  "title": "25 keywords classified \u00b7 9 high priority",
+  "subtitle": "2 duplicates removed from 27 keywords",
+  "sections": [
+   {
+    "type": "kpis",
+    "title": null,
+    "items": [
+     {
+      "label": "Keywords read",
+      "value": "27",
+      "tone": null,
+      "hint": null
+     },
+     {
+      "label": "Duplicates removed",
+      "value": "2",
+      "tone": "warn",
+      "hint": null
+     },
+     {
+      "label": "Transactional",
+      "value": "5",
+      "tone": null,
+      "hint": null
+     },
+     {
+      "label": "Commercial",
+      "value": "14",
+      "tone": null,
+      "hint": null
+     },
+     {
+      "label": "Informational",
+      "value": "3",
+      "tone": null,
+      "hint": null
+     },
+     {
+      "label": "Navigational",
+      "value": "3",
+      "tone": null,
+      "hint": null
+     }
+    ]
+   },
+   {
+    "type": "table",
+    "title": "Keyword report",
+    "columns": [
+     {
+      "key": "keyword",
+      "label": "Keyword",
+      "format": null
+     },
+     {
+      "key": "intent",
+      "label": "Intent",
+      "format": null
+     },
+     {
+      "key": "category",
+      "label": "Category",
+      "format": null
+     },
+     {
+      "key": "priority",
+      "label": "Priority",
+      "format": null
+     },
+     {
+      "key": "priority_score",
+      "label": "Score",
+      "format": null
+     },
+     {
+      "key": "target_page",
+      "label": "Recommended page",
+      "format": null
+     },
+     {
+      "key": "search_volume",
+      "label": "Volume",
+      "format": null
+     },
+     {
+      "key": "difficulty",
+      "label": "Difficulty",
+      "format": null
+     }
+    ],
+    "rows": [
+     {
+      "keyword": "linen shirt",
+      "intent": "commercial",
+      "category": "Shirts",
+      "priority": "High",
+      "priority_score": 8338,
+      "target_page": "/collections/shirts",
+      "search_volume": 14800,
+      "difficulty": 42
+     },
+     {
+      "keyword": "merino wool sweater",
+      "intent": "commercial",
+      "category": "Knitwear",
+      "priority": "High",
+      "priority_score": 5388,
+      "target_page": "/collections/knitwear",
+      "search_volume": 9900,
+      "difficulty": 47
+     },
+     {
+      "keyword": "waxed jacket",
+      "intent": "commercial",
+      "category": "Outerwear",
+      "priority": "High",
+      "priority_score": 4469,
+      "target_page": "/collections/outerwear",
+      "search_volume": 8100,
+      "difficulty": 45
+     },
+     {
+      "keyword": "chino trousers men",
+      "intent": "commercial",
+      "category": "Trousers",
+      "priority": "High",
+      "priority_score": 3667,
+      "target_page": "/collections/trousers",
+      "search_volume": 6600,
+      "difficulty": 44
+     },
+     {
+      "keyword": "wool throw blanket",
+      "intent": "commercial",
+      "category": "Home",
+      "priority": "High",
+      "priority_score": 3086,
+      "target_page": "/collections/home",
+      "search_volume": 5400,
+      "difficulty": 40
+     },
+     {
+      "keyword": "leather belt brown",
+      "intent": "commercial",
+      "category": "Accessories",
+      "priority": "High",
+      "priority_score": 2532,
+      "target_page": "/collections/accessories",
+      "search_volume": 4400,
+      "difficulty": 39
+     },
+     {
+      "keyword": "how to wash linen shirts",
+      "intent": "informational",
+      "category": "Shirts",
+      "priority": "High",
+      "priority_score": 2237,
+      "target_page": "/blogs/guides/how-to-wash-linen-shirts",
+      "search_volume": 6600,
+      "difficulty": 18
+     },
+     {
+      "keyword": "stoneware mug set",
+      "intent": "commercial",
+      "category": "Home",
+      "priority": "High",
+      "priority_score": 2215,
+      "target_page": "/collections/home",
+      "search_volume": 3600,
+      "difficulty": 30
+     },
+     {
+      "keyword": "best linen shirts 2026",
+      "intent": "commercial",
+      "category": "Shirts",
+      "priority": "High",
+      "priority_score": 2066,
+      "target_page": "/collections/shirts",
+      "search_volume": 3900,
+      "difficulty": 51
+     },
+     {
+      "keyword": "cheap leather belt",
+      "intent": "transactional",
+      "category": "Accessories",
+      "priority": "Medium",
+      "priority_score": 2057,
+      "target_page": "/collections/accessories",
+      "search_volume": 2900,
+      "difficulty": 41
+     },
+     {
+      "keyword": "linen vs cotton shirt",
+      "intent": "commercial",
+      "category": "Shirts",
+      "priority": "Medium",
+      "priority_score": 1902,
+      "target_page": "/collections/shirts",
+      "search_volume": 2900,
+      "difficulty": 22
+     },
+     {
+      "keyword": "buy linen shirt online",
+      "intent": "transactional",
+      "category": "Shirts",
+      "priority": "Medium",
+      "priority_score": 1778,
+      "target_page": "/collections/shirts",
+      "search_volume": 2400,
+      "difficulty": 35
+     },
+     {
+      "keyword": "is merino wool itchy",
+      "intent": "informational",
+      "category": "Knitwear",
+      "priority": "Medium",
+      "priority_score": 1571,
+      "target_page": "/blogs/guides/is-merino-wool-itchy",
+      "search_volume": 4400,
+      "difficulty": 12
+     },
+     {
+      "keyword": "linen duvet cover queen",
+      "intent": "commercial",
+      "category": "Home",
+      "priority": "Medium",
+      "priority_score": 1412,
+      "target_page": "/collections/home",
+      "search_volume": 2400,
+      "difficulty": 36
+     },
+     {
+      "keyword": "merino sweater sale",
+      "intent": "transactional",
+      "category": "Knitwear",
+      "priority": "Medium",
+      "priority_score": 1377,
+      "target_page": "/collections/knitwear",
+      "search_volume": 1900,
+      "difficulty": 38
+     },
+     {
+      "keyword": "stoneware vs ceramic mugs",
+      "intent": "commercial",
+      "category": "Home",
+      "priority": "Medium",
+      "priority_score": 1299,
+      "target_page": "/collections/home",
+      "search_volume": 1900,
+      "difficulty": 17
+     },
+     {
+      "keyword": "halden discount code",
+      "intent": "transactional",
+      "category": "Brand & Support",
+      "priority": "Medium",
+      "priority_score": 1193,
+      "target_page": "/pages/help",
+      "search_volume": 1300,
+      "difficulty": 9
+     },
+     {
+      "keyword": "chinos vs trousers",
+      "intent": "commercial",
+      "category": "Trousers",
+      "priority": "Low",
+      "priority_score": 1076,
+      "target_page": "/collections/trousers",
+      "search_volume": 1600,
+      "difficulty": 19
+     },
+     {
+      "keyword": "how to rewax a waxed jacket",
+      "intent": "informational",
+      "category": "Outerwear",
+      "priority": "Low",
+      "priority_score": 835,
+      "target_page": "/blogs/guides/how-to-rewax-a-waxed-jacket",
+      "search_volume": 2400,
+      "difficulty": 15
+     },
+     {
+      "keyword": "best waxed jacket for rain",
+      "intent": "commercial",
+      "category": "Outerwear",
+      "priority": "Low",
+      "priority_score": 782,
+      "target_page": "/collections/outerwear",
+      "search_volume": 1300,
+      "difficulty": 33
+     },
+     {
+      "keyword": "waxed field jacket olive",
+      "intent": "commercial",
+      "category": "Outerwear",
+      "priority": "Low",
+      "priority_score": 465,
+      "target_page": "/collections/outerwear",
+      "search_volume": 720,
+      "difficulty": 24
+     },
+     {
+      "keyword": "halden login",
+      "intent": "navigational",
+      "category": "Account",
+      "priority": "Low",
+      "priority_score": 419,
+      "target_page": "/account/login",
+      "search_volume": 880,
+      "difficulty": 5
+     },
+     {
+      "keyword": "halden store miami",
+      "intent": "navigational",
+      "category": "Brand & Support",
+      "priority": "Low",
+      "priority_score": 273,
+      "target_page": "/pages/help",
+      "search_volume": 590,
+      "difficulty": 8
+     },
+     {
+      "keyword": "order wool throw blanket",
+      "intent": "transactional",
+      "category": "Home",
+      "priority": "Low",
+      "priority_score": 264,
+      "target_page": "/collections/home",
+      "search_volume": 320,
+      "difficulty": 21
+     },
+     {
+      "keyword": "halden returns policy",
+      "intent": "navigational",
+      "category": "Brand & Support",
+      "priority": "Low",
+      "priority_score": 226,
+      "target_page": "/pages/help",
+      "search_volume": 480,
+      "difficulty": 6
+     }
+    ],
+    "total": 25,
+    "tones": [
+     "ok",
+     "ok",
+     "ok",
+     "ok",
+     "ok",
+     "ok",
+     "ok",
+     "ok",
+     "ok",
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "empty": "No rows"
+   },
+   {
+    "type": "table",
+    "title": "Duplicates removed",
+    "columns": [
+     {
+      "key": "keyword",
+      "label": "As written",
+      "format": null
+     },
+     {
+      "key": "duplicate_of",
+      "label": "Kept as",
+      "format": null
+     }
+    ],
+    "rows": [
+     {
+      "keyword": "Linen Shirt ",
+      "duplicate_of": "linen shirt"
+     },
+     {
+      "keyword": "linen  shirt",
+      "duplicate_of": "linen shirt"
+     }
+    ],
+    "total": 2,
+    "tones": null,
+    "empty": "No rows"
+   },
+   {
+    "type": "download",
+    "title": null,
+    "files": [
+     {
+      "label": "Keyword report (CSV)",
+      "url": "/api/files/3491fb3d0c43/keyword_report.csv",
+      "filename": "keyword_report.csv",
+      "rows": 25
+     }
+    ]
+   }
+  ],
+  "run_id": "3491fb3d0c43"
+ },
+ {
+  "type": "run_finished",
+  "ts": 1791449383.6949368,
+  "status": "completed",
+  "active_ms": 73,
+  "workflow_id": "WF008",
+  "run_id": "3491fb3d0c43"
+ }
+]

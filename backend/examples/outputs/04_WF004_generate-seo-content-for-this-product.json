@@ -1,0 +1,1274 @@
+[
+ {
+  "type": "run_started",
+  "run_id": "e908b85c3d7c",
+  "ts": 1791449382.982154,
+  "request": "Generate SEO content for this product.",
+  "llm": "Offline (deterministic fallback)",
+  "llm_enabled": false
+ },
+ {
+  "type": "stage",
+  "ts": 1791449382.9877925,
+  "stage": "routing",
+  "status": "started",
+  "message": "Reading 10 workflows from AI_Agent_Workflow_Assessment_1.xlsx",
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "route",
+  "ts": 1791449382.9877925,
+  "workflow_id": "WF004",
+  "workflow_name": "Product Description Generator",
+  "confidence": 0.97,
+  "reasoning": "Matched on: content, generate, product, seo.",
+  "method": "lexical",
+  "alternatives": [
+   {
+    "id": "WF008",
+    "score": 0.4,
+    "name": "SEO Keyword Classification"
+   },
+   {
+    "id": "WF001",
+    "score": 0.19,
+    "name": "Inventory Restock Check"
+   },
+   {
+    "id": "WF002",
+    "score": 0.17,
+    "name": "Product Price Validation"
+   }
+  ],
+  "note": null,
+  "threshold": 0.55,
+  "status": "routed",
+  "duration_ms": 3,
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "stage",
+  "ts": 1791449382.9932072,
+  "stage": "extracting",
+  "status": "started",
+  "message": "Reading inputs from your request",
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "inputs",
+  "ts": 1791449382.999132,
+  "inputs": [
+   {
+    "name": "product",
+    "label": "Product",
+    "value": null,
+    "type": "text",
+    "required": true
+   },
+   {
+    "name": "category",
+    "label": "Category",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "material",
+    "label": "Material",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "color",
+    "label": "Color",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "target_audience",
+    "label": "Target audience",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "attributes",
+    "label": "Other attributes",
+    "value": null,
+    "type": "text",
+    "required": false
+   }
+  ],
+  "sources": {},
+  "method": "patterns",
+  "note": null,
+  "duration_ms": 5,
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "params",
+  "ts": 1791449382.999132,
+  "params": [],
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "input_check",
+  "ts": 1791449383.0021589,
+  "ok": false,
+  "missing": [
+   "product"
+  ],
+  "inputs": [
+   {
+    "name": "product",
+    "label": "Product",
+    "value": null,
+    "type": "text",
+    "required": true
+   },
+   {
+    "name": "category",
+    "label": "Category",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "material",
+    "label": "Material",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "color",
+    "label": "Color",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "target_audience",
+    "label": "Target audience",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "attributes",
+    "label": "Other attributes",
+    "value": null,
+    "type": "text",
+    "required": false
+   }
+  ],
+  "sources": {},
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "ask",
+  "run_id": "e908b85c3d7c",
+  "ts": 1791449383.0039136,
+  "kind": "inputs",
+  "message": "Which product should I write content for? Give a product name or SKU (attributes you add, like material or color, will be used).",
+  "fields": [
+   {
+    "name": "product",
+    "label": "Product",
+    "type": "text",
+    "description": "Product name or SKU to write content for",
+    "required": true,
+    "choices": [],
+    "sample": null,
+    "accept": [],
+    "multiline": false,
+    "placeholder": "Product name or SKU to write content for"
+   }
+  ],
+  "workflow_id": "WF004"
+ },
+ {
+  "type": "resumed",
+  "run_id": "e908b85c3d7c",
+  "ts": 1791449383.0081136
+ },
+ {
+  "type": "inputs",
+  "ts": 1791449383.012161,
+  "inputs": [
+   {
+    "name": "product",
+    "label": "Product",
+    "value": "Quilted Liner Vest",
+    "type": "text",
+    "required": true
+   },
+   {
+    "name": "category",
+    "label": "Category",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "material",
+    "label": "Material",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "color",
+    "label": "Color",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "target_audience",
+    "label": "Target audience",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "attributes",
+    "label": "Other attributes",
+    "value": null,
+    "type": "text",
+    "required": false
+   }
+  ],
+  "sources": {
+   "product": "you"
+  },
+  "method": "user",
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "input_check",
+  "ts": 1791449383.016439,
+  "ok": true,
+  "missing": [],
+  "inputs": [
+   {
+    "name": "product",
+    "label": "Product",
+    "value": "Quilted Liner Vest",
+    "type": "text",
+    "required": true
+   },
+   {
+    "name": "category",
+    "label": "Category",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "material",
+    "label": "Material",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "color",
+    "label": "Color",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "target_audience",
+    "label": "Target audience",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "attributes",
+    "label": "Other attributes",
+    "value": null,
+    "type": "text",
+    "required": false
+   }
+  ],
+  "sources": {
+   "product": "you"
+  },
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "plan",
+  "ts": 1791449383.01921,
+  "workflow_id": "WF004",
+  "workflow_name": "Product Description Generator",
+  "steps": [
+   {
+    "id": "catalog",
+    "title": "Load product catalog",
+    "kind": "tool",
+    "tool": "load_table",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Validate required attributes"
+    ],
+    "note": null
+   },
+   {
+    "id": "lookup",
+    "title": "Find product in catalog",
+    "kind": "tool",
+    "tool": "fuzzy_lookup",
+    "category": "lookup",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Validate required attributes"
+    ],
+    "note": null
+   },
+   {
+    "id": "merge",
+    "title": "Collect product attributes",
+    "kind": "tool",
+    "tool": "merge_record",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Validate required attributes"
+    ],
+    "note": "Catalog data first; anything stated in the request overrides it."
+   },
+   {
+    "id": "check",
+    "title": "Validate required attributes",
+    "kind": "tool",
+    "tool": "check_fields",
+    "category": "decision",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Validate required attributes"
+    ],
+    "note": null
+   },
+   {
+    "id": "need_category",
+    "title": "Category known?",
+    "kind": "decision",
+    "tool": null,
+    "category": "decision",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Validate required attributes"
+    ],
+    "note": "Category is needed to write anything accurate. Other missing attributes are marked as missing (Excel rule: do not invent)."
+   },
+   {
+    "id": "description",
+    "title": "Create product description",
+    "kind": "tool",
+    "tool": "llm_generate",
+    "category": "language",
+    "llm": true,
+    "api": null,
+    "excel_steps": [
+     2
+    ],
+    "excel_text": [
+     "create product description"
+    ],
+    "note": null
+   },
+   {
+    "id": "short",
+    "title": "Generate short description",
+    "kind": "tool",
+    "tool": "llm_generate",
+    "category": "language",
+    "llm": true,
+    "api": null,
+    "excel_steps": [
+     3
+    ],
+    "excel_text": [
+     "generate short description"
+    ],
+    "note": null
+   },
+   {
+    "id": "seo_title",
+    "title": "Generate SEO title",
+    "kind": "tool",
+    "tool": "llm_generate",
+    "category": "language",
+    "llm": true,
+    "api": null,
+    "excel_steps": [
+     4
+    ],
+    "excel_text": [
+     "generate SEO title"
+    ],
+    "note": null
+   },
+   {
+    "id": "meta",
+    "title": "Generate meta description",
+    "kind": "tool",
+    "tool": "llm_generate",
+    "category": "language",
+    "llm": true,
+    "api": null,
+    "excel_steps": [
+     5
+    ],
+    "excel_text": [
+     "generate meta description"
+    ],
+    "note": null
+   },
+   {
+    "id": "validate",
+    "title": "Validate generated text",
+    "kind": "tool",
+    "tool": "validate_text",
+    "category": "language",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     5
+    ],
+    "excel_text": [
+     "generate meta description"
+    ],
+    "note": "Checks length limits and that no material/color value appears in the copy when that attribute was missing."
+   }
+  ],
+  "excel_steps": [
+   "Validate required attributes",
+   "create product description",
+   "generate short description",
+   "generate SEO title",
+   "generate meta description"
+  ],
+  "decision_logic": "Do not invent missing product attributes; explicitly mark missing information",
+  "plan_file": "WF004.yaml",
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "stage",
+  "ts": 1791449383.0213964,
+  "stage": "executing",
+  "status": "started",
+  "message": "Running 10 steps",
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.0251315,
+  "step_id": "catalog",
+  "title": "Load product catalog",
+  "tool": "load_table",
+  "kind": "tool",
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.037583,
+  "step_id": "catalog",
+  "title": "Load product catalog",
+  "kind": "tool",
+  "tool": "load_table",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 13,
+  "summary": "Loaded 15 rows \u00d7 13 columns from products.csv",
+  "engine": null,
+  "output": "products",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "sku",
+    "product_name",
+    "brand",
+    "category",
+    "collection",
+    "launch_date",
+    "material",
+    "color"
+   ],
+   "rows": [
+    {
+     "sku": "TS-1001",
+     "product_name": "Classic Linen Shirt",
+     "brand": "Halden",
+     "category": "Shirts",
+     "collection": "Summer 2026",
+     "launch_date": "2026-04-01",
+     "material": "Linen",
+     "color": "White"
+    },
+    {
+     "sku": "TS-1002",
+     "product_name": "Oxford Button-Down Shirt",
+     "brand": "Halden",
+     "category": "Shirts",
+     "collection": "Core",
+     "launch_date": "2025-01-10",
+     "material": "Cotton",
+     "color": "Light Blue"
+    },
+    {
+     "sku": "TS-1003",
+     "product_name": "Linen Overshirt",
+     "brand": "Halden",
+     "category": "Shirts",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Linen",
+     "color": "Sage Green"
+    },
+    {
+     "sku": "KN-2001",
+     "product_name": "Merino Crew Sweater",
+     "brand": "Halden",
+     "category": "Knitwear",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Merino Wool",
+     "color": "Charcoal"
+    },
+    {
+     "sku": "KN-2002",
+     "product_name": "Cable Knit Cardigan",
+     "brand": "Halden",
+     "category": "Knitwear",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": null,
+     "color": "Oat"
+    }
+   ],
+   "total": 15
+  },
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.037583,
+  "step_id": "lookup",
+  "title": "Find product in catalog",
+  "tool": "fuzzy_lookup",
+  "kind": "tool",
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.045315,
+  "step_id": "lookup",
+  "title": "Find product in catalog",
+  "kind": "tool",
+  "tool": "fuzzy_lookup",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 3,
+  "summary": "Matched 'Quilted Liner Vest' to Quilted Liner Vest (100% similarity)",
+  "engine": null,
+  "output": "match",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "found": {
+     "kind": "text",
+     "text": true
+    },
+    "record": {
+     "kind": "text",
+     "text": "13 fields"
+    },
+    "score": {
+     "kind": "text",
+     "text": 100
+    },
+    "candidates": {
+     "kind": "list",
+     "items": [
+      {
+       "index": 6,
+       "label": "Quilted Liner Vest",
+       "score": 100
+      },
+      {
+       "index": 2,
+       "label": "Linen Overshirt",
+       "score": 55
+      },
+      {
+       "index": 9,
+       "label": "Leather Belt",
+       "score": 49
+      },
+      {
+       "index": 0,
+       "label": "Classic Linen Shirt",
+       "score": 49
+      },
+      {
+       "index": 8,
+       "label": "Pleated Wool Trousers",
+       "score": 46
+      }
+     ],
+     "total": 5
+    }
+   }
+  },
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.050276,
+  "step_id": "merge",
+  "title": "Collect product attributes",
+  "tool": "merge_record",
+  "kind": "tool",
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.050276,
+  "step_id": "merge",
+  "title": "Collect product attributes",
+  "kind": "tool",
+  "tool": "merge_record",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 1,
+  "summary": "Record has 11 populated field(s)",
+  "engine": null,
+  "output": "product",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "sku": {
+     "kind": "text",
+     "text": "OW-3002"
+    },
+    "product_name": {
+     "kind": "text",
+     "text": "Quilted Liner Vest"
+    },
+    "brand": {
+     "kind": "text",
+     "text": "Halden"
+    },
+    "category": {
+     "kind": "text",
+     "text": "Outerwear"
+    },
+    "collection": {
+     "kind": "text",
+     "text": "Autumn 2026"
+    },
+    "launch_date": {
+     "kind": "text",
+     "text": "2026-09-15"
+    },
+    "material": {
+     "kind": "text",
+     "text": "Recycled Polyester"
+    },
+    "color": {
+     "kind": "text",
+     "text": null
+    },
+    "size": {
+     "kind": "text",
+     "text": "M"
+    },
+    "target_audience": {
+     "kind": "text",
+     "text": null
+    },
+    "internal_price": {
+     "kind": "text",
+     "text": 129.0
+    },
+    "unit_cost": {
+     "kind": "text",
+     "text": 44.0
+    }
+   }
+  },
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.0548913,
+  "step_id": "check",
+  "title": "Validate required attributes",
+  "tool": "check_fields",
+  "kind": "tool",
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449383.0548913,
+  "step_id": "check",
+  "message": "Not provided (will not be invented): color",
+  "level": "warn",
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449383.0548913,
+  "step_id": "check",
+  "message": "Not provided (will not be invented): target_audience",
+  "level": "warn",
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.0548913,
+  "step_id": "check",
+  "title": "Validate required attributes",
+  "kind": "tool",
+  "tool": "check_fields",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "All required fields present; missing optional: color, target_audience",
+  "engine": null,
+  "output": "fields",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "missing_required": {
+     "kind": "list",
+     "items": [],
+     "total": 0
+    },
+    "missing_optional": {
+     "kind": "list",
+     "items": [
+      "color",
+      "target_audience"
+     ],
+     "total": 2
+    },
+    "present": {
+     "kind": "text",
+     "text": "4 fields"
+    },
+    "ok": {
+     "kind": "text",
+     "text": true
+    }
+   }
+  },
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.0577655,
+  "step_id": "need_category",
+  "title": "Category known?",
+  "tool": null,
+  "kind": "decision",
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "decision",
+  "ts": 1791449383.0577655,
+  "step_id": "need_category",
+  "expression": "not fields.ok",
+  "result": false,
+  "action": "continue",
+  "message": null,
+  "note": "Category is needed to write anything accurate. Other missing attributes are marked as missing (Excel rule: do not invent).",
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.0577655,
+  "step_id": "need_category",
+  "title": "Category known?",
+  "kind": "decision",
+  "tool": null,
+  "excel_steps": [
+   1
+  ],
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "`not fields.ok` \u2192 false \u2192 continue",
+  "result": false,
+  "action": "continue",
+  "message": null,
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.0603786,
+  "step_id": "description",
+  "title": "Create product description",
+  "tool": "llm_generate",
+  "kind": "tool",
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449383.0643215,
+  "step_id": "description",
+  "message": "Offline mode: using the deterministic template for this step",
+  "level": "info",
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.0643215,
+  "step_id": "description",
+  "title": "Create product description",
+  "kind": "tool",
+  "tool": "llm_generate",
+  "excel_steps": [
+   2
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "Generated 1 field(s) from templates",
+  "engine": "rules",
+  "output": "desc",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "description": {
+     "kind": "text",
+     "text": "Meet the Quilted Liner Vest, part of our outerwear range, made from recycled polyester. Packable. An easy, reliable addition to your outerwear lineup."
+    }
+   }
+  },
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.067233,
+  "step_id": "short",
+  "title": "Generate short description",
+  "tool": "llm_generate",
+  "kind": "tool",
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449383.067233,
+  "step_id": "short",
+  "message": "Offline mode: using the deterministic template for this step",
+  "level": "info",
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.067233,
+  "step_id": "short",
+  "title": "Generate short description",
+  "kind": "tool",
+  "tool": "llm_generate",
+  "excel_steps": [
+   3
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "Generated 1 field(s) from templates",
+  "engine": "rules",
+  "output": "short",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "short_description": {
+     "kind": "text",
+     "text": "Quilted Liner Vest, recycled polyester \u2014 from our outerwear range."
+    }
+   }
+  },
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.0731704,
+  "step_id": "seo_title",
+  "title": "Generate SEO title",
+  "tool": "llm_generate",
+  "kind": "tool",
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449383.0731704,
+  "step_id": "seo_title",
+  "message": "Offline mode: using the deterministic template for this step",
+  "level": "info",
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.0731704,
+  "step_id": "seo_title",
+  "title": "Generate SEO title",
+  "kind": "tool",
+  "tool": "llm_generate",
+  "excel_steps": [
+   4
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "Generated 1 field(s) from templates",
+  "engine": "rules",
+  "output": "seo",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "seo_title": {
+     "kind": "text",
+     "text": "Quilted Liner Vest | Outerwear"
+    }
+   }
+  },
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.0775032,
+  "step_id": "meta",
+  "title": "Generate meta description",
+  "tool": "llm_generate",
+  "kind": "tool",
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449383.0775032,
+  "step_id": "meta",
+  "message": "Offline mode: using the deterministic template for this step",
+  "level": "info",
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.0775032,
+  "step_id": "meta",
+  "title": "Generate meta description",
+  "kind": "tool",
+  "tool": "llm_generate",
+  "excel_steps": [
+   5
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "Generated 1 field(s) from templates",
+  "engine": "rules",
+  "output": "meta_out",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "meta_description": {
+     "kind": "text",
+     "text": "Shop the Quilted Liner Vest, made from recycled polyester. Explore our outerwear collection online."
+    }
+   }
+  },
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449383.0836082,
+  "step_id": "validate",
+  "title": "Validate generated text",
+  "tool": "validate_text",
+  "kind": "tool",
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449383.094706,
+  "step_id": "validate",
+  "title": "Validate generated text",
+  "kind": "tool",
+  "tool": "validate_text",
+  "excel_steps": [
+   5
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 12,
+  "summary": "All text checks passed",
+  "engine": null,
+  "output": "checks",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "checks": {
+     "kind": "table",
+     "columns": [
+      "field",
+      "check",
+      "result",
+      "detail"
+     ],
+     "rows": [
+      {
+       "field": "description",
+       "check": "No invented color",
+       "result": "Pass",
+       "detail": "none mentioned"
+      },
+      {
+       "field": "short_description",
+       "check": "Length \u2264 150",
+       "result": "Pass",
+       "detail": "66 characters"
+      },
+      {
+       "field": "short_description",
+       "check": "No invented color",
+       "result": "Pass",
+       "detail": "none mentioned"
+      },
+      {
+       "field": "seo_title",
+       "check": "Length \u2264 60",
+       "result": "Pass",
+       "detail": "30 characters"
+      },
+      {
+       "field": "seo_title",
+       "check": "No invented color",
+       "result": "Pass",
+       "detail": "none mentioned"
+      }
+     ],
+     "total": 7
+    },
+    "passed": {
+     "kind": "text",
+     "text": true
+    },
+    "failed": {
+     "kind": "text",
+     "text": 0
+    }
+   }
+  },
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "result",
+  "ts": 1791449383.1024454,
+  "status": "completed",
+  "title": "Content for Quilted Liner Vest",
+  "subtitle": "Catalog match: OW-3002 (100% name match)",
+  "sections": [
+   {
+    "type": "alert",
+    "title": "Missing information",
+    "text": "Not provided, so not used in the copy: color, target audience. Add them to the catalog or your request to enrich the content.",
+    "tone": "warn"
+   },
+   {
+    "type": "content",
+    "title": null,
+    "fields": [
+     {
+      "label": "Product description",
+      "value": "Meet the Quilted Liner Vest, part of our outerwear range, made from recycled polyester. Packable. An easy, reliable addition to your outerwear lineup.",
+      "meta": "150 characters",
+      "copy": true
+     },
+     {
+      "label": "Short description",
+      "value": "Quilted Liner Vest, recycled polyester \u2014 from our outerwear range.",
+      "meta": "66 / 150 characters",
+      "copy": true
+     },
+     {
+      "label": "SEO title",
+      "value": "Quilted Liner Vest | Outerwear",
+      "meta": "30 / 60 characters",
+      "copy": true
+     },
+     {
+      "label": "Meta description",
+      "value": "Shop the Quilted Liner Vest, made from recycled polyester. Explore our outerwear collection online.",
+      "meta": "99 / 160 characters",
+      "copy": true
+     }
+    ]
+   },
+   {
+    "type": "record",
+    "title": "Facts used",
+    "items": [
+     {
+      "label": "Product",
+      "value": "Quilted Liner Vest",
+      "tone": null
+     },
+     {
+      "label": "Category",
+      "value": "Outerwear",
+      "tone": null
+     },
+     {
+      "label": "Material",
+      "value": "Recycled Polyester",
+      "tone": null
+     },
+     {
+      "label": "Color",
+      "value": "Missing",
+      "tone": "warn"
+     },
+     {
+      "label": "Target audience",
+      "value": "Missing",
+      "tone": "warn"
+     },
+     {
+      "label": "Features",
+      "value": "Packable",
+      "tone": null
+     }
+    ]
+   },
+   {
+    "type": "table",
+    "title": "Quality checks",
+    "columns": [
+     {
+      "key": "field",
+      "label": "Field",
+      "format": null
+     },
+     {
+      "key": "check",
+      "label": "Check",
+      "format": null
+     },
+     {
+      "key": "result",
+      "label": "Result",
+      "format": null
+     },
+     {
+      "key": "detail",
+      "label": "Detail",
+      "format": null
+     }
+    ],
+    "rows": [
+     {
+      "field": "description",
+      "check": "No invented color",
+      "result": "Pass",
+      "detail": "none mentioned"
+     },
+     {
+      "field": "short_description",
+      "check": "Length \u2264 150",
+      "result": "Pass",
+      "detail": "66 characters"
+     },
+     {
+      "field": "short_description",
+      "check": "No invented color",
+      "result": "Pass",
+      "detail": "none mentioned"
+     },
+     {
+      "field": "seo_title",
+      "check": "Length \u2264 60",
+      "result": "Pass",
+      "detail": "30 characters"
+     },
+     {
+      "field": "seo_title",
+      "check": "No invented color",
+      "result": "Pass",
+      "detail": "none mentioned"
+     },
+     {
+      "field": "meta_description",
+      "check": "Length \u2264 160",
+      "result": "Pass",
+      "detail": "99 characters"
+     },
+     {
+      "field": "meta_description",
+      "check": "No invented color",
+      "result": "Pass",
+      "detail": "none mentioned"
+     }
+    ],
+    "total": 7,
+    "tones": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "empty": "No rows"
+   }
+  ],
+  "run_id": "e908b85c3d7c"
+ },
+ {
+  "type": "run_finished",
+  "ts": 1791449383.1024454,
+  "status": "completed",
+  "active_ms": 37,
+  "workflow_id": "WF004",
+  "run_id": "e908b85c3d7c"
+ }
+]

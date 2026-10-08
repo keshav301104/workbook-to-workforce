@@ -1,0 +1,1636 @@
+[
+ {
+  "type": "run_started",
+  "run_id": "991689f578ef",
+  "ts": 1791449384.9167786,
+  "request": "Create a campaign brief for the new collection.",
+  "llm": "Offline (deterministic fallback)",
+  "llm_enabled": false
+ },
+ {
+  "type": "stage",
+  "ts": 1791449384.9167786,
+  "stage": "routing",
+  "status": "started",
+  "message": "Reading 10 workflows from AI_Agent_Workflow_Assessment_1.xlsx",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "route",
+  "ts": 1791449384.9167786,
+  "workflow_id": "WF007",
+  "workflow_name": "Marketing Campaign Brief",
+  "confidence": 0.97,
+  "reasoning": "Matched on: campaign, collection, create, new.",
+  "method": "lexical",
+  "alternatives": [
+   {
+    "id": "WF004",
+    "score": 0.15,
+    "name": "Product Description Generator"
+   },
+   {
+    "id": "WF009",
+    "score": 0.15,
+    "name": "Employee Task Assignment"
+   }
+  ],
+  "note": null,
+  "threshold": 0.55,
+  "status": "routed",
+  "duration_ms": 3,
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "stage",
+  "ts": 1791449384.9291804,
+  "stage": "extracting",
+  "status": "started",
+  "message": "Reading inputs from your request",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "inputs",
+  "ts": 1791449384.9291804,
+  "inputs": [
+   {
+    "name": "campaign_goal",
+    "label": "Campaign goal",
+    "value": null,
+    "type": "text",
+    "required": true
+   },
+   {
+    "name": "start_date",
+    "label": "Start date",
+    "value": null,
+    "type": "date",
+    "required": true
+   },
+   {
+    "name": "end_date",
+    "label": "End date",
+    "value": null,
+    "type": "date",
+    "required": true
+   },
+   {
+    "name": "products",
+    "label": "Products",
+    "value": "new collection",
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "target_audience",
+    "label": "Target audience",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "promotion",
+    "label": "Promotion",
+    "value": null,
+    "type": "text",
+    "required": false
+   }
+  ],
+  "sources": {
+   "products": "request"
+  },
+  "method": "patterns",
+  "note": null,
+  "duration_ms": 0,
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "params",
+  "ts": 1791449384.9291804,
+  "params": [],
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "input_check",
+  "ts": 1791449384.9356158,
+  "ok": false,
+  "missing": [
+   "campaign_goal",
+   "start_date",
+   "end_date"
+  ],
+  "inputs": [
+   {
+    "name": "campaign_goal",
+    "label": "Campaign goal",
+    "value": null,
+    "type": "text",
+    "required": true
+   },
+   {
+    "name": "start_date",
+    "label": "Start date",
+    "value": null,
+    "type": "date",
+    "required": true
+   },
+   {
+    "name": "end_date",
+    "label": "End date",
+    "value": null,
+    "type": "date",
+    "required": true
+   },
+   {
+    "name": "products",
+    "label": "Products",
+    "value": "new collection",
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "target_audience",
+    "label": "Target audience",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "promotion",
+    "label": "Promotion",
+    "value": null,
+    "type": "text",
+    "required": false
+   }
+  ],
+  "sources": {
+   "products": "request"
+  },
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "ask",
+  "run_id": "991689f578ef",
+  "ts": 1791449384.93992,
+  "kind": "inputs",
+  "message": "Before I write the brief I need the campaign goal and dates (the workflow rule says not to generate without them). What should the campaign achieve? When does it start? When does it end?",
+  "fields": [
+   {
+    "name": "campaign_goal",
+    "label": "Campaign goal",
+    "type": "text",
+    "description": "What the campaign should achieve",
+    "required": true,
+    "choices": [],
+    "sample": null,
+    "accept": [],
+    "multiline": true,
+    "placeholder": "What the campaign should achieve"
+   },
+   {
+    "name": "start_date",
+    "label": "Start date",
+    "type": "date",
+    "description": "First day of the campaign",
+    "required": true,
+    "choices": [],
+    "sample": null,
+    "accept": [],
+    "multiline": false,
+    "placeholder": "First day of the campaign"
+   },
+   {
+    "name": "end_date",
+    "label": "End date",
+    "type": "date",
+    "description": "Last day of the campaign",
+    "required": true,
+    "choices": [],
+    "sample": null,
+    "accept": [],
+    "multiline": false,
+    "placeholder": "Last day of the campaign"
+   }
+  ],
+  "workflow_id": "WF007"
+ },
+ {
+  "type": "resumed",
+  "run_id": "991689f578ef",
+  "ts": 1791449384.93992
+ },
+ {
+  "type": "inputs",
+  "ts": 1791449384.9457517,
+  "inputs": [
+   {
+    "name": "campaign_goal",
+    "label": "Campaign goal",
+    "value": "grow email signups",
+    "type": "text",
+    "required": true
+   },
+   {
+    "name": "start_date",
+    "label": "Start date",
+    "value": "2026-11-20",
+    "type": "date",
+    "required": true
+   },
+   {
+    "name": "end_date",
+    "label": "End date",
+    "value": "2026-11-01",
+    "type": "date",
+    "required": true
+   },
+   {
+    "name": "products",
+    "label": "Products",
+    "value": "new collection",
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "target_audience",
+    "label": "Target audience",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "promotion",
+    "label": "Promotion",
+    "value": null,
+    "type": "text",
+    "required": false
+   }
+  ],
+  "sources": {
+   "products": "request",
+   "campaign_goal": "you",
+   "start_date": "you",
+   "end_date": "you"
+  },
+  "method": "user",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "input_check",
+  "ts": 1791449384.94864,
+  "ok": true,
+  "missing": [],
+  "inputs": [
+   {
+    "name": "campaign_goal",
+    "label": "Campaign goal",
+    "value": "grow email signups",
+    "type": "text",
+    "required": true
+   },
+   {
+    "name": "start_date",
+    "label": "Start date",
+    "value": "2026-11-20",
+    "type": "date",
+    "required": true
+   },
+   {
+    "name": "end_date",
+    "label": "End date",
+    "value": "2026-11-01",
+    "type": "date",
+    "required": true
+   },
+   {
+    "name": "products",
+    "label": "Products",
+    "value": "new collection",
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "target_audience",
+    "label": "Target audience",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "promotion",
+    "label": "Promotion",
+    "value": null,
+    "type": "text",
+    "required": false
+   }
+  ],
+  "sources": {
+   "products": "request",
+   "campaign_goal": "you",
+   "start_date": "you",
+   "end_date": "you"
+  },
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "plan",
+  "ts": 1791449384.952288,
+  "workflow_id": "WF007",
+  "workflow_name": "Marketing Campaign Brief",
+  "steps": [
+   {
+    "id": "validate",
+    "title": "Validate inputs",
+    "kind": "tool",
+    "tool": "check_fields",
+    "category": "decision",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Validate inputs"
+    ],
+    "note": "Excel rule: if campaign goal or dates are missing, request them before generating the brief (enforced before this step by the required-input gate)."
+   },
+   {
+    "id": "date_order",
+    "title": "Dates in the right order?",
+    "kind": "decision",
+    "tool": null,
+    "category": "decision",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Validate inputs"
+    ],
+    "note": null
+   },
+   {
+    "id": "objective",
+    "title": "Identify campaign objective",
+    "kind": "tool",
+    "tool": "llm_generate",
+    "category": "language",
+    "llm": true,
+    "api": null,
+    "excel_steps": [
+     2
+    ],
+    "excel_text": [
+     "identify campaign objective"
+    ],
+    "note": null
+   },
+   {
+    "id": "load_products",
+    "title": "Read product data",
+    "kind": "tool",
+    "tool": "load_table",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     3
+    ],
+    "excel_text": [
+     "summarize products"
+    ],
+    "note": null
+   },
+   {
+    "id": "select_products",
+    "title": "Select campaign products",
+    "kind": "tool",
+    "tool": "match_rows",
+    "category": "lookup",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     3
+    ],
+    "excel_text": [
+     "summarize products"
+    ],
+    "note": "'New collection' resolves to the collection with the most recent launch date in the product data."
+   },
+   {
+    "id": "summarize_products",
+    "title": "Summarize products",
+    "kind": "tool",
+    "tool": "llm_generate",
+    "category": "language",
+    "llm": true,
+    "api": null,
+    "excel_steps": [
+     3
+    ],
+    "excel_text": [
+     "summarize products"
+    ],
+    "note": null
+   },
+   {
+    "id": "messaging",
+    "title": "Create messaging",
+    "kind": "tool",
+    "tool": "llm_generate",
+    "category": "language",
+    "llm": true,
+    "api": null,
+    "excel_steps": [
+     4
+    ],
+    "excel_text": [
+     "create messaging"
+    ],
+    "note": null
+   },
+   {
+    "id": "channels",
+    "title": "Create channel recommendations",
+    "kind": "tool",
+    "tool": "llm_generate",
+    "category": "language",
+    "llm": true,
+    "api": null,
+    "excel_steps": [
+     5
+    ],
+    "excel_text": [
+     "create channel recommendations"
+    ],
+    "note": null
+   },
+   {
+    "id": "timeline",
+    "title": "Build campaign timeline",
+    "kind": "tool",
+    "tool": "build_timeline",
+    "category": "planning",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     6
+    ],
+    "excel_text": [
+     "create campaign checklist"
+    ],
+    "note": null
+   },
+   {
+    "id": "checklist",
+    "title": "Create campaign checklist",
+    "kind": "tool",
+    "tool": "llm_generate",
+    "category": "language",
+    "llm": true,
+    "api": null,
+    "excel_steps": [
+     6
+    ],
+    "excel_text": [
+     "create campaign checklist"
+    ],
+    "note": null
+   }
+  ],
+  "excel_steps": [
+   "Validate inputs",
+   "identify campaign objective",
+   "summarize products",
+   "create messaging",
+   "create channel recommendations",
+   "create campaign checklist"
+  ],
+  "decision_logic": "If campaign goal or dates are missing, request them before generating the brief",
+  "plan_file": "WF007.yaml",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "stage",
+  "ts": 1791449384.952288,
+  "stage": "executing",
+  "status": "started",
+  "message": "Running 10 steps",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.9551158,
+  "step_id": "validate",
+  "title": "Validate inputs",
+  "tool": "check_fields",
+  "kind": "tool",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449384.9551158,
+  "step_id": "validate",
+  "message": "Not provided (will not be invented): target_audience",
+  "level": "warn",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449384.9551158,
+  "step_id": "validate",
+  "message": "Not provided (will not be invented): promotion",
+  "level": "warn",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.9551158,
+  "step_id": "validate",
+  "title": "Validate inputs",
+  "kind": "tool",
+  "tool": "check_fields",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "All required fields present; missing optional: target_audience, promotion",
+  "engine": null,
+  "output": "checked",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "missing_required": {
+     "kind": "list",
+     "items": [],
+     "total": 0
+    },
+    "missing_optional": {
+     "kind": "list",
+     "items": [
+      "target_audience",
+      "promotion"
+     ],
+     "total": 2
+    },
+    "present": {
+     "kind": "text",
+     "text": "4 fields"
+    },
+    "ok": {
+     "kind": "text",
+     "text": true
+    }
+   }
+  },
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.9591374,
+  "step_id": "date_order",
+  "title": "Dates in the right order?",
+  "tool": null,
+  "kind": "decision",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "decision",
+  "ts": 1791449384.9591374,
+  "step_id": "date_order",
+  "expression": "days_between(inputs.start_date, inputs.end_date) < 0",
+  "result": true,
+  "action": "ask",
+  "message": "The end date (Nov 01, 2026) is before the start date (Nov 20, 2026). Please re-enter the campaign dates.",
+  "note": null,
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.9591374,
+  "step_id": "date_order",
+  "title": "Dates in the right order?",
+  "kind": "decision",
+  "tool": null,
+  "excel_steps": [
+   1
+  ],
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "`days_between(inputs.start_date, inputs.end_date) < 0` \u2192 true \u2192 ask",
+  "result": true,
+  "action": "ask",
+  "message": "The end date (Nov 01, 2026) is before the start date (Nov 20, 2026). Please re-enter the campaign dates.",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "ask",
+  "run_id": "991689f578ef",
+  "ts": 1791449384.96115,
+  "kind": "step",
+  "message": "The end date (Nov 01, 2026) is before the start date (Nov 20, 2026). Please re-enter the campaign dates.",
+  "step_id": "date_order",
+  "fields": [
+   {
+    "name": "start_date",
+    "label": "Start date",
+    "type": "date",
+    "description": "First day of the campaign",
+    "required": true,
+    "choices": [],
+    "sample": null,
+    "accept": [],
+    "multiline": false,
+    "placeholder": "First day of the campaign"
+   },
+   {
+    "name": "end_date",
+    "label": "End date",
+    "type": "date",
+    "description": "Last day of the campaign",
+    "required": true,
+    "choices": [],
+    "sample": null,
+    "accept": [],
+    "multiline": false,
+    "placeholder": "Last day of the campaign"
+   }
+  ],
+  "goto": "validate",
+  "workflow_id": "WF007"
+ },
+ {
+  "type": "resumed",
+  "run_id": "991689f578ef",
+  "ts": 1791449384.9655666
+ },
+ {
+  "type": "inputs",
+  "ts": 1791449384.9692633,
+  "inputs": [
+   {
+    "name": "campaign_goal",
+    "label": "Campaign goal",
+    "value": "grow email signups",
+    "type": "text",
+    "required": true
+   },
+   {
+    "name": "start_date",
+    "label": "Start date",
+    "value": "2026-11-01",
+    "type": "date",
+    "required": true
+   },
+   {
+    "name": "end_date",
+    "label": "End date",
+    "value": "2026-11-20",
+    "type": "date",
+    "required": true
+   },
+   {
+    "name": "products",
+    "label": "Products",
+    "value": "new collection",
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "target_audience",
+    "label": "Target audience",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "promotion",
+    "label": "Promotion",
+    "value": null,
+    "type": "text",
+    "required": false
+   }
+  ],
+  "sources": {
+   "products": "request",
+   "campaign_goal": "you",
+   "start_date": "you",
+   "end_date": "you"
+  },
+  "method": "user",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "rewind",
+  "ts": 1791449384.9692633,
+  "to_step": "validate",
+  "message": "Re-running from this step with your answer",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.973129,
+  "step_id": "validate",
+  "title": "Validate inputs",
+  "tool": "check_fields",
+  "kind": "tool",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449384.973129,
+  "step_id": "validate",
+  "message": "Not provided (will not be invented): target_audience",
+  "level": "warn",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449384.973129,
+  "step_id": "validate",
+  "message": "Not provided (will not be invented): promotion",
+  "level": "warn",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.973129,
+  "step_id": "validate",
+  "title": "Validate inputs",
+  "kind": "tool",
+  "tool": "check_fields",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "All required fields present; missing optional: target_audience, promotion",
+  "engine": null,
+  "output": "checked",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "missing_required": {
+     "kind": "list",
+     "items": [],
+     "total": 0
+    },
+    "missing_optional": {
+     "kind": "list",
+     "items": [
+      "target_audience",
+      "promotion"
+     ],
+     "total": 2
+    },
+    "present": {
+     "kind": "text",
+     "text": "4 fields"
+    },
+    "ok": {
+     "kind": "text",
+     "text": true
+    }
+   }
+  },
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.9771497,
+  "step_id": "date_order",
+  "title": "Dates in the right order?",
+  "tool": null,
+  "kind": "decision",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "decision",
+  "ts": 1791449384.9771497,
+  "step_id": "date_order",
+  "expression": "days_between(inputs.start_date, inputs.end_date) < 0",
+  "result": false,
+  "action": "continue",
+  "message": null,
+  "note": null,
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.9771497,
+  "step_id": "date_order",
+  "title": "Dates in the right order?",
+  "kind": "decision",
+  "tool": null,
+  "excel_steps": [
+   1
+  ],
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "`days_between(inputs.start_date, inputs.end_date) < 0` \u2192 false \u2192 continue",
+  "result": false,
+  "action": "continue",
+  "message": null,
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.9806464,
+  "step_id": "objective",
+  "title": "Identify campaign objective",
+  "tool": "llm_generate",
+  "kind": "tool",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449384.982681,
+  "step_id": "objective",
+  "message": "Offline mode: using the deterministic template for this step",
+  "level": "info",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.982681,
+  "step_id": "objective",
+  "title": "Identify campaign objective",
+  "kind": "tool",
+  "tool": "llm_generate",
+  "excel_steps": [
+   2
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 1,
+  "summary": "Generated 3 field(s) from templates",
+  "engine": "rules",
+  "output": "objective",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "objective": {
+     "kind": "text",
+     "text": "Grow email signups between Nov 01, 2026 and Nov 20, 2026."
+    },
+    "objective_type": {
+     "kind": "text",
+     "text": "Acquisition"
+    },
+    "primary_kpi": {
+     "kind": "text",
+     "text": "New customers / sign-ups"
+    }
+   }
+  },
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.9854372,
+  "step_id": "load_products",
+  "title": "Read product data",
+  "tool": "load_table",
+  "kind": "tool",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.9975088,
+  "step_id": "load_products",
+  "title": "Read product data",
+  "kind": "tool",
+  "tool": "load_table",
+  "excel_steps": [
+   3
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 11,
+  "summary": "Loaded 15 rows \u00d7 13 columns from products.csv",
+  "engine": null,
+  "output": "catalog",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "sku",
+    "product_name",
+    "brand",
+    "category",
+    "collection",
+    "launch_date",
+    "material",
+    "color"
+   ],
+   "rows": [
+    {
+     "sku": "TS-1001",
+     "product_name": "Classic Linen Shirt",
+     "brand": "Halden",
+     "category": "Shirts",
+     "collection": "Summer 2026",
+     "launch_date": "2026-04-01",
+     "material": "Linen",
+     "color": "White"
+    },
+    {
+     "sku": "TS-1002",
+     "product_name": "Oxford Button-Down Shirt",
+     "brand": "Halden",
+     "category": "Shirts",
+     "collection": "Core",
+     "launch_date": "2025-01-10",
+     "material": "Cotton",
+     "color": "Light Blue"
+    },
+    {
+     "sku": "TS-1003",
+     "product_name": "Linen Overshirt",
+     "brand": "Halden",
+     "category": "Shirts",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Linen",
+     "color": "Sage Green"
+    },
+    {
+     "sku": "KN-2001",
+     "product_name": "Merino Crew Sweater",
+     "brand": "Halden",
+     "category": "Knitwear",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Merino Wool",
+     "color": "Charcoal"
+    },
+    {
+     "sku": "KN-2002",
+     "product_name": "Cable Knit Cardigan",
+     "brand": "Halden",
+     "category": "Knitwear",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": null,
+     "color": "Oat"
+    }
+   ],
+   "total": 15
+  },
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.9975088,
+  "step_id": "select_products",
+  "title": "Select campaign products",
+  "tool": "match_rows",
+  "kind": "tool",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449385.001943,
+  "step_id": "select_products",
+  "message": "'new collection' resolved to the most recent collection: Autumn 2026",
+  "level": "info",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449385.001943,
+  "step_id": "select_products",
+  "title": "Select campaign products",
+  "kind": "tool",
+  "tool": "match_rows",
+  "excel_steps": [
+   3
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 3,
+  "summary": "8 products in Autumn 2026",
+  "engine": null,
+  "output": "campaign_products",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "sku",
+    "product_name",
+    "brand",
+    "category",
+    "collection",
+    "launch_date",
+    "material",
+    "color"
+   ],
+   "rows": [
+    {
+     "sku": "TS-1003",
+     "product_name": "Linen Overshirt",
+     "brand": "Halden",
+     "category": "Shirts",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Linen",
+     "color": "Sage Green"
+    },
+    {
+     "sku": "KN-2001",
+     "product_name": "Merino Crew Sweater",
+     "brand": "Halden",
+     "category": "Knitwear",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Merino Wool",
+     "color": "Charcoal"
+    },
+    {
+     "sku": "KN-2002",
+     "product_name": "Cable Knit Cardigan",
+     "brand": "Halden",
+     "category": "Knitwear",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": null,
+     "color": "Oat"
+    },
+    {
+     "sku": "OW-3001",
+     "product_name": "Waxed Field Jacket",
+     "brand": "Halden",
+     "category": "Outerwear",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Waxed Cotton",
+     "color": "Olive"
+    },
+    {
+     "sku": "OW-3002",
+     "product_name": "Quilted Liner Vest",
+     "brand": "Halden",
+     "category": "Outerwear",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Recycled Polyester",
+     "color": null
+    }
+   ],
+   "total": 8
+  },
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449385.001943,
+  "step_id": "summarize_products",
+  "title": "Summarize products",
+  "tool": "llm_generate",
+  "kind": "tool",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449385.001943,
+  "step_id": "summarize_products",
+  "message": "Offline mode: using the deterministic template for this step",
+  "level": "info",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449385.001943,
+  "step_id": "summarize_products",
+  "title": "Summarize products",
+  "kind": "tool",
+  "tool": "llm_generate",
+  "excel_steps": [
+   3
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 4,
+  "summary": "Generated 2 field(s) from templates",
+  "engine": "rules",
+  "output": "product_info",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "product_summary": {
+     "kind": "text",
+     "text": "The campaign features 8 products from Autumn 2026 across Shirts, Knitwear, Outerwear, Trousers, Accessories, Home, priced $35.00\u2013$249.00."
+    },
+    "hero_products": {
+     "kind": "list",
+     "items": [
+      "Waxed Field Jacket",
+      "Pleated Wool Trousers",
+      "Cable Knit Cardigan"
+     ],
+     "total": 3
+    }
+   }
+  },
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449385.001943,
+  "step_id": "messaging",
+  "title": "Create messaging",
+  "tool": "llm_generate",
+  "kind": "tool",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449385.0180728,
+  "step_id": "messaging",
+  "message": "Offline mode: using the deterministic template for this step",
+  "level": "info",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449385.0180728,
+  "step_id": "messaging",
+  "title": "Create messaging",
+  "kind": "tool",
+  "tool": "llm_generate",
+  "excel_steps": [
+   4
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 3,
+  "summary": "Generated 4 field(s) from templates",
+  "engine": "rules",
+  "output": "messaging",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "headline": {
+     "kind": "text",
+     "text": "Discover New Collection"
+    },
+    "key_message": {
+     "kind": "text",
+     "text": "Our new collection for every customer, Nov 01, 2026 to Nov 20, 2026."
+    },
+    "supporting_points": {
+     "kind": "list",
+     "items": [
+      "Hero pieces: Waxed Field Jacket, Pleated Wool Trousers, Cable Knit Cardigan",
+      "Made in materials like Linen, Merino Wool, Waxed Cotton",
+      "Runs Nov 01, 2026 \u2013 Nov 20, 2026"
+     ],
+     "total": 3
+    },
+    "call_to_action": {
+     "kind": "text",
+     "text": "Sign up today"
+    }
+   }
+  },
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449385.0194466,
+  "step_id": "channels",
+  "title": "Create channel recommendations",
+  "tool": "llm_generate",
+  "kind": "tool",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449385.0194466,
+  "step_id": "channels",
+  "message": "Offline mode: using the deterministic template for this step",
+  "level": "info",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449385.0194466,
+  "step_id": "channels",
+  "title": "Create channel recommendations",
+  "kind": "tool",
+  "tool": "llm_generate",
+  "excel_steps": [
+   5
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "Generated 1 field(s) from templates",
+  "engine": "rules",
+  "output": "channel_plan",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "channels": {
+     "kind": "list",
+     "items": [
+      "Paid social lead ads \u2014 capture sign-ups at low cost",
+      "Search (non-brand) \u2014 reach shoppers looking for the category",
+      "Referral offer \u2014 turn customers into acquisition",
+      "Pop-up signup on site \u2014 convert visitors"
+     ],
+     "total": 4
+    }
+   }
+  },
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449385.0194466,
+  "step_id": "timeline",
+  "title": "Build campaign timeline",
+  "tool": "build_timeline",
+  "kind": "tool",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449385.0194466,
+  "step_id": "timeline",
+  "title": "Build campaign timeline",
+  "kind": "tool",
+  "tool": "build_timeline",
+  "excel_steps": [
+   6
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 1,
+  "summary": "4 phases over 20 days",
+  "engine": null,
+  "output": "timeline",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "phase",
+    "start",
+    "end",
+    "days",
+    "focus"
+   ],
+   "rows": [
+    {
+     "phase": "Tease",
+     "start": "2026-11-01",
+     "end": "2026-11-03",
+     "days": 3,
+     "focus": "Build anticipation; preview hero products"
+    },
+    {
+     "phase": "Launch",
+     "start": "2026-11-04",
+     "end": "2026-11-10",
+     "days": 7,
+     "focus": "Full push across all channels"
+    },
+    {
+     "phase": "Sustain",
+     "start": "2026-11-11",
+     "end": "2026-11-17",
+     "days": 7,
+     "focus": "Retarget engaged visitors; social proof"
+    },
+    {
+     "phase": "Last chance",
+     "start": "2026-11-18",
+     "end": "2026-11-20",
+     "days": 3,
+     "focus": "Urgency messaging before the end date"
+    }
+   ],
+   "total": 4
+  },
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449385.0194466,
+  "step_id": "checklist",
+  "title": "Create campaign checklist",
+  "tool": "llm_generate",
+  "kind": "tool",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449385.0194466,
+  "step_id": "checklist",
+  "message": "Offline mode: using the deterministic template for this step",
+  "level": "info",
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449385.0194466,
+  "step_id": "checklist",
+  "title": "Create campaign checklist",
+  "kind": "tool",
+  "tool": "llm_generate",
+  "excel_steps": [
+   6
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 2,
+  "summary": "Generated 1 field(s) from templates",
+  "engine": "rules",
+  "output": "checklist",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "checklist": {
+     "kind": "list",
+     "items": [
+      "Confirm budget and owner per channel",
+      "Finalise creative for Paid social lead ads, Search (non-brand), Referral offer",
+      "Set up tracking for New customers / sign-ups",
+      "Check stock levels for hero products",
+      "Confirm whether an offer is needed",
+      "Schedule emails and posts for each timeline phase",
+      "QA landing page on mobile and desktop",
+      "Book a results review for Nov 20, 2026"
+     ],
+     "total": 8
+    }
+   }
+  },
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "result",
+  "ts": 1791449385.033767,
+  "status": "completed",
+  "title": "Campaign brief: Discover New Collection",
+  "subtitle": "Acquisition campaign \u00b7 Nov 01, 2026 \u2013 Nov 20, 2026 (20 days)",
+  "sections": [
+   {
+    "type": "record",
+    "title": "Overview",
+    "items": [
+     {
+      "label": "Objective",
+      "value": "Grow email signups between Nov 01, 2026 and Nov 20, 2026.",
+      "tone": null
+     },
+     {
+      "label": "Objective type",
+      "value": "Acquisition",
+      "tone": null
+     },
+     {
+      "label": "Primary KPI",
+      "value": "New customers / sign-ups",
+      "tone": null
+     },
+     {
+      "label": "Audience",
+      "value": "Not specified \u2014 define before launch",
+      "tone": "warn"
+     },
+     {
+      "label": "Promotion",
+      "value": "None",
+      "tone": null
+     },
+     {
+      "label": "Products",
+      "value": "The campaign features 8 products from Autumn 2026 across Shirts, Knitwear, Outerwear, Trousers, Accessories, Home, priced $35.00\u2013$249.00.",
+      "tone": null
+     }
+    ]
+   },
+   {
+    "type": "content",
+    "title": "Messaging",
+    "fields": [
+     {
+      "label": "Headline",
+      "value": "Discover New Collection",
+      "meta": null,
+      "copy": true
+     },
+     {
+      "label": "Key message",
+      "value": "Our new collection for every customer, Nov 01, 2026 to Nov 20, 2026.",
+      "meta": null,
+      "copy": true
+     },
+     {
+      "label": "Supporting points",
+      "value": "\u2022 Hero pieces: Waxed Field Jacket, Pleated Wool Trousers, Cable Knit Cardigan\n\u2022 Made in materials like Linen, Merino Wool, Waxed Cotton\n\u2022 Runs Nov 01, 2026 \u2013 Nov 20, 2026",
+      "meta": null,
+      "copy": true
+     },
+     {
+      "label": "Call to action",
+      "value": "Sign up today",
+      "meta": null,
+      "copy": true
+     }
+    ]
+   },
+   {
+    "type": "list",
+    "title": "Channel recommendations",
+    "items": [
+     "Paid social lead ads \u2014 capture sign-ups at low cost",
+     "Search (non-brand) \u2014 reach shoppers looking for the category",
+     "Referral offer \u2014 turn customers into acquisition",
+     "Pop-up signup on site \u2014 convert visitors"
+    ]
+   },
+   {
+    "type": "table",
+    "title": "Timeline",
+    "columns": [
+     {
+      "key": "phase",
+      "label": "Phase",
+      "format": null
+     },
+     {
+      "key": "start",
+      "label": "Start",
+      "format": null
+     },
+     {
+      "key": "end",
+      "label": "End",
+      "format": null
+     },
+     {
+      "key": "days",
+      "label": "Days",
+      "format": null
+     },
+     {
+      "key": "focus",
+      "label": "Focus",
+      "format": null
+     }
+    ],
+    "rows": [
+     {
+      "phase": "Tease",
+      "start": "2026-11-01",
+      "end": "2026-11-03",
+      "days": 3,
+      "focus": "Build anticipation; preview hero products"
+     },
+     {
+      "phase": "Launch",
+      "start": "2026-11-04",
+      "end": "2026-11-10",
+      "days": 7,
+      "focus": "Full push across all channels"
+     },
+     {
+      "phase": "Sustain",
+      "start": "2026-11-11",
+      "end": "2026-11-17",
+      "days": 7,
+      "focus": "Retarget engaged visitors; social proof"
+     },
+     {
+      "phase": "Last chance",
+      "start": "2026-11-18",
+      "end": "2026-11-20",
+      "days": 3,
+      "focus": "Urgency messaging before the end date"
+     }
+    ],
+    "total": 4,
+    "tones": null,
+    "empty": "No rows"
+   },
+   {
+    "type": "table",
+    "title": "Featured products",
+    "columns": [
+     {
+      "key": "sku",
+      "label": "SKU",
+      "format": null
+     },
+     {
+      "key": "product_name",
+      "label": "Product",
+      "format": null
+     },
+     {
+      "key": "category",
+      "label": "Category",
+      "format": null
+     },
+     {
+      "key": "collection",
+      "label": "Collection",
+      "format": null
+     },
+     {
+      "key": "internal_price",
+      "label": "Price",
+      "format": null
+     }
+    ],
+    "rows": [
+     {
+      "sku": "TS-1003",
+      "product_name": "Linen Overshirt",
+      "category": "Shirts",
+      "collection": "Autumn 2026",
+      "internal_price": 89.0
+     },
+     {
+      "sku": "KN-2001",
+      "product_name": "Merino Crew Sweater",
+      "category": "Knitwear",
+      "collection": "Autumn 2026",
+      "internal_price": 119.0
+     },
+     {
+      "sku": "KN-2002",
+      "product_name": "Cable Knit Cardigan",
+      "category": "Knitwear",
+      "collection": "Autumn 2026",
+      "internal_price": 139.0
+     },
+     {
+      "sku": "OW-3001",
+      "product_name": "Waxed Field Jacket",
+      "category": "Outerwear",
+      "collection": "Autumn 2026",
+      "internal_price": 249.0
+     },
+     {
+      "sku": "OW-3002",
+      "product_name": "Quilted Liner Vest",
+      "category": "Outerwear",
+      "collection": "Autumn 2026",
+      "internal_price": 129.0
+     },
+     {
+      "sku": "TR-4002",
+      "product_name": "Pleated Wool Trousers",
+      "category": "Trousers",
+      "collection": "Autumn 2026",
+      "internal_price": 149.0
+     },
+     {
+      "sku": "AC-5002",
+      "product_name": "Wool Beanie",
+      "category": "Accessories",
+      "collection": "Autumn 2026",
+      "internal_price": 35.0
+     },
+     {
+      "sku": "HM-6003",
+      "product_name": "Wool Throw Blanket",
+      "category": "Home",
+      "collection": "Autumn 2026",
+      "internal_price": 129.0
+     }
+    ],
+    "total": 8,
+    "tones": null,
+    "empty": "No rows"
+   },
+   {
+    "type": "list",
+    "title": "Campaign checklist",
+    "items": [
+     "Confirm budget and owner per channel",
+     "Finalise creative for Paid social lead ads, Search (non-brand), Referral offer",
+     "Set up tracking for New customers / sign-ups",
+     "Check stock levels for hero products",
+     "Confirm whether an offer is needed",
+     "Schedule emails and posts for each timeline phase",
+     "QA landing page on mobile and desktop",
+     "Book a results review for Nov 20, 2026"
+    ]
+   }
+  ],
+  "run_id": "991689f578ef"
+ },
+ {
+  "type": "run_finished",
+  "ts": 1791449385.033767,
+  "status": "completed",
+  "active_ms": 28,
+  "workflow_id": "WF007",
+  "run_id": "991689f578ef"
+ }
+]

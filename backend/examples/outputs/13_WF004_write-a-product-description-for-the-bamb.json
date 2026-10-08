@@ -1,0 +1,1374 @@
+[
+ {
+  "type": "run_started",
+  "run_id": "beae93a93bfc",
+  "ts": 1791449384.7955103,
+  "request": "Write a product description for the Bamboo lounge pants, color: charcoal",
+  "llm": "Offline (deterministic fallback)",
+  "llm_enabled": false
+ },
+ {
+  "type": "stage",
+  "ts": 1791449384.7994041,
+  "stage": "routing",
+  "status": "started",
+  "message": "Reading 10 workflows from AI_Agent_Workflow_Assessment_1.xlsx",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "route",
+  "ts": 1791449384.8034494,
+  "workflow_id": "WF004",
+  "workflow_name": "Product Description Generator",
+  "confidence": 0.82,
+  "reasoning": "Matched on: color, description, product, write.",
+  "method": "lexical",
+  "alternatives": [
+   {
+    "id": "WF002",
+    "score": 0.16,
+    "name": "Product Price Validation"
+   },
+   {
+    "id": "WF006",
+    "score": 0.16,
+    "name": "Duplicate Product Detection"
+   },
+   {
+    "id": "WF001",
+    "score": 0.14,
+    "name": "Inventory Restock Check"
+   }
+  ],
+  "note": null,
+  "threshold": 0.55,
+  "status": "routed",
+  "duration_ms": 3,
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "stage",
+  "ts": 1791449384.8053985,
+  "stage": "extracting",
+  "status": "started",
+  "message": "Reading inputs from your request",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "inputs",
+  "ts": 1791449384.8074105,
+  "inputs": [
+   {
+    "name": "product",
+    "label": "Product",
+    "value": "Bamboo lounge pants",
+    "type": "text",
+    "required": true
+   },
+   {
+    "name": "category",
+    "label": "Category",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "material",
+    "label": "Material",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "color",
+    "label": "Color",
+    "value": "charcoal",
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "target_audience",
+    "label": "Target audience",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "attributes",
+    "label": "Other attributes",
+    "value": null,
+    "type": "text",
+    "required": false
+   }
+  ],
+  "sources": {
+   "product": "request",
+   "color": "request"
+  },
+  "method": "patterns",
+  "note": null,
+  "duration_ms": 0,
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "params",
+  "ts": 1791449384.8074105,
+  "params": [],
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "input_check",
+  "ts": 1791449384.8097508,
+  "ok": true,
+  "missing": [],
+  "inputs": [
+   {
+    "name": "product",
+    "label": "Product",
+    "value": "Bamboo lounge pants",
+    "type": "text",
+    "required": true
+   },
+   {
+    "name": "category",
+    "label": "Category",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "material",
+    "label": "Material",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "color",
+    "label": "Color",
+    "value": "charcoal",
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "target_audience",
+    "label": "Target audience",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "attributes",
+    "label": "Other attributes",
+    "value": null,
+    "type": "text",
+    "required": false
+   }
+  ],
+  "sources": {
+   "product": "request",
+   "color": "request"
+  },
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "plan",
+  "ts": 1791449384.8134656,
+  "workflow_id": "WF004",
+  "workflow_name": "Product Description Generator",
+  "steps": [
+   {
+    "id": "catalog",
+    "title": "Load product catalog",
+    "kind": "tool",
+    "tool": "load_table",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Validate required attributes"
+    ],
+    "note": null
+   },
+   {
+    "id": "lookup",
+    "title": "Find product in catalog",
+    "kind": "tool",
+    "tool": "fuzzy_lookup",
+    "category": "lookup",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Validate required attributes"
+    ],
+    "note": null
+   },
+   {
+    "id": "merge",
+    "title": "Collect product attributes",
+    "kind": "tool",
+    "tool": "merge_record",
+    "category": "data",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Validate required attributes"
+    ],
+    "note": "Catalog data first; anything stated in the request overrides it."
+   },
+   {
+    "id": "check",
+    "title": "Validate required attributes",
+    "kind": "tool",
+    "tool": "check_fields",
+    "category": "decision",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Validate required attributes"
+    ],
+    "note": null
+   },
+   {
+    "id": "need_category",
+    "title": "Category known?",
+    "kind": "decision",
+    "tool": null,
+    "category": "decision",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     1
+    ],
+    "excel_text": [
+     "Validate required attributes"
+    ],
+    "note": "Category is needed to write anything accurate. Other missing attributes are marked as missing (Excel rule: do not invent)."
+   },
+   {
+    "id": "description",
+    "title": "Create product description",
+    "kind": "tool",
+    "tool": "llm_generate",
+    "category": "language",
+    "llm": true,
+    "api": null,
+    "excel_steps": [
+     2
+    ],
+    "excel_text": [
+     "create product description"
+    ],
+    "note": null
+   },
+   {
+    "id": "short",
+    "title": "Generate short description",
+    "kind": "tool",
+    "tool": "llm_generate",
+    "category": "language",
+    "llm": true,
+    "api": null,
+    "excel_steps": [
+     3
+    ],
+    "excel_text": [
+     "generate short description"
+    ],
+    "note": null
+   },
+   {
+    "id": "seo_title",
+    "title": "Generate SEO title",
+    "kind": "tool",
+    "tool": "llm_generate",
+    "category": "language",
+    "llm": true,
+    "api": null,
+    "excel_steps": [
+     4
+    ],
+    "excel_text": [
+     "generate SEO title"
+    ],
+    "note": null
+   },
+   {
+    "id": "meta",
+    "title": "Generate meta description",
+    "kind": "tool",
+    "tool": "llm_generate",
+    "category": "language",
+    "llm": true,
+    "api": null,
+    "excel_steps": [
+     5
+    ],
+    "excel_text": [
+     "generate meta description"
+    ],
+    "note": null
+   },
+   {
+    "id": "validate",
+    "title": "Validate generated text",
+    "kind": "tool",
+    "tool": "validate_text",
+    "category": "language",
+    "llm": false,
+    "api": null,
+    "excel_steps": [
+     5
+    ],
+    "excel_text": [
+     "generate meta description"
+    ],
+    "note": "Checks length limits and that no material/color value appears in the copy when that attribute was missing."
+   }
+  ],
+  "excel_steps": [
+   "Validate required attributes",
+   "create product description",
+   "generate short description",
+   "generate SEO title",
+   "generate meta description"
+  ],
+  "decision_logic": "Do not invent missing product attributes; explicitly mark missing information",
+  "plan_file": "WF004.yaml",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "stage",
+  "ts": 1791449384.8134656,
+  "stage": "executing",
+  "status": "started",
+  "message": "Running 10 steps",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.8165617,
+  "step_id": "catalog",
+  "title": "Load product catalog",
+  "tool": "load_table",
+  "kind": "tool",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.8275728,
+  "step_id": "catalog",
+  "title": "Load product catalog",
+  "kind": "tool",
+  "tool": "load_table",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 12,
+  "summary": "Loaded 15 rows \u00d7 13 columns from products.csv",
+  "engine": null,
+  "output": "products",
+  "preview": {
+   "kind": "table",
+   "columns": [
+    "sku",
+    "product_name",
+    "brand",
+    "category",
+    "collection",
+    "launch_date",
+    "material",
+    "color"
+   ],
+   "rows": [
+    {
+     "sku": "TS-1001",
+     "product_name": "Classic Linen Shirt",
+     "brand": "Halden",
+     "category": "Shirts",
+     "collection": "Summer 2026",
+     "launch_date": "2026-04-01",
+     "material": "Linen",
+     "color": "White"
+    },
+    {
+     "sku": "TS-1002",
+     "product_name": "Oxford Button-Down Shirt",
+     "brand": "Halden",
+     "category": "Shirts",
+     "collection": "Core",
+     "launch_date": "2025-01-10",
+     "material": "Cotton",
+     "color": "Light Blue"
+    },
+    {
+     "sku": "TS-1003",
+     "product_name": "Linen Overshirt",
+     "brand": "Halden",
+     "category": "Shirts",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Linen",
+     "color": "Sage Green"
+    },
+    {
+     "sku": "KN-2001",
+     "product_name": "Merino Crew Sweater",
+     "brand": "Halden",
+     "category": "Knitwear",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": "Merino Wool",
+     "color": "Charcoal"
+    },
+    {
+     "sku": "KN-2002",
+     "product_name": "Cable Knit Cardigan",
+     "brand": "Halden",
+     "category": "Knitwear",
+     "collection": "Autumn 2026",
+     "launch_date": "2026-09-15",
+     "material": null,
+     "color": "Oat"
+    }
+   ],
+   "total": 15
+  },
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.8328443,
+  "step_id": "lookup",
+  "title": "Find product in catalog",
+  "tool": "fuzzy_lookup",
+  "kind": "tool",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.837853,
+  "step_id": "lookup",
+  "title": "Find product in catalog",
+  "kind": "tool",
+  "tool": "fuzzy_lookup",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 2,
+  "summary": "No confident match for 'Bamboo lounge pants' (best 45%)",
+  "engine": null,
+  "output": "match",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "found": {
+     "kind": "text",
+     "text": false
+    },
+    "record": {
+     "kind": "text",
+     "text": null
+    },
+    "score": {
+     "kind": "text",
+     "text": 45
+    },
+    "candidates": {
+     "kind": "list",
+     "items": [
+      {
+       "index": 10,
+       "label": "Wool Beanie",
+       "score": 45
+      },
+      {
+       "index": 14,
+       "label": "Wool Throw Blanket",
+       "score": 43
+      },
+      {
+       "index": 0,
+       "label": "Classic Linen Shirt",
+       "score": 40
+      },
+      {
+       "index": 1,
+       "label": "Oxford Button-Down Shirt",
+       "score": 40
+      },
+      {
+       "index": 2,
+       "label": "Linen Overshirt",
+       "score": 40
+      }
+     ],
+     "total": 5
+    }
+   }
+  },
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.8398812,
+  "step_id": "merge",
+  "title": "Collect product attributes",
+  "tool": "merge_record",
+  "kind": "tool",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.8418958,
+  "step_id": "merge",
+  "title": "Collect product attributes",
+  "kind": "tool",
+  "tool": "merge_record",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "Record has 2 populated field(s); from request: color",
+  "engine": null,
+  "output": "product",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "product_name": {
+     "kind": "text",
+     "text": "Bamboo lounge pants"
+    },
+    "color": {
+     "kind": "text",
+     "text": "charcoal"
+    }
+   }
+  },
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.845926,
+  "step_id": "check",
+  "title": "Validate required attributes",
+  "tool": "check_fields",
+  "kind": "tool",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449384.845926,
+  "step_id": "check",
+  "message": "Required field missing: category",
+  "level": "warn",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449384.845926,
+  "step_id": "check",
+  "message": "Not provided (will not be invented): material",
+  "level": "warn",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449384.845926,
+  "step_id": "check",
+  "message": "Not provided (will not be invented): target_audience",
+  "level": "warn",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449384.845926,
+  "step_id": "check",
+  "message": "Not provided (will not be invented): features",
+  "level": "warn",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.845926,
+  "step_id": "check",
+  "title": "Validate required attributes",
+  "kind": "tool",
+  "tool": "check_fields",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "Missing required: category; missing optional: material, target_audience, features",
+  "engine": null,
+  "output": "fields",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "missing_required": {
+     "kind": "list",
+     "items": [
+      "category"
+     ],
+     "total": 1
+    },
+    "missing_optional": {
+     "kind": "list",
+     "items": [
+      "material",
+      "target_audience",
+      "features"
+     ],
+     "total": 3
+    },
+    "present": {
+     "kind": "text",
+     "text": "2 fields"
+    },
+    "ok": {
+     "kind": "text",
+     "text": false
+    }
+   }
+  },
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.849951,
+  "step_id": "need_category",
+  "title": "Category known?",
+  "tool": null,
+  "kind": "decision",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "decision",
+  "ts": 1791449384.849951,
+  "step_id": "need_category",
+  "expression": "not fields.ok",
+  "result": true,
+  "action": "ask",
+  "message": "\u201cBamboo lounge pants\u201d isn't in the catalog, so I need its category. Attributes I don't have will be marked missing rather than invented.",
+  "note": "Category is needed to write anything accurate. Other missing attributes are marked as missing (Excel rule: do not invent).",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.849951,
+  "step_id": "need_category",
+  "title": "Category known?",
+  "kind": "decision",
+  "tool": null,
+  "excel_steps": [
+   1
+  ],
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "`not fields.ok` \u2192 true \u2192 ask",
+  "result": true,
+  "action": "ask",
+  "message": "\u201cBamboo lounge pants\u201d isn't in the catalog, so I need its category. Attributes I don't have will be marked missing rather than invented.",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "ask",
+  "run_id": "beae93a93bfc",
+  "ts": 1791449384.8537278,
+  "kind": "step",
+  "message": "\u201cBamboo lounge pants\u201d isn't in the catalog, so I need its category. Attributes I don't have will be marked missing rather than invented.",
+  "step_id": "need_category",
+  "fields": [
+   {
+    "name": "category",
+    "label": "Category",
+    "type": "text",
+    "description": "Product category (e.g. Shirts, Knitwear)",
+    "required": false,
+    "choices": [],
+    "sample": null,
+    "accept": [],
+    "multiline": false,
+    "placeholder": "Product category (e.g. Shirts, Knitwear)"
+   }
+  ],
+  "goto": "merge",
+  "workflow_id": "WF004"
+ },
+ {
+  "type": "resumed",
+  "run_id": "beae93a93bfc",
+  "ts": 1791449384.8537278
+ },
+ {
+  "type": "inputs",
+  "ts": 1791449384.8597279,
+  "inputs": [
+   {
+    "name": "product",
+    "label": "Product",
+    "value": "Bamboo lounge pants",
+    "type": "text",
+    "required": true
+   },
+   {
+    "name": "category",
+    "label": "Category",
+    "value": "Loungewear",
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "material",
+    "label": "Material",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "color",
+    "label": "Color",
+    "value": "charcoal",
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "target_audience",
+    "label": "Target audience",
+    "value": null,
+    "type": "text",
+    "required": false
+   },
+   {
+    "name": "attributes",
+    "label": "Other attributes",
+    "value": null,
+    "type": "text",
+    "required": false
+   }
+  ],
+  "sources": {
+   "product": "request",
+   "color": "request",
+   "category": "you"
+  },
+  "method": "user",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "rewind",
+  "ts": 1791449384.8597279,
+  "to_step": "merge",
+  "message": "Re-running from this step with your answer",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.8678095,
+  "step_id": "merge",
+  "title": "Collect product attributes",
+  "tool": "merge_record",
+  "kind": "tool",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.8698206,
+  "step_id": "merge",
+  "title": "Collect product attributes",
+  "kind": "tool",
+  "tool": "merge_record",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "Record has 3 populated field(s); from request: category, color",
+  "engine": null,
+  "output": "product",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "product_name": {
+     "kind": "text",
+     "text": "Bamboo lounge pants"
+    },
+    "category": {
+     "kind": "text",
+     "text": "Loungewear"
+    },
+    "color": {
+     "kind": "text",
+     "text": "charcoal"
+    }
+   }
+  },
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.8732154,
+  "step_id": "check",
+  "title": "Validate required attributes",
+  "tool": "check_fields",
+  "kind": "tool",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449384.8732154,
+  "step_id": "check",
+  "message": "Not provided (will not be invented): material",
+  "level": "warn",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449384.8732154,
+  "step_id": "check",
+  "message": "Not provided (will not be invented): target_audience",
+  "level": "warn",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449384.8732154,
+  "step_id": "check",
+  "message": "Not provided (will not be invented): features",
+  "level": "warn",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.8732154,
+  "step_id": "check",
+  "title": "Validate required attributes",
+  "kind": "tool",
+  "tool": "check_fields",
+  "excel_steps": [
+   1
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "All required fields present; missing optional: material, target_audience, features",
+  "engine": null,
+  "output": "fields",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "missing_required": {
+     "kind": "list",
+     "items": [],
+     "total": 0
+    },
+    "missing_optional": {
+     "kind": "list",
+     "items": [
+      "material",
+      "target_audience",
+      "features"
+     ],
+     "total": 3
+    },
+    "present": {
+     "kind": "text",
+     "text": "3 fields"
+    },
+    "ok": {
+     "kind": "text",
+     "text": true
+    }
+   }
+  },
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.876658,
+  "step_id": "need_category",
+  "title": "Category known?",
+  "tool": null,
+  "kind": "decision",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "decision",
+  "ts": 1791449384.876658,
+  "step_id": "need_category",
+  "expression": "not fields.ok",
+  "result": false,
+  "action": "continue",
+  "message": null,
+  "note": "Category is needed to write anything accurate. Other missing attributes are marked as missing (Excel rule: do not invent).",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.876658,
+  "step_id": "need_category",
+  "title": "Category known?",
+  "kind": "decision",
+  "tool": null,
+  "excel_steps": [
+   1
+  ],
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "`not fields.ok` \u2192 false \u2192 continue",
+  "result": false,
+  "action": "continue",
+  "message": null,
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.8809557,
+  "step_id": "description",
+  "title": "Create product description",
+  "tool": "llm_generate",
+  "kind": "tool",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449384.8827314,
+  "step_id": "description",
+  "message": "Offline mode: using the deterministic template for this step",
+  "level": "info",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.8827314,
+  "step_id": "description",
+  "title": "Create product description",
+  "kind": "tool",
+  "tool": "llm_generate",
+  "excel_steps": [
+   2
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 1,
+  "summary": "Generated 1 field(s) from templates",
+  "engine": "rules",
+  "output": "desc",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "description": {
+     "kind": "text",
+     "text": "Meet the Bamboo lounge pants, part of our loungewear range in charcoal. An easy, reliable addition to your loungewear lineup."
+    }
+   }
+  },
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.8867588,
+  "step_id": "short",
+  "title": "Generate short description",
+  "tool": "llm_generate",
+  "kind": "tool",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449384.8867588,
+  "step_id": "short",
+  "message": "Offline mode: using the deterministic template for this step",
+  "level": "info",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.8867588,
+  "step_id": "short",
+  "title": "Generate short description",
+  "kind": "tool",
+  "tool": "llm_generate",
+  "excel_steps": [
+   3
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "Generated 1 field(s) from templates",
+  "engine": "rules",
+  "output": "short",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "short_description": {
+     "kind": "text",
+     "text": "Bamboo lounge pants in charcoal \u2014 from our loungewear range."
+    }
+   }
+  },
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.8920608,
+  "step_id": "seo_title",
+  "title": "Generate SEO title",
+  "tool": "llm_generate",
+  "kind": "tool",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449384.8920608,
+  "step_id": "seo_title",
+  "message": "Offline mode: using the deterministic template for this step",
+  "level": "info",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.8920608,
+  "step_id": "seo_title",
+  "title": "Generate SEO title",
+  "kind": "tool",
+  "tool": "llm_generate",
+  "excel_steps": [
+   4
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "Generated 1 field(s) from templates",
+  "engine": "rules",
+  "output": "seo",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "seo_title": {
+     "kind": "text",
+     "text": "Bamboo lounge pants \u2013 charcoal | Loungewear"
+    }
+   }
+  },
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.8959496,
+  "step_id": "meta",
+  "title": "Generate meta description",
+  "tool": "llm_generate",
+  "kind": "tool",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_log",
+  "ts": 1791449384.8969975,
+  "step_id": "meta",
+  "message": "Offline mode: using the deterministic template for this step",
+  "level": "info",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.8969975,
+  "step_id": "meta",
+  "title": "Generate meta description",
+  "kind": "tool",
+  "tool": "llm_generate",
+  "excel_steps": [
+   5
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 0,
+  "summary": "Generated 1 field(s) from templates",
+  "engine": "rules",
+  "output": "meta_out",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "meta_description": {
+     "kind": "text",
+     "text": "Shop the Bamboo lounge pants in charcoal. Explore our loungewear collection online."
+    }
+   }
+  },
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_started",
+  "ts": 1791449384.9000173,
+  "step_id": "validate",
+  "title": "Validate generated text",
+  "tool": "validate_text",
+  "kind": "tool",
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "step_finished",
+  "ts": 1791449384.9050517,
+  "step_id": "validate",
+  "title": "Validate generated text",
+  "kind": "tool",
+  "tool": "validate_text",
+  "excel_steps": [
+   5
+  ],
+  "attempts": 1,
+  "status": "ok",
+  "duration_ms": 6,
+  "summary": "All text checks passed",
+  "engine": null,
+  "output": "checks",
+  "preview": {
+   "kind": "object",
+   "fields": {
+    "checks": {
+     "kind": "table",
+     "columns": [
+      "field",
+      "check",
+      "result",
+      "detail"
+     ],
+     "rows": [
+      {
+       "field": "description",
+       "check": "No invented material",
+       "result": "Pass",
+       "detail": "none mentioned"
+      },
+      {
+       "field": "short_description",
+       "check": "Length \u2264 150",
+       "result": "Pass",
+       "detail": "60 characters"
+      },
+      {
+       "field": "short_description",
+       "check": "No invented material",
+       "result": "Pass",
+       "detail": "none mentioned"
+      },
+      {
+       "field": "seo_title",
+       "check": "Length \u2264 60",
+       "result": "Pass",
+       "detail": "43 characters"
+      },
+      {
+       "field": "seo_title",
+       "check": "No invented material",
+       "result": "Pass",
+       "detail": "none mentioned"
+      }
+     ],
+     "total": 7
+    },
+    "passed": {
+     "kind": "text",
+     "text": true
+    },
+    "failed": {
+     "kind": "text",
+     "text": 0
+    }
+   }
+  },
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "result",
+  "ts": 1791449384.9133568,
+  "status": "completed",
+  "title": "Content for Bamboo lounge pants",
+  "subtitle": "Not in the catalog \u2014 written from the details you gave",
+  "sections": [
+   {
+    "type": "alert",
+    "title": "Missing information",
+    "text": "Not provided, so not used in the copy: material, target audience, features. Add them to the catalog or your request to enrich the content.",
+    "tone": "warn"
+   },
+   {
+    "type": "content",
+    "title": null,
+    "fields": [
+     {
+      "label": "Product description",
+      "value": "Meet the Bamboo lounge pants, part of our loungewear range in charcoal. An easy, reliable addition to your loungewear lineup.",
+      "meta": "125 characters",
+      "copy": true
+     },
+     {
+      "label": "Short description",
+      "value": "Bamboo lounge pants in charcoal \u2014 from our loungewear range.",
+      "meta": "60 / 150 characters",
+      "copy": true
+     },
+     {
+      "label": "SEO title",
+      "value": "Bamboo lounge pants \u2013 charcoal | Loungewear",
+      "meta": "43 / 60 characters",
+      "copy": true
+     },
+     {
+      "label": "Meta description",
+      "value": "Shop the Bamboo lounge pants in charcoal. Explore our loungewear collection online.",
+      "meta": "83 / 160 characters",
+      "copy": true
+     }
+    ]
+   },
+   {
+    "type": "record",
+    "title": "Facts used",
+    "items": [
+     {
+      "label": "Product",
+      "value": "Bamboo lounge pants",
+      "tone": null
+     },
+     {
+      "label": "Category",
+      "value": "Loungewear",
+      "tone": null
+     },
+     {
+      "label": "Material",
+      "value": "Missing",
+      "tone": "warn"
+     },
+     {
+      "label": "Color",
+      "value": "charcoal",
+      "tone": null
+     },
+     {
+      "label": "Target audience",
+      "value": "Missing",
+      "tone": "warn"
+     },
+     {
+      "label": "Features",
+      "value": "Missing",
+      "tone": "warn"
+     }
+    ]
+   },
+   {
+    "type": "table",
+    "title": "Quality checks",
+    "columns": [
+     {
+      "key": "field",
+      "label": "Field",
+      "format": null
+     },
+     {
+      "key": "check",
+      "label": "Check",
+      "format": null
+     },
+     {
+      "key": "result",
+      "label": "Result",
+      "format": null
+     },
+     {
+      "key": "detail",
+      "label": "Detail",
+      "format": null
+     }
+    ],
+    "rows": [
+     {
+      "field": "description",
+      "check": "No invented material",
+      "result": "Pass",
+      "detail": "none mentioned"
+     },
+     {
+      "field": "short_description",
+      "check": "Length \u2264 150",
+      "result": "Pass",
+      "detail": "60 characters"
+     },
+     {
+      "field": "short_description",
+      "check": "No invented material",
+      "result": "Pass",
+      "detail": "none mentioned"
+     },
+     {
+      "field": "seo_title",
+      "check": "Length \u2264 60",
+      "result": "Pass",
+      "detail": "43 characters"
+     },
+     {
+      "field": "seo_title",
+      "check": "No invented material",
+      "result": "Pass",
+      "detail": "none mentioned"
+     },
+     {
+      "field": "meta_description",
+      "check": "Length \u2264 160",
+      "result": "Pass",
+      "detail": "83 characters"
+     },
+     {
+      "field": "meta_description",
+      "check": "No invented material",
+      "result": "Pass",
+      "detail": "none mentioned"
+     }
+    ],
+    "total": 7,
+    "tones": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "empty": "No rows"
+   }
+  ],
+  "run_id": "beae93a93bfc"
+ },
+ {
+  "type": "run_finished",
+  "ts": 1791449384.9133568,
+  "status": "completed",
+  "active_ms": 24,
+  "workflow_id": "WF004",
+  "run_id": "beae93a93bfc"
+ }
+]
