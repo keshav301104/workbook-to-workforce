@@ -1,0 +1,128 @@
+# Execution plan for Excel row WF003 — Vendor File Processing.
+workflow_id: WF003
+description: "Clean a vendor CSV/XLSX file: detect and normalise columns, validate rows, export a clean file."
+examples:
+  - Clean up this supplier file
+  - Validate the vendor upload and list bad rows
+  - Normalize the columns in this vendor feed
+
+inputs:
+  - name: vendor_file
+    type: file
+    label: Vendor file
+    required: true
+    description: CSV or XLSX file with vendor product data
+    ask: Attach the vendor file (CSV or XLSX) you want processed, or use the sample vendor feed.
+    sample: vendor_upload_sample.xlsx
+    accept: [.csv, .xlsx, .xls, .tsv]
+
+steps:
+  - id: read
+    title: Read file
+    excel_step: 1
+    tool: load_table
+    args: {path: "{{ inputs.vendor_file }}", raw: true}
+    output: raw
+
+  - id: detect
+    title: Detect columns
+    excel_step: 2
+    tool: detect_columns
+    note: Headers are matched to the canonical schema by alias, then fuzzy similarity; the LLM is only asked about required fields that are still unmatched.
+    args:
+      table: $raw
+      required: [sku, product_name]
+      schema:
+        sku: [item code, product code, code, item number, article number, sku id, part number, style number]
+        product_name: [product title, title, name, item name, product, product description, item description]
+        unit_cost: [unit cost, cost, cost price, wholesale price, wholesale cost, unit price, price, price usd]
+        quantity: [qty, qty available, stock, quantity available, inventory, on hand, units]
+        color: [colour, color name, colourway]
+        category: [dept, department, product type, type, category name, division]
+    output: columns
+
+  - id: required_columns
+    title: Required columns present?
+    excel_step: 2
+    kind: condition
+    when: "len(columns.missing_required) > 0"
+    then:
+      action: fail
+      message: "The file has no column that looks like {{ join(columns.missing_required, ' or ') }}. Rename the header (e.g. 'SKU', 'Product Name') and upload again."
+
+  - id: normalize
+    title: Normalize column names
+    excel_step: 3
+    tool: rename_columns
+    args: {table: $raw, mapping: $columns.mapping}
+    output: normalized
+
+  - id: clean
+    title: Clean values
+    excel_step: 3
+    tool: clean_values
+    note: Trims whitespace, upper-cases SKUs, parses numbers ('$29.99' → 29.99) and reports values it could not parse. Fully blank rows are dropped.
+    args:
+      table: $normalized
+      uppercase: [sku]
+      numeric: [unit_cost, quantity]
+      warn_duplicates: [sku]
+    output: cleaned
+
+  - id: validate
+    title: Validate required fields
+    excel_step: [4, 5]
+    tool: validate_required
+    note: "Excel rule: rows missing SKU or product name are invalid. Other problems (bad price, duplicate SKU) are warnings, not invalid rows."
+    args: {table: $cleaned.table, fields: [sku, product_name]}
+    output: validation
+
+  - id: export_clean
+    title: Produce cleaned dataset
+    excel_step: 6
+    tool: export_table
+    args: {table: $validation.valid, filename: vendor_clean}
+    output: clean_file
+
+  - id: export_invalid
+    title: Export invalid-row report
+    excel_step: 6
+    tool: export_table
+    args: {table: $validation.invalid, filename: vendor_invalid_rows}
+    output: invalid_file
+
+result:
+  title: "{{ len(validation.valid) }} clean rows, {{ len(validation.invalid) }} invalid"
+  subtitle: "{{ len(raw) }} rows read from {{ filename(inputs.vendor_file) }}"
+  sections:
+    - type: kpis
+      items:
+        - {label: Rows read, value: "{{ len(raw) }}"}
+        - {label: Valid rows, value: "{{ len(validation.valid) }}", tone: ok}
+        - {label: Invalid rows, value: "{{ len(validation.invalid) }}", tone: danger}
+        - {label: Warnings, value: "{{ len(cleaned.warnings) }}", tone: warn}
+        - {label: Blank rows dropped, value: "{{ cleaned.dropped_empty }}"}
+    - type: table
+      title: Invalid rows
+      data: $validation.invalid
+      empty: Every row has a SKU and a product name.
+      columns: [source_row:Row, sku:SKU, product_name:Product name, issue:Problem]
+      highlight: {danger: "True"}
+    - type: table
+      title: Detected columns
+      data: "{{ [{'field': k, 'source_column': str(v).strip(), 'match': pct(columns.confidence[k] * 100, 0)} for k, v in columns.mapping.items()] }}"
+      columns: [field:Standard field, source_column:Column in file, match:Match]
+    - type: table
+      title: Warnings (rows kept)
+      when: "len(cleaned.warnings) > 0"
+      data: $cleaned.warnings
+      columns: [source_row:Row, field:Field, value:Value, issue:Issue]
+      highlight: {warn: "True"}
+    - type: table
+      title: Cleaned dataset
+      data: $validation.valid
+      columns: [source_row:Row, sku:SKU, product_name:Product name, unit_cost:Unit cost, quantity, color, category]
+    - type: download
+      files:
+        - {label: Cleaned file (CSV), file: $clean_file}
+        - {label: Invalid rows (CSV), file: $invalid_file}

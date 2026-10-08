@@ -1,0 +1,231 @@
+# Execution plan for Excel row WF010 — Workflow Performance Report.
+# Reads the seeded history AND the live log this system writes on every run.
+workflow_id: WF010
+description: Success/failure rates, run times, frequent errors, slow steps and recommendations from execution logs.
+examples:
+  - Which workflows are slowest?
+  - Give me a reliability report for the agents
+  - How did WF005 perform this month?
+
+params:
+  max_failure_rate:
+    default: 10
+    from_excel: 'failure rate above (\d+(?:\.\d+)?)\s*%'
+    description: Flag workflows whose failure rate is above this percentage
+    override_patterns: ['fail(?:ure)? rate (?:above|over|>)\s*(\d+(?:\.\d+)?)\s*%']
+  max_avg_seconds:
+    default: 4
+    description: "The 'defined threshold' for average execution time, in seconds"
+    override_patterns: ['(?:slower than|longer than|over|above)\s*(\d+(?:\.\d+)?)\s*(?:s|sec|secs|seconds)\b']
+
+inputs:
+  - name: log_file
+    type: file
+    label: Execution log
+    description: Historical execution logs
+    default: execution_logs.csv
+    accept: [.csv, .xlsx]
+  - name: source
+    type: choice
+    label: Log source
+    choices: [all, live, seed]
+    default: all
+    synonyms:
+      live: [live runs, recent runs, today's runs, this session]
+      seed: [historical, history only]
+  - name: workflow
+    label: Workflow
+    description: Limit the report to one workflow ID
+    patterns: ['\b(WF\d{3})\b']
+
+steps:
+  - id: load_seed
+    title: Load execution logs
+    excel_step: 1
+    tool: load_table
+    args: {path: "{{ inputs.log_file }}"}
+    output: seed_logs
+
+  - id: load_live
+    title: Load live run log
+    excel_step: 1
+    tool: load_table
+    note: Every run of this system appends to runs/execution_log.csv, so this report includes the agent's own behaviour.
+    args: {path: execution_log.csv, optional: true}
+    output: live_logs
+
+  - id: combine
+    title: Combine log sources
+    excel_step: 1
+    tool: concat_tables
+    args: {tables: [$seed_logs, $live_logs]}
+    output: logs
+
+  - id: scope
+    title: Apply filters
+    excel_step: 1
+    tool: filter_rows
+    when: "inputs.source != 'all' or exists(inputs.workflow)"
+    args:
+      table: $logs
+      where: "(inputs.source == 'all' or source == inputs.source) and (missing(inputs.workflow) or workflow_id == inputs.workflow)"
+    output: logs
+
+  - id: runs
+    title: Collapse steps into runs
+    excel_step: 2
+    tool: aggregate
+    args:
+      table: $logs
+      group_by: [run_id]
+      metrics:
+        workflow_id: first:workflow_id
+        workflow_name: first:workflow_name
+        status: first:run_status
+        duration_ms: first:run_duration_ms
+    output: runs
+
+  - id: rates
+    title: Calculate success/failure rate
+    excel_step: [2, 3]
+    tool: aggregate
+    args:
+      table: $runs
+      group_by: [workflow_id]
+      metrics:
+        workflow_name: first:workflow_name
+        runs: count
+        failures: "sum:status == 'failed'"
+        escalations: "sum:status == 'escalated'"
+        failure_rate: "mean:100.0 if status == 'failed' else 0.0"
+        avg_seconds: "mean:duration_ms / 1000"
+    output: stats
+
+  - id: round
+    title: Calculate average execution time
+    excel_step: 3
+    tool: compute_column
+    args:
+      table: $stats
+      columns:
+        failure_rate: "round(failure_rate, 1)"
+        success_rate: "round(100 - failure_rate, 1)"
+        avg_seconds: "round(avg_seconds, 2)"
+        failures: "int(failures)"
+        escalations: "int(escalations)"
+    output: stats
+
+  - id: errors
+    title: Identify frequent errors
+    excel_step: 4
+    tool: top_values
+    args:
+      table: $logs
+      column: error_message
+      group_by: [workflow_id]
+      where: "step_status == 'failed' and exists(error_message)"
+      limit: 8
+    output: errors
+
+  - id: step_times
+    title: Identify slow steps
+    excel_step: 5
+    tool: aggregate
+    args:
+      table: $logs
+      group_by: [workflow_id, step_name]
+      metrics:
+        avg_seconds: "mean:step_duration_ms / 1000"
+        executions: count
+    output: step_times
+
+  - id: slowest
+    title: Rank slow steps
+    excel_step: 5
+    tool: sort_rows
+    args: {table: $step_times, by: avg_seconds, limit: 6}
+    output: slow_steps
+
+  - id: round_steps
+    title: Round step timings
+    excel_step: 5
+    tool: compute_column
+    args: {table: $slow_steps, columns: {avg_seconds: "round(avg_seconds, 2)"}}
+    output: slow_steps
+
+  - id: flag
+    title: Flag problem workflows
+    excel_step: 5
+    tool: flag_rows
+    note: "Excel rule: flag workflows with failure rate above 10% or average execution time above the defined threshold."
+    args:
+      table: $stats
+      when: "failure_rate > params.max_failure_rate or avg_seconds > params.max_avg_seconds"
+      flag: needs_attention
+      reason: "{{ ('failure rate ' + str(failure_rate) + '% > ' + str(params.max_failure_rate) + '%') if failure_rate > params.max_failure_rate else '' }}{{ ' and ' if failure_rate > params.max_failure_rate and avg_seconds > params.max_avg_seconds else '' }}{{ ('avg ' + str(avg_seconds) + 's > ' + str(params.max_avg_seconds) + 's') if avg_seconds > params.max_avg_seconds else '' }}"
+    output: stats
+
+  - id: sort
+    title: Sort by failure rate
+    excel_step: 5
+    tool: sort_rows
+    args: {table: $stats, by: [failure_rate, avg_seconds]}
+    output: stats
+
+  - id: recommend
+    title: Generate recommendations
+    excel_step: 6
+    tool: rule_recommendations
+    args:
+      table: $stats
+      key: workflow_name
+      rules:
+        - when: "failure_rate > params.max_failure_rate"
+          area: Reliability
+          text: "Failure rate is {{ failure_rate }}%. Most common error: “{{ lookup_value(errors, 'workflow_id', workflow_id, 'error_message', 'n/a') }}”. Add retries with backoff around that call and validate inputs before it runs."
+        - when: "avg_seconds > params.max_avg_seconds"
+          area: Speed
+          text: "Average run takes {{ avg_seconds }}s (threshold {{ params.max_avg_seconds }}s). Slowest step: “{{ lookup_value(step_times.sort_values('avg_seconds', ascending=False), 'workflow_id', workflow_id, 'step_name') }}”. Cache its inputs or run it asynchronously."
+        - when: "escalations > 0 and escalations / runs > 0.2"
+          area: Capacity
+          text: "{{ int(escalations) }} of {{ runs }} runs were escalated. Review the eligibility rule or team capacity."
+    output: recommendations
+
+result:
+  title: "{{ (first(stats).workflow_name + ' fails most often (' + str(first(stats).failure_rate) + '%)') if first(stats).failure_rate > 0 else 'No failed runs in the logs' }}"
+  subtitle: "{{ len(runs) }} runs across {{ len(stats) }} workflows · {{ count(stats, 'needs_attention') }} flagged · thresholds: failure > {{ params.max_failure_rate }}%, avg time > {{ params.max_avg_seconds }}s"
+  sections:
+    - type: kpis
+      items:
+        - {label: Runs analysed, value: "{{ num(len(runs)) }}"}
+        - {label: Overall success rate, value: "{{ pct(100 - count(runs, \"status == 'failed'\") / max(len(runs), 1) * 100) }}", tone: ok}
+        - {label: Avg run time, value: "{{ round(sum(col(runs, 'duration_ms')) / max(len(runs), 1) / 1000, 2) }}s"}
+        - {label: Workflows flagged, value: "{{ count(stats, 'needs_attention') }}", tone: danger}
+        - {label: Live runs included, value: "{{ len(unique(live_logs, 'run_id')) }}"}
+    - type: bars
+      title: Failure rate by workflow
+      data: $stats
+      label: workflow_name
+      value: failure_rate
+      format: pct
+      threshold: $params.max_failure_rate
+    - type: table
+      title: Workflow metrics
+      data: $stats
+      columns: [workflow_id:ID, workflow_name:Workflow, runs, failures, "failure_rate:Failure %", "success_rate:Success %", avg_seconds:Avg time (s), needs_attention:Flagged, needs_attention_reason:Why]
+      highlight:
+        danger: needs_attention
+    - type: table
+      title: Most frequent errors
+      data: $errors
+      empty: No failed steps in the logs.
+      columns: [workflow_id:Workflow, error_message:Error, count]
+    - type: table
+      title: Slowest steps
+      data: $slow_steps
+      columns: [workflow_id:Workflow, step_name:Step, avg_seconds:Avg time (s), executions]
+    - type: table
+      title: Recommendations
+      data: $recommendations
+      empty: Every workflow is within the thresholds.
+      columns: [workflow_name:Workflow, area, recommendation]

@@ -1,0 +1,151 @@
+# Execution plan for Excel row WF002 — Product Price Validation.
+workflow_id: WF002
+description: Compare internal prices with the vendor price list and flag large differences.
+examples:
+  - Validate our product prices against the vendor list
+  - Which prices are out of line with the supplier?
+  - Compare internal and vendor prices
+
+params:
+  threshold_pct:
+    default: 10
+    # Read from the Excel Decision_Logic text ("...exceeds 10%"): edit the sheet, behaviour follows.
+    from_excel: '(\d+(?:\.\d+)?)\s*%'
+    description: Flag a product when the price difference exceeds this percentage
+    override_patterns:
+      - '(?:more than|over|exceeds?|exceeding|above|greater than|>)\s*(\d+(?:\.\d+)?)\s*%'
+
+inputs:
+  - name: products_file
+    type: file
+    label: Product price file
+    description: Internal product prices (sku, internal_price)
+    default: products.csv
+    accept: [.csv, .xlsx]
+  - name: vendor_file
+    type: file
+    label: Vendor price list
+    description: Vendor prices (vendor_sku, vendor_price)
+    default: vendor_prices.csv
+    accept: [.csv, .xlsx]
+
+steps:
+  - id: load_products
+    title: Load product prices
+    excel_step: 1
+    tool: load_table
+    args: {path: "{{ inputs.products_file }}"}
+    output: products
+
+  - id: load_vendor
+    title: Load vendor price list
+    excel_step: 1
+    tool: load_table
+    args: {path: "{{ inputs.vendor_file }}"}
+    output: vendor
+
+  - id: match
+    title: Match products by SKU
+    excel_step: 2
+    tool: join_tables
+    note: SKUs are compared after removing case, spaces and punctuation, so 'ts1001' matches 'TS-1001'.
+    args: {left: $products, right: $vendor, left_on: sku, right_on: vendor_sku, normalize: sku}
+    output: match
+
+  - id: compare
+    title: Compare internal and vendor prices
+    excel_step: 3
+    tool: compute_column
+    args:
+      table: $match.matched
+      columns:
+        price_diff: "round(vendor_price - internal_price, 2)"
+    output: compared
+
+  - id: percent
+    title: Calculate percentage difference
+    excel_step: 4
+    tool: compute_column
+    note: Percentage is measured against the internal price and rounded to 2 decimals before the rule is applied.
+    args:
+      table: $compared
+      columns:
+        pct_diff: "round((vendor_price - internal_price) / internal_price * 100, 2)"
+        abs_pct: "abs(round((vendor_price - internal_price) / internal_price * 100, 2))"
+    output: compared
+
+  - id: flag
+    title: Flag exceptions
+    excel_step: 5
+    tool: flag_rows
+    note: "Excel rule: flag when the price difference exceeds the threshold. Exactly 10.00% does not exceed 10%, so it is not flagged."
+    args:
+      table: $compared
+      when: abs_pct > params.threshold_pct
+      flag: exception
+      reason: "Vendor {{ 'higher' if pct_diff > 0 else 'lower' }} by {{ abs_pct }}%"
+    output: compared
+
+  - id: exceptions
+    title: Collect exceptions
+    excel_step: 5
+    tool: filter_rows
+    args: {table: $compared, where: exception}
+    output: exceptions
+
+  - id: rank
+    title: Rank exceptions by size
+    excel_step: 5
+    tool: sort_rows
+    args: {table: $exceptions, by: abs_pct}
+    output: exceptions
+
+  - id: export
+    title: Export validation report
+    excel_step: 5
+    tool: export_table
+    args: {table: $compared, filename: price_validation_report}
+    output: report_file
+
+result:
+  title: "{{ plural(len(exceptions), 'price exception') }} above {{ params.threshold_pct }}%"
+  subtitle: "{{ len(match.matched) }} of {{ len(products) }} products matched to the vendor list by SKU"
+  sections:
+    - type: kpis
+      items:
+        - {label: Products, value: "{{ len(products) }}"}
+        - {label: Matched by SKU, value: "{{ len(match.matched) }}"}
+        - {label: "Exceptions (> {{ params.threshold_pct }}%)", value: "{{ len(exceptions) }}", tone: danger}
+        - {label: Unmatched, value: "{{ len(match.left_only) + len(match.right_only) }}", tone: warn}
+    - type: table
+      title: Exceptions
+      data: $exceptions
+      empty: "No price differs by more than {{ params.threshold_pct }}%."
+      columns: [sku:SKU, product_name:Product, vendor_name:Vendor, internal_price:Internal, vendor_price:Vendor price, "pct_diff:Difference %", exception_reason:Reason]
+      highlight:
+        danger: "abs_pct >= 20"
+        warn: "abs_pct < 20"
+    - type: table
+      title: All matched products
+      data: $compared
+      columns: [sku:SKU, vendor_sku:Vendor SKU, product_name:Product, internal_price:Internal, vendor_price:Vendor price, price_diff:Difference, "pct_diff:Difference %", exception:Flagged]
+      highlight:
+        danger: exception
+        info: "abs_pct == params.threshold_pct"
+    - type: alert
+      tone: info
+      when: "count(compared, 'abs_pct == params.threshold_pct') > 0"
+      text: "{{ plural(count(compared, 'abs_pct == params.threshold_pct'), 'product') }} differ by exactly {{ params.threshold_pct }}% ({{ join(col(filter_eq(compared, 'abs_pct', params.threshold_pct), 'sku')) }}). The rule flags differences that exceed the threshold, so these are not exceptions."
+    - type: table
+      title: In our catalog but missing from the vendor list
+      when: "len(match.left_only) > 0"
+      data: $match.left_only
+      columns: [sku:SKU, product_name:Product, internal_price:Internal price]
+    - type: table
+      title: On the vendor list but not in our catalog
+      when: "len(match.right_only) > 0"
+      data: $match.right_only
+      columns: [vendor_sku:Vendor SKU, vendor_name:Vendor, vendor_price:Vendor price]
+    - type: download
+      files:
+        - {label: Validation report (CSV), file: $report_file}

@@ -1,0 +1,196 @@
+# Execution plan for Excel row WF004 — Product Description Generator.
+workflow_id: WF004
+description: Write product description, short description, SEO title and meta description without inventing attributes.
+examples:
+  - Write a product description for the linen overshirt
+  - Create SEO copy for SKU KN-2002
+  - Generate a meta description and SEO title for our quilted vest
+
+inputs:
+  - name: product
+    label: Product
+    required: true
+    description: Product name or SKU to write content for
+    ask: Which product should I write content for? Give a product name or SKU (attributes you add, like material or color, will be used).
+    patterns:
+      - '\b([A-Za-z]{2}-\d{4})\b'
+      - '["“]([^"”]+)["”]'
+      - 'product(?: name)?\s*[:=]\s*([^,;\n]+)'
+      - '(?:for|about|of)\s+(?:the|our|a|an)\s+(?!product\b|item\b|this\b|following\b)([a-z][a-z0-9\s-]{2,40}?)(?:\s*[,.;!?]|\s+(?:in|with|made|for|from|targeting)\b|$)'
+  - name: category
+    description: Product category (e.g. Shirts, Knitwear)
+    ask: Which category does this product belong to?
+    patterns: ['category\s*[:=]?\s*([A-Za-z][\w\s&-]{1,30}?)(?:[,;.]|$)']
+  - name: material
+    description: Main material
+    patterns: ['(?:material|made (?:of|from))\s*[:=]?\s*([A-Za-z][\w\s-]{1,30}?)(?:[,;.]|$)']
+  - name: color
+    label: Color
+    description: Color
+    patterns: ['colou?r\s*[:=]?\s*([A-Za-z][\w\s-]{1,25}?)(?:[,;.]|$)']
+  - name: target_audience
+    label: Target audience
+    description: Who the product is for
+    patterns: ['(?:audience|target(?:ing)?|for)\s*[:=]?\s*((?:men|women|kids|teens|adults|professionals|homeowners)[\w\s&-]{0,25}?)(?:[,;.]|$)']
+  - name: attributes
+    label: Other attributes
+    description: Extra features or attributes
+    patterns: ['(?:features?|attributes?)\s*[:=]\s*([^\n]+)']
+
+steps:
+  - id: catalog
+    title: Load product catalog
+    excel_step: 1
+    tool: load_table
+    args: {path: products.csv}
+    output: products
+
+  - id: lookup
+    title: Find product in catalog
+    excel_step: 1
+    tool: fuzzy_lookup
+    args: {table: $products, query: "{{ inputs.product }}", columns: [product_name, sku], min_score: 86}
+    output: match
+
+  - id: merge
+    title: Collect product attributes
+    excel_step: 1
+    tool: merge_record
+    note: Catalog data first; anything stated in the request overrides it.
+    args:
+      base: "{{ match.record if match.found else {'product_name': inputs.product} }}"
+      overrides:
+        category: "{{ inputs.category }}"
+        material: "{{ inputs.material }}"
+        color: "{{ inputs.color }}"
+        target_audience: "{{ inputs.target_audience }}"
+        features: "{{ inputs.attributes }}"
+    output: product
+
+  - id: check
+    title: Validate required attributes
+    excel_step: 1
+    tool: check_fields
+    args:
+      record: $product
+      required: [product_name, category]
+      optional: [material, color, target_audience, features]
+    output: fields
+
+  - id: need_category
+    title: Category known?
+    excel_step: 1
+    kind: condition
+    note: "Category is needed to write anything accurate. Other missing attributes are marked as missing (Excel rule: do not invent)."
+    when: "not fields.ok"
+    then:
+      action: ask
+      fields: [category]
+      message: "“{{ product.product_name }}” isn't in the catalog, so I need its category. Attributes I don't have will be marked missing rather than invented."
+      goto: merge
+
+  - id: description
+    title: Create product description
+    excel_step: 2
+    tool: llm_generate
+    args:
+      task: Write the main product description (60-110 words) for an online store product page.
+      facts: $fields.present
+      avoid: $fields.missing_optional
+      rules:
+        - Mention only attributes present in the facts.
+        - No superlatives you cannot support (no 'best', 'premium quality' claims).
+      fields:
+        description: {description: "Product page description, 60-110 words, 2-3 sentences", max_length: 900}
+      fallback:
+        description: "Meet the {{ product.product_name }}, part of our {{ lower(product.category) }} range{{ ' in ' + lower(product.color) if exists(product.color) else '' }}{{ ', made from ' + lower(product.material) if exists(product.material) else '' }}. {{ product.features + '. ' if exists(product.features) else '' }}{{ 'Designed for ' + product.target_audience + '. ' if exists(product.target_audience) else '' }}An easy, reliable addition to your {{ lower(product.category) }} lineup."
+    output: desc
+
+  - id: short
+    title: Generate short description
+    excel_step: 3
+    tool: llm_generate
+    args:
+      task: Write a one-sentence short description for product listings, based on the description.
+      facts: {product: $fields.present, description: $desc.description}
+      avoid: $fields.missing_optional
+      fields:
+        short_description: {description: "One sentence, at most 150 characters", max_length: 150}
+      fallback:
+        short_description: "{{ product.product_name }}{{ ' in ' + lower(product.color) if exists(product.color) else '' }}{{ ', ' + lower(product.material) if exists(product.material) else '' }} — from our {{ lower(product.category) }} range."
+    output: short
+
+  - id: seo_title
+    title: Generate SEO title
+    excel_step: 4
+    tool: llm_generate
+    args:
+      task: Write an SEO page title.
+      facts: $fields.present
+      avoid: $fields.missing_optional
+      rules: ["Put the product name first", "Use at most 60 characters"]
+      fields:
+        seo_title: {description: "SEO title, at most 60 characters", max_length: 60}
+      fallback:
+        seo_title: "{{ product.product_name }}{{ ' – ' + product.color if exists(product.color) and len(product.product_name) + len(product.color) < 40 else '' }} | {{ product.category }}"
+    output: seo
+
+  - id: meta
+    title: Generate meta description
+    excel_step: 5
+    tool: llm_generate
+    args:
+      task: Write a meta description for search results that encourages a click.
+      facts: {product: $fields.present, description: $desc.description}
+      avoid: $fields.missing_optional
+      rules: ["Between 110 and 160 characters", "Include the product name"]
+      fields:
+        meta_description: {description: "Meta description, 110-160 characters", max_length: 160}
+      fallback:
+        meta_description: "Shop the {{ product.product_name }}{{ ' in ' + lower(product.color) if exists(product.color) else '' }}{{ ', made from ' + lower(product.material) if exists(product.material) else '' }}. Explore our {{ lower(product.category) }} collection online."
+    output: meta_out
+
+  - id: validate
+    title: Validate generated text
+    excel_step: 5
+    tool: validate_text
+    note: Checks length limits and that no material/color value appears in the copy when that attribute was missing.
+    args:
+      texts:
+        description: $desc.description
+        short_description: $short.short_description
+        seo_title: $seo.seo_title
+        meta_description: $meta_out.meta_description
+      max_length: {short_description: 150, seo_title: 60, meta_description: 160}
+      missing: "{{ [f for f in fields.missing_optional if f in ['material', 'color']] }}"
+      vocabulary: $products
+    output: checks
+
+result:
+  title: "Content for {{ product.product_name }}"
+  subtitle: "{{ 'Catalog match: ' + match.record.sku + ' (' + str(match.score) + '% name match)' if match.found else 'Not in the catalog — written from the details you gave' }}"
+  sections:
+    - type: alert
+      tone: warn
+      title: Missing information
+      when: "len(fields.missing_optional) > 0"
+      text: "Not provided, so not used in the copy: {{ join([lower(f.replace('_', ' ')) for f in fields.missing_optional]) }}. Add them to the catalog or your request to enrich the content."
+    - type: content
+      fields:
+        - {label: Product description, value: $desc.description, meta: "{{ len(desc.description) }} characters"}
+        - {label: Short description, value: $short.short_description, meta: "{{ len(short.short_description) }} / 150 characters"}
+        - {label: SEO title, value: $seo.seo_title, meta: "{{ len(seo.seo_title) }} / 60 characters"}
+        - {label: Meta description, value: $meta_out.meta_description, meta: "{{ len(meta_out.meta_description) }} / 160 characters"}
+    - type: record
+      title: Facts used
+      items:
+        - {label: Product, value: "{{ product.product_name }}"}
+        - {label: Category, value: "{{ product.category }}"}
+        - {label: Material, value: "{{ product.material or 'Missing' }}", tone: "{{ 'warn' if missing(product.material) else None }}"}
+        - {label: Color, value: "{{ product.color or 'Missing' }}", tone: "{{ 'warn' if missing(product.color) else None }}"}
+        - {label: Target audience, value: "{{ product.target_audience or 'Missing' }}", tone: "{{ 'warn' if missing(product.target_audience) else None }}"}
+        - {label: Features, value: "{{ product.features or 'Missing' }}", tone: "{{ 'warn' if missing(product.features) else None }}"}
+    - type: table
+      title: Quality checks
+      data: $checks.checks
+      highlight: {danger: "result == 'Fail'"}

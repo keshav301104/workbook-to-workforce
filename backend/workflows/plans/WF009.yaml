@@ -1,0 +1,243 @@
+# Execution plan for Excel row WF009 — Employee Task Assignment.
+workflow_id: WF009
+description: Recommend the best employee for a task by skills and capacity; escalate when nobody fits.
+examples:
+  - Who should handle the checkout bug fix?
+  - Assign the React payment bug to a developer, urgent
+  - Find someone with Python and Docker capacity for a new API
+
+params:
+  min_skill_match:
+    default: 0.5
+    description: Share of required skills a candidate must have to be eligible
+  min_free_hours:
+    default: {Urgent: 8, High: 6, Medium: 4, Low: 2}
+    description: Free hours this week a candidate needs when the task has no estimate, by priority
+
+inputs:
+  - name: task_description
+    label: Task description
+    required: true
+    multiline: true
+    description: What needs to be done (mention technologies, estimated hours and deadline if known)
+    ask: "Describe the task: what needs to be built or fixed? Mention the technologies involved, and an estimate or deadline if you have one."
+    patterns:
+      - 'task\s*[:\-]\s*(.+)$'
+      - '["“]([^"”]+)["”]'
+      - '(?:someone|somebody|a developer|an engineer|a designer|developer|engineer|who can|who could|who should)\s+(?:to\s+|who can\s+|that can\s+)?((?:build|fix|create|implement|develop|design|write|set up|migrate|refactor|add|update|handle|ship)\b.+?)(?:\s+(?:this week|next week|by|before)\b.*)?[.?!]?$'
+  - name: priority
+    type: choice
+    label: Priority
+    choices: [Urgent, High, Medium, Low]
+    default: Medium
+    synonyms:
+      Urgent: [urgent, asap, critical, immediately, p0, blocker, emergency]
+      High: [high priority, important, p1, soon]
+      Low: [low priority, whenever, p3, no rush]
+  - name: role
+    type: choice
+    label: Role
+    choices: [Developer, Designer, Marketer, Data Analyst]
+    synonyms:
+      Developer: [developer, developers, engineer, engineers, dev, programmer]
+      Designer: [designer, ux, ui designer]
+      Marketer: [marketer, marketing]
+      Data Analyst: [analyst, data analyst]
+  - name: required_skills
+    type: list
+    label: Required skills
+    description: Skills the task needs (comma separated)
+    patterns: ['(?:skills?|requires?|needs?)\s*[:=]\s*([^.\n]+)']
+  - name: estimated_hours
+    type: number
+    label: Estimated hours
+    patterns: ['(\d+(?:\.\d+)?)\s*(?:h|hrs?|hours?)\b']
+  - name: deadline
+    type: date
+    label: Deadline
+    patterns: ['(?:by|due|deadline\s*(?:is|:)?)\s+(\d{4}-\d{2}-\d{2}|[A-Z][a-z]+\.? \d{1,2}(?:,? \d{4})?|today|tomorrow|monday|tuesday|wednesday|thursday|friday)']
+
+steps:
+  - id: directory
+    title: Load employee directory
+    excel_step: 1
+    tool: load_table
+    args: {path: employees.csv}
+    output: employees
+
+  - id: requirements
+    title: Understand task requirements
+    excel_step: 1
+    tool: llm_extract
+    note: Skills are constrained to the vocabulary that actually exists in the employee directory.
+    args:
+      text: $inputs.task_description
+      fields:
+        required_skills:
+          type: list
+          description: Skills needed for the task
+          vocabulary: "{{ vocab(employees, 'skills') }}"
+        unlisted_skills:
+          type: list
+          description: Technical skills the task clearly needs that are NOT in the vocabulary (empty if none)
+      fallback:
+        unlisted_skills: "{{ [] }}"
+      aliases:
+        frontend: react
+        front-end: react
+        checkout: stripe
+        payment: stripe
+        payments: stripe
+        postgres: postgresql
+        database: postgresql
+        node: node.js
+        ml: machine learning
+        ai agent: langgraph
+        agent: langgraph
+        styling: css
+        theme: shopify
+        api: fastapi
+        k8s: docker
+        containers: docker
+        dashboard: tableau
+    output: reqs
+
+  - id: needs
+    title: Settle required skills
+    excel_step: 1
+    tool: merge_record
+    note: Skills you list explicitly win over skills inferred from the description.
+    args:
+      base: {skills: "{{ reqs.required_skills + (reqs.unlisted_skills or []) }}"}
+      overrides: {skills: $inputs.required_skills}
+    output: need
+
+  - id: skills_known
+    title: Required skills identified?
+    excel_step: 1
+    kind: condition
+    when: "len(need.skills) == 0"
+    then:
+      action: ask
+      fields: [required_skills]
+      message: "I couldn't tell which skills this task needs. Which skills are required? Skills on the team: {{ join(vocab(employees, 'skills')) }}."
+      goto: needs
+
+  - id: skills
+    title: Compare employee skills
+    excel_step: 2
+    tool: compute_column
+    args:
+      table: $employees
+      columns:
+        skill_match: "overlap(split(skills), need.skills)"
+        matched_skills: "join(matched(split(skills), need.skills))"
+        missing_skills: "join(missing_items(split(skills), need.skills))"
+        role_match: "missing(inputs.role) or role == inputs.role"
+    output: candidates
+
+  - id: workload
+    title: Check current workload
+    excel_step: 3
+    tool: compute_column
+    note: "Needed hours = the task estimate if given, otherwise the minimum free hours for the priority. With a deadline, only the free hours available before it count (free hours × working days left / 5)."
+    args:
+      table: $candidates
+      columns:
+        free_hours: "weekly_capacity_hours - current_workload_hours"
+        needed_hours: "inputs.estimated_hours if exists(inputs.estimated_hours) else params.min_free_hours[inputs.priority]"
+        days_left: "days_between(today(), inputs.deadline) if exists(inputs.deadline) else None"
+        usable_hours: "round(free_hours * min(1, max(days_left, 0) / 5), 1) if exists(inputs.deadline) else free_hours"
+        has_capacity: "status == 'available' and usable_hours >= needed_hours"
+    output: candidates
+
+  - id: rank
+    title: Rank candidates
+    excel_step: 4
+    tool: compute_column
+    note: "Score = 65% skill match + 35% capacity headroom. Eligible = right role, has capacity, ≥ min skill match."
+    args:
+      table: $candidates
+      columns:
+        eligible: "role_match and has_capacity and skill_match >= params.min_skill_match"
+        score: "round(100 * (0.65 * skill_match + 0.35 * min(1, max(0, usable_hours) / max(needed_hours, 1))))"
+        blockers: "join([b for b in [('on leave' if status != 'available' else None), ('only ' + str(int(usable_hours)) + 'h free' + (' before the deadline' if exists(inputs.deadline) else '') + ', needs ' + str(int(needed_hours)) + 'h' if usable_hours < needed_hours else None), ('missing ' + missing_skills if missing_skills and skill_match < params.min_skill_match else None), ('not a ' + lower(inputs.role) if not role_match else None)] if b], '; ') or 'none'"
+    output: candidates
+
+  - id: order
+    title: Order by eligibility and score
+    excel_step: 4
+    tool: sort_rows
+    args: {table: $candidates, by: [eligible, score]}
+    output: ranked
+
+  - id: select
+    title: Select employee
+    excel_step: 5
+    tool: select_best
+    args: {table: $ranked, where: eligible}
+    output: pick
+
+  - id: suitable
+    title: Suitable employee available?
+    excel_step: 5
+    kind: condition
+    note: "Excel rule: prefer employees with required skills and available capacity; escalate if no suitable employee exists."
+    when: "not pick.found"
+    then:
+      action: escalate
+      message: "No suitable {{ lower(inputs.role or 'employee') }} is available for this {{ lower(inputs.priority) }} task{{ ' (needs ' + join(need.skills) + ')' }}. Closest match: {{ first(where(ranked, 'role_match')).name }} — {{ first(where(ranked, 'role_match')).blockers }}. Escalating to the team lead to re-prioritise or bring in help."
+
+  - id: summary
+    title: Generate assignment summary
+    excel_step: 6
+    tool: llm_generate
+    args:
+      task: Explain in 2-3 sentences why this employee is the best choice, and write a one-line task summary.
+      facts:
+        task: $inputs.task_description
+        priority: $inputs.priority
+        deadline: $inputs.deadline
+        required_skills: $need.skills
+        chosen: $pick.record
+        runners_up: $pick.alternatives
+      fields:
+        reasoning: {description: "2-3 sentences: skills match, capacity, and why not the runner-up"}
+        task_summary: {description: "One-line summary of the task"}
+      fallback:
+        reasoning: "{{ pick.record.name }} has {{ pct(pick.record.skill_match * 100, 0) }} of the required skills{{ ' (' + pick.record.matched_skills + ')' if pick.record.matched_skills else '' }} and {{ int(pick.record.usable_hours) }} free hours {{ 'before the deadline' if exists(inputs.deadline) else 'this week' }} against the {{ int(pick.record.needed_hours) }} needed.{{ (' Next best: ' + first(pick.alternatives).name + ' (score ' + str(first(pick.alternatives).score) + ').') if len(pick.alternatives) else '' }}{{ ' Not chosen despite a strong skill match: ' + join([r.name + ' (' + r.blockers + ')' for r in records(where(ranked, 'not eligible and role_match and skill_match >= 0.75'))], '; ') + '.' if count(ranked, 'not eligible and role_match and skill_match >= 0.75') else '' }}"
+        task_summary: "{{ inputs.task_description[:140] }}"
+    output: summary
+
+result:
+  title: "{{ ('Assign to ' + pick.record.name) if pick.found else 'Escalated: no suitable ' + lower(inputs.role or 'employee') }}"
+  subtitle: "{{ inputs.priority }} priority{{ ' · due ' + fmt_date(inputs.deadline) if exists(inputs.deadline) else ' · no deadline given' }}{{ ' · needs ' + join(need.skills) }}"
+  sections:
+    - type: alert
+      tone: info
+      when: "len(need.skills) > 0 and count(ranked, 'skill_match > 0') == 0"
+      text: "Nobody on the team lists {{ join(need.skills) }} as a skill."
+    - type: record
+      title: Recommendation
+      when: "pick.found"
+      items:
+        - {label: Employee, value: "{{ pick.record.name }} ({{ pick.record.employee_id }})"}
+        - {label: Role, value: "{{ pick.record.seniority }} {{ pick.record.role }}"}
+        - {label: Matched skills, value: "{{ pick.record.matched_skills or '—' }}"}
+        - {label: Free this week, value: "{{ int(pick.record.free_hours) }}h of {{ int(pick.record.weekly_capacity_hours) }}h"}
+        - {label: Priority, value: "{{ inputs.priority }}", tone: "{{ 'danger' if inputs.priority == 'Urgent' else None }}"}
+        - {label: Deadline, value: "{{ fmt_date(inputs.deadline) if exists(inputs.deadline) else 'Not specified' }}"}
+        - {label: Score, value: "{{ pick.record.score }} / 100"}
+    - type: content
+      title: Assignment summary
+      when: "pick.found"
+      fields:
+        - {label: Task, value: $summary.task_summary}
+        - {label: Why this person, value: $summary.reasoning}
+    - type: table
+      title: Candidate ranking
+      data: "{{ ranked.assign(skill_pct=ranked['skill_match'] * 100) }}"
+      columns: [name, role, "skill_pct:Skill match %", matched_skills:Matched, usable_hours:Free h, status, score, eligible, blockers]
+      highlight:
+        ok: eligible
+        danger: "status != 'available'"

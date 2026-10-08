@@ -1,0 +1,224 @@
+# Execution plan for Excel row WF007 — Marketing Campaign Brief.
+workflow_id: WF007
+description: Build a structured campaign brief. Goal and dates are required and are asked for before anything is generated.
+examples:
+  - Plan a Black Friday promotion for knitwear
+  - Draft a marketing brief for the autumn launch
+  - Create a campaign plan to grow email signups
+
+inputs:
+  - name: campaign_goal
+    label: Campaign goal
+    required: true
+    multiline: true
+    description: What the campaign should achieve
+    ask: "Before I write the brief I need the campaign goal and dates (the workflow rule says not to generate without them). What should the campaign achieve?"
+    patterns:
+      - 'goal\s*(?:is|:|=|-)\s*(?:to\s+)?([^.;\n]+?)(?=\s*,?\s+(?:from|between|starting|during|running|targeting|until)\b|[.;\n]|$)'
+      - '\b(?:to|aims? to|in order to)\s+((?:drive|increase|boost|grow|launch|promote|raise|generate|clear|win|build|get|sell|introduce|re-?engage)\b[^.;,\n]+?)(?=\s+(?:from|between|starting|during|running|targeting|until)\b|[.,;\n]|$)'
+  - name: start_date
+    type: date
+    label: Start date
+    required: true
+    description: First day of the campaign
+    ask: When does it start?
+    patterns:
+      - '(?:from|starting|starts?(?: on)?|between|running)\s+(\d{4}-\d{2}-\d{2}|[A-Z][a-z]+\.? \d{1,2}(?:st|nd|rd|th)?(?:,? \d{4})?|\d{1,2} [A-Z][a-z]+(?: \d{4})?)'
+  - name: end_date
+    type: date
+    label: End date
+    required: true
+    description: Last day of the campaign
+    ask: When does it end?
+    patterns:
+      - '(?:to|until|till|through|thru|ends?(?: on)?|and)\s+(\d{4}-\d{2}-\d{2}|[A-Z][a-z]+\.? \d{1,2}(?:st|nd|rd|th)?(?:,? \d{4})?|\d{1,2} [A-Z][a-z]+(?: \d{4})?)'
+  - name: products
+    label: Products
+    description: Which products the campaign covers (a collection, category or product names)
+    patterns:
+      - '(?:for|featuring|promote|promoting|on)\s+(?:the|our)\s+((?:[a-z0-9]+\s+){1,3}(?:collection|range|line|launch))'
+      - '(?:for|featuring|promote|promoting|on)\s+(?:the|our)?\s*(shirts|knitwear|outerwear|trousers|accessories|home)\b'
+  - name: target_audience
+    label: Target audience
+    description: Who the campaign is aimed at
+    patterns: ['(?:targeting|target audience\s*(?:is|:)?|aimed at|audience\s*:)\s*([^.;\n]+)']
+  - name: promotion
+    label: Promotion
+    description: Offer or promotion mechanics
+    patterns:
+      - '(\d{1,2}\s*%\s*off[^.;,\n]*)'
+      - '(free (?:shipping|delivery)[^.;,\n]*)'
+      - '(buy one get one[^.;,\n]*|bogo[^.;,\n]*)'
+      - 'promotion\s*(?:is|:)\s*([^.;\n]+)'
+
+steps:
+  - id: validate
+    title: Validate inputs
+    excel_step: 1
+    tool: check_fields
+    note: "Excel rule: if campaign goal or dates are missing, request them before generating the brief (enforced before this step by the required-input gate)."
+    args:
+      record: $inputs
+      required: [campaign_goal, start_date, end_date]
+      optional: [products, target_audience, promotion]
+    output: checked
+
+  - id: date_order
+    title: Dates in the right order?
+    excel_step: 1
+    kind: condition
+    when: "days_between(inputs.start_date, inputs.end_date) < 0"
+    then:
+      action: ask
+      fields: [start_date, end_date]
+      clear: [start_date, end_date]
+      message: "The end date ({{ fmt_date(inputs.end_date) }}) is before the start date ({{ fmt_date(inputs.start_date) }}). Please re-enter the campaign dates."
+      goto: validate
+
+  - id: objective
+    title: Identify campaign objective
+    excel_step: 2
+    tool: llm_generate
+    args:
+      task: Turn the stated goal into a crisp campaign objective, classify it, and name the primary KPI.
+      facts: {goal: $inputs.campaign_goal, promotion: $inputs.promotion, audience: $inputs.target_audience}
+      fields:
+        objective: {description: "One-sentence SMART-style objective restating the goal (no invented numbers)"}
+        objective_type: {description: "Exactly one of: Awareness, Acquisition, Conversion, Retention"}
+        primary_kpi: {description: "The single most relevant KPI for this objective"}
+      fallback:
+        objective: "{{ inputs.campaign_goal[0].upper() + inputs.campaign_goal[1:] }} between {{ fmt_date(inputs.start_date) }} and {{ fmt_date(inputs.end_date) }}."
+        objective_type: "{{ keyword_label(inputs.campaign_goal, {'Retention': ['retain', 'retention', 'loyalty', 'existing customers', 're-engage', 'reengage', 'repeat'], 'Acquisition': ['signups', 'sign ups', 'subscribers', 'new customers', 'leads', 'followers', 'acquire'], 'Conversion': ['sales', 'revenue', 'sell', 'orders', 'conversion', 'clear', 'purchase'], 'Awareness': ['awareness', 'launch', 'introduce', 'reach', 'visibility', 'buzz']}, 'Conversion') }}"
+        primary_kpi: "{{ {'Retention': 'Repeat purchase rate', 'Acquisition': 'New customers / sign-ups', 'Awareness': 'Reach and new-visitor sessions', 'Conversion': 'Revenue and conversion rate'}[keyword_label(inputs.campaign_goal, {'Retention': ['retain', 'retention', 'loyalty', 'existing customers', 're-engage', 'reengage', 'repeat'], 'Acquisition': ['signups', 'sign ups', 'subscribers', 'new customers', 'leads', 'followers', 'acquire'], 'Conversion': ['sales', 'revenue', 'sell', 'orders', 'conversion', 'clear', 'purchase'], 'Awareness': ['awareness', 'launch', 'introduce', 'reach', 'visibility', 'buzz']}, 'Conversion')] }}"
+    output: objective
+
+  - id: load_products
+    title: Read product data
+    excel_step: 3
+    tool: load_table
+    args: {path: products.csv}
+    output: catalog
+
+  - id: select_products
+    title: Select campaign products
+    excel_step: 3
+    tool: match_rows
+    note: "'New collection' resolves to the collection with the most recent launch date in the product data."
+    args:
+      table: $catalog
+      query: "{{ inputs.products }}"
+      columns: [collection, category, product_name]
+      newest_by: launch_date
+      group_column: collection
+    output: campaign_products
+
+  - id: summarize_products
+    title: Summarize products
+    excel_step: 3
+    tool: llm_generate
+    args:
+      task: Summarise the products this campaign promotes in 2 sentences and pick up to 3 hero products.
+      facts: {products: $campaign_products, requested: $inputs.products}
+      fields:
+        product_summary: {description: "2 sentences summarising the range (only facts from the product data)"}
+        hero_products: {description: "Up to 3 product names from the data to feature", type: list}
+      fallback:
+        product_summary: "{{ ('The campaign features ' + str(len(campaign_products)) + ' products from ' + join(unique(campaign_products, 'collection')) + ' across ' + join(unique(campaign_products, 'category')) + ', priced ' + money(min(col(campaign_products, 'internal_price'))) + '–' + money(max(col(campaign_products, 'internal_price'))) + '.') if len(campaign_products) else 'No specific products were given, so the brief is written at brand level.' }}"
+        hero_products: "{{ col(campaign_products.sort_values('internal_price', ascending=False).head(3), 'product_name') if len(campaign_products) else [] }}"
+    output: product_info
+
+  - id: messaging
+    title: Create messaging
+    excel_step: 4
+    tool: llm_generate
+    args:
+      task: Write the core campaign messaging.
+      facts: {objective: $objective, products: $product_info, audience: $inputs.target_audience, promotion: $inputs.promotion, dates: {start: $inputs.start_date, end: $inputs.end_date}}
+      rules: ["Only mention the promotion if one is given", "No invented statistics or claims"]
+      fields:
+        headline: {description: "Campaign headline, max 8 words"}
+        key_message: {description: "One-sentence key message"}
+        supporting_points: {description: "3 supporting message points", type: list}
+        call_to_action: {description: "Short call to action"}
+      fallback:
+        headline: "{{ (title(inputs.promotion) + (' — ' + title(inputs.products) if exists(inputs.products) else '')) if exists(inputs.promotion) else ((join(unique(campaign_products, 'collection')) + ' is here') if len(campaign_products) and objective.objective_type in ['Awareness', 'Conversion'] else ('Discover ' + title(inputs.products or 'Halden'))) }}"
+        key_message: "{{ ('Our ' + lower(inputs.products) if exists(inputs.products) else 'Our range') + ' for ' + (inputs.target_audience or 'every customer') + (', with ' + inputs.promotion if exists(inputs.promotion) else '') + ', ' + fmt_date(inputs.start_date) + ' to ' + fmt_date(inputs.end_date) + '.' }}"
+        supporting_points: "{{ ['Hero pieces: ' + join(product_info.hero_products) if len(product_info.hero_products) else 'Highlight the core range', 'Made in materials like ' + join(unique(campaign_products, 'material')[:3]) if len(campaign_products) else 'Lead with brand values', ('Offer: ' + inputs.promotion) if exists(inputs.promotion) else 'Runs ' + fmt_date(inputs.start_date) + ' – ' + fmt_date(inputs.end_date)] }}"
+        call_to_action: "{{ 'Shop the collection' if objective.objective_type in ['Conversion', 'Awareness'] else ('Sign up today' if objective.objective_type == 'Acquisition' else 'Come back and save') }}"
+    output: messaging
+
+  - id: channels
+    title: Create channel recommendations
+    excel_step: 5
+    tool: llm_generate
+    args:
+      task: Recommend 3-5 marketing channels for this objective, each with a one-line rationale.
+      facts: {objective: $objective, audience: $inputs.target_audience, promotion: $inputs.promotion, products: $product_info}
+      fields:
+        channels: {description: "3-5 items formatted 'Channel — rationale'", type: list}
+      fallback:
+        channels: "{{ {'Awareness': ['Paid social (Instagram, TikTok) — reach new audiences with visual launch content', 'Influencer seeding — credible first looks at the hero products', 'Email to subscribers — announce the launch to warm audiences', 'Homepage takeover — capture launch-week traffic'], 'Acquisition': ['Paid social lead ads — capture sign-ups at low cost', 'Search (non-brand) — reach shoppers looking for the category', 'Referral offer — turn customers into acquisition', 'Pop-up signup on site — convert visitors'], 'Conversion': ['Email + SMS to subscribers — fastest path to revenue', 'Retargeting ads — bring back recent visitors', 'Search (brand + product) — capture high-intent demand', 'Homepage and category banners — make the offer visible'], 'Retention': ['Lifecycle email — personalised picks for past buyers', 'Loyalty early access — reward repeat customers', 'SMS for VIPs — time-sensitive reminders', 'Post-purchase cross-sell — next best product']}[objective.objective_type] }}"
+    output: channel_plan
+
+  - id: timeline
+    title: Build campaign timeline
+    excel_step: 6
+    tool: build_timeline
+    args:
+      start: $inputs.start_date
+      end: $inputs.end_date
+      phases:
+        - {name: Tease, share: 1, focus: "Build anticipation; preview hero products"}
+        - {name: Launch, share: 2, focus: "Full push across all channels"}
+        - {name: Sustain, share: 2, focus: "Retarget engaged visitors; social proof"}
+        - {name: Last chance, share: 1, focus: "Urgency messaging before the end date"}
+    output: timeline
+
+  - id: checklist
+    title: Create campaign checklist
+    excel_step: 6
+    tool: llm_generate
+    args:
+      task: Create a practical pre-launch and launch checklist (6-8 items) for this campaign.
+      facts: {objective: $objective, channels: $channel_plan, timeline: $timeline, promotion: $inputs.promotion}
+      fields:
+        checklist: {description: "6-8 concrete checklist items", type: list}
+      fallback:
+        checklist: "{{ ['Confirm budget and owner per channel', 'Finalise creative for ' + join([c.split(' — ')[0] for c in channel_plan.channels][:3]), 'Set up tracking for ' + objective.primary_kpi, 'Check stock levels for hero products' if len(campaign_products) else 'Confirm featured products', ('Configure promotion: ' + inputs.promotion) if exists(inputs.promotion) else 'Confirm whether an offer is needed', 'Schedule emails and posts for each timeline phase', 'QA landing page on mobile and desktop', 'Book a results review for ' + fmt_date(inputs.end_date)] }}"
+    output: checklist
+
+result:
+  title: "Campaign brief: {{ messaging.headline }}"
+  subtitle: "{{ objective.objective_type }} campaign · {{ fmt_date(inputs.start_date) }} – {{ fmt_date(inputs.end_date) }} ({{ days_between(inputs.start_date, inputs.end_date) + 1 }} days)"
+  sections:
+    - type: record
+      title: Overview
+      items:
+        - {label: Objective, value: $objective.objective}
+        - {label: Objective type, value: $objective.objective_type}
+        - {label: Primary KPI, value: $objective.primary_kpi}
+        - {label: Audience, value: "{{ inputs.target_audience or 'Not specified — define before launch' }}", tone: "{{ 'warn' if missing(inputs.target_audience) else None }}"}
+        - {label: Promotion, value: "{{ inputs.promotion or 'None' }}"}
+        - {label: Products, value: "{{ product_info.product_summary }}"}
+    - type: content
+      title: Messaging
+      fields:
+        - {label: Headline, value: $messaging.headline}
+        - {label: Key message, value: $messaging.key_message}
+        - {label: Supporting points, value: $messaging.supporting_points}
+        - {label: Call to action, value: $messaging.call_to_action}
+    - type: list
+      title: Channel recommendations
+      items: $channel_plan.channels
+    - type: table
+      title: Timeline
+      data: $timeline
+      columns: [phase, start, end, days, focus]
+    - type: table
+      title: Featured products
+      when: "len(campaign_products) > 0"
+      data: $campaign_products
+      columns: [sku:SKU, product_name:Product, category, collection, internal_price:Price]
+    - type: list
+      title: Campaign checklist
+      items: $checklist.checklist

@@ -1,0 +1,108 @@
+# Execution plan for Excel row WF006 — Duplicate Product Detection.
+workflow_id: WF006
+description: Group duplicate catalog records with a confidence level and the fields that match.
+examples:
+  - Find duplicate SKUs
+  - Which products are listed twice in the catalog?
+  - Detect duplicate listings after the marketplace import
+
+params:
+  high_similarity:
+    default: 0.9
+    description: Combined name + attribute score at or above which a possible duplicate is High confidence
+  medium_similarity:
+    default: 0.8
+    description: Minimum combined score to report a possible duplicate (Medium confidence)
+
+inputs:
+  - name: catalog_file
+    type: file
+    label: Product catalog
+    description: Catalog export to scan for duplicates
+    default: catalog.csv
+    accept: [.csv, .xlsx]
+
+steps:
+  - id: load
+    title: Load products
+    excel_step: 1
+    tool: load_table
+    args: {path: "{{ inputs.catalog_file }}"}
+    output: catalog
+
+  - id: normalize
+    title: Normalize names and SKUs
+    excel_step: 2
+    tool: compute_column
+    note: "SKUs: upper-case, spaces and punctuation removed ('ts-1001 ' → TS1001). Names: lower-case, punctuation removed."
+    args:
+      table: $catalog
+      columns:
+        sku_key: "norm_key(sku)"
+        name_key: "norm_text(product_name)"
+    output: catalog
+
+  - id: identifiers
+    title: Compare identifiers
+    excel_step: 3
+    tool: aggregate
+    args:
+      table: $catalog
+      group_by: [sku_key]
+      metrics: {records: count, skus: "first:sku"}
+    output: sku_counts
+
+  - id: clashes
+    title: Find repeated identifiers
+    excel_step: 3
+    tool: filter_rows
+    args: {table: $sku_counts, where: "records > 1"}
+    output: sku_clashes
+
+  - id: group
+    title: Compare attributes, group duplicates and assign confidence
+    excel_step: [4, 5, 6]
+    tool: group_duplicates
+    note: "Excel rule: exact SKU match = definite duplicate; high attribute similarity = possible duplicate. Records that differ only by size or color are product variants, not duplicates."
+    args:
+      table: $catalog
+      key_column: sku
+      name_column: product_name
+      attributes: [brand, category, color, size]
+      variant_attributes: [size, color]
+      block_by: category
+      high: "{{ params.high_similarity }}"
+      medium: "{{ params.medium_similarity }}"
+    output: groups
+
+  - id: export
+    title: Export duplicate report
+    excel_step: 6
+    tool: export_table
+    args: {table: $groups, filename: duplicate_groups}
+    output: groups_file
+
+result:
+  title: "{{ plural(len(groups), 'duplicate group') }} found in {{ len(catalog) }} records"
+  subtitle: "{{ count(groups, \"confidence == 'Definite'\") }} definite (same SKU) · {{ count(groups, \"confidence != 'Definite'\") }} possible (similar attributes)"
+  sections:
+    - type: kpis
+      items:
+        - {label: Records scanned, value: "{{ len(catalog) }}"}
+        - {label: Definite duplicates, value: "{{ count(groups, \"confidence == 'Definite'\") }}", tone: danger}
+        - {label: High confidence, value: "{{ count(groups, \"confidence == 'High'\") }}", tone: warn}
+        - {label: Medium confidence, value: "{{ count(groups, \"confidence == 'Medium'\") }}"}
+    - type: table
+      title: Duplicate groups
+      data: $groups
+      empty: No duplicates found.
+      columns: [group, confidence, score:Score, match_type:Match type, skus:SKUs, names:Names, sources:Sources, matching_fields:Matching fields, reason]
+      highlight:
+        danger: "confidence == 'Definite'"
+        warn: "confidence == 'High'"
+    - type: alert
+      tone: info
+      text: "Size and color variants of the same product (e.g. Merino Crew Sweater M vs L) are not reported as duplicates. Score = 60% name similarity + 40% matching brand/category/color/size."
+    - type: download
+      files:
+        - {label: Duplicate groups (CSV), file: $groups_file}

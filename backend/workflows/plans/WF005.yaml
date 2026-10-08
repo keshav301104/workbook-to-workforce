@@ -1,0 +1,149 @@
+# Execution plan for Excel row WF005 — Customer Order Status.
+workflow_id: WF005
+description: Look up an order by order ID or customer email and summarise order + shipment status.
+examples:
+  - Is ORD-1003 shipped yet?
+  - Track the order for maya.patel@example.com
+  - What's the delivery status of my order?
+
+inputs:
+  - name: identifier
+    type: identifier
+    label: Order ID or email
+    required: true
+    description: An order ID like ORD-1001, or the customer's email address
+    ask: What's the order ID (for example ORD-1001) or the customer's email address?
+    patterns:
+      - '\b(ORD-?\d{3,6})\b'
+      - '([\w.+-]+@[\w-]+\.[\w.]+)'
+      - '\border\s*(?:number|no\.?|#)?\s*(\d{3,6})\b'
+
+steps:
+  - id: validate
+    title: Validate identifier
+    excel_step: 1
+    tool: validate_identifier
+    args:
+      value: "{{ inputs.identifier }}"
+      patterns:
+        order_id: 'ORD-\d{3,6}'
+        order_number: '(?:ORD)?\d{3,6}'
+        email: '[\w.+-]+@[\w-]+\.[\w.]+'
+      normalize:
+        order_number: {to: order_id, format: "ORD-{value}"}
+    output: ident
+
+  - id: valid_format
+    title: Identifier format valid?
+    excel_step: 1
+    kind: condition
+    when: "not ident.valid"
+    then:
+      action: ask
+      fields: [identifier]
+      clear: [identifier]
+      message: "“{{ ident.value }}” isn't an order ID or an email address. Enter an order ID like ORD-1001 or the customer's email."
+      goto: validate
+
+  - id: load_orders
+    title: Connect to order database
+    excel_step: 2
+    tool: load_table
+    args: {path: orders.csv}
+    output: orders_db
+
+  - id: search
+    title: Search order data
+    excel_step: 2
+    tool: lookup_records
+    args:
+      api: Order API
+      table: $orders_db
+      value: $ident.value
+      kind: $ident.kind
+      fields: {order_id: order_id, email: customer_email}
+    output: order
+
+  - id: found
+    title: Order found?
+    excel_step: 2
+    kind: condition
+    note: "Excel rule: if no order is found, ask for another identifier."
+    when: "not order.found"
+    then:
+      action: ask
+      fields: [identifier]
+      clear: [identifier]
+      message: "I couldn't find an order for “{{ ident.value }}”. Please give another order ID or the customer's email address."
+      goto: validate
+
+  - id: status
+    title: Retrieve order status
+    excel_step: 3
+    tool: select_columns
+    args:
+      table: $order.records
+      columns: [order_id, order_date, order_status, items, order_total, customer_name, customer_email]
+    output: orders_found
+
+  - id: load_shipments
+    title: Connect to shipment service
+    excel_step: 4
+    tool: load_table
+    args: {path: shipments.csv}
+    output: shipments_db
+
+  - id: shipment
+    title: Retrieve shipment information
+    excel_step: 4
+    tool: lookup_records
+    args:
+      api: Shipment API
+      table: $shipments_db
+      value: "{{ col(order.records, 'order_id') }}"
+      field: order_id
+    output: shipment
+
+  - id: combine
+    title: Combine order and shipment
+    excel_step: 5
+    tool: join_tables
+    args: {left: $orders_found, right: $shipment.records, left_on: order_id, how: left}
+    output: combined
+
+  - id: summarize
+    title: Summarize current status
+    excel_step: 5
+    tool: compute_column
+    note: Tracking is shown only when the carrier has issued a number; it is never guessed.
+    args:
+      table: $combined.joined
+      columns:
+        tracking: "tracking_number if exists(tracking_number) else 'Not available yet'"
+        shipment: "shipment_status if exists(shipment_status) else ('Not shipped yet' if order_status in ['Processing', 'Packed'] else ('No shipment (order cancelled)' if order_status == 'Cancelled' else 'No shipment record'))"
+        summary: "order_id + ': ' + order_status + (' · ' + carrier + ' · ' + shipment_status + (' · ETA ' + fmt_date(estimated_delivery) if exists(estimated_delivery) and shipment_status != 'Delivered' else '') if exists(carrier) else (' · not shipped yet' if order_status in ['Processing', 'Packed'] else ''))"
+    output: summary
+
+result:
+  title: "{{ ('Order ' + first(summary).order_id + ': ' + first(summary).order_status) if len(summary) == 1 else (str(len(summary)) + ' orders for ' + ident.value) }}"
+  subtitle: "{{ first(summary).summary if len(summary) == 1 else 'Most recent first' }}"
+  sections:
+    - type: record
+      when: "len(summary) == 1"
+      items:
+        - {label: Customer, value: "{{ first(summary).customer_name }}"}
+        - {label: Order date, value: "{{ fmt_date(first(summary).order_date) }}"}
+        - {label: Order status, value: "{{ first(summary).order_status }}", tone: "{{ 'danger' if first(summary).order_status == 'Cancelled' else ('ok' if first(summary).order_status == 'Delivered' else None) }}"}
+        - {label: Items, value: "{{ first(summary).items }}"}
+        - {label: Order total, value: "{{ money(first(summary).order_total) }}"}
+        - {label: Shipment, value: "{{ first(summary).shipment }}"}
+        - {label: Carrier, value: "{{ first(summary).carrier or '—' }}"}
+        - {label: Tracking number, value: "{{ first(summary).tracking }}", tone: "{{ 'warn' if first(summary).tracking == 'Not available yet' else None }}"}
+        - {label: Last location, value: "{{ first(summary).last_location or '—' }}"}
+        - {label: Estimated delivery, value: "{{ fmt_date(first(summary).estimated_delivery) }}"}
+        - {label: Last update, value: "{{ first(summary).last_update or '—' }}"}
+    - type: table
+      title: Orders
+      when: "len(summary) > 1"
+      data: "{{ summary.sort_values('order_date', ascending=False) }}"
+      columns: [order_id:Order, order_date:Date, order_status:Status, items, shipment:Shipment, carrier, tracking:Tracking, estimated_delivery:ETA]

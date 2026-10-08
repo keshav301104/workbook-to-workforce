@@ -1,0 +1,167 @@
+# Execution plan for Excel row WF008 — SEO Keyword Classification.
+workflow_id: WF008
+description: Deduplicate keywords, classify search intent, map to site categories, prioritise and export.
+examples:
+  - Classify keywords by search intent
+  - Map this keyword list to our category pages
+  - "keywords: linen shirt, how to wash linen, buy merino sweater"
+
+params:
+  intent_weights:
+    default: {transactional: 1.0, commercial: 0.8, navigational: 0.5, informational: 0.4}
+    description: How much each intent contributes to priority
+
+inputs:
+  - name: keyword_file
+    type: file
+    label: Keyword file
+    description: CSV with a keyword column (search_volume and difficulty optional)
+    sample: keywords.csv
+    accept: [.csv, .xlsx]
+  - name: keywords
+    type: list
+    label: Keywords
+    description: Keywords pasted into the request
+    patterns: ['(?:keywords?|terms|phrases|search queries|queries)\s*:\s*(.+)$']
+  - name: categories_file
+    type: file
+    label: Site categories
+    description: Category pages with matching terms
+    default: categories.csv
+    accept: [.csv, .xlsx]
+
+steps:
+  - id: have_keywords
+    title: Keyword list provided?
+    excel_step: 1
+    kind: condition
+    when: "missing(inputs.keyword_file) and missing(inputs.keywords)"
+    then:
+      action: ask
+      fields: [keyword_file]
+      message: "Attach the keyword CSV to classify (or use the sample list). You can also paste keywords as “keywords: a, b, c”."
+      goto: have_keywords
+
+  - id: read
+    title: Read keywords
+    excel_step: 1
+    tool: load_table
+    args:
+      path: "{{ inputs.keyword_file }}"
+      inline: "{{ inputs.keywords }}"
+      column: keyword
+      ensure: [search_volume, difficulty]
+    output: raw
+
+  - id: dedupe
+    title: Remove duplicates
+    excel_step: 2
+    tool: dedupe_rows
+    note: Case and extra spaces are ignored ('Linen Shirt ' = 'linen  shirt').
+    args: {table: $raw, column: keyword, normalize: text}
+    output: deduped
+
+  - id: intent
+    title: Classify search intent
+    excel_step: 3
+    tool: llm_classify
+    note: "Excel rule: each keyword is exactly one of informational, commercial, transactional, navigational. The LLM is constrained to these labels; anything else falls back to rules."
+    args:
+      table: $deduped.unique
+      column: keyword
+      into: intent
+      context: "Online store 'Halden' selling clothing, accessories and home goods. Brand terms: halden."
+      labels:
+        informational: The searcher wants to learn something (how to, what is, care, guides)
+        commercial: The searcher is researching products before buying (best, reviews, comparisons, product category terms)
+        transactional: The searcher wants to buy now (buy, order, sale, discount, cheap, price)
+        navigational: The searcher wants a specific brand page (login, store, returns, account)
+      rules:
+        informational: [how, what, why, when, guide, tips, care, wash, rewax, itchy, is]
+        transactional: [buy, order, purchase, sale, discount, coupon, code, deal, shop, cheap]
+        navigational: [login, sign in, account, store, returns, policy, contact, halden]
+        commercial: [best, top, review, reviews, vs, compare, versus]
+      default: commercial
+    output: classified
+
+  - id: load_categories
+    title: Load site categories
+    excel_step: 4
+    tool: load_table
+    args: {path: "{{ inputs.categories_file }}"}
+    output: categories
+
+  - id: map
+    title: Map keywords to categories
+    excel_step: 4
+    tool: llm_map
+    args:
+      table: $classified
+      column: keyword
+      targets: $categories
+      target_key: category
+      target_terms: terms
+      into: category
+      bring: [page_url]
+      default: Brand & Support
+    output: mapped
+
+  - id: priority
+    title: Identify high-priority keywords
+    excel_step: 5
+    tool: compute_column
+    note: "priority score = search volume × intent weight ÷ (1 + difficulty/100); keywords without volume use 1,000."
+    args:
+      table: $mapped
+      columns:
+        priority_score: "round(coalesce(search_volume, 1000) * params.intent_weights[intent] / (1 + coalesce(difficulty, 50) / 100))"
+        target_page: "page_url if intent in ['transactional', 'commercial', 'navigational'] else '/blogs/guides/' + slug(keyword)"
+    output: scored
+
+  - id: bucket
+    title: Assign priority
+    excel_step: 5
+    tool: rank_bucket
+    args: {table: $scored, column: priority_score, into: priority, buckets: {High: 0.67, Medium: 0.34, Low: 0}}
+    output: scored
+
+  - id: sort
+    title: Sort by priority
+    excel_step: 5
+    tool: sort_rows
+    args: {table: $scored, by: priority_score}
+    output: report
+
+  - id: export
+    title: Export results
+    excel_step: 6
+    tool: export_table
+    args: {table: $report, filename: keyword_report}
+    output: report_file
+
+result:
+  title: "{{ len(report) }} keywords classified · {{ count(report, \"priority == 'High'\") }} high priority"
+  subtitle: "{{ plural(len(deduped.removed), 'duplicate') }} removed from {{ len(raw) }} keywords"
+  sections:
+    - type: kpis
+      items:
+        - {label: Keywords read, value: "{{ len(raw) }}"}
+        - {label: Duplicates removed, value: "{{ len(deduped.removed) }}", tone: warn}
+        - {label: Transactional, value: "{{ count(report, \"intent == 'transactional'\") }}"}
+        - {label: Commercial, value: "{{ count(report, \"intent == 'commercial'\") }}"}
+        - {label: Informational, value: "{{ count(report, \"intent == 'informational'\") }}"}
+        - {label: Navigational, value: "{{ count(report, \"intent == 'navigational'\") }}"}
+    - type: table
+      title: Keyword report
+      data: $report
+      columns: [keyword, intent, category, priority, priority_score:Score, target_page:Recommended page, search_volume:Volume, difficulty]
+      highlight:
+        ok: "priority == 'High'"
+    - type: table
+      title: Duplicates removed
+      when: "len(deduped.removed) > 0"
+      data: $deduped.removed
+      columns: [keyword:As written, duplicate_of:Kept as]
+    - type: download
+      files:
+        - {label: Keyword report (CSV), file: $report_file}

@@ -1,0 +1,181 @@
+# Execution plan for Excel row WF001 — Inventory Restock Check.
+# The Excel row says WHAT to do; this file binds each Excel step to reusable tools.
+workflow_id: WF001
+description: Find products below their minimum stock and suggest how many to reorder.
+examples:
+  - Check today's inventory and identify products that need restocking
+  - What is running low in the warehouse?
+  - Show me low stock items in outerwear
+
+params:
+  reorder_cover:
+    default: 2
+    description: Products without a max_stock are reordered up to this multiple of their minimum stock
+
+inputs:
+  - name: inventory_file
+    type: file
+    label: Inventory file
+    description: Product inventory CSV (current_stock, minimum_stock per product)
+    default: inventory.csv
+    accept: [.csv, .xlsx]
+  - name: threshold_override
+    type: number
+    label: Minimum stock threshold
+    description: One minimum stock level applied to every product, replacing each product's own minimum
+    patterns:
+      - '(?:threshold|minimum)\s*(?:of|is|=|:)?\s*(\d+)'
+      - '(?:below|under|less than|fewer than)\s*(\d+)\s*(?:units|pcs|items)?'
+  - name: product
+    label: Product
+    description: Only check one product (name or SKU)
+    patterns:
+      - '(?:stock|inventory|level|levels)\s+(?:of|for)\s+(?:the\s+|our\s+)?([a-z][a-z0-9\s-]{2,40}?)(?:\?|[.,;!]|$)'
+      - '\b([A-Z]{2}-\d{4})\b'
+  - name: category
+    type: text
+    description: Only check one product category
+    patterns: ['\b(shirts|knitwear|outerwear|trousers|accessories|home)\b']
+
+steps:
+  - id: load
+    title: Load inventory
+    excel_step: 1
+    tool: load_table
+    args: {path: "{{ inputs.inventory_file }}"}
+    output: inventory
+
+  - id: scope
+    title: Limit to the requested category
+    excel_step: 1
+    tool: filter_rows
+    when: exists(inputs.category)
+    args: {table: $inventory, where: "lower(category) == lower(inputs.category)"}
+    output: inventory
+
+  - id: one_product
+    title: Limit to the requested product
+    excel_step: 1
+    tool: filter_rows
+    when: exists(inputs.product)
+    args: {table: $inventory, where: "fuzzy_in(inputs.product, product_name) or upper(inputs.product) == sku"}
+    output: inventory
+
+  - id: product_found
+    title: Requested product in inventory?
+    excel_step: 1
+    kind: condition
+    when: "exists(inputs.product) and len(inventory) == 0"
+    then:
+      action: ask
+      fields: [product]
+      clear: [product]
+      message: "I couldn't find “{{ inputs.product }}” in the inventory file. Which product did you mean (name or SKU)?"
+      goto: load
+
+  - id: threshold
+    title: Compare current stock with minimum threshold
+    excel_step: 2
+    tool: compute_column
+    args:
+      table: $inventory
+      columns:
+        threshold: "inputs.threshold_override if exists(inputs.threshold_override) else minimum_stock"
+        stock_gap: "threshold - current_stock"
+    output: inventory
+
+  - id: flag
+    title: Apply restock rule
+    excel_step: 3
+    tool: flag_rows
+    note: "Excel rule: if current_stock < minimum_stock, mark for restock. Strictly less than, so stock equal to the minimum is not flagged."
+    args:
+      table: $inventory
+      when: current_stock < threshold
+      flag: needs_restock
+      reason: "{{ stock_gap }} below minimum"
+    output: inventory
+
+  - id: anything_low
+    title: Any products below threshold?
+    excel_step: 3
+    kind: condition
+    when: "count(inventory, 'needs_restock') == 0"
+    then:
+      action: complete
+      message: "{{ (first(inventory).product_name + ' has ' + str(first(inventory).current_stock) + ' in stock against a minimum of ' + str(first(inventory).threshold) + ', so it does not need restocking.') if exists(inputs.product) and len(inventory) == 1 else ('All ' + str(len(inventory)) + ' products are at or above their minimum stock. Nothing needs restocking.') }}"
+
+  - id: identify
+    title: Identify low-stock products
+    excel_step: 3
+    tool: filter_rows
+    args: {table: $inventory, where: needs_restock}
+    output: low_stock
+
+  - id: reorder
+    title: Calculate reorder quantity
+    excel_step: 4
+    tool: compute_column
+    note: "Reorder up to max_stock; if a product has no max_stock, up to reorder_cover × minimum."
+    args:
+      table: $low_stock
+      columns:
+        suggested_reorder_qty: "int(max_stock - current_stock) if exists(max_stock) else int(params.reorder_cover * threshold - current_stock)"
+        reorder_basis: "'Up to max stock (' + str(int(max_stock)) + ')' if exists(max_stock) else 'No max set: ' + str(params.reorder_cover) + '× minimum'"
+        urgency: "'Out of stock' if current_stock == 0 else ('Critical' if current_stock < threshold / 2 else 'Low')"
+        cover_ratio: "round(current_stock / threshold, 2)"
+    output: low_stock
+
+  - id: generate
+    title: Generate restock list
+    excel_step: 5
+    tool: sort_rows
+    args: {table: $low_stock, by: cover_ratio, descending: false}
+    output: restock_list
+
+  - id: export
+    title: Export restock list
+    excel_step: 5
+    tool: export_table
+    args:
+      table: $restock_list
+      filename: restock_list
+    output: restock_file
+
+result:
+  title: "{{ plural(count(inventory, 'needs_restock'), 'product') }} {{ 'needs' if count(inventory, 'needs_restock') == 1 else 'need' }} restocking"
+  subtitle: "Checked {{ len(inventory) }} products{{ ' matching “' + inputs.product + '”' if exists(inputs.product) else '' }}{{ ' in ' + inputs.category if exists(inputs.category) else '' }} against {{ 'a threshold of ' + str(int(inputs.threshold_override)) if exists(inputs.threshold_override) else 'each product’s minimum stock' }}"
+  sections:
+    - type: kpis
+      items:
+        - {label: Products checked, value: "{{ len(inventory) }}"}
+        - {label: Need restock, value: "{{ count(inventory, 'needs_restock') }}", tone: warn}
+        - {label: Out of stock, value: "{{ count(inventory, 'current_stock == 0') }}", tone: danger}
+        - {label: Units to reorder, value: "{{ num(sum(col(restock_list, 'suggested_reorder_qty'))) }}"}
+    - type: table
+      title: Restock list
+      data: $restock_list
+      columns:
+        - sku:SKU
+        - product_name:Product
+        - category
+        - current_stock:Current stock
+        - threshold:Minimum
+        - suggested_reorder_qty:Suggested reorder
+        - reorder_basis:Basis
+        - urgency
+      highlight:
+        danger: "current_stock == 0"
+        warn: "urgency == 'Critical'"
+    - type: table
+      title: Exactly at minimum (not flagged)
+      when: "count(inventory, 'not needs_restock and current_stock == threshold') > 0"
+      data: "{{ where(inventory, 'current_stock == threshold') }}"
+      columns: [sku:SKU, product_name:Product, current_stock:Current stock, threshold:Minimum]
+    - type: alert
+      tone: info
+      text: "Rule from the workflow sheet: a product is restocked only when current stock is below the minimum. Products exactly at the minimum are listed above but not flagged."
+      when: "count(inventory, 'not needs_restock and current_stock == threshold') > 0"
+    - type: download
+      files:
+        - {label: Restock list (CSV), file: $restock_file}
